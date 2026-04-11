@@ -34,14 +34,15 @@
             display: flex;
             align-items: center; 
             justify-content: center;
-            padding: 15px;
+            padding: 20px; /* Aumentado para garantir respiro nas bordas */
         }
 
         .container {
             width: 100%;
-            max-width: 950px; 
+            max-width: 900px; 
             display: flex;
             flex-direction: column;
+            align-items: center;
             animation: fadeIn 0.6s ease-out;
         }
 
@@ -51,57 +52,60 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             width: 100%;
+            max-width: 100%; /* Garante que não estoure no mobile */
             position: relative;
-            overflow: hidden; /* Garante que nada saia das bordas arredondadas */
+            margin: auto;
         }
 
         h2 {
             color: var(--primary);
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 30px;
-            font-size: 1.4rem;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
         }
 
-        /* AJUSTE AQUI: form-row agora é flex-column por padrão no mobile */
         .form-row { 
             display: flex; 
             flex-direction: column; 
-            gap: 15px; 
+            gap: 10px; 
             width: 100%;
         }
 
-        /* No PC ele volta a ser fileira */
         @media (min-width: 768px) {
             .form-row { flex-direction: row; }
+            .card { padding: 40px; }
         }
 
         .input-group { 
             flex: 1; 
-            width: 100%; /* Garante preenchimento total no mobile */
-            margin-bottom: 20px; 
+            width: 100%; 
+            margin-bottom: 15px; 
         }
         
-        label { display: block; color: var(--text-dim); margin-bottom: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        label { display: block; color: var(--text-dim); margin-bottom: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
         
         input, textarea, select {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: #1e1e21;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             font-size: 1rem;
-            display: block; /* Remove comportamentos estranhos de inline */
+            display: block;
+            outline: none;
         }
+
+        input:focus { border-color: var(--primary); }
 
         .car-display {
             background: #111112;
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
             margin-top: 25px;
             border: 1px solid var(--border);
@@ -111,40 +115,37 @@
 
         .model-header {
             background: var(--carbon);
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
 
-        .model-header h3 { margin: 0; font-size: 1.5rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
+        .model-header h3 { margin: 0; font-size: 1.4rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
 
         @media (min-width: 768px) {
             .car-display { flex-direction: row; }
-            .car-img-box { width: 45%; border-right: 1px solid var(--border); }
-            .car-info-content { width: 55%; padding: 40px; }
-            .input-group.full { flex: 1 1 100%; }
+            .car-img-box { width: 40%; border-right: 1px solid var(--border); }
+            .car-info-content { width: 60%; padding: 30px; }
         }
 
-        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 250px; }
-        
-        .car-info-content { padding: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 200px; }
+        .car-info-content { padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
         .status-pill {
             display: inline-flex;
-            padding: 12px 30px;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 900;
-            margin-bottom: 25px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .report-box {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.02);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             width: 100%;
             text-align: left;
         }
@@ -153,27 +154,25 @@
             background: var(--primary); 
             color: #fff; 
             width: 100%; 
-            padding: 20px; 
+            padding: 18px; 
             border: none; 
-            border-radius: 15px; 
+            border-radius: 12px; 
             font-weight: 800; 
             text-transform: uppercase; 
             cursor: pointer;
-            box-shadow: 0 10px 25px var(--primary-glow);
+            margin-top: 10px;
         }
 
-        .table-container { overflow-x: auto; margin-top: 30px; width: 100%; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { text-align: left; padding: 15px; color: var(--primary); border-bottom: 2px solid var(--border); }
-        td { padding: 15px; border-bottom: 1px solid #222; }
+        .table-container { overflow-x: auto; margin-top: 25px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        th { text-align: left; padding: 12px; color: var(--primary); border-bottom: 2px solid var(--border); }
+        td { padding: 12px; border-bottom: 1px solid #222; }
 
         .hidden { display: none; }
 
         @media (max-width: 767px) {
-            body { align-items: center; } 
-            .card { padding: 25px 15px; border-radius: 20px; } /* Reduzi o padding interno para sobrar espaço pros inputs */
-            input#login-placa { font-size: 1.5rem; letter-spacing: 3px; }
-            .car-img-box { height: 220px; width: 100%; }
+            .card { border-radius: 20px; }
+            input#login-placa { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -181,25 +180,25 @@
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <h2>CENTRAL DO CLIENTE</h2>
+        <h2>CONSULTA RÁPIDA</h2>
         <div class="input-group">
-            <label>Informe a Placa do Veículo</label>
-            <input type="text" id="m-modelo" placeholder="ABC123">
+            <label>Placa do Veículo</label>
+            <input type="text" id="login-placa" placeholder="ABC1234" maxlength="7" style="text-transform: uppercase; text-align: center; font-weight: 900;">
         </div>
-        <button class="btn-main" onclick="consultarCarro()">Rastrear Agora</button>
+        <button class="btn-main" onclick="consultarCarro()">Buscar</button>
         <div id="resultado-cliente" class="hidden"></div>
-        <button onclick="irPara('view-login')" style="background:transparent; border:none; color:#444; width:100%; margin-top:25px; cursor:pointer; font-size: 11px; text-transform:uppercase; font-weight:bold">Acesso Interno Oficina</button>
+        <button onclick="irPara('view-login')" style="background:transparent; border:none; color:#333; width:100%; margin-top:20px; cursor:pointer; font-size: 10px; text-transform:uppercase;">Painel Técnico</button>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>ÁREA RESTRITA</h2>
-        <input type="password" id="pass-admin" placeholder="SENHA DE ACESSO" style="text-align:center">
-        <button class="btn-main" style="margin-top:20px" onclick="logar()">Entrar no Sistema</button>
-        <button onclick="irPara('view-cliente')" style="background:transparent; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer;">Voltar</button>
+        <h2>ACESSO RESTRITO</h2>
+        <input type="password" id="pass-admin" placeholder="SENHA" style="text-align:center">
+        <button class="btn-main" style="margin-top:15px" onclick="logar()">Entrar</button>
+        <button onclick="irPara('view-cliente')" style="background:transparent; border:none; color:#444; width:100%; margin-top:10px; cursor:pointer;">Voltar</button>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <h2>GESTÃO DE PÁTIO</h2>
+        <h2>CADASTRO PÁTIO</h2>
         
         <div class="form-row">
             <div class="input-group">
@@ -208,39 +207,39 @@
             </div>
             <div class="input-group">
                 <label>Modelo / Veículo</label>
-                <input type="text" id="m-modelo" placeholder="----">
+                <input type="text" id="m-modelo" placeholder="Ex: Mobi">
             </div>
         </div>
 
         <div class="form-row">
             <div class="input-group">
-                <label>Foto Real do Veículo</label>
+                <label>Foto do Veículo</label>
                 <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
             </div>
             <div class="input-group">
-                <label>Status Atual</label>
+                <label>Status</label>
                 <select id="m-status">
-                    <option value="Aguardando">AGUARDANDO ATENDIMENTO</option>
+                    <option value="Aguardando">AGUARDANDO</option>
                     <option value="Trabalhando">EM MANUTENÇÃO</option>
-                    <option value="Pronto">PRONTO PARA RETIRADA</option>
+                    <option value="Pronto">PRONTO</option>
                 </select>
             </div>
         </div>
 
         <div class="input-group">
-            <label>Relatório Técnico do Mecânico</label>
-            <textarea id="m-obs" rows="4" placeholder="Detalhes do que está sendo feito..."></textarea>
+            <label>Relatório do Serviço</label>
+            <textarea id="m-obs" rows="3"></textarea>
         </div>
 
-        <button class="btn-main" onclick="salvar()">Atualizar Registro</button>
+        <button class="btn-main" onclick="salvar()">Salvar</button>
 
         <div class="table-container">
             <table>
-                <thead><tr><th>VEÍCULO</th><th>STATUS</th><th>AÇÃO</th></tr></thead>
+                <thead><tr><th>VEÍCULO</th><th>STATUS</th><th>#</th></tr></thead>
                 <tbody id="corpo-tabela"></tbody>
             </table>
         </div>
-        <button onclick="location.reload()" style="background:transparent; border:none; color:#444; width:100%; margin-top:20px; cursor:pointer;">Encerrar Sessão</button>
+        <button onclick="location.reload()" style="background:transparent; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer; font-size: 11px;">Sair</button>
     </section>
 </div>
 
@@ -256,7 +255,7 @@
 
     function logar() {
         if(document.getElementById('pass-admin').value === CHAVE) irPara('view-painel');
-        else alert("Acesso Negado!");
+        else alert("Senha Incorreta!");
     }
 
     function processarFoto() {
@@ -271,37 +270,37 @@
         const modelo = document.getElementById('m-modelo').value.trim();
         const status = document.getElementById('m-status').value;
         const obs = document.getElementById('m-obs').value;
-        if(!placa || !modelo) return alert("Preencha Placa e Modelo!");
+        if(!placa || !modelo) return alert("Preencha os campos!");
 
-        let db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
+        let db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
         db[placa] = { modelo, status, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
-        localStorage.setItem('mecanica_v10', JSON.stringify(db));
-        alert("✅ Atualizado com sucesso!");
+        localStorage.setItem('mecanica_v11', JSON.stringify(db));
+        alert("Salvo!");
         fotoBase64 = "";
         desenharTabela();
     }
 
     function desenharTabela() {
-        const db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
+        const db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
         Object.keys(db).reverse().forEach(p => {
-            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')" style="background:none; border:none; color:red; cursor:pointer;">✕</button></td></tr>`;
+            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')" style="background:none; border:none; color:red;">✕</button></td></tr>`;
         });
     }
 
     function deletar(p) {
         if(confirm("Excluir " + p + "?")) {
-            let db = JSON.parse(localStorage.getItem('mecanica_v10'));
+            let db = JSON.parse(localStorage.getItem('mecanica_v11'));
             delete db[p];
-            localStorage.setItem('mecanica_v10', JSON.stringify(db));
+            localStorage.setItem('mecanica_v11', JSON.stringify(db));
             desenharTabela();
         }
     }
 
     function consultarCarro() {
         const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
+        const db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
         const res = document.getElementById('resultado-cliente');
         
         if(db[placa]) {
@@ -312,17 +311,17 @@
                     <div class="model-header"><h3>${p.modelo}</h3></div>
                     ${p.foto ? `<div class="car-img-box"><img src="${p.foto}"></div>` : ''}
                     <div class="car-info-content">
-                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status.toUpperCase()}</span>
+                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status}</span>
                         <div class="report-box">
-                            <b style="color:var(--primary); font-size:0.7rem; margin-bottom:10px; display:block">DIAGNÓSTICO TÉCNICO</b>
-                            <p style="margin:0; line-height:1.6; font-size:1.1rem">${p.obs}</p>
+                            <b style="color:var(--primary); font-size:0.6rem; display:block; margin-bottom:5px">RELATÓRIO:</b>
+                            <p style="margin:0; font-size:1rem">${p.obs}</p>
                         </div>
-                        <small style="margin-top:20px; color:#555">PLACA: ${placa} | ATUALIZADO EM: ${p.data}</small>
+                        <small style="margin-top:15px; color:#444; font-size:9px">PLACA: ${placa} | ${p.data}</small>
                     </div>
                 </div>
             `;
             res.classList.remove('hidden');
-        } else { alert("Veículo não encontrado em nosso pátio."); }
+        } else { alert("Não encontrado."); }
     }
 </script>
 </body>
