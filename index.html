@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Mecânica High-Tech | Master</title>
     <style>
         :root {
@@ -18,46 +18,39 @@
             --warning: #ffd600;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         html, body {
-            height: 100%;
+            min-height: 100%;
             margin: 0;
             padding: 0;
             background-color: var(--bg);
-            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
             display: flex;
-            align-items: center; 
             justify-content: center;
-            padding: 20px; /* Aumentado para garantir respiro nas bordas */
+            align-items: center;
+            /* Padding maior para evitar que o card corte no topo/base no mobile */
+            padding: 40px 15px; 
         }
 
         .container {
             width: 100%;
-            max-width: 900px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: fadeIn 0.6s ease-out;
+            max-width: 900px;
+            margin: auto;
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 100%; /* Garante que não estoure no mobile */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            overflow: hidden;
             position: relative;
-            margin: auto;
         }
 
         h2 {
@@ -69,86 +62,42 @@
             font-size: 1.3rem;
         }
 
-        .form-row { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
+        /* Ajuste para iOS não dar zoom: Fonte mínima 16px */
+        input, textarea {
             width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .form-row { flex-direction: row; }
-            .card { padding: 40px; }
-        }
-
-        .input-group { 
-            flex: 1; 
-            width: 100%; 
-            margin-bottom: 15px; 
-        }
-        
-        label { display: block; color: var(--text-dim); margin-bottom: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #1e1e21;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             color: #fff;
-            font-size: 1rem;
-            display: block;
-            outline: none;
+            font-size: 16px !important; 
+            margin-bottom: 15px;
         }
 
-        input:focus { border-color: var(--primary); }
-
-        .car-display {
-            background: #111112;
-            border-radius: 18px;
-            overflow: hidden;
-            margin-top: 25px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .model-header {
-            background: var(--carbon);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .model-header h3 { margin: 0; font-size: 1.4rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
-
-        @media (min-width: 768px) {
-            .car-display { flex-direction: row; }
-            .car-img-box { width: 40%; border-right: 1px solid var(--border); }
-            .car-info-content { width: 60%; padding: 30px; }
-        }
-
-        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 200px; }
-        .car-info-content { padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-        .status-pill {
-            display: inline-flex;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 800;
+        /* SELETOR DE STATUS BONITÃO */
+        .status-picker {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
             margin-bottom: 20px;
+        }
+
+        .status-option {
+            background: #222;
+            border: 1px solid var(--border);
+            padding: 12px 5px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--text-dim);
             text-transform: uppercase;
         }
 
-        .report-box {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            width: 100%;
-            text-align: left;
-        }
+        .status-option.active[data-status="Aguardando"] { background: #333; border-color: var(--text-dim); color: #fff; }
+        .status-option.active[data-status="Trabalhando"] { background: rgba(255, 214, 0, 0.2); border-color: var(--warning); color: var(--warning); }
+        .status-option.active[data-status="Pronto"] { background: rgba(0, 230, 118, 0.2); border-color: var(--success); color: var(--success); }
 
         .btn-main { 
             background: var(--primary); 
@@ -156,24 +105,40 @@
             width: 100%; 
             padding: 18px; 
             border: none; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             font-weight: 800; 
             text-transform: uppercase; 
             cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 10px 20px var(--primary-glow);
         }
 
-        .table-container { overflow-x: auto; margin-top: 25px; width: 100%; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        th { text-align: left; padding: 12px; color: var(--primary); border-bottom: 2px solid var(--border); }
-        td { padding: 12px; border-bottom: 1px solid #222; }
+        /* MENSAGEM DE SUCESSO */
+        #msg-sucesso {
+            display: none;
+            background: var(--success);
+            color: #000;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* GRID PARA PC */
+        @media (min-width: 768px) {
+            .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+            .full-width { grid-column: span 2; }
+            .status-picker { grid-column: span 2; }
+        }
+
+        .table-container { overflow-x: auto; margin-top: 25px; border-top: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.85rem; }
 
         .hidden { display: none; }
-
-        @media (max-width: 767px) {
-            .card { border-radius: 20px; }
-            input#login-placa { font-size: 1.3rem; }
-        }
     </style>
 </head>
 <body>
@@ -181,81 +146,79 @@
 <div class="container">
     <section id="view-cliente" class="card">
         <h2>CONSULTA RÁPIDA</h2>
-        <div class="input-group">
-            <label>Placa do Veículo</label>
-            <input type="text" id="login-placa" placeholder="ABC1234" maxlength="7" style="text-transform: uppercase; text-align: center; font-weight: 900;">
-        </div>
-        <button class="btn-main" onclick="consultarCarro()">Buscar</button>
+        <input type="text" id="login-placa" placeholder="PLACA (EX: ABC1234)" maxlength="7" style="text-transform: uppercase; text-align: center; font-weight: 900; font-size: 1.5rem !important;">
+        <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
         <div id="resultado-cliente" class="hidden"></div>
-        <button onclick="irPara('view-login')" style="background:transparent; border:none; color:#333; width:100%; margin-top:20px; cursor:pointer; font-size: 10px; text-transform:uppercase;">Painel Técnico</button>
+        <center><button onclick="irPara('view-login')" style="background:none; border:none; color:#444; margin-top:20px; font-size:10px; cursor:pointer">ADMINISTRAÇÃO</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
         <h2>ACESSO RESTRITO</h2>
         <input type="password" id="pass-admin" placeholder="SENHA" style="text-align:center">
-        <button class="btn-main" style="margin-top:15px" onclick="logar()">Entrar</button>
-        <button onclick="irPara('view-cliente')" style="background:transparent; border:none; color:#444; width:100%; margin-top:10px; cursor:pointer;">Voltar</button>
+        <button class="btn-main" onclick="logar()">Entrar</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:#444; margin-top:15px; cursor:pointer">Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <h2>CADASTRO PÁTIO</h2>
+        <div id="msg-sucesso">✅ VEÍCULO ATUALIZADO COM SUCESSO!</div>
+        <h2>GESTÃO DE PÁTIO</h2>
         
-        <div class="form-row">
-            <div class="input-group">
-                <label>Placa</label>
+        <div class="form-grid">
+            <div>
+                <label style="font-size:10px; color:var(--text-dim)">PLACA</label>
                 <input type="text" id="m-placa" maxlength="7" style="text-transform:uppercase">
             </div>
-            <div class="input-group">
-                <label>Modelo / Veículo</label>
-                <input type="text" id="m-modelo" placeholder="Ex: Mobi">
+            <div>
+                <label style="font-size:10px; color:var(--text-dim)">MODELO</label>
+                <input type="text" id="m-modelo" placeholder="Ex: Corolla Preto">
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="input-group">
-                <label>Foto do Veículo</label>
-                <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
-            </div>
-            <div class="input-group">
-                <label>Status</label>
-                <select id="m-status">
-                    <option value="Aguardando">AGUARDANDO</option>
-                    <option value="Trabalhando">EM MANUTENÇÃO</option>
-                    <option value="Pronto">PRONTO</option>
-                </select>
-            </div>
+        <label style="font-size:10px; color:var(--text-dim)">SELECIONE O STATUS</label>
+        <div class="status-picker" id="status-group">
+            <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
+            <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Trabalhando</div>
+            <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Pronto</div>
         </div>
 
-        <div class="input-group">
-            <label>Relatório do Serviço</label>
-            <textarea id="m-obs" rows="3"></textarea>
+        <div class="full-width">
+            <label style="font-size:10px; color:var(--text-dim)">FOTO</label>
+            <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
         </div>
 
-        <button class="btn-main" onclick="salvar()">Salvar</button>
+        <textarea id="m-obs" rows="3" placeholder="Relatório técnico..."></textarea>
+        
+        <button class="btn-main" onclick="salvar()">Salvar no Sistema</button>
 
         <div class="table-container">
-            <table>
-                <thead><tr><th>VEÍCULO</th><th>STATUS</th><th>#</th></tr></thead>
-                <tbody id="corpo-tabela"></tbody>
-            </table>
+            <table id="corpo-tabela"></table>
         </div>
-        <button onclick="location.reload()" style="background:transparent; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer; font-size: 11px;">Sair</button>
+        
+        <center><button onclick="location.reload()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer">Sair do Painel</button></center>
     </section>
 </div>
 
 <script>
     const CHAVE = "1234";
     let fotoBase64 = "";
+    let statusSelecionado = "Aguardando";
 
     function irPara(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
         if(id === 'view-painel') desenharTabela();
+        window.scrollTo(0,0);
     }
 
     function logar() {
         if(document.getElementById('pass-admin').value === CHAVE) irPara('view-painel');
-        else alert("Senha Incorreta!");
+        else alert("Senha Incorreta");
+    }
+
+    function setStatus(el) {
+        document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
+        statusSelecionado = el.getAttribute('data-status');
     }
 
     function processarFoto() {
@@ -268,60 +231,54 @@
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('m-modelo').value.trim();
-        const status = document.getElementById('m-status').value;
         const obs = document.getElementById('m-obs').value;
-        if(!placa || !modelo) return alert("Preencha os campos!");
+        if(!placa || !modelo) return alert("Preencha Placa e Modelo");
 
-        let db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
-        db[placa] = { modelo, status, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
-        localStorage.setItem('mecanica_v11', JSON.stringify(db));
-        alert("Salvo!");
-        fotoBase64 = "";
+        let db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
+        db[placa] = { modelo, status: statusSelecionado, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
+        localStorage.setItem('oficina_v11', JSON.stringify(db));
+
+        // Feedback de Sucesso
+        const msg = document.getElementById('msg-sucesso');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+
         desenharTabela();
+        // Limpar campos
+        document.getElementById('m-placa').value = "";
+        document.getElementById('m-modelo').value = "";
+        document.getElementById('m-obs').value = "";
     }
 
     function desenharTabela() {
-        const db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
+        const db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
         Object.keys(db).reverse().forEach(p => {
-            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')" style="background:none; border:none; color:red;">✕</button></td></tr>`;
+            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td style="text-align:right">${db[p].status}</td></tr>`;
         });
-    }
-
-    function deletar(p) {
-        if(confirm("Excluir " + p + "?")) {
-            let db = JSON.parse(localStorage.getItem('mecanica_v11'));
-            delete db[p];
-            localStorage.setItem('mecanica_v11', JSON.stringify(db));
-            desenharTabela();
-        }
     }
 
     function consultarCarro() {
         const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const db = JSON.parse(localStorage.getItem('mecanica_v11')) || {};
+        const db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
         const res = document.getElementById('resultado-cliente');
         
         if(db[placa]) {
             const p = db[placa];
-            const cor = p.status === "Pronto" ? "var(--success)" : (p.status === "Trabalhando" ? "var(--warning)" : "var(--text-dim)");
+            const cor = p.status === "Pronto" ? "#00e676" : (p.status === "Trabalhando" ? "#ffd600" : "#a0a0a0");
             res.innerHTML = `
-                <div class="car-display">
-                    <div class="model-header"><h3>${p.modelo}</h3></div>
-                    ${p.foto ? `<div class="car-img-box"><img src="${p.foto}"></div>` : ''}
-                    <div class="car-info-content">
-                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status}</span>
-                        <div class="report-box">
-                            <b style="color:var(--primary); font-size:0.6rem; display:block; margin-bottom:5px">RELATÓRIO:</b>
-                            <p style="margin:0; font-size:1rem">${p.obs}</p>
-                        </div>
-                        <small style="margin-top:15px; color:#444; font-size:9px">PLACA: ${placa} | ${p.data}</small>
-                    </div>
+                <div style="background:#111; border-radius:15px; padding:20px; margin-top:20px; border:1px solid #333">
+                    <h3 style="color:var(--primary); margin:0 0 10px 0">${p.modelo}</h3>
+                    <div style="display:inline-block; padding:5px 15px; border-radius:20px; background:${cor}; color:#000; font-weight:bold; font-size:12px; margin-bottom:15px">${p.status.toUpperCase()}</div>
+                    ${p.foto ? `<img src="${p.foto}" style="width:100%; border-radius:10px; margin-bottom:15px">` : ''}
+                    <p style="color:#eee; font-size:14px; line-height:1.5">${p.obs}</p>
+                    <hr style="border:0; border-top:1px solid #222">
+                    <small style="color:#555">Última atualização: ${p.data}</small>
                 </div>
             `;
             res.classList.remove('hidden');
-        } else { alert("Não encontrado."); }
+        } else { alert("Placa não encontrada."); }
     }
 </script>
 </body>
