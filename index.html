@@ -3,118 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mecânica Digital - Portal</title>
+    <title>Mecânica - Sistema Individualizado</title>
     <style>
-        :root {
-            --primary: #e63946;
-            --dark: #1d3557;
-            --light: #f1faee;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; }
-        nav { background: var(--dark); color: white; padding: 1rem; display: flex; justify-content: space-between; }
-        .container { padding: 20px; max-width: 800px; margin: auto; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; color: white; }
-        .btn-mecanico { background: var(--primary); }
-        .btn-cliente { background: #457b9d; }
+        :root { --primary: #e63946; --dark: #1d3557; --light: #f1faee; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: var(--dark); }
+        nav { background: var(--dark); color: white; padding: 1rem; text-align: center; }
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .hidden { display: none; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f4f4f4; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .btn-mecanico { background: var(--primary); color: white; }
+        .btn-cliente { background: var(--dark); color: white; }
+        .btn-voltar { background: #6c757d; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+        .status-tag { font-size: 12px; background: #ddd; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-<nav>
-    <strong>Mecânica Pro</strong>
-    <span id="user-status">Acesso Público</span>
-</nav>
+<nav><strong>MECÂNICA PRO - SISTEMA DE CONSULTA</strong></nav>
 
-<div class="container" id="login-screen">
-    <div class="card">
-        <h2>Bem-vindo ao Portal</h2>
-        <p>Escolha seu tipo de acesso para testar a interface:</p>
-        <button class="btn btn-mecanico" onclick="showPanel('mecanico')">Entrar como Mecânico</button>
-        <button class="btn btn-cliente" onclick="showPanel('cliente')">Entrar como Cliente</button>
+<div class="container">
+    
+    <div id="menu" class="card">
+        <h2>Acesso ao Portal</h2>
+        <button class="btn btn-mecanico" onclick="irPara('painel-mecanico')">SOU MECÂNICO (Lançar Dados)</button>
+        <button class="btn btn-cliente" onclick="irPara('painel-cliente')">SOU CLIENTE (Ver Meu Carro)</button>
     </div>
-</div>
 
-<div class="container hidden" id="panel-mecanico">
-    <div class="card">
-        <h2>🛠 Painel de Gestão (Mecânico)</h2>
-        <p>Cadastrar nova atualização de serviço:</p>
-        <input type="text" id="carro-nome" placeholder="Modelo do Carro (Ex: Civic 2020)">
-        <input type="text" id="placa" placeholder="Placa">
-        <textarea id="servico" placeholder="Descrição do serviço realizado..."></textarea>
-        <button class="btn btn-mecanico" onclick="adicionarServico()">Salvar no Histórico</button>
-        <button class="btn" style="background:#666" onclick="logout()">Sair</button>
+    <div id="painel-mecanico" class="card hidden">
+        <h2>🛠 Cadastrar Serviço</h2>
+        <input type="text" id="m-cliente" placeholder="Nome do Cliente">
+        <input type="text" id="m-placa" placeholder="Placa do Carro (Chave de Acesso)">
+        <input type="text" id="m-carro" placeholder="Modelo do Veículo">
+        <textarea id="m-servico" placeholder="Descrição do serviço..."></textarea>
+        <button class="btn btn-mecanico" onclick="salvarServico()">SALVAR NO HISTÓRICO</button>
+        <button class="btn btn-voltar" onclick="irPara('menu')">VOLTAR</button>
     </div>
-</div>
 
-<div class="container hidden" id="panel-cliente">
-    <div class="card">
-        <h2>🚗 Meus Veículos (Cliente)</h2>
-        <p>Acompanhe o histórico de manutenções:</p>
-        <table id="tabela-cliente">
-            <thead>
-                <tr>
-                    <th>Carro</th>
-                    <th>Placa</th>
-                    <th>Serviço/Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                </tbody>
-        </table>
-        <br>
-        <button class="btn" style="background:#666" onclick="logout()">Sair</button>
+    <div id="painel-cliente" class="card hidden">
+        <h2>🚗 Área do Cliente</h2>
+        <p>Digite sua placa para verificar o histórico:</p>
+        <input type="text" id="busca-placa" placeholder="Digite sua placa (Ex: ABC1234)">
+        <button class="btn btn-cliente" onclick="consultarIndividual()">CONSULTAR</button>
+        
+        <div id="resultado-consulta" class="hidden">
+            <hr>
+            <h4>Histórico encontrado:</h4>
+            <table id="tabela-individual">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Serviço</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <button class="btn btn-voltar" onclick="irPara('menu')" style="margin-top: 20px;">VOLTAR</button>
     </div>
+
 </div>
 
 <script>
-    // Simulação de Banco de Dados (enquanto não temos um real)
-    let bancoDeDados = [
-        { carro: "Toyota Corolla", placa: "ABC-1234", servico: "Troca de óleo concluída" }
-    ];
+    // Navegação simples
+    function irPara(id) {
+        document.getElementById('menu').classList.add('hidden');
+        document.getElementById('painel-mecanico').classList.add('hidden');
+        document.getElementById('painel-cliente').classList.add('hidden');
+        document.getElementById(id).classList.remove('hidden');
+    }
 
-    function showPanel(tipo) {
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('user-status').innerText = "Logado como: " + tipo.toUpperCase();
+    // Função do Mecânico
+    function salvarServico() {
+        const placa = document.getElementById('m-placa').value.toUpperCase().replace("-", "");
+        const servico = {
+            cliente: document.getElementById('m-cliente').value,
+            placa: placa,
+            carro: document.getElementById('m-carro').value,
+            detalhes: document.getElementById('m-servico').value,
+            data: new Date().toLocaleDateString()
+        };
+
+        if(!placa || !servico.detalhes) {
+            alert("Placa e Serviço são obrigatórios!");
+            return;
+        }
+
+        let db = JSON.parse(localStorage.getItem('mecanica_dados')) || [];
+        db.push(servico);
+        localStorage.setItem('mecanica_dados', JSON.stringify(db));
+
+        alert("Serviço registrado para a placa " + placa);
+        // Limpa campos
+        document.querySelectorAll('#painel-mecanico input, #painel-mecanico textarea').forEach(i => i.value = "");
+    }
+
+    // Função do Cliente (Busca Individual)
+    function consultarIndividual() {
+        const placaBusca = document.getElementById('busca-placa').value.toUpperCase().replace("-", "");
+        const db = JSON.parse(localStorage.getItem('mecanica_dados')) || [];
         
-        if(tipo === 'mecanico') {
-            document.getElementById('panel-mecanico').classList.remove('hidden');
+        // Filtra apenas os serviços que pertencem àquela placa
+        const resultados = db.filter(item => item.placa === placaBusca);
+        
+        const divResultado = document.getElementById('resultado-consulta');
+        const tbody = document.querySelector('#tabela-individual tbody');
+        tbody.innerHTML = "";
+
+        if(resultados.length > 0) {
+            divResultado.classList.remove('hidden');
+            resultados.reverse().forEach(res => {
+                tbody.innerHTML += `<tr>
+                    <td><small>${res.data}</small></td>
+                    <td><strong>${res.carro}</strong><br>${res.detalhes}</td>
+                </tr>`;
+            });
         } else {
-            document.getElementById('panel-cliente').classList.remove('hidden');
-            renderizarTabela();
+            alert("Nenhum registro encontrado para esta placa.");
+            divResultado.classList.add('hidden');
         }
-    }
-
-    function adicionarServico() {
-        const carro = document.getElementById('carro-nome').value;
-        const placa = document.getElementById('placa').value;
-        const servico = document.getElementById('servico').value;
-
-        if(carro && placa && servico) {
-            bancoDeDados.push({ carro, placa, servico });
-            alert("Serviço registrado com sucesso!");
-            document.getElementById('carro-nome').value = '';
-            document.getElementById('servico').value = '';
-        } else {
-            alert("Preencha todos os campos!");
-        }
-    }
-
-    function renderizarTabela() {
-        const tbody = document.querySelector('#tabela-cliente tbody');
-        tbody.innerHTML = '';
-        bancoDeDados.forEach(item => {
-            tbody.innerHTML += `<tr><td>${item.carro}</td><td>${item.placa}</td><td>${item.servico}</td></tr>`;
-        });
-    }
-
-    function logout() {
-        location.reload(); // Recarrega a página para voltar ao início
     }
 </script>
 
