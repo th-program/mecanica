@@ -3,130 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mecânica - Sistema Individualizado</title>
+    <title>Oficina Pro</title>
     <style>
-        :root { --primary: #e63946; --dark: #1d3557; --light: #f1faee; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: var(--dark); }
-        nav { background: var(--dark); color: white; padding: 1rem; text-align: center; }
-        .container { padding: 20px; max-width: 500px; margin: auto; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        :root { --primary: #e63946; --dark: #1d3557; --light: #f1faee; --success: #2a9d8f; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 15px; }
+        .container { max-width: 700px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .hidden { display: none; }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        h2 { text-align: center; color: var(--dark); border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .btn { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
         .btn-mecanico { background: var(--primary); color: white; }
         .btn-cliente { background: var(--dark); color: white; }
-        .btn-voltar { background: #6c757d; color: white; }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 11px; color: white; font-weight: bold; }
+        .st-trabalho { background: #f4a261; } .st-pronto { background: #2a9d8f; } .st-espera { background: #6c757d; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
-        .status-tag { font-size: 12px; background: #ddd; padding: 2px 6px; border-radius: 4px; }
+        th, td { border-bottom: 1px solid #eee; padding: 10px; text-align: left; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<nav><strong>MECÂNICA PRO - SISTEMA DE CONSULTA</strong></nav>
-
 <div class="container">
-    
-    <div id="menu" class="card">
-        <h2>Acesso ao Portal</h2>
-        <button class="btn btn-mecanico" onclick="irPara('painel-mecanico')">SOU MECÂNICO (Lançar Dados)</button>
-        <button class="btn btn-cliente" onclick="irPara('painel-cliente')">SOU CLIENTE (Ver Meu Carro)</button>
+    <div id="view-cliente" class="card">
+        <h2>Consultar Placa</h2>
+        <input type="text" id="login-placa" placeholder="PLACA (EX: ABC1234)" maxlength="7" style="text-transform: uppercase; text-align: center; font-size: 20px;">
+        <button class="btn btn-cliente" onclick="consultarCarro()">BUSCAR STATUS</button>
+        <div id="res-cliente" class="hidden" style="margin-top:20px; padding:15px; background:#f9f9f9; border: 1px solid #ddd; border-radius: 8px;"></div>
+        <button class="btn" style="background:none; color:#999; margin-top:10px;" onclick="irPara('view-login')">Acesso Mecânico</button>
     </div>
 
-    <div id="painel-mecanico" class="card hidden">
-        <h2>🛠 Cadastrar Serviço</h2>
-        <input type="text" id="m-cliente" placeholder="Nome do Cliente">
-        <input type="text" id="m-placa" placeholder="Placa do Carro (Chave de Acesso)">
-        <input type="text" id="m-carro" placeholder="Modelo do Veículo">
-        <textarea id="m-servico" placeholder="Descrição do serviço..."></textarea>
-        <button class="btn btn-mecanico" onclick="salvarServico()">SALVAR NO HISTÓRICO</button>
-        <button class="btn btn-voltar" onclick="irPara('menu')">VOLTAR</button>
+    <div id="view-login" class="card hidden">
+        <h2>Login Oficina</h2>
+        <input type="password" id="pass-admin" placeholder="Senha Administrativa">
+        <button class="btn btn-mecanico" onclick="logar()">ENTRAR</button>
+        <button class="btn" style="background:none;" onclick="irPara('view-cliente')">Voltar</button>
     </div>
 
-    <div id="painel-cliente" class="card hidden">
-        <h2>🚗 Área do Cliente</h2>
-        <p>Digite sua placa para verificar o histórico:</p>
-        <input type="text" id="busca-placa" placeholder="Digite sua placa (Ex: ABC1234)">
-        <button class="btn btn-cliente" onclick="consultarIndividual()">CONSULTAR</button>
-        
-        <div id="resultado-consulta" class="hidden">
-            <hr>
-            <h4>Histórico encontrado:</h4>
-            <table id="tabela-individual">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Serviço</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
+    <div id="view-painel" class="card hidden">
+        <h2>🛠 Gestão de Serviços</h2>
+        <div style="background:#f0f0f0; padding:15px; border-radius:10px;">
+            <input type="text" id="m-placa" placeholder="PLACA" maxlength="7" style="text-transform: uppercase;">
+            <input type="text" id="m-modelo" placeholder="MODELO VEÍCULO">
+            <select id="m-status">
+                <option value="Em Espera">&#x1F534; Em Espera</option>
+                <option value="Em Trabalho">&#x1F7E1; Trabalho</option>
+                <option value="Pronto">&#x1F7E2; Pronto</option>
+            </select>
+            <textarea id="m-obs" placeholder="Detalhes da atualização..."></textarea>
+            <button class="btn btn-mecanico" onclick="publicar()">PUBLICAR AGORA</button>
+        </div>
+
+        <div style="margin-top:20px;">
+            <h3>Veículos Cadastrados</h3>
+            <table>
+                <thead><tr><th>Placa</th><th>Status</th><th>Ação</th></tr></thead>
+                <tbody id="lista-mecanico"></tbody>
             </table>
         </div>
-        <button class="btn btn-voltar" onclick="irPara('menu')" style="margin-top: 20px;">VOLTAR</button>
+        <button class="btn" style="background:#666; color:white; margin-top:20px;" onclick="location.reload()">SAIR</button>
     </div>
-
 </div>
 
 <script>
-    // Navegação simples
+    const SENHA = "1234";
+
     function irPara(id) {
-        document.getElementById('menu').classList.add('hidden');
-        document.getElementById('painel-mecanico').classList.add('hidden');
-        document.getElementById('painel-cliente').classList.add('hidden');
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
 
-    // Função do Mecânico
-    function salvarServico() {
-        const placa = document.getElementById('m-placa').value.toUpperCase().replace("-", "");
-        const servico = {
-            cliente: document.getElementById('m-cliente').value,
-            placa: placa,
-            carro: document.getElementById('m-carro').value,
-            detalhes: document.getElementById('m-servico').value,
-            data: new Date().toLocaleDateString()
-        };
+    function logar() {
+        if(document.getElementById('pass-admin').value === SENHA) {
+            irPara('view-painel');
+            desenharTabela();
+        } else { alert("Senha errada!"); }
+    }
 
-        if(!placa || !servico.detalhes) {
-            alert("Placa e Serviço são obrigatórios!");
+    // --- FUNÇÕES DE SALVAMENTO ---
+    function publicar() {
+        const placa = document.getElementById('m-placa').value.toUpperCase().trim();
+        const modelo = document.getElementById('m-modelo').value.trim();
+        const status = document.getElementById('m-status').value;
+        const obs = document.getElementById('m-obs').value;
+
+        if(!placa || !modelo) {
+            alert("Preencha Placa e Modelo!");
             return;
         }
 
-        let db = JSON.parse(localStorage.getItem('mecanica_dados')) || [];
-        db.push(servico);
-        localStorage.setItem('mecanica_dados', JSON.stringify(db));
+        // 1. Pega o que já existe ou cria novo objeto
+        let dadosOficina = JSON.parse(localStorage.getItem('oficina_master')) || {};
 
-        alert("Serviço registrado para a placa " + placa);
-        // Limpa campos
-        document.querySelectorAll('#painel-mecanico input, #painel-mecanico textarea').forEach(i => i.value = "");
+        // 2. Adiciona o novo dado (usando a placa como chave)
+        dadosOficina[placa] = {
+            modelo: modelo,
+            status: status,
+            obs: obs,
+            data: new Date().toLocaleString('pt-BR')
+        };
+
+        // 3. Salva de volta no banco local
+        localStorage.setItem('oficina_master', JSON.stringify(dadosOficina));
+
+        alert("✅ Publicado com sucesso!");
+        
+        // 4. Limpa campos e atualiza a lista visual NA HORA
+        document.getElementById('m-placa').value = "";
+        document.getElementById('m-modelo').value = "";
+        document.getElementById('m-obs').value = "";
+        desenharTabela();
     }
 
-    // Função do Cliente (Busca Individual)
-    function consultarIndividual() {
-        const placaBusca = document.getElementById('busca-placa').value.toUpperCase().replace("-", "");
-        const db = JSON.parse(localStorage.getItem('mecanica_dados')) || [];
-        
-        // Filtra apenas os serviços que pertencem àquela placa
-        const resultados = db.filter(item => item.placa === placaBusca);
-        
-        const divResultado = document.getElementById('resultado-consulta');
-        const tbody = document.querySelector('#tabela-individual tbody');
-        tbody.innerHTML = "";
+    function desenharTabela() {
+        const dados = JSON.parse(localStorage.getItem('oficina_master')) || {};
+        const corpo = document.getElementById('lista-mecanico');
+        corpo.innerHTML = "";
 
-        if(resultados.length > 0) {
-            divResultado.classList.remove('hidden');
-            resultados.reverse().forEach(res => {
-                tbody.innerHTML += `<tr>
-                    <td><small>${res.data}</small></td>
-                    <td><strong>${res.carro}</strong><br>${res.detalhes}</td>
-                </tr>`;
-            });
+        Object.keys(dados).forEach(placa => {
+            const info = dados[placa];
+            const cor = info.status === "Pronto" ? "st-pronto" : (info.status === "Em Trabalho" ? "st-trabalho" : "st-espera");
+            
+            corpo.innerHTML += `
+                <tr>
+                    <td><strong>${placa}</strong><br><small>${info.modelo}</small></td>
+                    <td><span class="badge ${cor}">${info.status}</span></td>
+                    <td><button onclick="deletar('${placa}')" style="color:red; border:none; background:none; cursor:pointer;">Apagar</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    function deletar(placa) {
+        if(confirm("Excluir " + placa + "?")) {
+            let dados = JSON.parse(localStorage.getItem('oficina_master'));
+            delete dados[placa];
+            localStorage.setItem('oficina_master', JSON.stringify(dados));
+            desenharTabela();
+        }
+    }
+
+    // --- FUNÇÕES DO CLIENTE ---
+    function consultarCarro() {
+        const placaBusca = document.getElementById('login-placa').value.toUpperCase().trim();
+        const dados = JSON.parse(localStorage.getItem('oficina_master')) || {};
+        const divRes = document.getElementById('res-cliente');
+
+        if(dados[placaBusca]) {
+            const p = dados[placaBusca];
+            const cor = p.status === "Pronto" ? "st-pronto" : (p.status === "Em Trabalho" ? "st-trabalho" : "st-espera");
+
+            divRes.innerHTML = `
+                <h3 style="margin:0">${p.modelo}</h3>
+                <span class="badge ${cor}" style="display:inline-block; margin:10px 0">${p.status}</span>
+                <p><strong>Relatório:</strong><br>${p.obs}</p>
+                <hr><small>Atualizado: ${p.data}</small>
+            `;
+            divRes.classList.remove('hidden');
         } else {
-            alert("Nenhum registro encontrado para esta placa.");
-            divResultado.classList.add('hidden');
+            alert("A placa " + placaBusca + " não consta em nosso sistema.");
+            divRes.classList.add('hidden');
         }
     }
 </script>
-
 </body>
 </html>
