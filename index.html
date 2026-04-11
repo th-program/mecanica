@@ -3,247 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Oficina Pro - Foto & Gestão</title>
+    <title>Mecânica High-Tech | Full Experience</title>
     <style>
         :root {
-            --bg: #0d0d0d;
-            --card: #181818;
+            --bg: #0a0a0b;
+            --card-bg: #161618;
             --primary: #ff6b00;
-            --text: #e0e0e0;
-            --border: #333;
-            --success: #28a745;
+            --primary-glow: rgba(255, 107, 0, 0.2);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #2d2d2d;
+            --carbon: #212124; 
+            --success: #00e676;
+            --warning: #ffd600;
         }
 
-        * { box-sizing: border-box; } /* Garante que padding não estique as barras */
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
+        /* Centralização Vertical e Horizontal em toda a tela */
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             margin: 0;
-            padding: 10px;
             display: flex;
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+            min-height: 100vh; /* Ocupa 100% da altura da tela */
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px; /* No PC ele abre mais horizontalmente */
+            display: flex;
+            flex-direction: column;
             justify-content: center;
         }
 
-        .container { width: 100%; max-width: 550px; }
-
         .card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 12px;
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            overflow: hidden; /* Evita que conteúdo interno escape */
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            width: 100%;
         }
 
-        h2 { color: var(--primary); text-align: center; text-transform: uppercase; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        h2 {
+            color: var(--primary);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
 
-        label { display: block; margin-top: 15px; font-size: 14px; color: #aaa; }
+        /* Inputs Lado a Lado no PC */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
 
+        .input-group { flex: 1; min-width: 250px; margin-bottom: 20px; }
+        
+        label { display: block; color: var(--text-dim); margin-bottom: 10px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+        
         input, textarea, select {
             width: 100%;
-            padding: 12px;
-            margin: 5px 0;
-            background: #252525;
+            padding: 16px;
+            background: #1e1e21;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            color: white;
-            font-size: 16px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
         }
 
-        /* Foto do Carro */
-        .preview-img {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
+        /* Resultado da Consulta (Design Ficha Técnica) */
+        .car-display {
+            background: #111112;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 25px;
             border: 1px solid var(--border);
-            display: none; /* Escondido até ter foto */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* PC: Imagem e Dados Lado a Lado */
+        @media (min-width: 768px) {
+            .car-display { flex-direction: row; align-items: stretch; }
+            .car-img-box { width: 45%; border-right: 1px solid var(--border); }
+            .car-info-content { width: 55%; }
+            .input-group.full { flex: 1 1 100%; }
+        }
+
+        .model-header {
+            background: var(--carbon);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .model-header h3 { margin: 0; font-size: 1.6rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
+
+        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 300px; }
+        
+        .car-info-content { padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+        .status-pill {
+            display: inline-flex;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .report-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
         }
 
         .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 15px;
+            width: 100%; padding: 18px; border: none; border-radius: 14px;
+            font-weight: 800; text-transform: uppercase; cursor: pointer;
         }
+        .btn-main { background: var(--primary); color: #fff; box-shadow: 0 8px 20px var(--primary-glow); }
 
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-outline { background: transparent; border: 1px solid #444; color: #888; }
-
-        /* Tabela Responsiva */
-        .table-area { width: 100%; overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; min-width: 300px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
-        th { color: var(--primary); }
-
-        .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-        .st-pronto { background: var(--success); }
-        .st-espera { background: #555; }
-        .st-trabalho { background: #ffb100; color: #000; }
+        /* Tabela Gestão */
+        .table-container { overflow-x: auto; margin-top: 30px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: var(--primary); border-bottom: 2px solid var(--border); font-size: 0.8rem; }
+        td { padding: 15px; border-bottom: 1px solid #222; }
 
         .hidden { display: none; }
-        
-        /* Ajuste para textos longos não quebrarem o layout */
-        p, td { overflow-wrap: break-word; word-wrap: break-word; }
 
+        /* MOBILE AJUSTES */
+        @media (max-width: 767px) {
+            body { padding: 10px; align-items: flex-start; } /* No mobile começa do topo para rolar melhor */
+            .card { padding: 25px 15px; border-radius: 15px; }
+            .car-img-box { height: 200px; }
+            .model-header h3 { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="view-cliente" class="card">
-        <h2>🛠 Oficina Digital</h2>
-        <input type="text" id="login-placa" placeholder="DIGITE A PLACA" maxlength="7" style="text-align:center; font-weight:bold;">
-        <button class="btn btn-primary" onclick="consultarCarro()">Consultar Meu Veículo</button>
-        <div id="res-cliente" class="hidden"></div>
-        <button class="btn btn-outline" onclick="irPara('view-login')">Acesso Mecânico</button>
-    </div>
+    <section id="view-cliente" class="card">
+        <h2>CONSULTA DE VEÍCULO</h2>
+        <div class="input-group">
+            <label>Digite a Placa</label>
+            <input type="text" id="login-placa" placeholder="ABC1234" maxlength="7" style="text-transform: uppercase; text-align: center; font-size: 2rem; font-weight: 900; letter-spacing: 5px;">
+        </div>
+        <button class="btn btn-main" onclick="consultarCarro()">Localizar Agora</button>
+        
+        <div id="resultado-cliente" class="hidden"></div>
+        <button class="btn" style="background:transparent; color:#555; font-size: 0.7rem; margin-top: 20px;" onclick="irPara('view-login')">Painel Mecânico</button>
+    </section>
 
-    <div id="view-login" class="card hidden">
-        <h2>Painel Restrito</h2>
-        <input type="password" id="pass-admin" placeholder="Senha Administrativa">
-        <button class="btn btn-primary" onclick="logar()">Entrar</button>
-        <button class="btn btn-outline" onclick="irPara('view-cliente')">Voltar</button>
-    </div>
+    <section id="view-login" class="card hidden">
+        <h2>AUTENTICAÇÃO</h2>
+        <input type="password" id="pass-admin" placeholder="SENHA" style="text-align:center">
+        <button class="btn btn-main" style="margin-top:20px" onclick="logar()">Acessar Sistema</button>
+        <button class="btn" style="background:transparent; color:#555;" onclick="irPara('view-cliente')">Cancelar</button>
+    </section>
 
-    <div id="view-painel" class="card hidden">
-        <h2>Gestão de Veículo</h2>
+    <section id="view-painel" class="card hidden">
+        <h2>PAINEL TÉCNICO</h2>
         
-        <label>Placa</label>
-        <input type="text" id="m-placa" placeholder="Ex: ABC1234" maxlength="7">
-        
-        <label>Modelo do Veículo</label>
-        <input type="text" id="m-modelo" placeholder="Ex: Gol G6 Prata">
-        
-        <label>Foto do Carro (Tirar foto ou Upload)</label>
-        <input type="file" id="m-foto" accept="image/*" onchange="previewFile()">
-        <img id="img-preview" class="preview-img">
+        <div class="form-row">
+            <div class="input-group">
+                <label>Placa</label>
+                <input type="text" id="m-placa" maxlength="7" style="text-transform:uppercase">
+            </div>
+            <div class="input-group">
+                <label>Modelo do Veículo</label>
+                <input type="text" id="m-modelo" placeholder="Ex: Mobi Preto">
+            </div>
+        </div>
 
-        <label>Status</label>
-        <select id="m-status">
-            <option value="Em Espera">Em Espera</option>
-            <option value="Em Trabalho">Em Trabalho</option>
-            <option value="Pronto">Pronto</option>
-        </select>
-        
-        <label>Relatório de Serviço</label>
-        <textarea id="m-obs" rows="3" placeholder="Ex: Trocado correia dentada..."></textarea>
-        
-        <button class="btn btn-success" onclick="publicar()">Salvar e Publicar</button>
+        <div class="form-row">
+            <div class="input-group">
+                <label>Foto</label>
+                <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
+            </div>
+            <div class="input-group">
+                <label>Status</label>
+                <select id="m-status">
+                    <option value="Em Espera">AGUARDANDO</option>
+                    <option value="Em Trabalho">TRABALHANDO</option>
+                    <option value="Pronto">PRONTO</option>
+                </select>
+            </div>
+        </div>
 
-        <div class="table-area">
+        <div class="input-group full">
+            <label>Relatório de Serviço</label>
+            <textarea id="m-obs" rows="4"></textarea>
+        </div>
+
+        <button class="btn btn-main" onclick="salvar()">Atualizar Pátio</button>
+
+        <div class="table-container">
             <table>
-                <thead><tr><th>CARRO</th><th>STATUS</th><th>AÇÃO</th></tr></thead>
-                <tbody id="lista-mecanico"></tbody>
+                <thead><tr><th>CARRO</th><th>STATUS</th><th>#</th></tr></thead>
+                <tbody id="corpo-tabela"></tbody>
             </table>
         </div>
-        <button class="btn btn-outline" onclick="location.reload()">Sair do Sistema</button>
-    </div>
+        <button class="btn" style="background:transparent; color:#555;" onclick="location.reload()">Sair</button>
+    </section>
 </div>
 
 <script>
-    const SENHA = "1234";
-    let imagemBase64 = "";
+    const CHAVE = "1234";
+    let fotoBase64 = "";
 
     function irPara(id) {
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
+        if(id === 'view-painel') desenharTabela();
     }
 
     function logar() {
-        if(document.getElementById('pass-admin').value === SENHA) {
-            irPara('view-painel');
-            desenharTabela();
-        } else { alert("Acesso Negado!"); }
+        if(document.getElementById('pass-admin').value === CHAVE) irPara('view-painel');
+        else alert("Senha Incorreta");
     }
 
-    // Função para converter imagem em código (Base64)
-    function previewFile() {
-        const preview = document.getElementById('img-preview');
+    function processarFoto() {
         const file = document.getElementById('m-foto').files[0];
         const reader = new FileReader();
-
-        reader.onloadend = function () {
-            imagemBase64 = reader.result;
-            preview.src = reader.result;
-            preview.style.display = "block";
-        }
-
-        if (file) { reader.readAsDataURL(file); }
+        reader.onloadend = () => { fotoBase64 = reader.result; };
+        if(file) reader.readAsDataURL(file);
     }
 
-    function publicar() {
+    function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('m-modelo').value.trim();
         const status = document.getElementById('m-status').value;
         const obs = document.getElementById('m-obs').value;
+        if(!placa || !modelo) return alert("Dados incompletos");
 
-        if(!placa || !modelo) return alert("Placa e Modelo são obrigatórios!");
-
-        let db = JSON.parse(localStorage.getItem('oficina_v5')) || {};
-        db[placa] = { modelo, status, obs, foto: imagemBase64, data: new Date().toLocaleString('pt-BR') };
-        
-        localStorage.setItem('oficina_v5', JSON.stringify(db));
-        alert("Veículo atualizado!");
-        
-        // Reset campos
-        imagemBase64 = "";
-        document.getElementById('img-preview').style.display = "none";
-        document.querySelectorAll('#view-painel input, #view-painel textarea').forEach(i => i.value = "");
+        let db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        db[placa] = { modelo, status, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
+        localStorage.setItem('mecanica_v9', JSON.stringify(db));
+        alert("✅ Sistema Atualizado!");
+        fotoBase64 = "";
         desenharTabela();
     }
 
     function desenharTabela() {
-        const db = JSON.parse(localStorage.getItem('oficina_v5')) || {};
-        const corpo = document.getElementById('lista-mecanico');
+        const db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
-        Object.keys(db).forEach(placa => {
-            const cor = db[placa].status === "Pronto" ? "st-pronto" : (db[placa].status === "Em Trabalho" ? "st-trabalho" : "st-espera");
-            corpo.innerHTML += `<tr>
-                <td><b>${placa}</b><br><small>${db[placa].modelo}</small></td>
-                <td><span class="badge ${cor}">${db[placa].status}</span></td>
-                <td><button onclick="deletar('${placa}')" style="background:none; border:none; color:red; cursor:pointer;">❌</button></td>
-            </tr>`;
+        Object.keys(db).reverse().forEach(p => {
+            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')">✕</button></td></tr>`;
         });
     }
 
-    function deletar(placa) {
-        if(confirm("Excluir histórico de " + placa + "?")) {
-            let db = JSON.parse(localStorage.getItem('oficina_v5'));
-            delete db[placa];
-            localStorage.setItem('oficina_v5', JSON.stringify(db));
-            desenharTabela();
-        }
+    function deletar(p) {
+        let db = JSON.parse(localStorage.getItem('mecanica_v9'));
+        delete db[p];
+        localStorage.setItem('mecanica_v9', JSON.stringify(db));
+        desenharTabela();
     }
 
     function consultarCarro() {
         const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const db = JSON.parse(localStorage.getItem('oficina_v5')) || {};
-        const res = document.getElementById('res-cliente');
-
+        const db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        const res = document.getElementById('resultado-cliente');
         if(db[placa]) {
             const p = db[placa];
-            const cor = p.status === "Pronto" ? "st-pronto" : (p.status === "Em Trabalho" ? "st-trabalho" : "st-espera");
+            const cor = p.status === "Pronto" ? "var(--success)" : (p.status === "Em Trabalho" ? "var(--warning)" : "var(--text-dim)");
             res.innerHTML = `
-                <div style="margin-top:20px; border-top: 1px solid #333; padding-top:20px;">
-                    ${p.foto ? `<img src="${p.foto}" class="preview-img" style="display:block; margin-bottom:15px;">` : ''}
-                    <h3 style="margin:0; color:var(--primary)">${p.modelo} - ${placa}</h3>
-                    <div style="margin:10px 0"><span class="badge ${cor}">${p.status}</span></div>
-                    <p style="background:#222; padding:10px; border-radius:5px;"><strong>Serviço:</strong><br>${p.obs}</p>
-                    <small style="color:#666">Última atualização: ${p.data}</small>
-                </div>`;
+                <div class="car-display">
+                    <div class="model-header" style="width:100%; flex: 1 1 100%;"><h3>${p.modelo}</h3></div>
+                    ${p.foto ? `<div class="car-img-box"><img src="${p.foto}"></div>` : ''}
+                    <div class="car-info-content">
+                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status}</span>
+                        <div class="report-box">
+                            <b style="color:var(--primary); font-size:0.7rem; margin-bottom:10px; display:block">RELATÓRIO TÉCNICO</b>
+                            <p style="margin:0; line-height:1.6">${p.obs}</p>
+                        </div>
+                        <small style="margin-top:20px; color:#555">PLACA: ${placa} | ATUALIZADO: ${p.data}</small>
+                    </div>
+                </div>
+            `;
             res.classList.remove('hidden');
-        } else { alert("Veículo não encontrado."); }
+        } else { alert("Veículo não encontrado"); }
     }
 </script>
 </body>
