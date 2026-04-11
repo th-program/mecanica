@@ -1,56 +1,122 @@
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecânica Digital - Portal</title>
+    <style>
+        :root {
+            --primary: #e63946;
+            --dark: #1d3557;
+            --light: #f1faee;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; }
+        nav { background: var(--dark); color: white; padding: 1rem; display: flex; justify-content: space-between; }
+        .container { padding: 20px; max-width: 800px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; color: white; }
+        .btn-mecanico { background: var(--primary); }
+        .btn-cliente { background: #457b9d; }
+        .hidden { display: none; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
 
-  // 1. COLE AQUI AS SUAS CONFIGURAÇÕES QUE VOCÊ COPIOU DO FIREBASE
-  const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    databaseURL: "https://SEU_PROJETO.firebaseio.com",
-    projectId: "SEU_PROJETO",
-    storageBucket: "SEU_PROJETO.appspot.com",
-    messagingSenderId: "SEU_ID",
-    appId: "SEU_APP_ID"
-  };
+<nav>
+    <strong>Mecânica Pro</strong>
+    <span id="user-status">Acesso Público</span>
+</nav>
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const dbRef = ref(db, 'servicos');
+<div class="container" id="login-screen">
+    <div class="card">
+        <h2>Bem-vindo ao Portal</h2>
+        <p>Escolha seu tipo de acesso para testar a interface:</p>
+        <button class="btn btn-mecanico" onclick="showPanel('mecanico')">Entrar como Mecânico</button>
+        <button class="btn btn-cliente" onclick="showPanel('cliente')">Entrar como Cliente</button>
+    </div>
+</div>
 
-  // 2. FUNÇÃO DO MECÂNICO: Salvar no Banco de Dados Real
-  window.adicionarServico = function() {
-    const carro = document.getElementById('carro-nome').value;
-    const placa = document.getElementById('placa').value;
-    const servico = document.getElementById('servico').value;
+<div class="container hidden" id="panel-mecanico">
+    <div class="card">
+        <h2>🛠 Painel de Gestão (Mecânico)</h2>
+        <p>Cadastrar nova atualização de serviço:</p>
+        <input type="text" id="carro-nome" placeholder="Modelo do Carro (Ex: Civic 2020)">
+        <input type="text" id="placa" placeholder="Placa">
+        <textarea id="servico" placeholder="Descrição do serviço realizado..."></textarea>
+        <button class="btn btn-mecanico" onclick="adicionarServico()">Salvar no Histórico</button>
+        <button class="btn" style="background:#666" onclick="logout()">Sair</button>
+    </div>
+</div>
 
-    if(carro && placa && servico) {
-        push(dbRef, {
-            carro: carro,
-            placa: placa,
-            servico: servico,
-            data: new Date().toLocaleDateString()
-        });
-        alert("Salvo no banco de dados com sucesso!");
-        document.getElementById('carro-nome').value = '';
-        document.getElementById('servico').value = '';
+<div class="container hidden" id="panel-cliente">
+    <div class="card">
+        <h2>🚗 Meus Veículos (Cliente)</h2>
+        <p>Acompanhe o histórico de manutenções:</p>
+        <table id="tabela-cliente">
+            <thead>
+                <tr>
+                    <th>Carro</th>
+                    <th>Placa</th>
+                    <th>Serviço/Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+        <br>
+        <button class="btn" style="background:#666" onclick="logout()">Sair</button>
+    </div>
+</div>
+
+<script>
+    // Simulação de Banco de Dados (enquanto não temos um real)
+    let bancoDeDados = [
+        { carro: "Toyota Corolla", placa: "ABC-1234", servico: "Troca de óleo concluída" }
+    ];
+
+    function showPanel(tipo) {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('user-status').innerText = "Logado como: " + tipo.toUpperCase();
+        
+        if(tipo === 'mecanico') {
+            document.getElementById('panel-mecanico').classList.remove('hidden');
+        } else {
+            document.getElementById('panel-cliente').classList.remove('hidden');
+            renderizarTabela();
+        }
     }
-  }
 
-  // 3. FUNÇÃO DO CLIENTE: Ler do Banco de Dados em Tempo Real
-  window.renderizarTabela = function() {
-    onValue(dbRef, (snapshot) => {
+    function adicionarServico() {
+        const carro = document.getElementById('carro-nome').value;
+        const placa = document.getElementById('placa').value;
+        const servico = document.getElementById('servico').value;
+
+        if(carro && placa && servico) {
+            bancoDeDados.push({ carro, placa, servico });
+            alert("Serviço registrado com sucesso!");
+            document.getElementById('carro-nome').value = '';
+            document.getElementById('servico').value = '';
+        } else {
+            alert("Preencha todos os campos!");
+        }
+    }
+
+    function renderizarTabela() {
         const tbody = document.querySelector('#tabela-cliente tbody');
         tbody.innerHTML = '';
-        snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            tbody.innerHTML += `
-                <tr>
-                    <td>${data.carro}</td>
-                    <td>${data.placa}</td>
-                    <td>${data.servico} (${data.data})</td>
-                </tr>`;
+        bancoDeDados.forEach(item => {
+            tbody.innerHTML += `<tr><td>${item.carro}</td><td>${item.placa}</td><td>${item.servico}</td></tr>`;
         });
-    });
-  }
+    }
+
+    function logout() {
+        location.reload(); // Recarrega a página para voltar ao início
+    }
 </script>
+
+</body>
+</html>
