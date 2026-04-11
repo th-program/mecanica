@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Mecânica High-Tech | Full Experience</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mecânica High-Tech | Master</title>
     <style>
         :root {
             --bg: #0a0a0b;
@@ -20,34 +20,42 @@
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
 
-        /* Centralização Vertical e Horizontal em toda a tela */
+        /* ESTA PARTE GARANTE A CENTRALIZAÇÃO TOTAL */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
             color: var(--text-main);
-            margin: 0;
             display: flex;
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: center; /* Centraliza horizontalmente */
-            min-height: 100vh; /* Ocupa 100% da altura da tela */
-            padding: 20px;
+            align-items: center; /* Centraliza Verticalmente */
+            justify-content: center; /* Centraliza Horizontalmente */
+            padding: 15px;
         }
 
         .container {
             width: 100%;
-            max-width: 900px; /* No PC ele abre mais horizontalmente */
+            max-width: 950px; /* Mais largo no PC */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            animation: fadeIn 0.6s ease-out;
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             width: 100%;
+            position: relative;
         }
 
         h2 {
@@ -56,19 +64,14 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             margin-bottom: 30px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
-        /* Inputs Lado a Lado no PC */
-        .form-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .input-group { flex: 1; min-width: 250px; margin-bottom: 20px; }
+        /* Layout em colunas para o Painel Administrativo */
+        .form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+        .input-group { flex: 1; min-width: 200px; margin-bottom: 20px; }
         
-        label { display: block; color: var(--text-dim); margin-bottom: 10px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+        label { display: block; color: var(--text-dim); margin-bottom: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         
         input, textarea, select {
             width: 100%;
@@ -80,7 +83,7 @@
             font-size: 1rem;
         }
 
-        /* Resultado da Consulta (Design Ficha Técnica) */
+        /* --- DISPLAY DE CONSULTA (REFINADO) --- */
         .car-display {
             background: #111112;
             border-radius: 20px;
@@ -91,65 +94,74 @@
             flex-direction: column;
         }
 
-        /* PC: Imagem e Dados Lado a Lado */
-        @media (min-width: 768px) {
-            .car-display { flex-direction: row; align-items: stretch; }
-            .car-img-box { width: 45%; border-right: 1px solid var(--border); }
-            .car-info-content { width: 55%; }
-            .input-group.full { flex: 1 1 100%; }
-        }
-
         .model-header {
             background: var(--carbon);
             padding: 20px;
             text-align: center;
-            width: 100%;
+            border-bottom: 1px solid var(--border);
         }
 
-        .model-header h3 { margin: 0; font-size: 1.6rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
+        .model-header h3 { margin: 0; font-size: 1.5rem; color: var(--primary); text-transform: uppercase; font-weight: 900; }
 
-        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 300px; }
+        /* No PC: Foto na esquerda, Info na direita */
+        @media (min-width: 768px) {
+            .car-display { flex-direction: row; }
+            .car-img-box { width: 45%; border-right: 1px solid var(--border); }
+            .car-info-content { width: 55%; padding: 40px; }
+            .input-group.full { flex: 1 1 100%; }
+        }
+
+        .car-img-box img { width: 100%; height: 100%; object-fit: cover; min-height: 250px; }
         
-        .car-info-content { padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .car-info-content { padding: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
         .status-pill {
             display: inline-flex;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 800;
+            font-size: 0.85rem;
+            font-weight: 900;
             margin-bottom: 25px;
             text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .report-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 25px;
+            padding: 20px;
             width: 100%;
+            text-align: left;
         }
 
-        .btn {
-            width: 100%; padding: 18px; border: none; border-radius: 14px;
-            font-weight: 800; text-transform: uppercase; cursor: pointer;
+        /* Botão principal */
+        .btn-main { 
+            background: var(--primary); 
+            color: #fff; 
+            width: 100%; 
+            padding: 20px; 
+            border: none; 
+            border-radius: 15px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            cursor: pointer;
+            box-shadow: 0 10px 25px var(--primary-glow);
         }
-        .btn-main { background: var(--primary); color: #fff; box-shadow: 0 8px 20px var(--primary-glow); }
 
-        /* Tabela Gestão */
         .table-container { overflow-x: auto; margin-top: 30px; width: 100%; }
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; color: var(--primary); border-bottom: 2px solid var(--border); font-size: 0.8rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { text-align: left; padding: 15px; color: var(--primary); border-bottom: 2px solid var(--border); }
         td { padding: 15px; border-bottom: 1px solid #222; }
 
         .hidden { display: none; }
 
-        /* MOBILE AJUSTES */
+        /* MOBILE: PREENCHIMENTO TOTAL */
         @media (max-width: 767px) {
-            body { padding: 10px; align-items: flex-start; } /* No mobile começa do topo para rolar melhor */
-            .card { padding: 25px 15px; border-radius: 15px; }
-            .car-img-box { height: 200px; }
-            .model-header h3 { font-size: 1.2rem; }
+            body { align-items: center; } /* Força o centro no mobile também */
+            .card { padding: 30px 20px; border-radius: 20px; }
+            input#login-placa { font-size: 1.5rem; letter-spacing: 3px; }
+            .car-img-box { height: 220px; width: 100%; }
         }
     </style>
 </head>
@@ -157,26 +169,27 @@
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <h2>CONSULTA DE VEÍCULO</h2>
+        <h2>CENTRAL DO CLIENTE</h2>
         <div class="input-group">
-            <label>Digite a Placa</label>
-            <input type="text" id="login-placa" placeholder="ABC1234" maxlength="7" style="text-transform: uppercase; text-align: center; font-size: 2rem; font-weight: 900; letter-spacing: 5px;">
+            <label>Informe a Placa do Veículo</label>
+            <input type="text" id="login-placa" placeholder="ABC1234" maxlength="7" style="text-transform: uppercase; text-align: center; font-weight: 900;">
         </div>
-        <button class="btn btn-main" onclick="consultarCarro()">Localizar Agora</button>
+        <button class="btn-main" onclick="consultarCarro()">Rastrear Agora</button>
         
         <div id="resultado-cliente" class="hidden"></div>
-        <button class="btn" style="background:transparent; color:#555; font-size: 0.7rem; margin-top: 20px;" onclick="irPara('view-login')">Painel Mecânico</button>
+        
+        <button onclick="irPara('view-login')" style="background:transparent; border:none; color:#444; width:100%; margin-top:25px; cursor:pointer; font-size: 11px; text-transform:uppercase; font-weight:bold">Acesso Interno Oficina</button>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>AUTENTICAÇÃO</h2>
-        <input type="password" id="pass-admin" placeholder="SENHA" style="text-align:center">
-        <button class="btn btn-main" style="margin-top:20px" onclick="logar()">Acessar Sistema</button>
-        <button class="btn" style="background:transparent; color:#555;" onclick="irPara('view-cliente')">Cancelar</button>
+        <h2>ÁREA RESTRITA</h2>
+        <input type="password" id="pass-admin" placeholder="SENHA DE ACESSO" style="text-align:center">
+        <button class="btn-main" style="margin-top:20px" onclick="logar()">Entrar no Sistema</button>
+        <button onclick="irPara('view-cliente')" style="background:transparent; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer;">Voltar</button>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <h2>PAINEL TÉCNICO</h2>
+        <h2>GESTÃO DE PÁTIO</h2>
         
         <div class="form-row">
             <div class="input-group">
@@ -184,40 +197,40 @@
                 <input type="text" id="m-placa" maxlength="7" style="text-transform:uppercase">
             </div>
             <div class="input-group">
-                <label>Modelo do Veículo</label>
-                <input type="text" id="m-modelo" placeholder="Ex: Mobi Preto">
+                <label>Modelo / Veículo</label>
+                <input type="text" id="m-modelo" placeholder="Ex: Mobi Branco">
             </div>
         </div>
 
         <div class="form-row">
             <div class="input-group">
-                <label>Foto</label>
+                <label>Foto Real do Veículo</label>
                 <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
             </div>
             <div class="input-group">
-                <label>Status</label>
+                <label>Status Atual</label>
                 <select id="m-status">
-                    <option value="Em Espera">AGUARDANDO</option>
-                    <option value="Em Trabalho">TRABALHANDO</option>
-                    <option value="Pronto">PRONTO</option>
+                    <option value="Aguardando">AGUARDANDO PEÇAS</option>
+                    <option value="Trabalhando">EM MANUTENÇÃO</option>
+                    <option value="Pronto">PRONTO PARA RETIRADA</option>
                 </select>
             </div>
         </div>
 
         <div class="input-group full">
-            <label>Relatório de Serviço</label>
-            <textarea id="m-obs" rows="4"></textarea>
+            <label>Relatório Técnico do Mecânico</label>
+            <textarea id="m-obs" rows="4" placeholder="Detalhes do que está sendo feito..."></textarea>
         </div>
 
-        <button class="btn btn-main" onclick="salvar()">Atualizar Pátio</button>
+        <button class="btn-main" onclick="salvar()">Atualizar Registro</button>
 
         <div class="table-container">
             <table>
-                <thead><tr><th>CARRO</th><th>STATUS</th><th>#</th></tr></thead>
+                <thead><tr><th>VEÍCULO</th><th>STATUS</th><th>AÇÃO</th></tr></thead>
                 <tbody id="corpo-tabela"></tbody>
             </table>
         </div>
-        <button class="btn" style="background:transparent; color:#555;" onclick="location.reload()">Sair</button>
+        <button onclick="location.reload()" style="background:transparent; border:none; color:#444; width:100%; margin-top:20px; cursor:pointer;">Encerrar Sessão</button>
     </section>
 </div>
 
@@ -233,7 +246,7 @@
 
     function logar() {
         if(document.getElementById('pass-admin').value === CHAVE) irPara('view-painel');
-        else alert("Senha Incorreta");
+        else alert("Acesso Negado!");
     }
 
     function processarFoto() {
@@ -248,55 +261,58 @@
         const modelo = document.getElementById('m-modelo').value.trim();
         const status = document.getElementById('m-status').value;
         const obs = document.getElementById('m-obs').value;
-        if(!placa || !modelo) return alert("Dados incompletos");
+        if(!placa || !modelo) return alert("Preencha Placa e Modelo!");
 
-        let db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        let db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
         db[placa] = { modelo, status, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
-        localStorage.setItem('mecanica_v9', JSON.stringify(db));
-        alert("✅ Sistema Atualizado!");
+        localStorage.setItem('mecanica_v10', JSON.stringify(db));
+        alert("✅ Atualizado com sucesso!");
         fotoBase64 = "";
         desenharTabela();
     }
 
     function desenharTabela() {
-        const db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        const db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
         Object.keys(db).reverse().forEach(p => {
-            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')">✕</button></td></tr>`;
+            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td>${db[p].status}</td><td><button onclick="deletar('${p}')" style="background:none; border:none; color:red; cursor:pointer;">✕</button></td></tr>`;
         });
     }
 
     function deletar(p) {
-        let db = JSON.parse(localStorage.getItem('mecanica_v9'));
-        delete db[p];
-        localStorage.setItem('mecanica_v9', JSON.stringify(db));
-        desenharTabela();
+        if(confirm("Excluir " + p + "?")) {
+            let db = JSON.parse(localStorage.getItem('mecanica_v10'));
+            delete db[p];
+            localStorage.setItem('mecanica_v10', JSON.stringify(db));
+            desenharTabela();
+        }
     }
 
     function consultarCarro() {
         const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const db = JSON.parse(localStorage.getItem('mecanica_v9')) || {};
+        const db = JSON.parse(localStorage.getItem('mecanica_v10')) || {};
         const res = document.getElementById('resultado-cliente');
+        
         if(db[placa]) {
             const p = db[placa];
-            const cor = p.status === "Pronto" ? "var(--success)" : (p.status === "Em Trabalho" ? "var(--warning)" : "var(--text-dim)");
+            const cor = p.status === "Pronto" ? "var(--success)" : (p.status === "Trabalhando" ? "var(--warning)" : "var(--text-dim)");
             res.innerHTML = `
                 <div class="car-display">
-                    <div class="model-header" style="width:100%; flex: 1 1 100%;"><h3>${p.modelo}</h3></div>
+                    <div class="model-header"><h3>${p.modelo}</h3></div>
                     ${p.foto ? `<div class="car-img-box"><img src="${p.foto}"></div>` : ''}
                     <div class="car-info-content">
-                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status}</span>
+                        <span class="status-pill" style="background:${cor}; color:#000;">${p.status.toUpperCase()}</span>
                         <div class="report-box">
-                            <b style="color:var(--primary); font-size:0.7rem; margin-bottom:10px; display:block">RELATÓRIO TÉCNICO</b>
-                            <p style="margin:0; line-height:1.6">${p.obs}</p>
+                            <b style="color:var(--primary); font-size:0.7rem; margin-bottom:10px; display:block">DIAGNÓSTICO TÉCNICO</b>
+                            <p style="margin:0; line-height:1.6; font-size:1.1rem">${p.obs}</p>
                         </div>
-                        <small style="margin-top:20px; color:#555">PLACA: ${placa} | ATUALIZADO: ${p.data}</small>
+                        <small style="margin-top:20px; color:#555">PLACA: ${placa} | ATUALIZADO EM: ${p.data}</small>
                     </div>
                 </div>
             `;
             res.classList.remove('hidden');
-        } else { alert("Veículo não encontrado"); }
+        } else { alert("Veículo não encontrado em nosso pátio."); }
     }
 </script>
 </body>
