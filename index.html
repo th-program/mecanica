@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Mecânica High-Tech | Master</title>
+    <title>Mecânica High-Tech | V13</title>
     <style>
         :root {
             --bg: #0a0a0b;
@@ -13,18 +13,18 @@
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
             --border: #2d2d2d;
-            --carbon: #212124; 
             --success: #00e676;
             --warning: #ffd600;
+            --danger: #ff4444;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
-        html, body {
-            min-height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
+        html, body { 
+            height: 100%; 
+            width: 100%; 
+            background-color: var(--bg); 
+            overflow-x: hidden;
         }
 
         body {
@@ -33,23 +33,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Padding maior para evitar que o card corte no topo/base no mobile */
-            padding: 40px 15px; 
+            padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
-            margin: auto;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 28px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            overflow: hidden;
+            width: 100%;
             position: relative;
         }
 
@@ -57,38 +57,53 @@
             color: var(--primary);
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 25px;
-            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
-        /* Ajuste para iOS não dar zoom: Fonte mínima 16px */
+        /* INPUT PLACA CORRIGIDO - SEM CORTES */
+        input#login-placa {
+            width: 100%;
+            padding: 15px;
+            background: #1e1e21;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 900;
+            font-size: 28px !important; /* Tamanho fixo seguro para mobile */
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
         input, textarea {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: #1e1e21;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
-            font-size: 16px !important; 
-            margin-bottom: 15px;
+            font-size: 16px !important;
+            margin-bottom: 12px;
         }
 
-        /* SELETOR DE STATUS BONITÃO */
+        /* STATUS SELECTOR */
         .status-picker {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .status-option {
             background: #222;
             border: 1px solid var(--border);
-            padding: 12px 5px;
-            border-radius: 12px;
+            padding: 10px 2px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 10px;
             font-weight: 800;
             cursor: pointer;
             color: var(--text-dim);
@@ -105,38 +120,28 @@
             width: 100%; 
             padding: 18px; 
             border: none; 
-            border-radius: 15px; 
+            border-radius: 14px; 
             font-weight: 800; 
             text-transform: uppercase; 
             cursor: pointer;
-            box-shadow: 0 10px 20px var(--primary-glow);
         }
 
-        /* MENSAGEM DE SUCESSO */
         #msg-sucesso {
             display: none;
             background: var(--success);
             color: #000;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             font-weight: 800;
-            margin-bottom: 20px;
-            animation: slideDown 0.4s ease;
+            margin-bottom: 15px;
         }
 
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* GRID PARA PC */
-        @media (min-width: 768px) {
-            .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            .full-width { grid-column: span 2; }
-            .status-picker { grid-column: span 2; }
-        }
-
-        .table-container { overflow-x: auto; margin-top: 25px; border-top: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.85rem; }
+        /* TABELA DE GESTÃO COM EXCLUIR */
+        .table-container { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 10px 4px; border-bottom: 1px solid #222; font-size: 0.75rem; vertical-align: middle; }
+        .btn-del { background: none; border: none; color: var(--danger); font-size: 18px; cursor: pointer; padding: 5px; }
 
         .hidden { display: none; }
     </style>
@@ -145,56 +150,45 @@
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <h2>CONSULTA RÁPIDA</h2>
-        <input type="text" id="login-placa" placeholder="PLACA (EX: ABC1234)" maxlength="7" style="text-transform: uppercase; text-align: center; font-weight: 900; font-size: 1.5rem !important;">
-        <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
+        <h2>CENTRAL DO CLIENTE</h2>
+        <input type="text" id="login-placa" placeholder="PLACA" maxlength="7">
+        <button class="btn-main" onclick="consultarCarro()">Consultar Status</button>
         <div id="resultado-cliente" class="hidden"></div>
-        <center><button onclick="irPara('view-login')" style="background:none; border:none; color:#444; margin-top:20px; font-size:10px; cursor:pointer">ADMINISTRAÇÃO</button></center>
+        <center><button onclick="irPara('view-login')" style="background:none; border:none; color:#444; margin-top:25px; font-size:10px; cursor:pointer;">PAINEL MECÂNICO</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>ACESSO RESTRITO</h2>
+        <h2>ACESSO TÉCNICO</h2>
         <input type="password" id="pass-admin" placeholder="SENHA" style="text-align:center">
         <button class="btn-main" onclick="logar()">Entrar</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:#444; margin-top:15px; cursor:pointer">Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <div id="msg-sucesso">✅ VEÍCULO ATUALIZADO COM SUCESSO!</div>
+        <div id="msg-sucesso">✅ REGISTRO SALVO COM SEGURANÇA!</div>
         <h2>GESTÃO DE PÁTIO</h2>
         
-        <div class="form-grid">
-            <div>
-                <label style="font-size:10px; color:var(--text-dim)">PLACA</label>
-                <input type="text" id="m-placa" maxlength="7" style="text-transform:uppercase">
-            </div>
-            <div>
-                <label style="font-size:10px; color:var(--text-dim)">MODELO</label>
-                <input type="text" id="m-modelo" placeholder="Ex: Corolla Preto">
-            </div>
-        </div>
+        <input type="text" id="m-placa" placeholder="PLACA" maxlength="7" style="text-transform:uppercase; text-align:center; font-weight:800;">
+        <input type="text" id="m-modelo" placeholder="MODELO DO VEÍCULO">
+        
+        <input type="text" id="m-preco" placeholder="VALOR DO SERVIÇO (R$)" oninput="this.value = this.value.replace(/[^0-9,.]/g, '')">
 
-        <label style="font-size:10px; color:var(--text-dim)">SELECIONE O STATUS</label>
-        <div class="status-picker" id="status-group">
+        <div class="status-picker">
             <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
             <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Trabalhando</div>
             <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Pronto</div>
         </div>
 
-        <div class="full-width">
-            <label style="font-size:10px; color:var(--text-dim)">FOTO</label>
-            <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
-        </div>
-
-        <textarea id="m-obs" rows="3" placeholder="Relatório técnico..."></textarea>
+        <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()" style="font-size:12px !important">
+        <textarea id="m-obs" rows="2" placeholder="O que está sendo feito?"></textarea>
         
-        <button class="btn-main" onclick="salvar()">Salvar no Sistema</button>
+        <button class="btn-main" onclick="salvar()">Salvar Cadastro</button>
 
         <div class="table-container">
             <table id="corpo-tabela"></table>
         </div>
         
-        <center><button onclick="location.reload()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer">Sair do Painel</button></center>
+        <center><button onclick="location.reload()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer">Encerrar Sessão</button></center>
     </section>
 </div>
 
@@ -202,6 +196,9 @@
     const CHAVE = "1234";
     let fotoBase64 = "";
     let statusSelecionado = "Aguardando";
+
+    // Carrega os dados salvos imediatamente ao abrir
+    let bancoDados = JSON.parse(localStorage.getItem('oficina_v13')) || {};
 
     function irPara(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
@@ -212,7 +209,7 @@
 
     function logar() {
         if(document.getElementById('pass-admin').value === CHAVE) irPara('view-painel');
-        else alert("Senha Incorreta");
+        else alert("Senha incorreta!");
     }
 
     function setStatus(el) {
@@ -231,54 +228,78 @@
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('m-modelo').value.trim();
+        const preco = document.getElementById('m-preco').value.trim();
         const obs = document.getElementById('m-obs').value;
-        if(!placa || !modelo) return alert("Preencha Placa e Modelo");
+        
+        if(!placa || !modelo) return alert("Placa e Modelo são obrigatórios!");
 
-        let db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
-        db[placa] = { modelo, status: statusSelecionado, obs, foto: fotoBase64, data: new Date().toLocaleString('pt-BR') };
-        localStorage.setItem('oficina_v11', JSON.stringify(db));
+        // Grava no objeto e sincroniza com o banco local (Segurança)
+        bancoDados[placa] = { 
+            modelo, 
+            status: statusSelecionado, 
+            preco: preco || "0,00",
+            obs, 
+            foto: fotoBase64 || (bancoDados[placa] ? bancoDados[placa].foto : ""), 
+            data: new Date().toLocaleString('pt-BR') 
+        };
+        
+        localStorage.setItem('oficina_v13', JSON.stringify(bancoDados));
 
-        // Feedback de Sucesso
         const msg = document.getElementById('msg-sucesso');
         msg.style.display = 'block';
         setTimeout(() => { msg.style.display = 'none'; }, 3000);
 
         desenharTabela();
-        // Limpar campos
         document.getElementById('m-placa').value = "";
         document.getElementById('m-modelo').value = "";
+        document.getElementById('m-preco').value = "";
         document.getElementById('m-obs').value = "";
+        fotoBase64 = "";
     }
 
     function desenharTabela() {
-        const db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
-        Object.keys(db).reverse().forEach(p => {
-            corpo.innerHTML += `<tr><td><b>${p}</b><br>${db[p].modelo}</td><td style="text-align:right">${db[p].status}</td></tr>`;
+        Object.keys(bancoDados).reverse().forEach(p => {
+            corpo.innerHTML += `
+                <tr>
+                    <td><b>${p}</b><br>${bancoDados[p].modelo}<br><span style="color:var(--success)">R$ ${bancoDados[p].preco}</span></td>
+                    <td style="text-align:center"><b>${bancoDados[p].status}</b></td>
+                    <td style="text-align:right">
+                        <button class="btn-del" onclick="excluir('${p}')">🗑️</button>
+                    </td>
+                </tr>`;
         });
+    }
+
+    function excluir(placa) {
+        if(confirm(`Deseja remover o veículo ${placa}?`)) {
+            delete bancoDados[placa];
+            localStorage.setItem('oficina_v13', JSON.stringify(bancoDados));
+            desenharTabela();
+        }
     }
 
     function consultarCarro() {
         const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const db = JSON.parse(localStorage.getItem('oficina_v11')) || {};
         const res = document.getElementById('resultado-cliente');
         
-        if(db[placa]) {
-            const p = db[placa];
+        if(bancoDados[placa]) {
+            const p = bancoDados[placa];
             const cor = p.status === "Pronto" ? "#00e676" : (p.status === "Trabalhando" ? "#ffd600" : "#a0a0a0");
             res.innerHTML = `
-                <div style="background:#111; border-radius:15px; padding:20px; margin-top:20px; border:1px solid #333">
-                    <h3 style="color:var(--primary); margin:0 0 10px 0">${p.modelo}</h3>
+                <div style="background:#111; border-radius:15px; padding:20px; margin-top:20px; border:1px solid #333;">
+                    <h3 style="color:var(--primary); margin-bottom:5px">${p.modelo}</h3>
+                    <p style="color:var(--success); font-weight:bold; margin-bottom:10px">Valor do Serviço: R$ ${p.preco}</p>
                     <div style="display:inline-block; padding:5px 15px; border-radius:20px; background:${cor}; color:#000; font-weight:bold; font-size:12px; margin-bottom:15px">${p.status.toUpperCase()}</div>
-                    ${p.foto ? `<img src="${p.foto}" style="width:100%; border-radius:10px; margin-bottom:15px">` : ''}
+                    ${p.foto ? `<img src="${p.foto}" style="width:100%; border-radius:10px; margin-bottom:15px; display:block">` : ''}
                     <p style="color:#eee; font-size:14px; line-height:1.5">${p.obs}</p>
-                    <hr style="border:0; border-top:1px solid #222">
-                    <small style="color:#555">Última atualização: ${p.data}</small>
+                    <hr style="border:0; border-top:1px solid #222; margin:15px 0">
+                    <small style="color:#555">Atualizado em: ${p.data}</small>
                 </div>
             `;
             res.classList.remove('hidden');
-        } else { alert("Placa não encontrada."); }
+        } else { alert("Placa não encontrada!"); }
     }
 </script>
 </body>
