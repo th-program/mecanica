@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Mecânica High-Tech | Professional Suite</title>
+    <title>Mecânica Lima Car | Sistema Pro</title>
     <style>
         :root {
-            --bg: #0a0a0b;
-            --card-bg: #161618;
-            --primary: #ff6b00;
-            --primary-glow: rgba(255, 107, 0, 0.2);
+            --bg: #001233; /* Azul Marinho Profundo */
+            --card-bg: #001e50; /* Azul Marinho Cartão */
+            --primary: #FFD700; /* Dourado da Logo para contrastes e botões */
             --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --border: #2d2d2d;
+            --text-dim: #b0c4de;
+            --border: #1a3a6d;
             --success: #00e676;
-            --warning: #ffd600;
-            --danger: #ff4444;
-            --info: #0091ff;
+            --warning: #ffea00;
+            --danger: #ff4d4d;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
             display: flex;
@@ -37,26 +35,36 @@
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 35px 25px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            border-radius: 28px;
+            padding: 30px 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             width: 100%;
+        }
+
+        /* Logo Estilizada */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .logo-img {
+            width: 220px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         h2 {
             color: var(--primary);
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
             font-size: 1.1rem;
         }
 
         label {
             display: block;
             font-size: 10px;
-            color: var(--text-dim);
-            margin-bottom: 8px;
+            color: var(--primary);
+            margin-bottom: 6px;
             text-transform: uppercase;
             font-weight: 700;
         }
@@ -64,13 +72,12 @@
         input, textarea {
             width: 100%;
             padding: 14px;
-            background: #1e1e21;
+            background: #002a70;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             font-size: 15px !important;
             margin-bottom: 15px;
-            transition: border-color 0.3s;
         }
 
         input:focus { border-color: var(--primary); outline: none; }
@@ -80,34 +87,7 @@
             font-weight: 900;
             text-align: center;
             letter-spacing: 4px;
-            text-transform: uppercase;
-            border: 2px solid var(--border);
-        }
-
-        /* Categorias/Filtros no Painel */
-        .categorias-vagas {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-        .cat-btn {
-            padding: 10px 15px;
-            border-radius: 12px;
-            background: #222;
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            white-space: nowrap;
-            text-transform: uppercase;
-        }
-        .cat-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .status-picker {
@@ -117,7 +97,7 @@
             margin-bottom: 20px;
         }
         .status-option {
-            background: #222;
+            background: #002a70;
             border: 1px solid var(--border);
             padding: 10px 2px;
             border-radius: 10px;
@@ -126,23 +106,34 @@
             font-weight: 800;
             cursor: pointer;
             color: var(--text-dim);
-            text-transform: uppercase;
         }
-        .status-option.active[data-status="Aguardando"] { background: #333; color: #fff; border-color: #fff; }
-        .status-option.active[data-status="Trabalhando"] { background: rgba(255, 214, 0, 0.15); color: var(--warning); border-color: var(--warning); }
-        .status-option.active[data-status="Pronto"] { background: rgba(0, 230, 118, 0.15); color: var(--success); border-color: var(--success); }
+        .status-option.active { border-color: var(--primary); color: var(--primary); background: rgba(255, 215, 0, 0.1); }
 
         .btn-main {
             background: var(--primary);
-            color: #fff;
+            color: #001233;
             width: 100%;
             padding: 18px;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-main:hover { opacity: 0.9; }
+
+        .btn-whats {
+            background: #25D366;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
         }
 
         .foto-preview-container {
@@ -155,71 +146,73 @@
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-        }
-
-        #modal-imagem {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-        #modal-imagem img {
-            max-width: 100%;
-            max-height: 90vh;
             border-radius: 8px;
-            object-fit: contain;
+            border: 1px solid var(--border);
         }
 
-        .table-container { margin-top: 20px; border-top: 1px solid var(--border); }
+        .cat-btn {
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #002a70;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 10px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .cat-btn.active { background: var(--primary); color: #001233; }
+
+        .table-container { margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px 5px; border-bottom: 1px solid #222; font-size: 12px; }
-        
-        .btn-del { background: #ff444422; border: 1px solid #ff444444; color: #ff4444; padding: 6px; border-radius: 6px; cursor: pointer; }
-        .btn-edit { background: #0091ff22; border: 1px solid #0091ff44; color: #0091ff; padding: 6px; border-radius: 6px; cursor: pointer; margin-right: 5px;}
+        td { padding: 12px 5px; border-bottom: 1px solid var(--border); font-size: 12px; }
 
         .hidden { display: none; }
+        
+        #modal-imagem {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none;
+            justify-content: center; align-items: center; z-index: 9999;
+        }
     </style>
 </head>
 <body>
 
 <div id="modal-imagem" onclick="this.style.display='none'">
-    <img src="" id="img-ampliada">
+    <img src="" id="img-ampliada" style="max-width: 90%; max-height: 80%; border-radius: 8px;">
 </div>
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <h2>Consultar Veículo</h2>
-        <label>Número da Placa</label>
-        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" oninput="this.value = this.value.toUpperCase()">
-        <button class="btn-main" onclick="consultarCarro()">Rastrear Agora</button>
+        <div class="logo-container">
+            <img src="https://i.imgur.com/vHq0A6v.jpeg" alt="Mecânica Lima Car" class="logo-img">
+        </div>
+        <h2>Acompanhe seu Veículo</h2>
+        <label>Informe sua Placa</label>
+        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1234" oninput="this.value = this.value.toUpperCase()">
+        <button class="btn-main" onclick="consultarCarro()">Localizar Agora</button>
         <div id="resultado-cliente"></div>
         <center>
-            <button onclick="irPara('view-login')" style="background:none; border:none; color:#555; margin-top:40px; font-size:10px; cursor:pointer; font-weight:700;">ACESSO TÉCNICO OFICINA</button>
+            <button onclick="irPara('view-login')" style="background:none; border:none; color:var(--text-dim); margin-top:30px; font-size:9px; cursor:pointer; font-weight:700;">ÁREA RESTRITA - LIMA CAR</button>
         </center>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>Acesso Administrativo</h2>
-        <label>Senha de Segurança</label>
-        <input type="password" id="pass-admin" style="text-align:center; font-size:22px !important">
-        <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:#555; margin-top:20px; cursor:pointer">Voltar</button></center>
+        <h2>Acesso Técnico</h2>
+        <input type="password" id="pass-admin" placeholder="Senha" style="text-align:center">
+        <button class="btn-main" onclick="logar()">Entrar</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer">Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
+        <div class="logo-container">
+            <img src="https://i.imgur.com/vHq0A6v.jpeg" alt="Mecânica Lima Car" class="logo-img" style="width: 140px;">
+        </div>
         <h2 id="titulo-painel">Gestão de Pátio</h2>
         
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
             <div>
                 <label>Placa</label>
-                <input type="text" id="m-placa" maxlength="7" style="text-transform:uppercase; font-weight:700" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" id="m-placa" maxlength="7" oninput="this.value = this.value.toUpperCase()">
             </div>
             <div>
                 <label>Valor (R$)</label>
@@ -230,35 +223,31 @@
         <label>Modelo do Carro</label>
         <input type="text" id="m-modelo" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
 
-        <label>Status do Trabalho</label>
+        <label>Status</label>
         <div class="status-picker">
             <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
             <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Em Serviço</div>
             <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Finalizado</div>
         </div>
 
-        <label>Fotos do Veículo</label>
-        <div style="background:#252529; border:2px dashed var(--border); padding:15px; border-radius:16px; text-align:center; cursor:pointer; margin-bottom:15px" onclick="document.getElementById('m-foto').click()">
-            📸 Adicionar Fotos
-            <input type="file" id="m-foto" hidden accept="image/*" multiple onchange="processarFotos(this)">
-        </div>
+        <label>Fotos</label>
+        <button onclick="document.getElementById('m-foto').click()" style="background:#002a70; color:white; border:1px solid var(--border); padding:10px; width:100%; border-radius:10px; margin-bottom:10px; cursor:pointer">📸 Adicionar Fotos</button>
+        <input type="file" id="m-foto" hidden multiple accept="image/*" onchange="processarFotos(this)">
         <div id="preview-fotos" class="foto-preview-container"></div>
 
         <label>Relatório Técnico</label>
         <textarea id="m-obs" rows="3" onblur="corrigirIA(this)"></textarea>
         
-        <button class="btn-main" id="btn-salvar" onclick="salvar()">Salvar no Banco de Dados</button>
-        <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#333; margin-top:10px">Cancelar Edição</button>
-
-        <h2 style="margin-top:30px; font-size: 0.9rem;">Filtrar Pátio por Categoria</h2>
-        <div class="categorias-vagas">
-            <div class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</div>
-            <div class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Aguardando</div>
-            <div class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Em Serviço</div>
-            <div class="cat-btn" onclick="filtrarTabela('Pronto', this)">Finalizados</div>
-        </div>
+        <button class="btn-main" id="btn-salvar" onclick="salvar()">Salvar Veículo</button>
+        <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#444; color:white; margin-top:10px">Cancelar Edição</button>
 
         <div class="table-container">
+            <div style="display:flex; overflow-x:auto; padding-bottom:10px; margin-top:20px">
+                <div class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</div>
+                <div class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Aguardando</div>
+                <div class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Serviço</div>
+                <div class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</div>
+            </div>
             <table id="corpo-tabela"></table>
         </div>
         
@@ -271,16 +260,15 @@
     let fotosArray = [];
     let statusSelecionado = "Aguardando";
     let filtroAtual = "Todos";
-    let bancoDados = JSON.parse(localStorage.getItem('oficina_pro_v14')) || {};
+    let bancoDados = JSON.parse(localStorage.getItem('oficina_lima_car')) || {};
     let editandoPlaca = null;
 
-    // --- IA RULES & FORMATADORES ---
     function corrigirIA(input) {
-        let texto = input.value.trim();
-        if (texto.length > 0) {
-            texto = texto.charAt(0).toUpperCase() + texto.slice(1);
-            if (!/[.!?]$/.test(texto)) texto += ".";
-            input.value = texto;
+        let t = input.value.trim();
+        if (t) {
+            t = t.charAt(0).toUpperCase() + t.slice(1);
+            if (!/[.!?]$/.test(t)) t += ".";
+            input.value = t;
         }
     }
 
@@ -291,15 +279,6 @@
         i.value = v;
     }
 
-    // --- TECLADO ---
-    window.addEventListener('keydown', (e) => {
-        if(e.key === "Enter") {
-            if(!document.getElementById('view-cliente').classList.contains('hidden')) consultarCarro();
-            else if(!document.getElementById('view-login').classList.contains('hidden')) logar();
-        }
-        if(e.key === "Escape") document.getElementById('modal-imagem').style.display = 'none';
-    });
-
     function irPara(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
@@ -307,9 +286,8 @@
     }
 
     function logar() {
-        const senha = document.getElementById('pass-admin').value;
-        if(senha === CHAVE_MESTRA) irPara('view-painel');
-        else alert("⚠️ Senha incorreta!");
+        if(document.getElementById('pass-admin').value === CHAVE_MESTRA) irPara('view-painel');
+        else alert("Senha inválida!");
     }
 
     function setStatus(el) {
@@ -327,30 +305,12 @@
     }
 
     function renderPreview() {
-        const container = document.getElementById('preview-fotos');
-        container.innerHTML = fotosArray.map((img, index) => `
+        document.getElementById('preview-fotos').innerHTML = fotosArray.map((img, i) => `
             <div style="position:relative">
-                <img src="${img}" class="foto-thumb" onclick="abrirZoom('${img}')">
-                <div onclick="removerFoto(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border-radius:50%; width:20px; height:20px; text-align:center; cursor:pointer; font-size:12px">×</div>
+                <img src="${img}" class="foto-thumb">
+                <div onclick="fotosArray.splice(${i},1);renderPreview()" style="position:absolute;top:0;right:0;background:red;color:white;width:18px;height:18px;border-radius:50%;text-align:center;cursor:pointer;font-size:12px">×</div>
             </div>
         `).join('');
-    }
-
-    function removerFoto(index) {
-        fotosArray.splice(index, 1);
-        renderPreview();
-    }
-
-    function abrirZoom(src) {
-        document.getElementById('img-ampliada').src = src;
-        document.getElementById('modal-imagem').style.display = 'flex';
-    }
-
-    function filtrarTabela(status, el) {
-        filtroAtual = status;
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        desenharTabela();
     }
 
     function salvar() {
@@ -359,128 +319,104 @@
         const preco = document.getElementById('m-preco').value.trim();
         const obs = document.getElementById('m-obs').value.trim();
 
-        // Validação Total
-        if(!placa) return alert("⚠️ Falta a PLACA!");
-        if(!modelo) return alert("⚠️ Falta o MODELO!");
-        if(!preco) return alert("⚠️ Falta o VALOR!");
-        if(!obs) return alert("⚠️ Falta o RELATÓRIO!");
-        if(fotosArray.length === 0) return alert("⚠️ Adicione ao menos uma foto!");
+        // VALIDAÇÃO TOTAL PERSONALIZADA
+        if(!placa) return alert("LIMA CAR INFORMA: O campo PLACA não pode ficar vazio.");
+        if(placa.length < 7) return alert("LIMA CAR INFORMA: Placa inválida. Digite os 7 caracteres.");
+        if(!modelo) return alert("LIMA CAR INFORMA: Por favor, descreva o MODELO do veículo.");
+        if(!preco || preco === "0,00") return alert("LIMA CAR INFORMA: Defina um VALOR para o serviço (ou use 0,00 para orçamento).");
+        if(!obs) return alert("LIMA CAR INFORMA: O RELATÓRIO TÉCNICO é obrigatório para o cliente.");
+        if(fotosArray.length === 0) return alert("LIMA CAR INFORMA: Adicione ao menos uma FOTO do veículo.");
 
-        if(!editandoPlaca && bancoDados[placa]) return alert("❌ Já existe um cadastro com esta placa!");
+        if(!editandoPlaca && bancoDados[placa]) return alert("LIMA CAR INFORMA: Esta placa já possui um cadastro ativo.");
 
-        const statusAnterior = editandoPlaca ? bancoDados[editandoPlaca].status : null;
-
-        bancoDados[placa] = {
-            modelo: modelo,
-            status: statusSelecionado,
-            preco: preco,
-            obs: obs,
-            fotos: fotosArray,
-            data: new Date().toLocaleString('pt-BR')
-        };
-
-        if (statusAnterior !== statusSelecionado) avisarWhatsApp(placa, statusSelecionado);
-
-        localStorage.setItem('oficina_pro_v14', JSON.stringify(bancoDados));
-        alert("✅ Salvo!");
+        bancoDados[placa] = { modelo, status: statusSelecionado, preco, obs, fotos: [...fotosArray], data: new Date().toLocaleString() };
+        localStorage.setItem('oficina_lima_car', JSON.stringify(bancoDados));
+        alert("Veículo salvo com sucesso na Lima Car!");
         limparFormulario();
         desenharTabela();
     }
 
-    function avisarWhatsApp(placa, status) {
-        let msg = "";
-        if(status === "Pronto") msg = `Seu carro (${placa}) está PRONTO!`;
-        if(status === "Trabalhando") msg = `Iniciamos o SERVIÇO no seu carro (${placa}).`;
-        if(msg && confirm("Deseja avisar o cliente no WhatsApp?")) {
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
+    function avisarWhats(placa) {
+        const v = bancoDados[placa];
+        const msg = `Olá! A Mecânica Lima Car informa: Seu veículo (${v.modelo}) de placa ${placa} está com o status: ${v.status.toUpperCase()}.`;
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
+    }
+
+    function excluir(p) {
+        if(confirm(`Lima Car: Deseja realmente excluir permanentemente a placa ${p}?`)) {
+            delete bancoDados[p];
+            localStorage.setItem('oficina_lima_car', JSON.stringify(bancoDados));
+            desenharTabela();
         }
     }
 
     function desenharTabela() {
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
-        const keys = Object.keys(bancoDados).reverse();
-        
-        keys.forEach(p => {
+        Object.keys(bancoDados).reverse().forEach(p => {
             const v = bancoDados[p];
-            if(filtroAtual !== "Todos" && v.status !== filtroAtual) return;
-
-            const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#777");
+            if(filtroAtual !== 'Todos' && v.status !== filtroAtual) return;
             corpo.innerHTML += `
                 <tr>
-                    <td><b>${p}</b><br><span style="color:#666">${v.modelo}</span></td>
-                    <td style="color:${cor}; font-weight:bold; font-size:9px">${v.status.toUpperCase()}</td>
+                    <td><b>${p}</b><br><span style="font-size:10px">${v.modelo}</span></td>
+                    <td style="color:var(--primary)">${v.status}</td>
                     <td style="text-align:right">
-                        <button class="btn-edit" onclick="prepararEdicao('${p}')">Editar</button>
-                        <button class="btn-del" onclick="excluir('${p}')">Excluir</button>
+                        <button class="btn-whats" onclick="avisarWhats('${p}')">Zap</button>
+                        <button style="background:none;border:none;color:white;margin-left:5px" onclick="prepararEdicao('${p}')">✏️</button>
+                        <button style="background:none;border:none;color:red;margin-left:5px" onclick="excluir('${p}')">🗑️</button>
                     </td>
                 </tr>`;
         });
+    }
+
+    function filtrarTabela(s, el) {
+        filtroAtual = s;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        desenharTabela();
     }
 
     function prepararEdicao(p) {
         const v = bancoDados[p];
         editandoPlaca = p;
         document.getElementById('m-placa').value = p;
-        document.getElementById('m-placa').disabled = true;
         document.getElementById('m-modelo').value = v.modelo;
         document.getElementById('m-preco').value = v.preco;
         document.getElementById('m-obs').value = v.obs;
         fotosArray = [...v.fotos];
         renderPreview();
-        document.getElementById('btn-salvar').innerText = "Atualizar";
         document.getElementById('btn-cancelar').classList.remove('hidden');
         window.scrollTo(0,0);
     }
 
     function limparFormulario() {
         editandoPlaca = null;
-        document.getElementById('m-placa').disabled = false;
-        document.getElementById('m-placa').value = "";
-        document.getElementById('m-modelo').value = "";
-        document.getElementById('m-preco').value = "";
-        document.getElementById('m-obs').value = "";
+        ['m-placa','m-modelo','m-preco','m-obs'].forEach(id => document.getElementById(id).value = "");
         fotosArray = [];
         renderPreview();
-        document.getElementById('btn-salvar').innerText = "Salvar no Banco";
         document.getElementById('btn-cancelar').classList.add('hidden');
     }
 
-    function excluir(p) {
-        let resp = prompt(`Tem certeza que deseja EXCLUIR a placa ${p}? Digite SIM para confirmar.`);
-        if(resp && resp.toUpperCase() === "SIM") {
-            delete bancoDados[p];
-            localStorage.setItem('oficina_pro_v14', JSON.stringify(bancoDados));
-            desenharTabela();
-        }
-    }
-
     function consultarCarro() {
-        const placa = document.getElementById('login-placa').value.toUpperCase().trim();
+        const p = document.getElementById('login-placa').value.toUpperCase();
         const res = document.getElementById('resultado-cliente');
-        if(!placa) return alert("⚠️ Digite a placa!");
-
-        if(bancoDados[placa]) {
-            const p = bancoDados[placa];
-            const cor = p.status === "Pronto" ? "var(--success)" : (p.status === "Trabalhando" ? "var(--warning)" : "#a0a0a0");
+        if(!p) return alert("Por favor, digite a placa.");
+        if(bancoDados[p]) {
+            const v = bancoDados[p];
             res.innerHTML = `
-                <div style="background:#111; border-radius:24px; padding:20px; margin-top:25px; border:1px solid #333;">
-                    <h3 style="color:var(--primary); margin-bottom:5px">${p.modelo}</h3>
-                    <div style="margin-bottom:15px">
-                        <div style="display:inline-block; padding:5px 12px; border-radius:50px; background:${cor}; color:#000; font-weight:900; font-size:10px">${p.status.toUpperCase()}</div>
+                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-top:20px; border-left:4px solid var(--primary)">
+                    <img src="https://i.imgur.com/vHq0A6v.jpeg" style="width:80px; margin-bottom:10px">
+                    <h3 style="color:var(--primary)">${v.modelo}</h3>
+                    <p style="font-size:12px">Status: <b style="color:var(--success)">${v.status.toUpperCase()}</b></p>
+                    <div class="foto-preview-container" style="margin-top:10px">
+                        ${v.fotos.map(f => `<img src="${f}" class="foto-thumb" onclick="document.getElementById('img-ampliada').src='${f}';document.getElementById('modal-imagem').style.display='flex'">`).join('')}
                     </div>
-                    <div class="foto-preview-container">
-                        ${p.fotos.map(f => `<img src="${f}" class="foto-thumb" onclick="abrirZoom('${f}')">`).join('')}
-                    </div>
-                    <p style="color:#ccc; font-size:13px; background:#1a1a1d; padding:12px; border-radius:12px; margin-top:10px">${p.obs}</p>
-                    <div style="margin-top:15px">
-                        <label>Valor do Serviço</label>
-                        <p style="color:var(--success); font-weight:800; font-size:18px">R$ ${p.preco}</p>
-                    </div>
-                </div>
-            `;
+                    <p style="margin-top:10px; font-size:14px">${v.obs}</p>
+                    <p style="color:var(--primary); font-weight:bold; margin-top:10px">Valor: R$ ${v.preco}</p>
+                    <small style="color:gray; font-size:10px">Atualizado em: ${v.data}</small>
+                </div>`;
         } else {
-            alert("❌ Placa não encontrada!");
+            alert("Veículo não localizado em nosso pátio.");
         }
     }
 </script>
