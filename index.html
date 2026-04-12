@@ -3,167 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Mecânica High-Tech | Professional Suite</title>
+    <title>Mecânica High-Tech | Master Pro</title>
     <style>
         :root {
             --bg: #0a0a0b;
             --card-bg: #161618;
             --primary: #ff6b00;
-            --primary-glow: rgba(255, 107, 0, 0.2);
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
             --border: #2d2d2d;
             --success: #00e676;
             --warning: #ffd600;
             --danger: #ff4444;
+            --info: #0091ff;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); min-height: 100vh; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 550px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 25px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); margin-bottom: 20px; }
+        
+        h2 { color: var(--primary); text-align: center; text-transform: uppercase; margin-bottom: 20px; font-size: 1.1rem; letter-spacing: 2px; }
+        label { display: block; font-size: 10px; color: var(--text-dim); margin-bottom: 6px; text-transform: uppercase; font-weight: bold; }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 35px 25px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
-            width: 100%;
-        }
-
-        h2 {
-            color: var(--primary);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
-            font-size: 1.4rem;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-dim);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        /* Inputs Estilizados */
         input, textarea {
-            width: 100%;
-            padding: 16px;
-            background: #1e1e21;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            color: #fff;
-            font-size: 16px !important;
-            margin-bottom: 20px;
-            transition: border-color 0.3s;
+            width: 100%; padding: 14px; background: #1e1e21; border: 1px solid var(--border);
+            border-radius: 12px; color: #fff; font-size: 15px; margin-bottom: 15px;
         }
-
         input:focus { border-color: var(--primary); outline: none; }
-
-        /* Placa Gigante e Centralizada */
-        .input-placa-grande {
-            font-size: 32px !important;
-            font-weight: 900;
-            text-align: center;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            border: 2px solid var(--border);
-        }
-
-        /* Botão de Upload Customizado */
-        .file-upload-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .file-upload-btn {
-            background: #252529;
-            border: 2px dashed var(--border);
-            padding: 15px;
-            border-radius: 16px;
-            text-align: center;
-            color: var(--text-dim);
-            cursor: pointer;
-            display: block;
-            font-weight: 600;
-        }
-        .file-upload-btn:hover { border-color: var(--primary); color: #fff; }
-        #m-foto { display: none; }
+        .input-placa { font-size: 24px !important; font-weight: 900; text-align: center; letter-spacing: 3px; text-transform: uppercase; border: 2px solid var(--border); }
 
         /* Status Picker */
-        .status-picker {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+        .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .status-btn {
+            background: #222; border: 1px solid var(--border); padding: 10px 2px; border-radius: 10px;
+            text-align: center; font-size: 9px; font-weight: 800; cursor: pointer; color: var(--text-dim); text-transform: uppercase;
         }
-        .status-option {
-            background: #222;
-            border: 1px solid var(--border);
-            padding: 12px 5px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-        .status-option.active[data-status="Aguardando"] { background: #333; color: #fff; border-color: #fff; }
-        .status-option.active[data-status="Trabalhando"] { background: rgba(255, 214, 0, 0.15); color: var(--warning); border-color: var(--warning); }
-        .status-option.active[data-status="Pronto"] { background: rgba(0, 230, 118, 0.15); color: var(--success); border-color: var(--success); }
+        .status-btn.active[data-s="Aguardando"] { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
+        .status-btn.active[data-s="Trabalhando"] { border-color: var(--warning); color: var(--warning); background: rgba(255,214,0,0.1); }
+        .status-btn.active[data-s="Pronto"] { border-color: var(--success); color: var(--success); background: rgba(0,230,118,0.1); }
 
-        .btn-main {
-            background: var(--primary);
-            color: #fff;
-            width: 100%;
-            padding: 20px;
-            border: none;
-            border-radius: 18px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            font-size: 16px;
-        }
-
+        .btn-main { background: var(--primary); color: #fff; width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; }
         .btn-main:active { transform: scale(0.98); }
 
-        /* Tabela de Gestão */
-        .table-container { margin-top: 30px; border-top: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 15px 5px; border-bottom: 1px solid #222; font-size: 13px; }
-        .btn-del { background: #ff444422; border: 1px solid #ff444444; color: #ff4444; padding: 8px; border-radius: 8px; cursor: pointer; }
+        /* Galeria e Fotos */
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1/1; }
+        .photo-card { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; }
+        .btn-del-photo { position: absolute; top: 4px; right: 4px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold; border: 2px solid var(--card-bg); z-index: 5; }
 
+        /* Filtros e Lista */
+        .filter-bar { display: flex; gap: 6px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-chip { padding: 8px 14px; border-radius: 20px; background: #222; font-size: 9px; font-weight: bold; cursor: pointer; border: 1px solid var(--border); white-space: nowrap; color: var(--text-dim); }
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .entry { background: #1e1e21; border-radius: 16px; padding: 15px; margin-bottom: 10px; border-left: 4px solid #444; animation: slideIn 0.3s ease; }
+        .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .entry-actions { display: flex; gap: 8px; }
+        .btn-action { padding: 10px; border-radius: 8px; border: none; font-size: 9px; font-weight: 800; cursor: pointer; flex: 1; text-transform: uppercase; }
+
+        /* Modal Lightbox */
+        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.5); object-fit: contain; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
         .hidden { display: none; }
-
-        /* Feedback Styles */
-        .msg-alert {
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        .msg-success { background: var(--success); color: #000; }
-        .msg-error { background: var(--danger); color: #fff; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .msg-box { padding: 12px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -171,237 +76,252 @@
 <div class="container">
     <section id="view-cliente" class="card">
         <h2>Consultar Veículo</h2>
-        <div id="feedback-cliente"></div>
-        
-        <label>Número da Placa</label>
-        <input type="text" id="login-placa" class="input-placa-grande" placeholder="ABC1234" maxlength="7">
-        
-        <button class="btn-main" onclick="consultarCarro()">Rastrear Agora</button>
-        
-        <div id="resultado-cliente" class="hidden"></div>
-        
-        <center>
-            <button onclick="irPara('view-login')" style="background:none; border:none; color:#555; margin-top:40px; font-size:11px; cursor:pointer; font-weight:700; letter-spacing:1px">ACESSO TÉCNICO OFICINA</button>
-        </center>
+        <div id="cli-feedback"></div>
+        <label>Placa do Veículo</label>
+        <input type="text" id="cli-input-placa" class="input-placa" maxlength="7">
+        <button class="btn-main" onclick="consultar()">Localizar Agora</button>
+        <div id="cli-resultado"></div>
+        <center><button onclick="irPara('view-login')" style="background:none; border:none; color:#444; margin-top:30px; font-size:9px; cursor:pointer; font-weight:bold">RESTRITO</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>Acesso Administrativo</h2>
-        <div id="feedback-login"></div>
-        
-        <label>Senha de Segurança</label>
-        <input type="password" id="pass-admin" placeholder="••••••••" style="text-align:center; font-size:24px !important">
-        
-        <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
-        
-        <center>
-            <button onclick="irPara('view-cliente')" style="background:none; border:none; color:#555; margin-top:20px; cursor:pointer">Voltar para Consulta</button>
-        </center>
+        <h2>Acesso Técnico</h2>
+        <input type="password" id="pass-admin" placeholder="Senha" style="text-align:center">
+        <button class="btn-main" onclick="logar()">Entrar</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:#444; margin-top:15px; cursor:pointer">Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <h2>Gestão de Pátio</h2>
-        <div id="feedback-painel"></div>
+        <h2 id="painel-titulo">Gestão de Pátio</h2>
         
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-            <div>
-                <label>Placa</label>
-                <input type="text" id="m-placa" maxlength="7" placeholder="ABC1234" style="text-transform:uppercase; font-weight:700">
-            </div>
-            <div>
-                <label>Valor (R$)</label>
-                <input type="text" id="m-preco" placeholder="0,00">
-            </div>
+            <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" style="font-weight:bold; text-align:center"></div>
+            <div><label>Valor (R$)</label><input type="text" id="m-valor" oninput="maskMoney(this)"></div>
         </div>
 
-        <label>Modelo do Carro</label>
-        <input type="text" id="m-modelo" placeholder="Ex: Honda Civic G10">
-
-        <label>Status do Trabalho</label>
+        <label>Modelo</label><input type="text" id="m-modelo">
+        
+        <label>Status</label>
         <div class="status-picker">
-            <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
-            <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Em Serviço</div>
-            <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Finalizado</div>
+            <div class="status-btn active" data-s="Aguardando" onclick="setStatus(this)">Aguardando</div>
+            <div class="status-btn" data-s="Trabalhando" onclick="setStatus(this)">Serviço</div>
+            <div class="status-btn" data-s="Pronto" onclick="setStatus(this)">Pronto</div>
         </div>
 
-        <label>Foto do Estado Atual</label>
-        <div class="file-upload-wrapper">
-            <label for="m-foto" class="file-upload-btn" id="label-foto">📸 Tirar ou Selecionar Foto</label>
-            <input type="file" id="m-foto" accept="image/*" onchange="processarFoto()">
+        <label>Fotos (Adicione várias)</label>
+        <div style="background:#252529; border:2px dashed #333; padding:15px; border-radius:12px; text-align:center; cursor:pointer; margin-bottom:12px" onclick="document.getElementById('f-input').click()">
+            📸 Adicionar Fotos
+            <input type="file" id="f-input" hidden accept="image/*" multiple onchange="handleFiles(this)">
         </div>
+        <div id="previa" class="photo-grid"></div>
 
-        <label>Relatório Técnico para o Cliente</label>
-        <textarea id="m-obs" rows="3" placeholder="Descreva o que foi feito no veículo..."></textarea>
+        <label>Relatório Técnico</label>
+        <textarea id="m-obs" rows="2"></textarea>
         
-        <button class="btn-main" onclick="salvar()">Salvar no Banco de Dados</button>
+        <button class="btn-main" id="btn-save" onclick="salvar()">Salvar Veículo</button>
+        <button class="btn-main hidden" id="btn-cancel" onclick="cancelEdit()" style="background:#333; margin-top:8px">Cancelar Edição</button>
 
-        <div class="table-container">
-            <table id="corpo-tabela"></table>
+        <h2 style="margin-top:30px; font-size:0.9rem">Pátio Atual</h2>
+        <div class="filter-bar">
+            <div class="filter-chip active" onclick="filterPatio('Todos', this)">Todos</div>
+            <div class="filter-chip" onclick="filterPatio('Aguardando', this)">Aguardando</div>
+            <div class="filter-chip" onclick="filterPatio('Trabalhando', this)">Serviço</div>
+            <div class="filter-chip" onclick="filterPatio('Pronto', this)">Prontos</div>
         </div>
-        
-        <center>
-            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); margin-top:30px; font-weight:700; cursor:pointer">ENCERRAR SESSÃO</button>
-        </center>
+        <div id="lista-patio"></div>
     </section>
 </div>
 
+<div id="lightbox" onclick="this.style.display='none'">
+    <img src="" id="lightbox-img">
+</div>
+
 <script>
-    const CHAVE_MESTRA = "1234";
-    let fotoBase64 = "";
-    let statusSelecionado = "Aguardando";
-    let bancoDados = JSON.parse(localStorage.getItem('oficina_pro_v14')) || {};
+    let banco = JSON.parse(localStorage.getItem('oficina_v20')) || {};
+    let fotosTemp = [];
+    let statusAtual = "Aguardando";
+    let placaEditando = null;
 
-    function exibirFeedback(containerId, msg, tipo) {
-        const div = document.getElementById(containerId);
-        div.innerHTML = `<div class="msg-alert msg-${tipo}">${msg}</div>`;
-        setTimeout(() => div.innerHTML = "", 4000);
-    }
-
-    function formatarTexto(texto) {
-        if (!texto) return "";
-        texto = texto.trim();
-        // Primeira letra maiúscula e garante ponto final
-        texto = texto.charAt(0).toUpperCase() + texto.slice(1);
-        if (!texto.endsWith('.') && !texto.endsWith('!') && !texto.endsWith('?')) texto += '.';
-        return texto;
+    // --- UTILITÁRIOS ---
+    function maskMoney(i) {
+        let v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2).replace(".",",");
+        v = v.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        i.value = "R$ " + v;
     }
 
     function irPara(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
-        if(id === 'view-painel') desenharTabela();
-        window.scrollTo(0,0);
+        if(id === 'view-painel') renderPatio();
     }
 
-    function logar() {
-        const senha = document.getElementById('pass-admin').value;
-        if(!senha) return exibirFeedback('feedback-login', "⚠️ Por favor, digite a senha!", 'error');
-        if(senha === CHAVE_MESTRA) irPara('view-painel');
-        else {
-            document.getElementById('pass-admin').value = "";
-            exibirFeedback('feedback-login', "❌ Senha incorreta! Tente novamente.", 'error');
+    // --- TECLAS ---
+    window.addEventListener('keydown', (e) => {
+        if(e.key === "Enter") {
+            if(!document.getElementById('view-cliente').classList.contains('hidden')) consultar();
+            else if(!document.getElementById('view-login').classList.contains('hidden')) logar();
         }
+        if(e.key === "Escape") {
+            document.getElementById('lightbox').style.display = 'none';
+            if(placaEditando) cancelEdit();
+        }
+    });
+
+    // --- LÓGICA MECÂNICO ---
+    function logar() {
+        if(document.getElementById('pass-admin').value === "1234") irPara('view-painel');
+        else alert("Senha Incorreta");
     }
 
     function setStatus(el) {
-        document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active'));
+        document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
         el.classList.add('active');
-        statusSelecionado = el.getAttribute('data-status');
+        statusAtual = el.dataset.s;
     }
 
-    function processarFoto() {
-        const file = document.getElementById('m-foto').files[0];
-        if(file) {
-            document.getElementById('label-foto').innerHTML = "✅ Foto Carregada";
+    function handleFiles(input) {
+        Array.from(input.files).forEach(f => {
             const reader = new FileReader();
-            reader.onloadend = () => { fotoBase64 = reader.result; };
-            reader.readAsDataURL(file);
-        }
+            reader.onload = e => { fotosTemp.push(e.target.result); renderPrevia(); };
+            reader.readAsDataURL(f);
+        });
+    }
+
+    function renderPrevia() {
+        document.getElementById('previa').innerHTML = fotosTemp.map((src, i) => `
+            <div class="photo-wrapper">
+                <button class="btn-del-photo" onclick="fotosTemp.splice(${i},1);renderPrevia()">✕</button>
+                <img src="${src}" class="photo-card" onclick="openZoom('${src}')">
+            </div>
+        `).join('');
+    }
+
+    function openZoom(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
     }
 
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
-        const modelo = document.getElementById('m-modelo').value.trim();
-        const preco = document.getElementById('m-preco').value.trim();
+        const mod = document.getElementById('m-modelo').value.trim();
+        const val = document.getElementById('m-valor').value;
         const obs = document.getElementById('m-obs').value;
 
-        if(!placa) return exibirFeedback('feedback-painel', "⚠️ O campo PLACA é obrigatório!", 'error');
-        if(!modelo) return exibirFeedback('feedback-painel', "⚠️ O campo MODELO é obrigatório!", 'error');
-        if(!obs) return exibirFeedback('feedback-painel', "⚠️ O RELATÓRIO TÉCNICO é obrigatório!", 'error');
+        if(!placa || !mod) return alert("Placa e Modelo obrigatórios!");
+        
+        // Bloqueio de duplicidade se não for edição
+        if(!placaEditando && banco[placa]) return alert("❌ JÁ EXISTE UM CARRO COM ESTA PLACA! Use o botão EDITAR na lista.");
 
-        bancoDados[placa] = {
-            modelo: formatarTexto(modelo),
-            status: statusSelecionado,
-            preco: preco || "Sob consulta",
-            obs: formatarTexto(obs),
-            foto: fotoBase64 || (bancoDados[placa] ? bancoDados[placa].foto : ""),
-            data: new Date().toLocaleString('pt-BR')
+        banco[placa] = {
+            modelo: mod, valor: val, status: statusAtual,
+            obs: obs, fotos: [...fotosTemp],
+            data: new Date().toLocaleString()
         };
-        
-        localStorage.setItem('oficina_pro_v14', JSON.stringify(bancoDados));
-        exibirFeedback('feedback-painel', "✅ Dados salvos com sucesso!", 'success');
-        
-        desenharTabela();
-        // Limpeza
-        document.getElementById('m-placa').value = "";
-        document.getElementById('m-modelo').value = "";
-        document.getElementById('m-preco').value = "";
-        document.getElementById('m-obs').value = "";
-        document.getElementById('label-foto').innerHTML = "📸 Tirar ou Selecionar Foto";
-        fotoBase64 = "";
+
+        localStorage.setItem('oficina_v20', JSON.stringify(banco));
+        renderPatio();
+        alert("✅ Salvo com Sucesso!");
+        cancelEdit();
     }
 
-    function desenharTabela() {
-        const corpo = document.getElementById('corpo-tabela');
-        corpo.innerHTML = "";
-        const keys = Object.keys(bancoDados).reverse();
-        
-        if(keys.length === 0) {
-            corpo.innerHTML = "<tr><td style='text-align:center; color:#555'>Nenhum veículo no pátio</td></tr>";
-            return;
-        }
+    function renderPatio() {
+        const lista = document.getElementById('lista-patio');
+        lista.innerHTML = "";
+        Object.keys(banco).reverse().forEach(p => {
+            const v = banco[p];
+            if(window.currentFilter && window.currentFilter !== 'Todos' && v.status !== window.currentFilter) return;
 
-        keys.forEach(p => {
-            corpo.innerHTML += `
-                <tr>
-                    <td><b>${p}</b><br><span style="font-size:10px">${bancoDados[p].modelo}</span></td>
-                    <td style="text-align:center; font-weight:bold">${bancoDados[p].status}</td>
-                    <td style="text-align:right">
-                        <button class="btn-del" onclick="confirmarExclusao('${p}')">Excluir</button>
-                    </td>
-                </tr>`;
+            const cor = v.status === 'Pronto' ? 'var(--success)' : (v.status === 'Trabalhando' ? 'var(--warning)' : '#555');
+            const item = document.createElement('div');
+            item.className = 'entry';
+            item.style.borderLeftColor = cor;
+            item.innerHTML = `
+                <div class="entry-header">
+                    <b>${p}</b> <span style="font-size:9px; color:${cor}">${v.status.toUpperCase()}</span>
+                </div>
+                <p style="font-size:11px; color:#aaa; margin-bottom:10px">${v.modelo}</p>
+                <div class="entry-actions">
+                    <button class="btn-action" style="background:#25D366; color:#000" onclick="enviarWhats('${p}')">Avisar</button>
+                    <button class="btn-action" style="background:var(--info); color:#fff" onclick="prepararEdicao('${p}')">Editar</button>
+                    <button class="btn-action" style="background:rgba(255,0,0,0.2); color:var(--danger)" onclick="excluir('${p}')">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(item);
         });
     }
 
-    function confirmarExclusao(placa) {
-        if(confirm(`Tem certeza que deseja apagar permanentemente o cadastro da placa ${placa}?\n\nEsta ação não pode ser desfeita.`)) {
-            delete bancoDados[placa];
-            localStorage.setItem('oficina_pro_v14', JSON.stringify(bancoDados));
-            desenharTabela();
-            exibirFeedback('feedback-painel', "🗑️ Cadastro removido.", 'success');
+    function enviarWhats(p) {
+        const v = banco[p];
+        let msg = v.status === 'Pronto' ? 
+            `Olá! O seu veículo ${v.modelo} (Placa ${p}) está PRONTO para retirada! ✅` : 
+            `Olá! O seu veículo ${v.modelo} (Placa ${p}) já está em PROCESSO DE TRABALHO. 🔧`;
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
+    }
+
+    function prepararEdicao(p) {
+        const v = banco[p];
+        placaEditando = p;
+        document.getElementById('m-placa').value = p;
+        document.getElementById('m-placa').disabled = true;
+        document.getElementById('m-modelo').value = v.modelo;
+        document.getElementById('m-valor').value = v.valor;
+        document.getElementById('m-obs').value = v.obs;
+        fotosTemp = [...v.fotos];
+        renderPrevia();
+        document.getElementById('btn-save').innerText = "Atualizar";
+        document.getElementById('btn-cancel').classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function cancelEdit() {
+        placaEditando = null;
+        document.getElementById('m-placa').disabled = false;
+        document.getElementById('btn-save').innerText = "Salvar Veículo";
+        document.getElementById('btn-cancel').classList.add('hidden');
+        ['m-placa','m-modelo','m-valor','m-obs'].forEach(id => document.getElementById(id).value = "");
+        fotosTemp = [];
+        renderPrevia();
+    }
+
+    function filterPatio(s, el) {
+        window.currentFilter = s;
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        renderPatio();
+    }
+
+    function excluir(p) {
+        if(confirm(`Apagar registro da placa ${p}?`)) {
+            delete banco[p];
+            localStorage.setItem('oficina_v20', JSON.stringify(banco));
+            renderPatio();
         }
     }
 
-    function consultarCarro() {
-        const placa = document.getElementById('login-placa').value.toUpperCase().trim();
-        const res = document.getElementById('resultado-cliente');
-        
-        if(!placa) return exibirFeedback('feedback-cliente', "⚠️ Digite uma placa para consultar!", 'error');
-
-        if(bancoDados[placa]) {
-            const p = bancoDados[placa];
-            const cor = p.status === "Pronto" ? "#00e676" : (p.status === "Trabalhando" ? "#ffd600" : "#a0a0a0");
+    // --- LÓGICA CLIENTE ---
+    function consultar() {
+        const p = document.getElementById('cli-input-placa').value.toUpperCase().trim();
+        const res = document.getElementById('cli-resultado');
+        if(banco[p]) {
+            const v = banco[p];
+            const cor = v.status === 'Pronto' ? 'var(--success)' : (v.status === 'Trabalhando' ? 'var(--warning)' : '#888');
             res.innerHTML = `
-                <div style="background:#111; border-radius:24px; padding:25px; margin-top:25px; border:1px solid #333;">
-                    <h3 style="color:var(--primary); margin-bottom:10px; font-size:20px">${p.modelo}</h3>
-                    
-                    <div style="margin-bottom:15px">
-                        <label>Status da Manutenção</label>
-                        <div style="display:inline-block; padding:8px 20px; border-radius:50px; background:${cor}; color:#000; font-weight:900; font-size:12px">${p.status.toUpperCase()}</div>
-                    </div>
-
-                    ${p.foto ? `<img src="${p.foto}" style="width:100%; border-radius:16px; margin-bottom:15px; border:1px solid #222">` : ''}
-                    
-                    <div style="background:#1a1a1d; padding:15px; border-radius:12px; border-left:4px solid var(--primary)">
-                        <label>Parecer Técnico</label>
-                        <p style="color:#fff; font-size:15px; line-height:1.6">${p.obs}</p>
-                    </div>
-
-                    <div style="margin-top:20px">
-                        <label>Investimento do Serviço</label>
-                        <p style="color:var(--success); font-weight:800; font-size:18px">R$ ${p.preco}</p>
-                    </div>
-
-                    <hr style="border:0; border-top:1px solid #222; margin:20px 0">
-                    <small style="color:#555; display:block; text-align:center">Data da atualização: ${p.data}</small>
+                <div style="background:#111; padding:20px; border-radius:20px; border:1px solid #222; margin-top:20px">
+                    <h3 style="color:var(--primary); font-size:18px">${v.modelo}</h3>
+                    <div style="margin:10px 0; display:inline-block; background:${cor}; color:#000; padding:4px 12px; border-radius:50px; font-weight:900; font-size:10px">${v.status.toUpperCase()}</div>
+                    <p style="color:var(--success); font-weight:bold; font-size:16px; margin-bottom:15px">Valor: ${v.valor || 'Sob Consulta'}</p>
+                    <label>Fotos do Veículo</label>
+                    <div class="photo-grid">${v.fotos.map(f => `<img src="${f}" class="photo-card" onclick="openZoom('${f}')">`).join('')}</div>
+                    <label>Parecer Técnico</label>
+                    <p style="font-size:13px; line-height:1.5; color:#ccc">${v.obs || 'Relatório em andamento.'}</p>
                 </div>
             `;
-            res.classList.remove('hidden');
         } else {
-            res.classList.add('hidden');
-            exibirFeedback('feedback-cliente', "🔍 Veículo não encontrado. Verifique a placa e tente novamente.", 'error');
+            alert("❌ Placa não localizada.");
         }
     }
 </script>
+
 </body>
 </html>
