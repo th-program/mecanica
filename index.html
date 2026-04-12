@@ -3,280 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Mecânica Lima Car | Sistema Pro</title>
+    <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
         :root {
-            --bg: #001233; /* Azul Marinho Profundo */
-            --card-bg: #001e50; /* Azul Marinho Cartão */
-            --primary: #FFD700; /* Dourado da Logo para contrastes e botões */
-            --text-main: #ffffff;
-            --text-dim: #b0c4de;
-            --border: #1a3a6d;
-            --success: #00e676;
-            --warning: #ffea00;
-            --danger: #ff4d4d;
+            --bg: #000b1a; --card-bg: #00152b; --primary: #d4af37; 
+            --text-main: #e0e0e0; --text-dim: #7a8ba3; --border: #132a47;
+            --success: #2ecc71; --warning: #f1c40f; --danger: #e74c3c;
+            --input-bg: #001e3d;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg); color: var(--text-main);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 10px; overflow-x: hidden;
         }
 
-        .container { width: 100%; max-width: 550px; }
+        .container { width: 100%; max-width: 450px; }
+
+        section { display: block; animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 30px 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            width: 100%;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 20px; position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        /* Logo Estilizada */
-        .logo-container {
-            text-align: center;
-            margin-bottom: 25px;
+        .logo-box {
+            text-align: center; margin: -20px -20px 15px -20px;
+            background: #000; border-bottom: 2px solid var(--primary);
         }
-        .logo-img {
-            width: 220px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        .logo-img { width: 100%; max-width: 250px; height: auto; display: block; margin: 0 auto; }
+
+        label { display: block; font-size: 9px; color: var(--primary); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; }
+
+        input, textarea, select {
+            width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--border);
+            border-radius: 8px; color: #fff; font-size: 15px !important; margin-bottom: 10px; transition: 0.2s;
         }
 
-        h2 {
-            color: var(--primary);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
+        /* Estilização Customizada do Botão de Arquivo */
+        .btn-upload-custom {
+            display: block; width: 100%; padding: 10px; background: #132a47; 
+            color: var(--primary); border: 1px dashed var(--primary); border-radius: 8px;
+            text-align: center; font-size: 11px; font-weight: 800; cursor: pointer;
+            margin-bottom: 10px; text-transform: uppercase;
         }
+        .btn-upload-custom:active { background: var(--primary); color: #000; }
+        #m-fotos-input { display: none; } /* Esconde o input feio original */
 
-        label {
-            display: block;
-            font-size: 10px;
-            color: var(--primary);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 14px;
-            background: #002a70;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px !important;
-            margin-bottom: 15px;
-        }
-
-        input:focus { border-color: var(--primary); outline: none; }
-
-        .input-placa-grande {
-            font-size: 26px !important;
-            font-weight: 900;
-            text-align: center;
-            letter-spacing: 4px;
-            color: var(--primary);
-        }
-
-        .status-picker {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .status-option {
-            background: #002a70;
-            border: 1px solid var(--border);
-            padding: 10px 2px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 9px;
-            font-weight: 800;
-            cursor: pointer;
-            color: var(--text-dim);
-        }
-        .status-option.active { border-color: var(--primary); color: var(--primary); background: rgba(255, 215, 0, 0.1); }
+        .input-placa-grande { font-size: 28px !important; font-weight: 900; text-align: center; letter-spacing: 2px; color: var(--primary); }
 
         .btn-main {
-            background: var(--primary);
-            color: #001233;
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .btn-main:hover { opacity: 0.9; }
-
-        .btn-whats {
-            background: #25D366;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: none;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
+            background: var(--primary); color: #000; width: 100%; padding: 14px;
+            border: none; border-radius: 10px; font-weight: 800; text-transform: uppercase;
+            cursor: pointer; font-size: 13px;
         }
 
-        .foto-preview-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .foto-thumb {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+        .btn-zap {
+            background: #25d366; color: white; text-decoration: none; display: flex;
+            align-items: center; justify-content: center; gap: 8px; margin-top: 10px;
+            padding: 12px; border-radius: 10px; font-weight: 800; font-size: 12px;
         }
 
-        .cat-btn {
-            padding: 8px 12px;
-            border-radius: 10px;
-            background: #002a70;
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 10px;
-            cursor: pointer;
-            margin-right: 5px;
+        .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+        .status-option {
+            background: #001e3d; border: 1px solid var(--border); padding: 8px 2px;
+            border-radius: 6px; text-align: center; font-size: 8px; font-weight: 800;
+            cursor: pointer; color: var(--text-dim); text-transform: uppercase;
         }
-        .cat-btn.active { background: var(--primary); color: #001233; }
+        .status-option.active[data-status="Aguardando"] { border-color: #fff; color: #fff; }
+        .status-option.active[data-status="Trabalhando"] { border-color: var(--warning); color: var(--warning); }
+        .status-option.active[data-status="Pronto"] { border-color: var(--success); color: var(--success); }
 
-        .table-container { margin-top: 20px; }
+        .categorias-filtro { display: flex; gap: 5px; margin-bottom: 10px; }
+        .cat-btn { 
+            flex: 1; padding: 6px; font-size: 8px; font-weight: bold; border-radius: 4px; 
+            border: 1px solid var(--border); background: var(--input-bg); color: var(--text-dim); cursor: pointer;
+        }
+        .cat-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        .img-preview-container { display: flex; gap: 5px; overflow-x: auto; margin-bottom: 10px; }
+        .img-preview-container img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid var(--primary); }
+
+        #img-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); display: none; z-index: 20000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        #img-modal img { max-width: 100%; max-height: 90%; border-radius: 8px; }
+
+        .table-container { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; max-height: 250px; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px 5px; border-bottom: 1px solid var(--border); font-size: 12px; }
+        td { padding: 10px 4px; border-bottom: 1px solid rgba(19,42,71,0.5); font-size: 11px; }
 
         .hidden { display: none; }
-        
-        #modal-imagem {
+        #custom-alert {
+            position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 30000;
+            padding: 12px 20px; border-radius: 8px; background: var(--danger); color: white;
+            font-size: 13px; font-weight: 700; display: none; text-align: center; width: 90%;
+        }
+
+        .confirm-box {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); display: none;
-            justify-content: center; align-items: center; z-index: 9999;
+            background: rgba(0,0,0,0.9); display: none; justify-content: center;
+            align-items: center; z-index: 10001; backdrop-filter: blur(5px);
         }
     </style>
 </head>
 <body>
 
-<div id="modal-imagem" onclick="this.style.display='none'">
-    <img src="" id="img-ampliada" style="max-width: 90%; max-height: 80%; border-radius: 8px;">
+<div id="custom-alert"></div>
+<div id="img-modal" onclick="this.style.display='none'"><img id="modal-view" src=""></div>
+
+<div id="confirm-box" class="confirm-box">
+    <div class="card" style="max-width: 300px; text-align: center;">
+        <h3 style="color:var(--danger); margin-bottom: 10px;">EXCLUIR VEÍCULO?</h3>
+        <button class="btn-main" id="btn-confirm-sim" style="background: var(--danger); margin-bottom: 8px; color: #fff;">SIM, EXCLUIR</button>
+        <button class="btn-main" onclick="fecharConfirm()" style="background: #333; color: #fff;">NÃO</button>
+    </div>
 </div>
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <div class="logo-container">
-            <img src="https://i.imgur.com/vHq0A6v.jpeg" alt="Mecânica Lima Car" class="logo-img">
-        </div>
-        <h2>Acompanhe seu Veículo</h2>
-        <label>Informe sua Placa</label>
-        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1234" oninput="this.value = this.value.toUpperCase()">
-        <button class="btn-main" onclick="consultarCarro()">Localizar Agora</button>
+        <div class="logo-box"><img src="logo.jpg" class="logo-img" onerror="this.style.display='none'"></div>
+        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="PLACA" onkeydown="if(event.key==='Enter') consultarCarro()">
+        <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
         <div id="resultado-cliente"></div>
-        <center>
-            <button onclick="irPara('view-login')" style="background:none; border:none; color:var(--text-dim); margin-top:30px; font-size:9px; cursor:pointer; font-weight:700;">ÁREA RESTRITA - LIMA CAR</button>
-        </center>
+        <a href="https://wa.me/5511999999999" class="btn-zap">WHATSAPP MECÂNICA</a>
+        <center><button onclick="irPara('view-login')" style="background:none; border:none; color:var(--text-dim); margin-top:20px; font-size:9px; font-weight:700;">ADMINISTRAÇÃO</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
-        <h2>Acesso Técnico</h2>
-        <input type="password" id="pass-admin" placeholder="Senha" style="text-align:center">
-        <button class="btn-main" onclick="logar()">Entrar</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer">Voltar</button></center>
+        <input type="password" id="pass-admin" placeholder="SENHA" onkeydown="if(event.key==='Enter') logar()">
+        <button class="btn-main" onclick="logar()">Acessar</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:15px;">Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <div class="logo-container">
-            <img src="https://i.imgur.com/vHq0A6v.jpeg" alt="Mecânica Lima Car" class="logo-img" style="width: 140px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <h2 style="font-size:12px">Painel Mecânico</h2>
+            <button onclick="location.reload()" style="color:var(--danger); background:none; border:none; font-weight:bold;">SAIR</button>
         </div>
-        <h2 id="titulo-painel">Gestão de Pátio</h2>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px">
+            <div><label>Placa</label><input type="text" id="m-placa" maxlength="7"></div>
+            <div><label>Valor (R$)</label><input type="text" id="m-preco" oninput="mascaraMoeda(this)"></div>
+        </div>
+
+        <label>Modelo</label><input type="text" id="m-modelo">
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-            <div>
-                <label>Placa</label>
-                <input type="text" id="m-placa" maxlength="7" oninput="this.value = this.value.toUpperCase()">
-            </div>
-            <div>
-                <label>Valor (R$)</label>
-                <input type="text" id="m-preco" oninput="mascaraMoeda(this)">
-            </div>
-        </div>
-
-        <label>Modelo do Carro</label>
-        <input type="text" id="m-modelo" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
-
-        <label>Status</label>
+        <label>Fotos do Dispositivo</label>
+        <label for="m-fotos-input" class="btn-upload-custom">📸 Adicionar Fotos</label>
+        <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()">
+        <div id="preview-area" class="img-preview-container"></div>
+        
         <div class="status-picker">
             <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
-            <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Em Serviço</div>
-            <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Finalizado</div>
+            <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Serviço</div>
+            <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Pronto</div>
         </div>
-
-        <label>Fotos</label>
-        <button onclick="document.getElementById('m-foto').click()" style="background:#002a70; color:white; border:1px solid var(--border); padding:10px; width:100%; border-radius:10px; margin-bottom:10px; cursor:pointer">📸 Adicionar Fotos</button>
-        <input type="file" id="m-foto" hidden multiple accept="image/*" onchange="processarFotos(this)">
-        <div id="preview-fotos" class="foto-preview-container"></div>
 
         <label>Relatório Técnico</label>
-        <textarea id="m-obs" rows="3" onblur="corrigirIA(this)"></textarea>
-        
-        <button class="btn-main" id="btn-salvar" onclick="salvar()">Salvar Veículo</button>
-        <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#444; color:white; margin-top:10px">Cancelar Edição</button>
+        <textarea id="m-obs" rows="2"></textarea>
 
-        <div class="table-container">
-            <div style="display:flex; overflow-x:auto; padding-bottom:10px; margin-top:20px">
-                <div class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</div>
-                <div class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Aguardando</div>
-                <div class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Serviço</div>
-                <div class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</div>
-            </div>
-            <table id="corpo-tabela"></table>
+        <button class="btn-main" onclick="salvar()">Salvar</button>
+        <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#333; color:white; margin-top:5px">Cancelar</button>
+
+        <div class="categorias-filtro" style="margin-top:15px">
+            <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</button>
+            <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Aguardando</button>
+            <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Serviço</button>
+            <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">Pronto</button>
         </div>
-        
-        <center><button onclick="location.reload()" style="background:none; border:none; color:var(--danger); margin-top:30px; font-weight:700; cursor:pointer">ENCERRAR SESSÃO</button></center>
+
+        <div class="table-container"><table id="corpo-tabela"></table></div>
     </section>
 </div>
 
 <script>
     const CHAVE_MESTRA = "1234";
-    let fotosArray = [];
     let statusSelecionado = "Aguardando";
-    let filtroAtual = "Todos";
-    let bancoDados = JSON.parse(localStorage.getItem('oficina_lima_car')) || {};
+    let bancoDados = JSON.parse(localStorage.getItem('lima_car_v6')) || {};
     let editandoPlaca = null;
+    let fotosBase64 = [];
 
-    function corrigirIA(input) {
-        let t = input.value.trim();
-        if (t) {
-            t = t.charAt(0).toUpperCase() + t.slice(1);
-            if (!/[.!?]$/.test(t)) t += ".";
-            input.value = t;
+    // Função para tratar a tecla ESC globalmente
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            document.getElementById('img-modal').style.display = 'none';
+            fecharConfirm();
         }
+    });
+
+    function showAlert(msg) {
+        const div = document.getElementById('custom-alert');
+        div.innerText = msg; div.style.display = 'block';
+        setTimeout(() => { div.style.display = 'none'; }, 2000);
     }
 
     function mascaraMoeda(i) {
         let v = i.value.replace(/\D/g,'');
-        v = (v/100).toFixed(2).replace(".",",");
-        v = v.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         i.value = v;
+    }
+
+    function previewImages() {
+        const files = document.getElementById('m-fotos-input').files;
+        const area = document.getElementById('preview-area');
+        area.innerHTML = "";
+        fotosBase64 = [];
+
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                area.appendChild(img);
+                fotosBase64.push(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
     function irPara(id) {
@@ -287,7 +237,7 @@
 
     function logar() {
         if(document.getElementById('pass-admin').value === CHAVE_MESTRA) irPara('view-painel');
-        else alert("Senha inválida!");
+        else showAlert("SENHA INCORRETA");
     }
 
     function setStatus(el) {
@@ -296,128 +246,100 @@
         statusSelecionado = el.getAttribute('data-status');
     }
 
-    function processarFotos(input) {
-        Array.from(input.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => { fotosArray.push(e.target.result); renderPreview(); };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function renderPreview() {
-        document.getElementById('preview-fotos').innerHTML = fotosArray.map((img, i) => `
-            <div style="position:relative">
-                <img src="${img}" class="foto-thumb">
-                <div onclick="fotosArray.splice(${i},1);renderPreview()" style="position:absolute;top:0;right:0;background:red;color:white;width:18px;height:18px;border-radius:50%;text-align:center;cursor:pointer;font-size:12px">×</div>
-            </div>
-        `).join('');
-    }
-
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('m-modelo').value.trim();
-        const preco = document.getElementById('m-preco').value.trim();
-        const obs = document.getElementById('m-obs').value.trim();
+        const preco = document.getElementById('m-preco').value;
+        const obs = document.getElementById('m-obs').value;
 
-        // VALIDAÇÃO TOTAL PERSONALIZADA
-        if(!placa) return alert("LIMA CAR INFORMA: O campo PLACA não pode ficar vazio.");
-        if(placa.length < 7) return alert("LIMA CAR INFORMA: Placa inválida. Digite os 7 caracteres.");
-        if(!modelo) return alert("LIMA CAR INFORMA: Por favor, descreva o MODELO do veículo.");
-        if(!preco || preco === "0,00") return alert("LIMA CAR INFORMA: Defina um VALOR para o serviço (ou use 0,00 para orçamento).");
-        if(!obs) return alert("LIMA CAR INFORMA: O RELATÓRIO TÉCNICO é obrigatório para o cliente.");
-        if(fotosArray.length === 0) return alert("LIMA CAR INFORMA: Adicione ao menos uma FOTO do veículo.");
+        if(placa.length < 7 || !modelo || !preco || !obs) return showAlert("PREENCHA TUDO!");
+        if(bancoDados[placa] && editandoPlaca !== placa) return showAlert("PLACA JÁ EXISTE!");
 
-        if(!editandoPlaca && bancoDados[placa]) return alert("LIMA CAR INFORMA: Esta placa já possui um cadastro ativo.");
-
-        bancoDados[placa] = { modelo, status: statusSelecionado, preco, obs, fotos: [...fotosArray], data: new Date().toLocaleString() };
-        localStorage.setItem('oficina_lima_car', JSON.stringify(bancoDados));
-        alert("Veículo salvo com sucesso na Lima Car!");
+        bancoDados[placa] = { 
+            modelo: modelo.charAt(0).toUpperCase() + modelo.slice(1), 
+            status: statusSelecionado, 
+            preco, 
+            obs: obs.charAt(0).toUpperCase() + obs.slice(1), 
+            fotos: fotosBase64.length > 0 ? fotosBase64 : (editandoPlaca ? (bancoDados[placa].fotos || []) : [])
+        };
+        
+        localStorage.setItem('lima_car_v6', JSON.stringify(bancoDados));
+        showAlert("SALVO!");
         limparFormulario();
         desenharTabela();
     }
 
-    function avisarWhats(placa) {
-        const v = bancoDados[placa];
-        const msg = `Olá! A Mecânica Lima Car informa: Seu veículo (${v.modelo}) de placa ${placa} está com o status: ${v.status.toUpperCase()}.`;
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
-    }
-
-    function excluir(p) {
-        if(confirm(`Lima Car: Deseja realmente excluir permanentemente a placa ${p}?`)) {
-            delete bancoDados[p];
-            localStorage.setItem('oficina_lima_car', JSON.stringify(bancoDados));
-            desenharTabela();
-        }
-    }
-
-    function desenharTabela() {
+    function desenharTabela(filtro = "Todos") {
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
         Object.keys(bancoDados).reverse().forEach(p => {
             const v = bancoDados[p];
-            if(filtroAtual !== 'Todos' && v.status !== filtroAtual) return;
-            corpo.innerHTML += `
-                <tr>
-                    <td><b>${p}</b><br><span style="font-size:10px">${v.modelo}</span></td>
-                    <td style="color:var(--primary)">${v.status}</td>
-                    <td style="text-align:right">
-                        <button class="btn-whats" onclick="avisarWhats('${p}')">Zap</button>
-                        <button style="background:none;border:none;color:white;margin-left:5px" onclick="prepararEdicao('${p}')">✏️</button>
-                        <button style="background:none;border:none;color:red;margin-left:5px" onclick="excluir('${p}')">🗑️</button>
-                    </td>
-                </tr>`;
+            if(filtro !== "Todos" && v.status !== filtro) return;
+
+            const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
+            corpo.innerHTML += `<tr>
+                <td><b>${p}</b><br>${v.modelo}</td>
+                <td style="color:${cor}; font-weight:bold">${v.status.toUpperCase()}</td>
+                <td style="text-align:right">
+                    <button onclick="prepararEdicao('${p}')" style="background:none; border:none; margin-right:10px">✏️</button>
+                    <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; color:var(--danger)">🗑️</button>
+                </td>
+            </tr>`;
         });
     }
 
-    function filtrarTabela(s, el) {
-        filtroAtual = s;
+    function filtrarTabela(status, btn) {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        desenharTabela();
+        btn.classList.add('active');
+        desenharTabela(status);
     }
 
+    function consultarCarro() {
+        const p = document.getElementById('login-placa').value.toUpperCase().trim();
+        const res = document.getElementById('resultado-cliente');
+        if(bancoDados[p]) {
+            const v = bancoDados[p];
+            const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
+            
+            let fotosHtml = v.fotos && v.fotos.length > 0 ? `<div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:10px">` + 
+                v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" style="width:100%; height:80px; object-fit:cover; border-radius:8px; border:1px solid var(--border)">`).join('') + `</div>` : "";
+
+            res.innerHTML = `<div style="background:rgba(255,255,255,0.04); padding:15px; border-radius:15px; margin-top:15px; border:1px solid var(--border);">
+                <h3 style="color:var(--primary)">${v.modelo}</h3>
+                <p style="font-size:12px">STATUS: <b style="color:${cor}">${v.status.toUpperCase()}</b></p>
+                <p style="background:#000; padding:10px; border-radius:8px; margin:10px 0; font-size:11px">${v.obs}</p>
+                <p style="color:var(--success); font-weight:bold">VALOR: R$ ${v.preco}</p>
+                ${fotosHtml}
+            </div>`;
+        } else { showAlert("NÃO ENCONTRADO"); res.innerHTML = ""; }
+    }
+
+    function abrirImg(src) { document.getElementById('modal-view').src = src; document.getElementById('img-modal').style.display = 'flex'; }
+
+    let placaParaExcluir = null;
+    function confirmarExcluir(p) { placaParaExcluir = p; document.getElementById('confirm-box').style.display = 'flex'; }
+    function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; }
+    document.getElementById('btn-confirm-sim').onclick = () => {
+        delete bancoDados[placaParaExcluir];
+        localStorage.setItem('lima_car_v6', JSON.stringify(bancoDados));
+        desenharTabela(); fecharConfirm();
+    };
+
     function prepararEdicao(p) {
-        const v = bancoDados[p];
-        editandoPlaca = p;
+        const v = bancoDados[p]; editandoPlaca = p;
         document.getElementById('m-placa').value = p;
         document.getElementById('m-modelo').value = v.modelo;
         document.getElementById('m-preco').value = v.preco;
         document.getElementById('m-obs').value = v.obs;
-        fotosArray = [...v.fotos];
-        renderPreview();
         document.getElementById('btn-cancelar').classList.remove('hidden');
         window.scrollTo(0,0);
     }
 
     function limparFormulario() {
-        editandoPlaca = null;
-        ['m-placa','m-modelo','m-preco','m-obs'].forEach(id => document.getElementById(id).value = "");
-        fotosArray = [];
-        renderPreview();
+        editandoPlaca = null; fotosBase64 = [];
+        ['m-placa','m-modelo','m-preco','m-obs','m-fotos-input'].forEach(id => document.getElementById(id).value = "");
+        document.getElementById('preview-area').innerHTML = "";
         document.getElementById('btn-cancelar').classList.add('hidden');
-    }
-
-    function consultarCarro() {
-        const p = document.getElementById('login-placa').value.toUpperCase();
-        const res = document.getElementById('resultado-cliente');
-        if(!p) return alert("Por favor, digite a placa.");
-        if(bancoDados[p]) {
-            const v = bancoDados[p];
-            res.innerHTML = `
-                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-top:20px; border-left:4px solid var(--primary)">
-                    <img src="https://i.imgur.com/vHq0A6v.jpeg" style="width:80px; margin-bottom:10px">
-                    <h3 style="color:var(--primary)">${v.modelo}</h3>
-                    <p style="font-size:12px">Status: <b style="color:var(--success)">${v.status.toUpperCase()}</b></p>
-                    <div class="foto-preview-container" style="margin-top:10px">
-                        ${v.fotos.map(f => `<img src="${f}" class="foto-thumb" onclick="document.getElementById('img-ampliada').src='${f}';document.getElementById('modal-imagem').style.display='flex'">`).join('')}
-                    </div>
-                    <p style="margin-top:10px; font-size:14px">${v.obs}</p>
-                    <p style="color:var(--primary); font-weight:bold; margin-top:10px">Valor: R$ ${v.preco}</p>
-                    <small style="color:gray; font-size:10px">Atualizado em: ${v.data}</small>
-                </div>`;
-        } else {
-            alert("Veículo não localizado em nosso pátio.");
-        }
     }
 </script>
 </body>
