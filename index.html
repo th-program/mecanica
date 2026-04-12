@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Mecânica High-Tech | Master Pro</title>
-   <style>
+    <style>
         :root {
             --bg: #0a0a0b;
             --card-bg: #161618;
@@ -193,7 +193,9 @@
 
     // --- LÓGICA MECÂNICO ---
     function logar() {
-        if(document.getElementById('pass-admin').value === "1234") irPara('view-painel');
+        const senha = document.getElementById('pass-admin').value;
+        if(senha === "") return alert("Campo de senha está vazio!");
+        if(senha === "1234") irPara('view-painel');
         else alert("Senha Incorreta");
     }
 
@@ -231,10 +233,10 @@
         const val = document.getElementById('m-valor').value;
         const obs = document.getElementById('m-obs').value;
 
-        if(!placa || !mod) return alert("Placa e Modelo obrigatórios!");
+        if(placa === "" || mod === "") return alert("Gestão de Pátio: Campo placa ou modelo está vazio!");
         
         // Bloqueio de duplicidade se não for edição
-        if(!placaEditando && banco[placa]) return alert("❌ JÁ EXISTE UM CARRO COM ESTA PLACA! Use o botão EDITAR na lista.");
+        if(!placaEditando && banco[placa]) return alert("❌ Já existe uma placa cadastrada igual a que você inseriu!");
 
         banco[placa] = {
             modelo: mod, valor: val, status: statusAtual,
@@ -326,6 +328,9 @@
     function consultar() {
         const p = document.getElementById('cli-input-placa').value.toUpperCase().trim();
         const res = document.getElementById('cli-resultado');
+        
+        if(p === "") return alert("Campo de placa está vazio!");
+        
         if(banco[p]) {
             const v = banco[p];
             const cor = v.status === 'Pronto' ? 'var(--success)' : (v.status === 'Trabalhando' ? 'var(--warning)' : '#888');
@@ -341,7 +346,7 @@
                 </div>
             `;
         } else {
-            alert("❌ Placa não localizada.");
+            alert("❌ Não existe um cadastro com a placa escrita.");
         }
     }
 </script>
