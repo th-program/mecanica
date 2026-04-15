@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mecânica Lima Car | Autopeças e Serviços Automotivos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            overflow-x: hidden; /* Evita rolagem lateral indesejada */
+        }
+
+        header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #f5c400;
+        }
+
+        header img { height: 50px; }
+
+        nav a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: #f5c400; }
+
+        /* Alteração: Hero agora ocupa 100% da largura da tela (Início ao Fim) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
+                        url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            padding: 120px 20px;
+            text-align: center;
+            width: 100%; /* Garante que preencha as linhas vermelhas */
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            color: #f5c400;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .hero p {
+            max-width: 850px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #efefef;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-whatsapp { background: #25d366; color: #fff; }
+        .btn-consult { background: #f5c400; color: #000; }
+        .btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1300px; /* Aumentado para caber 4 cards lado a lado */
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            color: #f5c400;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Alteração: Grid ajustado para 4 colunas em telas grandes */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            border: 1px solid #333;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { border-color: #f5c400; transform: translateY(-5px); }
+
+        .card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-body { padding: 20px; flex-grow: 1; }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #f5c400;
+            font-size: 17px;
+        }
+
+        .card p { font-size: 13px; color: #bbb; margin-bottom: 15px; }
+
+        .btn-agendar {
+            background: #e67e22;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .beneficios { background: #141414; max-width: 100%; padding-left: 5%; padding-right: 5%; }
+
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25d366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #fff;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Ajustes Mobile: Garante que tudo caiba na tela do celular */
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; padding: 15px; }
+            nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; }
+            nav a { margin: 5px 10px; font-size: 13px; }
+            .hero { padding: 80px 15px; }
+            .hero h1 { font-size: 26px; }
+            .btn { width: 100%; justify-content: center; }
+            .cards { grid-template-columns: 1fr; } /* No celular fica um embaixo do outro */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="img/logo.png" alt="Mecânica Lima Car">
+    <nav>
+        <a href="#">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#contato">Contato</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Autopeças e Serviços Automotivos</h1>
+    <p>A Mecânica Lima Car oferece serviços automotivos completos com qualidade, confiança e profissionais especializados para cuidar do seu veículo.</p>
+    
+    <div class="hero-btns">
+        <a class="btn btn-whatsapp" href="https://wa.me/5500000000000" target="_blank">
+            <i class="fab fa-whatsapp"></i> Faça seu orçamento
+        </a>
+        <a class="btn btn-consult" href="#">
+            <i class="fas fa-search"></i> Consulte seu carro
+        </a>
+    </div>
+</section>
+
+<section id="servicos">
+    <div class="section-title">
+        <h2>Nossos Serviços</h2>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1545041062-09f907877292?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Alinhamento">
+            <div class="card-body">
+                <h3>Alinhamento e Balanceamento</h3>
+                <p>Mais estabilidade, segurança e durabilidade dos pneus.</p>
+                <a href="#" class="btn-agendar">Agende Seu Horário</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Troca de óleo">
+            <div class="card-body">
+                <h3>Troca de Óleo</h3>
+                <p>Utilizamos produtos de qualidade para maior vida útil do motor.</p>
+                <a href="#" class="btn-agendar">Agende Seu Horário</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Suspensão">
+            <div class="card-body">
+                <h3>Suspensão</h3>
+                <p>Conforto e segurança em qualquer tipo de estrada.</p>
+                <a href="#" class="btn-agendar">Agende Seu Horário</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1486006396193-471a2abc881e?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Freios">
+            <div class="card-body">
+                <h3>Freios</h3>
+                <p>Manutenção completa para a sua segurança.</p>
+                <a href="#" class="btn-agendar">Agende Seu Horário</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="seguranca">
+    <div class="section-title">
+        <h2>Para Segurança do Seu Carro</h2>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Correia Dentada">
+            <div class="card-body">
+                <h3>Correia Dentada</h3>
+                <p>Substituição preventiva para evitar danos ao motor.</p>
+                <a href="#" class="btn-agendar">Solicitar Revisão</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1615906650591-824701b8a441?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Revisão">
+            <div class="card-body">
+                <h3>Revisão Completa</h3>
+                <p>Análise geral do veículo para viagens seguras.</p>
+                <a href="#" class="btn-agendar">Solicitar Revisão</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Diagnóstico">
+            <div class="card-body">
+                <h3>Diagnóstico</h3>
+                <p>Equipamentos modernos e profissionais qualificados.</p>
+                <a href="#" class="btn-agendar">Solicitar Revisão</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="beneficios">
+    <div class="section-title">
+        <h2>Benefícios para Você</h2>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="card-body">
+                <h3>Garantia nos Serviços</h3>
+                <p>Trabalhamos com responsabilidade e compromisso.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>Parcelamento</h3>
+                <p>Facilitamos o pagamento para você.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>Atendimento Profissional</h3>
+                <p>Equipe treinada e experiente.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="contato">
+    <p>Mecânica Lima Car © 2026</p>
+    <p>Autopeças e Serviços Automotivos</p>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+</body>
+</html>
