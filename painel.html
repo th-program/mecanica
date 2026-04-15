@@ -5,142 +5,226 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
-        :root { --bg: #000b1a; --card-bg: rgba(0, 21, 43, 0.9); --primary: #d4af37; --text-main: #f0f0f0; --text-dim: #a0aec0; --border: #132a47; --success: #00ff88; --warning: #ffcc00; --danger: #ff4d4d; --input-bg: rgba(0, 30, 61, 0.7); --logo-size: 220px; } * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg); background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; overflow-x: hidden; } #view-cliente { background-image: linear-gradient(to bottom, rgba(0,11,26,0.8), rgba(0,11,26,0.95)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); } #view-painel { background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); } .container { width: 100%; max-width: 450px; } 
-        #view-painel.card { max-width: 900px; width: 95vw; }
-        @media (min-width: 768px) { .container { max-width: 900px; } }
-
-        section { display: block; animation: fadeIn 0.4s ease-out; } @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 25px; padding: 25px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-top: 2px solid var(--primary); } .logo-box { text-align: center; margin: -25px -25px 20px -25px; background: #000; border-bottom: 2px solid var(--primary); border-radius: 24px 24px 0 0; padding: 15px; } .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; } label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 4px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; } input, textarea, select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; color: #fff; font-size: 15px !important; margin-bottom: 12px; transition: 0.3s; } input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); } .btn-upload-custom { display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px dashed var(--primary); color: var(--primary); padding: 15px; border-radius: 12px; cursor: pointer; margin-bottom: 15px; font-weight: bold; font-size: 13px; transition: 0.3s; } .btn-upload-custom:hover { background: rgba(212, 175, 55, 0.1); } input[type="file"] { display: none; } .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: #fff !important; color: #000 !important; border: 5px solid #333 !important; text-transform: uppercase; letter-spacing: 4px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); text-align: center; } .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); margin-top: 10px; } .btn-main:active { transform: scale(0.96); } .categorias-filtro { display: flex; gap: 5px; margin-top: 25px; overflow-x: auto; padding-bottom: 10px; } .cat-btn { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 15px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: 0.3s; } .cat-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(212, 175, 55, 0.1); } .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; } .status-option { background: rgba(0, 30, 61, 0.5); border: 1px solid var(--border); padding: 10px 2px; border-radius: 10px; text-align: center; font-size: 9px; font-weight: 800; cursor: pointer; color: var(--text-dim); transition: 0.3s; } .status-option.active { transform: scale(1.05); } .status-option.active[data-status="Aguardando"] { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); } .status-option.active[data-status="Trabalhando"] { border-color: var(--warning); color: var(--warning); background: rgba(241, 196, 15, 0.1); } .status-option.active[data-status="Pronto"] { border-color: var(--success); color: var(--success); background: rgba(46, 204, 113, 0.1); } .servicos-sugeridos { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; } .tag-servico { font-size: 9px; background: #132a47; padding: 4px 8px; border-radius: 15px; cursor: pointer; border: 1px solid var(--border); color: var(--text-dim); } .tag-servico:hover { border-color: var(--primary); color: #fff; } .table-container { margin-top: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; } table { width: 100%; border-collapse: collapse; } td { padding: 12px 8px; border-bottom: 1px solid var(--border); font-size: 12px; } .hidden { display: none; } #img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); cursor: zoom-out; } #modal-view { max-width: 95%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid var(--primary); } .fotos-grid { display: grid; gap: 8px; margin-top: 10px; grid-template-columns: repeat(2, 1fr); } .img-item { width: 100%; height: 100px; object-fit: cover; border-radius: 12px; border: 2px solid var(--border); cursor: pointer; transition: 0.3s; } #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(8px); } .solicitacao-item { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--primary); padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 11px; }
-        .relatorio-cliente-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; border-left: 3px solid var(--primary); margin-bottom: 15px; font-size: 11px; display: none;}
-
-        /* ADIÇÃO PARA CORREÇÃO DE MOBILE */
-        #view-painel {
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 15px;
+        :root { 
+            --bg: #000b1a; 
+            --primary: #d4af37; 
+            --text-main: #f0f0f0; 
+            --text-dim: #a0aec0; 
+            --border: #132a47; 
+            --success: #00ff88; 
+            --warning: #ffcc00; 
+            --danger: #ff4d4d; 
+            --input-bg: rgba(0, 30, 61, 0.7); 
+            --logo-size: 220px; 
+        } 
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
+        
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background-color: var(--bg); 
+            background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 15px; 
+            overflow-x: hidden; 
         }
 
-        .painel-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .painel-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        /* Melhora a visualização em telas pequenas */
-        @media (max-width: 600px) {
-            .card { padding: 15px; }
-            .input-placa-grande { font-size: 24px !important; }
-            .status-picker { gap: 4px; }
-            .status-option { font-size: 8px; padding: 8px 2px; }
-        }
-
-        /* Estilo para o botão de WhatsApp fixo no topo do formulário */
-        .whatsapp-float-btn {
-            background: #25d366 !important;
-            color: white !important;
+        /* BOTÃO VOLTAR PARA INÍCIO */
+        .btn-home-fixed {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--input-bg);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 15px;
-            border: none;
-            animation: pulse 2s infinite;
+            gap: 5px;
         }
+        .btn-home-fixed:hover { background: var(--primary); color: #000; }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
+        .container { width: 100%; max-width: 450px; } 
+        #view-painel.card { max-width: 950px; width: 95vw; }
+        @media (min-width: 768px) { .container { max-width: 900px; } }
+
+        section { display: block; animation: fadeIn 0.4s ease-out; } 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
+        
+        /* NOVO LAYOUT: SEM O QUADRADO/CARD FUNDO */
+        .card { 
+            background: none; /* Removido fundo */
+            border: none; /* Removido borda */
+            border-radius: 0; 
+            padding: 10px; 
+            position: relative; 
+            box-shadow: none; /* Removido sombra */
+            backdrop-filter: none; /* Removido blur */
+            border-top: none; /* Removido linha amarela superior */
+        } 
+
+        .logo-box { text-align: center; margin-bottom: 30px; background: transparent; padding: 15px; } 
+        .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); } 
+        
+        label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
+        
+        input, textarea, select { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--input-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            color: #fff; 
+            font-size: 15px !important; 
+            margin-bottom: 18px; 
+            transition: 0.3s; 
+        } 
+        
+        input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
+        
+        .btn-upload-custom { display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border: 1px dashed var(--primary); color: var(--primary); padding: 20px; border-radius: 15px; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 13px; transition: 0.3s; } 
+        
+        .input-placa-grande { font-family: 'Monaco', monospace; font-size: 40px !important; background: #fff !important; color: #000 !important; border: 4px solid var(--primary) !important; text-transform: uppercase; letter-spacing: 5px; text-align: center; border-radius: 15px !important; } 
+        
+        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; } 
+        .btn-main:active { transform: scale(0.98); } 
+
+        .categorias-filtro { display: flex; gap: 8px; margin-top: 25px; overflow-x: auto; padding-bottom: 15px; } 
+        .cat-btn { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: 0.3s; } 
+        .cat-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(212, 175, 55, 0.15); } 
+
+        .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; } 
+        .status-option { background: rgba(0, 30, 61, 0.5); border: 1px solid var(--border); padding: 12px 5px; border-radius: 12px; text-align: center; font-size: 10px; font-weight: 800; cursor: pointer; color: var(--text-dim); transition: 0.3s; } 
+        .status-option.active { transform: scale(1.02); border-color: var(--primary); color: #fff; }
+
+        .table-container { margin-top: 20px; background: rgba(255,255,255,0.02); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; } 
+        td { padding: 15px 10px; border-bottom: 1px solid var(--border); font-size: 13px; } 
+        
+        .hidden { display: none; } 
+        #img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); } 
+        #modal-view { max-width: 90%; max-height: 80%; border: 2px solid var(--primary); border-radius: 15px; } 
+
+        .fotos-grid { display: grid; gap: 10px; margin-top: 15px; grid-template-columns: repeat(2, 1fr); } 
+        .img-item-wrapper { position: relative; width: 100%; height: 110px; } 
+        .img-item { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 1px solid var(--border); } 
+
+        .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(10px); }
+        /* Box de confirmação ainda precisa de um fundo para leitura */
+        .confirm-box .card { background: var(--bg); border: 1px solid var(--border); padding: 30px; border-radius: 25px; border-top: 2px solid var(--danger); }
+
+        .solicitacao-item { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--border); padding: 15px; border-radius: 15px; margin-bottom: 12px; }
+        .relatorio-cliente-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
+
+        .painel-grid { display: grid; grid-template-columns: 1fr; gap: 30px; } 
+        @media (min-width: 768px) { .painel-grid { grid-template-columns: 1.2fr 0.8fr; } } 
+        
+        .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
     </style>
 </head>
 <body>
 
-<div id="custom-alert"></div>
+<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
+    <span>🏠</span> INÍCIO
+</a>
+
+<div id="custom-alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></div>
+
 <div id="img-modal" onclick="this.style.display='none'"><img id="modal-view" src=""><div style="position: absolute; top: 20px; right: 20px; color: #fff; font-size: 20px;">✕</div></div>
-<div id="confirm-box" class="confirm-box"><div class="card" style="max-width: 320px; text-align: center;"><h3 style="color:var(--danger); margin-bottom: 15px; font-size: 16px;">CONFIRMAR EXCLUSÃO?</h3><p style="font-size: 12px; color: var(--text-dim); margin-bottom: 20px;">Esta ação não pode ser desfeita.</p><button class="btn-main" id="btn-confirm-sim" style="background: var(--danger); margin-bottom: 10px; color: #fff;">SIM, EXCLUIR</button><button class="btn-main" onclick="fecharConfirm()" style="background: #222; color: #fff;">CANCELAR</button></div></div>
+
+<div id="confirm-box" class="confirm-box"><div class="card" style="max-width: 320px; text-align: center;"><h3 id="confirm-title" style="color:var(--danger); margin-bottom: 15px; font-size: 16px;">CONFIRMAR EXCLUSÃO?</h3><p style="font-size: 12px; color: var(--text-dim); margin-bottom: 20px;">Esta ação não pode ser desfeita.</p><button class="btn-main" id="btn-confirm-sim" style="background: var(--danger); margin-bottom: 10px; color: #fff;">SIM, EXCLUIR</button><button class="btn-main" onclick="fecharConfirm()" style="background: #222; color: #fff;">CANCELAR</button></div></div>
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car Logo"></div>
+        <div class="logo-box"><img src="logo/logo.png" class="logo-img" alt="Lima Car Logo"></div>
         <label>Consulte seu veículo</label>
         <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1D23" onkeyup="if(event.key==='Enter') consultarCarro()">
         <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
         <div id="resultado-cliente"></div>
-        <button onclick="irPara('view-cadastro-cliente')" class="btn-main" style="background: #25d366; color: white;">SOLICITAR MANUTENÇÃO (CADASTRO)</button>
-        <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:30px; padding: 6px 15px; border-radius: 20px; font-size:10px; font-weight:700; cursor:pointer;">🔒 ACESSO RESTRITO</button></center>
+        <button onclick="irPara('view-cadastro-cliente')" class="btn-main" style="background: #25d366; color: white; margin-top: 20px;">SOLICITAR MANUTENÇÃO (CADASTRO)</button>
+        <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
     </section>
 
     <section id="view-cadastro-cliente" class="card hidden">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
-        <h2 style="color:var(--primary); font-size:14px; text-align:center; margin-bottom:15px;">NOVO CADASTRO</h2>
+        <div class="logo-box"><img src="logo/logo.png" class="logo-img"></div>
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
         <label>Nome Completo</label><input type="text" id="c-nome" placeholder="Seu nome">
         <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
         <label>Placa do Carro</label><input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
         <label>Modelo do Carro</label><input type="text" id="c-modelo" placeholder="Ex: Gol G5">
-        <label>Problemas Apresentados</label><textarea id="c-problema" rows="3" placeholder="O que o carro tem?"></textarea>
+        <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer; font-size:12px;">Voltar</button></center>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
-        <label>Chave de Acesso</label>
-        <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 24px!important;" onkeyup="if(event.key==='Enter') logar()">
+        <div class="logo-box"><img src="logo/logo.png" class="logo-img"></div>
+        <label style="text-align: center;">Chave de Acesso</label>
+        <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer; font-size:12px;">Voltar</button></center>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-            <h2 style="font-size:14px; color:var(--primary)">PÁGINA DO MECÂNICO</h2>
-            <button onclick="location.reload()" style="color:var(--danger); background:rgba(231, 76, 60, 0.1); border:none; padding: 5px 10px; border-radius: 8px; font-weight:bold; font-size:10px;">SAIR (ESC)</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h2 style="font-size:16px; color:var(--primary); letter-spacing: 1px;">PÁGINA DO MECÂNICO</h2>
+            <button onclick="location.reload()" style="color:var(--danger); background:rgba(231, 76, 60, 0.1); border:1px solid var(--danger); padding: 8px 15px; border-radius: 10px; font-weight:bold; font-size:11px; cursor:pointer;">SAIR (ESC)</button>
         </div>
 
         <div class="painel-grid">
             <div class="painel-col">
                 <div id="aba-novos-cadastros">
-                    <label style="color:var(--success); margin-bottom: 10px;">📩 Novas Solicitações</label>
+                    <label style="color:var(--success); margin-bottom: 15px;">📩 Novas Solicitações</label>
                     <div id="lista-solicitacoes"></div>
                 </div>
                 
-                <div class="categorias-filtro">
-                    <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">🚀 Todos</button>
-                    <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">⌛ Na Fila</button>
-                    <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">🛠️ Oficina</button>
-                    <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">🏁 Prontos</button>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
+                    <div class="categorias-filtro">
+                        <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">🚀 Todos</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">⌛ Na Fila</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">🛠️ Oficina</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">🏁 Prontos</button>
+                    </div>
+                    <button onclick="confirmarLimparTudo()" style="background:none; border:none; cursor:pointer; font-size:22px;" title="Apagar todos os cadastros">🗑️</button>
                 </div>
-                <div class="table-container" style="max-height: 200px; overflow-y: auto;">
-                    <table id="corpo-tabela"></table>
+
+                <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                    <table id="corpo-tabela" style="width: 100%; border-collapse: collapse;"></table>
                 </div>
             </div>
 
-            <div class="painel-col" style="border-top: 1px solid var(--border); padding-top: 15px;">
+            <div class="painel-col">
                 <button id="btn-whats-direto" class="btn-main whatsapp-float-btn" style="display:none;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="15" style="filter: brightness(0) invert(1);"> 
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" style="filter: brightness(0) invert(1);"> 
                     FALAR COM CLIENTE
                 </button>
 
                 <div id="relatorio-cliente-view" class="relatorio-cliente-box">
                     <b style="color:var(--primary)">RELATO DO CLIENTE:</b><br>
-                    <span id="txt-relato-cliente"></span>
+                    <span id="txt-relato-cliente" style="font-size: 13px; line-height: 1.5;"></span>
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-                    <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" readonly style="opacity: 0.7;"></div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px">
+                    <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" readonly style="opacity: 0.6; cursor: not-allowed;"></div>
                     <div><label>Valor (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
                 </div>
                 
                 <label>Modelo do Veículo</label>
-                <input type="text" id="m-modelo" readonly style="opacity: 0.7;">
+                <input type="text" id="m-modelo" readonly style="opacity: 0.6; cursor: not-allowed;">
                 
                 <label>Fotos (Estado do Carro)</label>
-                <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
-                <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()">
-                <div id="preview-area" class="fotos-grid"></div>
+<label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
+<input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+<div id="preview-area" class="fotos-grid"></div>
 
                 <label>Status da Manutenção</label>
                 <div class="status-picker">
@@ -150,15 +234,15 @@
                 </div>
 
                 <label>Relatório Técnico</label>
-                <div class="servicos-sugeridos">
-                    <span class="tag-servico" onclick="addServico('Revisão Preventiva Premium')">+ Revisão</span>
-                    <span class="tag-servico" onclick="addServico('Troca de Óleo e Filtros')">+ Óleo</span>
-                    <span class="tag-servico" onclick="addServico('Diagnóstico via Scanner')">+ Scanner</span>
+                <div class="servicos-sugeridos" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
+                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Revisão Preventiva Premium')">+ Revisão</span>
+                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Troca de Óleo e Filtros')">+ Óleo</span>
+                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Diagnóstico via Scanner')">+ Scanner</span>
                 </div>
-                <textarea id="m-obs" rows="3" placeholder="Descreva o que foi feito no carro..."></textarea>
+                <textarea id="m-obs" rows="4" placeholder="Descreva o que foi feito no carro..."></textarea>
                 
                 <button class="btn-main" onclick="salvar()">✅ Salvar Registro (ENTER)</button>
-                <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#333; color:white; margin-top:8px">Descartar Edição</button>
+                <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; border: 1px solid #444; color:white; margin-top:12px">Descartar Edição</button>
             </div>
         </div>
     </section>
@@ -168,6 +252,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
+    // MANTIDO INTEGRALMENTE CONFORME SOLICITADO
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -186,6 +271,9 @@
     let bancoSolicitacoes = {};
     let editandoPlaca = null;
     let fotosBase64 = [];
+    let whatsappAtual = "";
+    let nomeClienteAtual = "";
+    let relatoClienteAtual = "";
 
     document.addEventListener('keydown', (e) => {
         if(e.key === "Escape") {
@@ -236,7 +324,7 @@
         container.innerHTML = "";
         const keys = Object.keys(bancoSolicitacoes);
         if(keys.length === 0) {
-            container.innerHTML = '<p style="font-size:10px; color:var(--text-dim)">Nenhuma nova solicitação...</p>';
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-dim)">Nenhuma nova solicitação...</p>';
             return;
         }
         keys.forEach(id => {
@@ -244,8 +332,8 @@
             container.innerHTML += `
                 <div class="solicitacao-item">
                     <b style="color:var(--primary)">${s.placa} - ${s.modelo}</b><br>
-                    <span>Cliente: ${s.nome}</span><br>
-                    <button class="btn-main" style="padding:5px; font-size:10px;" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
+                    <span style="font-size:12px">Cliente: ${s.nome}</span><br>
+                    <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                 </div>
             `;
         });
@@ -256,20 +344,22 @@
         document.getElementById('m-placa').value = s.placa;
         document.getElementById('m-modelo').value = s.modelo;
         
+        whatsappAtual = s.zap;
+        nomeClienteAtual = s.nome;
+        relatoClienteAtual = s.problema;
+
+        exibirBotaoWhats(s.zap, s.nome, s.problema);
+        showAlert("📋 DADOS CARREGADOS");
+    }
+
+    function exibirBotaoWhats(zap, nome, problema) {
         const boxRelato = document.getElementById('relatorio-cliente-view');
         const btnWhats = document.getElementById('btn-whats-direto');
-        
         boxRelato.style.display = "block";
         btnWhats.style.display = "flex"; 
-        
-        document.getElementById('txt-relato-cliente').innerHTML = `<b>Nome:</b> ${s.nome}<br><b>Problema:</b> ${s.problema}`;
-        
-        const numLimpo = s.zap.replace(/\D/g, "");
-        btnWhats.onclick = () => {
-            window.open(`https://wa.me/55${numLimpo}`, '_blank');
-        };
-
-        showAlert("📋 DADOS CARREGADOS");
+        document.getElementById('txt-relato-cliente').innerHTML = `<b>Nome:</b> ${nome}<br><b>Problema:</b> ${problema}`;
+        const numLimpo = zap.replace(/\D/g, "");
+        btnWhats.onclick = () => { window.open(`https://wa.me/55${numLimpo}`, '_blank'); };
     }
 
     function salvar() {
@@ -282,7 +372,10 @@
         
         const dados = {
             modelo, status: statusSelecionado, preco, obs,
-            fotos: fotosBase64.length > 0 ? fotosBase64 : (editandoPlaca && bancoDados[placa] ? (bancoDados[placa].fotos || []) : [])
+            fotos: fotosBase64,
+            clienteZap: whatsappAtual,
+            clienteNome: nomeClienteAtual,
+            clienteRelato: relatoClienteAtual
         };
 
         db.ref('veiculos/' + placa).set(dados).then(() => {
@@ -299,9 +392,10 @@
             const v = bancoDados[p];
             if(filtro !== "Todos" && v.status !== filtro) return;
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
-            corpo.innerHTML += `<tr><td><b style="color:var(--primary)">${p}</b><br>${v.modelo}</td><td style="color:${cor}">${v.status}</td>
-                <td style="text-align:right"><button onclick="prepararEdicao('${p}')">✏️</button>
-                <button onclick="confirmarExcluir('${p}')" style="color:var(--danger)">🗑️</button></td></tr>`;
+            corpo.innerHTML += `<tr><td><b style="color:var(--primary)">${p}</b><br>${v.modelo}</td><td style="color:${cor}; font-weight:bold;">${v.status}</td>
+                <td style="text-align:right">
+                <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px; margin-right:10px;">✏️</button>
+                <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px;">🗑️</button></td></tr>`;
         });
     }
 
@@ -312,12 +406,44 @@
         document.getElementById('m-preco').value = v.preco;
         document.getElementById('m-obs').value = v.obs;
         document.getElementById('btn-cancelar').classList.remove('hidden');
-        document.getElementById('relatorio-cliente-view').style.display = "none";
-        document.getElementById('btn-whats-direto').style.display = "none";
+        
+        fotosBase64 = v.fotos || [];
+        renderizarFotosEdicao();
+
+        if(v.clienteZap) {
+            whatsappAtual = v.clienteZap;
+            nomeClienteAtual = v.clienteNome;
+            relatoClienteAtual = v.clienteRelato;
+            exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
+        } else {
+            document.getElementById('relatorio-cliente-view').style.display = "none";
+            document.getElementById('btn-whats-direto').style.display = "none";
+        }
+    }
+
+    function renderizarFotosEdicao() {
+        const area = document.getElementById('preview-area');
+        area.innerHTML = "";
+        fotosBase64.forEach((src, index) => {
+            const div = document.createElement('div');
+            div.className = "img-item-wrapper";
+            div.innerHTML = `
+                <img src="${src}" onclick="abrirImg('${src}')" class="img-item">
+                <button style="position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold;" onclick="removerFoto(${index})">X</button>
+            `;
+            area.appendChild(div);
+        });
+        document.getElementById('label-upload').innerText = fotosBase64.length > 0 ? `📸 ${fotosBase64.length} FOTO(S)` : "📸 ENVIAR FOTOS";
+    }
+
+    function removerFoto(index) {
+        fotosBase64.splice(index, 1);
+        renderizarFotosEdicao();
     }
 
     function limparFormulario() {
-        editandoPlaca = null; fotosBase64 = [];
+        editandoPlaca = null; fotosBase64 = []; 
+        whatsappAtual = ""; nomeClienteAtual = ""; relatoClienteAtual = "";
         ['m-placa','m-modelo','m-preco','m-obs','m-fotos-input'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.value = "";
@@ -344,37 +470,56 @@
             let fotosHtml = v.fotos ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
             res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                 <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
-                <p style="font-size:12px; margin:10px 0">${v.obs}</p><p style="color:var(--success)">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
+                <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
         } else { showAlert("🔍 NÃO LOCALIZADO"); }
+    }
+
+    function previewImages() {
+        const files = document.getElementById('m-fotos-input').files;
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                fotosBase64.push(e.target.result);
+                renderizarFotosEdicao();
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
     function addServico(texto) { const campo = document.getElementById('m-obs'); campo.value += (campo.value ? " | " : "") + texto; }
     function showAlert(msg) { const div = document.getElementById('custom-alert'); div.innerText = msg; div.style.display = 'block'; setTimeout(() => { div.style.display = 'none'; }, 2000); }
     function mascaraMoeda(i) { let v = i.value.replace(/\D/g,''); v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); i.value = v; }
-    function irPara(id) { document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+    function irPara(id) { document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); window.scrollTo(0,0); }
     function logar() { if(document.getElementById('pass-admin').value === CHAVE_MESTRA) irPara('view-painel'); else showAlert("⚠️ CHAVE INCORRETA"); }
     function setStatus(el) { document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); statusSelecionado = el.getAttribute('data-status'); }
-    
-    function previewImages() {
-        const files = document.getElementById('m-fotos-input').files;
-        const area = document.getElementById('preview-area');
-        area.innerHTML = ""; fotosBase64 = [];
-        if(files.length > 0) document.getElementById('label-upload').innerText = `📸 ${files.length} FOTO(S)`;
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement('img'); img.src = e.target.result; img.className = "img-item";
-                img.onclick = () => abrirImg(e.target.result); area.appendChild(img);
-                fotosBase64.push(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
     function abrirImg(src) { document.getElementById('modal-view').src = src; document.getElementById('img-modal').style.display = 'flex'; }
     function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; }
-    function confirmarExcluir(p) { placaParaExcluir = p; document.getElementById('confirm-box').style.display = 'flex'; }
+    
+    let placaParaExcluir = null;
+    let acaoExclusao = "";
+
+    function confirmarExcluir(p) { 
+        placaParaExcluir = p; 
+        acaoExclusao = "unico";
+        document.getElementById('confirm-title').innerText = "EXCLUIR ESTE VEÍCULO?";
+        document.getElementById('confirm-box').style.display = 'flex'; 
+    }
+
+    function confirmarLimparTudo() {
+        acaoExclusao = "todos";
+        document.getElementById('confirm-title').innerText = "APAGAR TUDO DEFINITIVAMENTE?";
+        document.getElementById('confirm-box').style.display = 'flex';
+    }
+
     document.getElementById('btn-confirm-sim').onclick = () => {
-        db.ref('veiculos/' + placaParaExcluir).remove().then(() => fecharConfirm());
+        if(acaoExclusao === "unico") {
+            db.ref('veiculos/' + placaParaExcluir).remove().then(() => fecharConfirm());
+        } else {
+            db.ref('veiculos').remove().then(() => {
+                fecharConfirm();
+                showAlert("⚠️ SISTEMA LIMPO");
+            });
+        }
     };
 </script>
 </body>
