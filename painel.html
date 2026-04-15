@@ -145,9 +145,9 @@
 
 <div class="container">
     <section id="view-cliente" class="card">
-        <div class="logo-box"><img src="logo/logo.png" class="logo-img" alt="Lima Car Logo"></div>
+        <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car Logo"></div>
         <label>Consulte seu veículo</label>
-        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1D23" onkeyup="if(event.key==='Enter') consultarCarro()">
+        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="Sua Placa" onkeyup="if(event.key==='Enter') consultarCarro()">
         <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
         <div id="resultado-cliente"></div>
         <button onclick="irPara('view-cadastro-cliente')" class="btn-main" style="background: #25d366; color: white; margin-top: 20px;">SOLICITAR MANUTENÇÃO (CADASTRO)</button>
@@ -155,7 +155,7 @@
     </section>
 
     <section id="view-cadastro-cliente" class="card hidden">
-        <div class="logo-box"><img src="logo/logo.png" class="logo-img"></div>
+        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
         <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
         <label>Nome Completo</label><input type="text" id="c-nome" placeholder="Seu nome">
         <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
@@ -167,7 +167,7 @@
     </section>
 
     <section id="view-login" class="card hidden">
-        <div class="logo-box"><img src="logo/logo.png" class="logo-img"></div>
+        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
         <label style="text-align: center;">Chave de Acesso</label>
         <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
