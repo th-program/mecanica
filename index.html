@@ -40,8 +40,8 @@
             transform: translate(-50%, -50%);
             width: 60vw;
             height: 60vw;
-            background: url('img/logo.png') center/contain no-repeat;
-            opacity: 0.03; /* Bem sutil como solicitado */
+            background: url('logo/logo.png') center/contain no-repeat;
+            opacity: 0.03; 
             z-index: -1;
             pointer-events: none;
         }
@@ -49,7 +49,7 @@
         header {
             background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
-            padding: 15px 5%;
+            padding: 10px 5%; /* Reduzi o padding vertical para dar foco à imagem */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -59,8 +59,11 @@
             border-bottom: 2px solid var(--primary-blue);
         }
 
+        /* AJUSTE NA LOGO: Maior destaque */
         header img { 
-            height: 60px; 
+            height: 90px; /* Aumentado de 60px para 90px */
+            width: auto;
+            object-fit: contain;
             transition: var(--transition);
         }
 
@@ -135,7 +138,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Efeito de Piscada (Pulse) */
         @keyframes pulse-gold {
             0% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7); transform: scale(1); }
             70% { box-shadow: 0 0 0 15px rgba(245, 196, 0, 0); transform: scale(1.05); }
@@ -148,7 +150,6 @@
 
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); opacity: 0.9; }
 
-        /* Grid de Serviços */
         section {
             padding: 100px 5%;
             max-width: 1400px;
@@ -239,7 +240,6 @@
             color: #000;
         }
 
-        /* Rodapé */
         footer {
             background: #000;
             text-align: center;
@@ -265,9 +265,9 @@
             transition: var(--transition);
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; }
+            header { flex-direction: column; gap: 10px; padding: 15px 5%; }
+            header img { height: 70px; } /* Mobile um pouco menor mas ainda visível */
             nav a { margin: 0 10px; font-size: 12px; }
             section { padding: 60px 20px; }
         }
@@ -293,7 +293,7 @@
         <a class="btn btn-whatsapp" href="https://wa.me/5500000000000" target="_blank">
             <i class="fab fa-whatsapp"></i> Orçamento Rápido
         </a>
-        <a class="btn btn-consult" id="btn-cadastro-principal" href="acesso.html">
+        <a class="btn btn-consult" id="btn-cadastro-principal" href="painel.html">
             <i class="fas fa-car"></i> Cadastre seu Veículo
         </a>
     </div>
@@ -306,7 +306,7 @@
 
     <div class="cards">
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1545041062-09f907877292?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
+            <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
             <div class="card-body">
                 <h3>Alinhamento 3D</h3>
                 <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão.</p>
@@ -315,7 +315,7 @@
         </div>
 
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Troca de óleo">
+            <img src="lubrificacao.jpg" class="card-img" alt="Troca de óleo">
             <div class="card-body">
                 <h3>Lubrificação</h3>
                 <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
@@ -324,7 +324,7 @@
         </div>
 
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
+            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
             <div class="card-body">
                 <h3>Suspensão Curva</h3>
                 <p>Segurança e conforto térmico em qualquer terreno. Revisão completa.</p>
@@ -333,7 +333,7 @@
         </div>
 
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1486006396193-471a2abc881e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
+            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
             <div class="card-body">
                 <h3>Sistema de Freios</h3>
                 <p>Pastilhas, discos e ABS. A sua segurança em primeiro lugar.</p>
@@ -359,7 +359,7 @@
         </div>
 
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1615906650591-824701b8a441?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
+            <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
             <div class="card-body">
                 <h3>Check-up de Viagem</h3>
                 <p>Mais de 40 itens verificados para você viajar sem preocupações.</p>
@@ -380,7 +380,7 @@
 
 <footer id="contato">
     <div style="margin-bottom: 20px;">
-        <img src="logo.jpg" alt="Lima Car" style="height: 80px; filter: grayscale(1) brightness(2);">
+        <img src="logo/logo.png" alt="Lima Car" style="height: 100px; filter: grayscale(1) brightness(2);">
     </div>
     <p>Mecânica Lima Car © 2026 | CNPJ: 00.000.000/0001-00</p>
     <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px;">Excelência Automotiva e Transparência</p>
@@ -392,16 +392,12 @@
 
 <script>
     function scrollAndFocus() {
-        // Rola suavemente até o topo (Hero) onde está o botão de cadastro
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
         const btn = document.getElementById('btn-cadastro-principal');
         
-        // Espera a rolagem chegar para começar a piscar
         setTimeout(() => {
             btn.classList.add('pulse-animation');
-            
-            // Remove a animação após 4 segundos para não ficar cansativo
             setTimeout(() => {
                 btn.classList.remove('pulse-animation');
             }, 4500);
