@@ -25,14 +25,13 @@
             background-color: var(--bg); 
             background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
             color: var(--text-main); 
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            display: block;
             min-height: 100vh; 
             padding: 15px; 
             overflow-x: hidden; 
         }
 
+        /* BOTÃO VOLTAR PARA INÍCIO CORRIGIDO */
         .btn-home-fixed {
             display: inline-flex;
             align-items: center;
@@ -57,15 +56,14 @@
             width: 100%; 
             max-width: 450px; 
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         } 
         
-        #view-painel.card { 
-            max-width: 950px; 
+        /* AJUSTE DO PAINEL PARA NÃO CORTAR */
+        #view-painel { 
+            max-width: 1000px !important; 
             width: 100%;
-            margin: auto 0; /* Centraliza verticalmente se houver espaço */
+            margin: 0 auto;
+            padding-bottom: 80px; /* Espaço para não cortar no final */
         }
 
         @media (min-width: 768px) { 
@@ -134,6 +132,8 @@
         .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
         .mobile-spacer { width: 100%; height: 40px; visibility: hidden; pointer-events: none; }
 
+        .tag-servico { font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); color: var(--text-dim); }
+
         @media (max-width: 767px) {
             #view-painel .painel-col:last-child {
                 background: rgba(255, 255, 255, 0.03);
@@ -148,10 +148,8 @@
 <body>
 
 <a href="#" class="btn-home-fixed" onclick="location.reload()">
-    <span>🏠</span> INÍCIO
-</a>
-
-<div id="custom-alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 85%; text-align: center;"></div>
+    <span>🏠</span> INÍCIO</a>
+<div id="custom-alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 80%; text-align: center;"></div>
 
 <div id="img-modal" onclick="this.style.display='none'"><img id="modal-view" src=""><div style="position: absolute; top: 20px; right: 20px; color: #fff; font-size: 20px;">✕</div></div>
 
@@ -255,9 +253,9 @@
 
                 <label>Relatório Técnico</label>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
-                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Revisão Preventiva Premium')">+ Revisão</span>
-                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Troca de Óleo e Filtros')">+ Óleo</span>
-                    <span class="tag-servico" style="font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border);" onclick="addServico('Diagnóstico via Scanner')">+ Scanner</span>
+                    <span class="tag-servico" onclick="addServico('Revisão Preventiva Premium')">+ Revisão</span>
+                    <span class="tag-servico" onclick="addServico('Troca de Óleo e Filtros')">+ Óleo</span>
+                    <span class="tag-servico" onclick="addServico('Diagnóstico via Scanner')">+ Scanner</span>
                 </div>
                 <textarea id="m-obs" rows="4" placeholder="Descreva o que foi feito no carro..."></textarea>
                 
@@ -271,7 +269,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-
 <script>
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
@@ -295,14 +292,6 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
-    function forceResetZoom() {
-        const viewport = document.getElementById('viewport-meta');
-        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-        setTimeout(() => {
-            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=1');
-        }, 300);
-    }
-
     function toggleZoom(permitir) {
         const viewport = document.getElementById('viewport-meta');
         if (permitir) {
@@ -311,7 +300,6 @@
             viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
         }
     }
-    toggleZoom(false);
 
     function consultarCarro() {
         const p = document.getElementById('login-placa').value.toUpperCase().trim();
@@ -348,9 +336,6 @@
             } else if(!document.getElementById('view-painel').classList.contains('hidden')) {
                 limparFormulario();
             }
-        }
-        if(e.key === "Enter" && !document.getElementById('view-painel').classList.contains('hidden')) {
-            if(document.activeElement.tagName !== 'TEXTAREA') salvar();
         }
     });
 
@@ -525,14 +510,9 @@
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
         document.getElementById(id).classList.remove('hidden'); 
         window.scrollTo(0,0);
-        
-        if(id === 'view-painel') {
-            document.body.style.alignItems = "center"; // Centraliza verticalmente no Admin
-            forceResetZoom();
-        } else {
-            document.body.style.alignItems = "flex-start"; // Mantém no topo no cliente
-            toggleZoom(false);
-        }
+        // Permitir zoom no painel de admin, mas não nas telas de cliente
+        if(id === 'view-painel') toggleZoom(true);
+        else toggleZoom(false);
     }
 
     function logar() { 
