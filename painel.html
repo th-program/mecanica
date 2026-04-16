@@ -33,6 +33,9 @@
             overflow-x: hidden; 
         }
 
+        /* CAMPO INVISÍVEL ADICIONADO PARA EVITAR CORTE NO MOBILE */
+        .spacer-mobile { height: 80px; width: 100%; display: block; clear: both; }
+
         /* BOTÃO VOLTAR PARA INÍCIO */
         .btn-home-fixed {
             position: fixed;
@@ -129,14 +132,11 @@
         @media (min-width: 768px) { .painel-grid { grid-template-columns: 1.2fr 0.8fr; } } 
         
         .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
-
-        /* CAMPO INVISÍVEL PARA EVITAR CORTE NO MOBILE */
-        .spacer-mobile { height: 80px; width: 100%; display: block; clear: both; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
+<a href="#" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO
 </a>
 
@@ -238,9 +238,9 @@
                 <input type="text" id="m-modelo" readonly style="opacity: 0.6; cursor: not-allowed;">
                 
                 <label>Fotos (Estado do Carro)</label>
-<label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
-<input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
-<div id="preview-area" class="fotos-grid"></div>
+                <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
+                <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+                <div id="preview-area" class="fotos-grid"></div>
 
                 <label>Status da Manutenção</label>
                 <div class="status-picker">
@@ -291,7 +291,6 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
-    // CONSULTAR CARRO - COM LÓGICA DE BOTÕES SOLICITADA
     function consultarCarro() {
         const p = document.getElementById('login-placa').value.toUpperCase().trim();
         const res = document.getElementById('resultado-cliente');
@@ -305,23 +304,19 @@
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
             let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
             
-            // Exibe resultado
             res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                 <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
                 <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
             
-            // Alterna botões
             areaBusca.classList.add('hidden');
             btnSolicitar.classList.add('hidden');
             btnFalarOficina.classList.remove('hidden');
             btnVoltarBusca.classList.remove('hidden');
-
         } else { 
             showAlert("🔍 NÃO LOCALIZADO"); 
         }
     }
 
-    // MANUTENÇÃO DOS DEMAIS SCRIPTS ORIGINAIS
     document.addEventListener('keydown', (e) => {
         if(e.key === "Escape") {
             if(document.getElementById('img-modal').style.display === 'flex') {
