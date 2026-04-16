@@ -116,7 +116,7 @@
         #modal-view { max-width: 90%; max-height: 80%; border: 2px solid var(--primary); border-radius: 15px; } 
 
         .fotos-grid { display: grid; gap: 10px; margin-top: 15px; grid-template-columns: repeat(2, 1fr); } 
-        .img-item-wrapper { position: relative; width: 100%; height: 110px; } 
+        .img-item-wrapper { position: relative; width: 100%; aspect-ratio: 1/1; } 
         .img-item { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 1px solid var(--border); } 
 
         .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(10px); }
@@ -136,7 +136,7 @@
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
+<a href="#" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO
 </a>
 
