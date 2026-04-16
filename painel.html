@@ -2,154 +2,126 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Mecânica Lima Car | Gestão Profissional</title>
-    <style>
-        :root { 
-            --bg: #000b1a; 
-            --primary: #d4af37; 
-            --text-main: #f0f0f0; 
-            --text-dim: #a0aec0; 
-            --border: #132a47; 
-            --success: #00ff88; 
-            --warning: #ffcc00; 
-            --danger: #ff4d4d; 
-            --input-bg: rgba(0, 30, 61, 0.7); 
-            --logo-size: 220px; 
-        } 
-        
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
-        
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            background-color: var(--bg); 
-            background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
-            color: var(--text-main); 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start; /* Ajustado de center para flex-start para evitar cortes no topo */
-            min-height: 100vh; 
-            padding: 20px 15px; /* Aumentado padding para respiro no mobile */
-            overflow-x: hidden; 
-        }
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* BOTÃO VOLTAR PARA INÍCIO */
-        .btn-home-fixed {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--input-bg);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 15px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            z-index: 1000;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn-home-fixed:hover { background: var(--primary); color: #000; }
+<style>
+/* ===== RESET BASE ===== */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
 
-        /* Ajuste de responsividade para evitar cortes */
-        .container { width: 100%; max-width: 450px; margin-top: 60px; padding-right: 5px; } 
-        #view-painel.card { max-width: 950px; width: 95vw; }
-        @media (min-width: 768px) { .container { max-width: 900px; margin-top: 0; padding-right: 0; } }
+/* ===== BODY AJUSTADO MOBILE ===== */
+body { 
+    font-family: 'Segoe UI', Roboto, sans-serif; 
+    background-color: var(--bg); 
+    color: var(--text-main); 
 
-        section { display: block; animation: fadeIn 0.4s ease-out; width: 100%; } 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
-        
-        .card { 
-            background: none; 
-            border: none; 
-            border-radius: 0; 
-            padding: 10px; 
-            position: relative; 
-            box-shadow: none; 
-            backdrop-filter: none; 
-            border-top: none; 
-        } 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
 
-        .logo-box { text-align: center; margin-bottom: 30px; background: transparent; padding: 15px; } 
-        .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); } 
-        
-        label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
-        
-        input, textarea, select { 
-            width: 100%; 
-            padding: 14px; 
-            background: var(--input-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            color: #fff; 
-            font-size: 15px !important; 
-            margin-bottom: 18px; 
-            transition: 0.3s; 
-        } 
-        
-        input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
-        
-        .btn-upload-custom { display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border: 1px dashed var(--primary); color: var(--primary); padding: 20px; border-radius: 15px; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 13px; transition: 0.3s; } 
-        
-        .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: #fff !important; color: #000 !important; border: 4px solid var(--primary) !important; text-transform: uppercase; letter-spacing: 5px; text-align: center; border-radius: 15px !important; } 
-        @media (min-width: 480px) { .input-placa-grande { font-size: 40px !important; } }
+    min-height: 100dvh; /* CORREÇÃO PRINCIPAL */
+    padding: 15px 10px 80px; /* espaço inferior */
+}
 
-        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; display: block; text-decoration: none; text-align: center; } 
-        .btn-main:active { transform: scale(0.98); } 
+/* ===== CONTAINER FLEXÍVEL ===== */
+.container { 
+    width: 100%; 
+    max-width: 100%; 
+    margin-top: 60px; 
+    padding: 0 5px;
+}
 
-        .categorias-filtro { display: flex; gap: 8px; margin-top: 25px; overflow-x: auto; padding-bottom: 15px; } 
-        .cat-btn { background: var(--input-bg); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: 0.3s; } 
-        .cat-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(212, 175, 55, 0.15); } 
+/* ===== PAINEL ADMIN RESPONSIVO ===== */
+#view-painel.card { 
+    width: 100%; 
+    max-width: 100%;
+}
 
-        .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; } 
-        .status-option { background: rgba(0, 30, 61, 0.5); border: 1px solid var(--border); padding: 12px 5px; border-radius: 12px; text-align: center; font-size: 10px; font-weight: 800; cursor: pointer; color: var(--text-dim); transition: 0.3s; } 
-        .status-option.active { transform: scale(1.02); border-color: var(--primary); color: #fff; }
+/* ===== GRID MOBILE CORRIGIDO ===== */
+.painel-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 20px; 
+}
 
-        .table-container { margin-top: 20px; background: rgba(255,255,255,0.02); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; } 
-        td { padding: 15px 10px; border-bottom: 1px solid var(--border); font-size: 13px; } 
-        
-        .hidden { display: none !important; } 
-        #img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); } 
-        #modal-view { max-width: 90%; max-height: 80%; border: 2px solid var(--primary); border-radius: 15px; } 
+/* ===== TABELA RESPONSIVA ===== */
+.table-container { 
+    max-height: 300px; 
+    overflow-y: auto; 
+    overflow-x: auto; /* evita corte lateral */
+}
 
-        .fotos-grid { display: grid; gap: 10px; margin-top: 15px; grid-template-columns: repeat(2, 1fr); } 
-        .img-item-wrapper { position: relative; width: 100%; aspect-ratio: 1/1; } 
-        .img-item { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 1px solid var(--border); } 
+/* ===== BOTÃO FIXO AJUSTADO ===== */
+.btn-home-fixed {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    z-index: 999;
+}
 
-        .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(10px); }
-        .confirm-box .card { background: var(--bg); border: 1px solid var(--border); padding: 30px; border-radius: 25px; border-top: 2px solid var(--danger); }
+/* ===== INPUTS MOBILE ===== */
+input, textarea, select {
+    font-size: 16px !important; /* evita zoom automático */
+}
 
-        .solicitacao-item { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--border); padding: 15px; border-radius: 15px; margin-bottom: 12px; }
-        .relatorio-cliente-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
+/* ===== IMAGENS RESPONSIVAS ===== */
+img {
+    max-width: 100%;
+    height: auto;
+}
 
-        .painel-grid { display: grid; grid-template-columns: 1fr; gap: 30px; } 
-        @media (min-width: 768px) { .painel-grid { grid-template-columns: 1.2fr 0.8fr; } } 
-        
-        .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
-        
-        /* CAMPO INVISÍVEL PARA EVITAR CORTE */
-        .mobile-spacer { width: 100%; height: 40px; visibility: hidden; pointer-events: none; }
+/* ===== MOBILE ESPECÍFICO ===== */
+@media (max-width: 767px) {
 
-        /* ============================= */
-        /* CARD SOMENTE NO MOBILE */
-        /* ============================= */
-        @media (max-width: 767px) {
-         #view-painel .painel-col:last-child {
-         background: rgba(255, 255, 255, 0.03);
-         border: 1px solid var(--border);
-         border-radius: 20px;
-         padding: 20px 15px;
-         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-         }
-        }
-    </style>
+    body {
+        padding: 10px 8px 100px;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    #view-painel .painel-col:last-child {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        padding: 15px;
+    }
+
+    .status-picker {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .categorias-filtro {
+        gap: 6px;
+    }
+
+    .cat-btn {
+        font-size: 10px;
+        padding: 8px 12px;
+    }
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 768px) {
+    .container { 
+        max-width: 900px; 
+        margin-top: 0;
+    }
+
+    .painel-grid { 
+        grid-template-columns: 1.2fr 0.8fr; 
+    }
+}
+</style>
 </head>
 <body>
 
-<a href="index.htlm" class="btn-home-fixed" onclick="location.reload()">
+<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO
 </a>
 
