@@ -129,6 +129,9 @@
         @media (min-width: 768px) { .painel-grid { grid-template-columns: 1.2fr 0.8fr; } } 
         
         .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
+
+        /* CAMPO INVISÍVEL PARA EVITAR CORTE NO MOBILE */
+        .spacer-mobile { height: 80px; width: 100%; display: block; clear: both; }
     </style>
 </head>
 <body>
@@ -162,6 +165,7 @@
         </div>
 
         <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
+        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-cadastro-cliente" class="card hidden">
@@ -174,6 +178,7 @@
         <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
+        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-login" class="card hidden">
@@ -182,6 +187,7 @@
         <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
+        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-painel" class="card hidden">
@@ -255,6 +261,7 @@
                 <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; border: 1px solid #444; color:white; margin-top:12px">Descartar Edição</button>
             </div>
         </div>
+        <div class="spacer-mobile"></div>
     </section>
 </div>
 
