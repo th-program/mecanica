@@ -27,9 +27,9 @@
             color: var(--text-main); 
             display: flex; 
             justify-content: center; 
-            align-items: flex-start; 
+            align-items: flex-start; /* Ajustado de center para flex-start para evitar cortes no topo */
             min-height: 100vh; 
-            padding: 20px 15px; 
+            padding: 20px 15px; /* Aumentado padding para respiro no mobile */
             overflow-x: hidden; 
         }
 
@@ -54,13 +54,10 @@
         }
         .btn-home-fixed:hover { background: var(--primary); color: #000; }
 
-        /* AJUSTE DE RESPONSIVIDADE CORRIGIDO */
-        .container { width: 100%; max-width: 100%; margin-top: 60px; padding: 0 10px; } 
-        #view-painel.card { max-width: 1200px; width: 100%; margin: 0 auto; }
-        @media (min-width: 768px) { 
-            .container { max-width: 95%; margin: 20px auto; } 
-            body { align-items: center; }
-        }
+        /* Ajuste de responsividade para evitar cortes */
+        .container { width: 100%; max-width: 450px; margin-top: 60px; } 
+        #view-painel.card { max-width: 950px; width: 95vw; }
+        @media (min-width: 768px) { .container { max-width: 900px; margin-top: 0; } }
 
         section { display: block; animation: fadeIn 0.4s ease-out; width: 100%; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
@@ -287,6 +284,7 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
+    // CONSULTAR CARRO - COM LÓGICA DE BOTÕES SOLICITADA
     function consultarCarro() {
         const p = document.getElementById('login-placa').value.toUpperCase().trim();
         const res = document.getElementById('resultado-cliente');
@@ -300,10 +298,12 @@
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
             let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
             
+            // Exibe resultado
             res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                 <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
                 <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
             
+            // Alterna botões
             areaBusca.classList.add('hidden');
             btnSolicitar.classList.add('hidden');
             btnFalarOficina.classList.remove('hidden');
@@ -314,6 +314,7 @@
         }
     }
 
+    // MANUTENÇÃO DOS DEMAIS SCRIPTS ORIGINAIS
     document.addEventListener('keydown', (e) => {
         if(e.key === "Escape") {
             if(document.getElementById('img-modal').style.display === 'flex') {
