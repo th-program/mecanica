@@ -31,7 +31,6 @@
             overflow-x: hidden; 
         }
 
-        /* BOTÃO VOLTAR PARA INÍCIO CORRIGIDO */
         .btn-home-fixed {
             display: inline-flex;
             align-items: center;
@@ -58,12 +57,11 @@
             margin: 0 auto;
         } 
         
-        /* AJUSTE DO PAINEL PARA NÃO CORTAR */
         #view-painel { 
             max-width: 1000px !important; 
             width: 100%;
             margin: 0 auto;
-            padding-bottom: 80px; /* Espaço para não cortar no final */
+            padding-bottom: 80px;
         }
 
         @media (min-width: 768px) { 
@@ -147,7 +145,7 @@
 </head>
 <body>
 
-<a href="#" class="btn-home-fixed" onclick="location.reload()">
+<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO</a>
 <div id="custom-alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 80%; text-align: center;"></div>
 
