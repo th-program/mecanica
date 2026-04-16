@@ -29,12 +29,9 @@
             justify-content: center; 
             align-items: flex-start; /* Ajustado de center para flex-start para evitar cortes no topo */
             min-height: 100vh; 
-            padding: 20px 15px; /* Aumentado padding para respiro no mobile */
+            padding: 20px 15px 80px 15px; /* Aumentado padding-bottom para garantir rolagem no mobile */
             overflow-x: hidden; 
         }
-
-        /* CAMPO INVISÍVEL ADICIONADO PARA EVITAR CORTE NO MOBILE */
-        .spacer-mobile { height: 80px; width: 100%; display: block; clear: both; }
 
         /* BOTÃO VOLTAR PARA INÍCIO */
         .btn-home-fixed {
@@ -58,9 +55,17 @@
         .btn-home-fixed:hover { background: var(--primary); color: #000; }
 
         /* Ajuste de responsividade para evitar cortes */
-        .container { width: 100%; max-width: 450px; margin-top: 60px; } 
+        .container { width: 100%; max-width: 450px; margin-top: 60px; position: relative; } 
         #view-painel.card { max-width: 950px; width: 95vw; }
         @media (min-width: 768px) { .container { max-width: 900px; margin-top: 0; } }
+
+        /* Espaçador invisível para evitar cortes no final da página mobile */
+        .mobile-spacer {
+            height: 120px;
+            width: 100%;
+            display: block;
+            pointer-events: none;
+        }
 
         section { display: block; animation: fadeIn 0.4s ease-out; width: 100%; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
@@ -88,7 +93,7 @@
             border: 1px solid var(--border); 
             border-radius: 12px; 
             color: #fff; 
-            font-size: 15px !important; 
+            font-size: 16px !important; /* Aumentado para 16px para evitar zoom automático no iOS */
             margin-bottom: 18px; 
             transition: 0.3s; 
         } 
@@ -136,7 +141,7 @@
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
+<a href="#" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO
 </a>
 
@@ -165,7 +170,6 @@
         </div>
 
         <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
-        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-cadastro-cliente" class="card hidden">
@@ -178,7 +182,6 @@
         <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
-        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-login" class="card hidden">
@@ -187,7 +190,6 @@
         <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
-        <div class="spacer-mobile"></div>
     </section>
 
     <section id="view-painel" class="card hidden">
@@ -261,7 +263,7 @@
                 <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; border: 1px solid #444; color:white; margin-top:12px">Descartar Edição</button>
             </div>
         </div>
-        <div class="spacer-mobile"></div>
+        <div class="mobile-spacer"></div>
     </section>
 </div>
 
@@ -291,6 +293,7 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
+    // CONSULTAR CARRO - COM LÓGICA DE BOTÕES SOLICITADA
     function consultarCarro() {
         const p = document.getElementById('login-placa').value.toUpperCase().trim();
         const res = document.getElementById('resultado-cliente');
@@ -302,21 +305,25 @@
         if(bancoDados[p]) {
             const v = bancoDados[p];
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
-            let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
+            let fotosHtml = (v.fotos && v.fotos.length > 0) ? <div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">).join('')}</div>` : "";
             
+            // Exibe resultado
             res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                 <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
                 <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
             
+            // Alterna botões
             areaBusca.classList.add('hidden');
             btnSolicitar.classList.add('hidden');
             btnFalarOficina.classList.remove('hidden');
             btnVoltarBusca.classList.remove('hidden');
+
         } else { 
             showAlert("🔍 NÃO LOCALIZADO"); 
         }
     }
 
+    // MANUTENÇÃO DOS DEMAIS SCRIPTS ORIGINAIS
     document.addEventListener('keydown', (e) => {
         if(e.key === "Escape") {
             if(document.getElementById('img-modal').style.display === 'flex') {
@@ -395,9 +402,9 @@
         const btnWhats = document.getElementById('btn-whats-direto');
         boxRelato.style.display = "block";
         btnWhats.style.display = "flex"; 
-        document.getElementById('txt-relato-cliente').innerHTML = `<b>Nome:</b> ${nome}<br><b>Problema:</b> ${problema}`;
+        document.getElementById('txt-relato-cliente').innerHTML = <b>Nome:</b> ${nome}<br><b>Problema:</b> ${problema};
         const numLimpo = zap.replace(/\D/g, "");
-        btnWhats.onclick = () => { window.open(`https://wa.me/55${numLimpo}`, '_blank'); };
+        btnWhats.onclick = () => { window.open(https://wa.me/55${numLimpo}, '_blank'); };
     }
 
     function salvar() {
@@ -464,7 +471,7 @@
                 <button style="position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold;" onclick="removerFoto(${index})">X</button>`;
             area.appendChild(div);
         });
-        document.getElementById('label-upload').innerText = fotosBase64.length > 0 ? `📸 ${fotosBase64.length} FOTO(S)` : "📸 ENVIAR FOTOS";
+        document.getElementById('label-upload').innerText = fotosBase64.length > 0 ? 📸 ${fotosBase64.length} FOTO(S) : "📸 ENVIAR FOTOS";
     }
 
     function removerFoto(index) { fotosBase64.splice(index, 1); renderizarFotosEdicao(); }
