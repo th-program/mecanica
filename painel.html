@@ -27,12 +27,13 @@
             color: var(--text-main); 
             display: flex; 
             justify-content: center; 
-            align-items: flex-start;
+            align-items: flex-start; /* Ajustado de center para flex-start para evitar cortes no topo */
             min-height: 100vh; 
-            padding: 20px 15px 100px 15px; /* Padding inferior aumentado para respiro */
+            padding: 20px 15px; /* Aumentado padding para respiro no mobile */
             overflow-x: hidden; 
         }
 
+        /* BOTÃO VOLTAR PARA INÍCIO */
         .btn-home-fixed {
             position: fixed;
             top: 20px;
@@ -45,7 +46,7 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
-            z-index: 10000; /* Garantir que fique acima de tudo */
+            z-index: 1000;
             transition: 0.3s;
             display: flex;
             align-items: center;
@@ -53,17 +54,10 @@
         }
         .btn-home-fixed:hover { background: var(--primary); color: #000; }
 
-        .container { width: 100%; max-width: 450px; margin-top: 60px; position: relative; z-index: 1; } 
+        /* Ajuste de responsividade para evitar cortes */
+        .container { width: 100%; max-width: 450px; margin-top: 60px; padding-right: 5px; } 
         #view-painel.card { max-width: 950px; width: 95vw; }
-        @media (min-width: 768px) { .container { max-width: 900px; margin-top: 0; } }
-
-        /* Ajuste do espaçador para não bloquear cliques */
-        .mobile-spacer {
-            height: 100px;
-            width: 100%;
-            pointer-events: none; /* Crucial: ignora toques para não bloquear botões */
-            display: block;
-        }
+        @media (min-width: 768px) { .container { max-width: 900px; margin-top: 0; padding-right: 0; } }
 
         section { display: block; animation: fadeIn 0.4s ease-out; width: 100%; } 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
@@ -76,6 +70,7 @@
             position: relative; 
             box-shadow: none; 
             backdrop-filter: none; 
+            border-top: none; 
         } 
 
         .logo-box { text-align: center; margin-bottom: 30px; background: transparent; padding: 15px; } 
@@ -90,7 +85,7 @@
             border: 1px solid var(--border); 
             border-radius: 12px; 
             color: #fff; 
-            font-size: 16px !important; 
+            font-size: 15px !important; 
             margin-bottom: 18px; 
             transition: 0.3s; 
         } 
@@ -102,7 +97,7 @@
         .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: #fff !important; color: #000 !important; border: 4px solid var(--primary) !important; text-transform: uppercase; letter-spacing: 5px; text-align: center; border-radius: 15px !important; } 
         @media (min-width: 480px) { .input-placa-grande { font-size: 40px !important; } }
 
-        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; display: block; text-decoration: none; text-align: center; position: relative; z-index: 5; } 
+        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; display: block; text-decoration: none; text-align: center; } 
         .btn-main:active { transform: scale(0.98); } 
 
         .categorias-filtro { display: flex; gap: 8px; margin-top: 25px; overflow-x: auto; padding-bottom: 15px; } 
@@ -134,11 +129,14 @@
         @media (min-width: 768px) { .painel-grid { grid-template-columns: 1.2fr 0.8fr; } } 
         
         .whatsapp-float-btn { background: #25d366 !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border: none; }
+        
+        /* CAMPO INVISÍVEL PARA EVITAR CORTE */
+        .mobile-spacer { width: 100%; height: 40px; visibility: hidden; pointer-events: none; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed" onclick="location.reload()">
+<a href="#" class="btn-home-fixed" onclick="location.reload()">
     <span>🏠</span> INÍCIO
 </a>
 
@@ -167,7 +165,6 @@
         </div>
 
         <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
-        <div class="mobile-spacer"></div>
     </section>
 
     <section id="view-cadastro-cliente" class="card hidden">
@@ -180,7 +177,6 @@
         <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
-        <div class="mobile-spacer"></div>
     </section>
 
     <section id="view-login" class="card hidden">
@@ -189,7 +185,6 @@
         <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
-        <div class="mobile-spacer"></div>
     </section>
 
     <section id="view-painel" class="card hidden">
@@ -240,9 +235,9 @@
                 <input type="text" id="m-modelo" readonly style="opacity: 0.6; cursor: not-allowed;">
                 
                 <label>Fotos (Estado do Carro)</label>
-                <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
-                <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
-                <div id="preview-area" class="fotos-grid"></div>
+<label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 CLIQUE PARA ENVIAR FOTOS</label>
+<input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+<div id="preview-area" class="fotos-grid"></div>
 
                 <label>Status da Manutenção</label>
                 <div class="status-picker">
@@ -261,9 +256,10 @@
                 
                 <button class="btn-main" onclick="salvar()">✅ Salvar Registro (ENTER)</button>
                 <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; border: 1px solid #444; color:white; margin-top:12px">Descartar Edição</button>
+                
+                <div class="mobile-spacer"></div>
             </div>
         </div>
-        <div class="mobile-spacer"></div>
     </section>
 </div>
 
@@ -293,6 +289,7 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
+    // CONSULTAR CARRO - COM LÓGICA DE BOTÕES SOLICITADA
     function consultarCarro() {
         const p = document.getElementById('login-placa').value.toUpperCase().trim();
         const res = document.getElementById('resultado-cliente');
@@ -306,10 +303,12 @@
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
             let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
             
+            // Exibe resultado
             res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                 <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
                 <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
             
+            // Alterna botões
             areaBusca.classList.add('hidden');
             btnSolicitar.classList.add('hidden');
             btnFalarOficina.classList.remove('hidden');
@@ -320,6 +319,7 @@
         }
     }
 
+    // MANUTENÇÃO DOS DEMAIS SCRIPTS ORIGINAIS
     document.addEventListener('keydown', (e) => {
         if(e.key === "Escape") {
             if(document.getElementById('img-modal').style.display === 'flex') {
@@ -376,7 +376,7 @@
                 <div class="solicitacao-item">
                     <b style="color:var(--primary)">${s.placa} - ${s.modelo}</b><br>
                     <span style="font-size:12px">Cliente: ${s.nome}</span><br>
-                    <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px; z-index:10;" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
+                    <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                 </div>
             `;
         });
@@ -432,8 +432,8 @@
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
             corpo.innerHTML += `<tr><td><b style="color:var(--primary)">${p}</b><br>${v.modelo}</td><td style="color:${cor}; font-weight:bold;">${v.status}</td>
                 <td style="text-align:right">
-                <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px; margin-right:10px; z-index:10;">✏️</button>
-                <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px; z-index:10;">🗑️</button></td></tr>`;
+                <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px; margin-right:10px;">✏️</button>
+                <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px;">🗑️</button></td></tr>`;
         });
     }
 
@@ -464,7 +464,7 @@
             const div = document.createElement('div');
             div.className = "img-item-wrapper";
             div.innerHTML = `<img src="${src}" onclick="abrirImg('${src}')" class="img-item">
-                <button style="position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold; z-index:20;" onclick="removerFoto(${index})">X</button>`;
+                <button style="position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold;" onclick="removerFoto(${index})">X</button>`;
             area.appendChild(div);
         });
         document.getElementById('label-upload').innerText = fotosBase64.length > 0 ? `📸 ${fotosBase64.length} FOTO(S)` : "📸 ENVIAR FOTOS";
