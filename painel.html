@@ -171,7 +171,7 @@
         <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car Logo"></div>
         <div id="area-busca">
             <label>Consulte seu veículo</label>
-            <input type="password" id="login-pin" class="input-placa-grande" maxlength="4" placeholder="SEU PIN" onkeyup="if(event.key==='Enter') consultarCarro()">
+            <input type="password" id="login-pin" class="input-placa-grande" maxlength="4" placeholder="SEU PIN">
             <button class="btn-main" id="btn-localizar" onclick="consultarCarro()">Localizar Veículo</button>
         </div>
         <div id="resultado-cliente"></div>
@@ -190,7 +190,7 @@
         <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
         <label>Placa do Veículo</label><input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
         <label>Modelo do Veículo</label><input type="text" id="c-modelo" placeholder="Ex: Gol G5">
-         <label>Ano do Veículo</label><input type="text" id="c-modelo" maxlength="4" placeholder="Ex: Modelo 2000" style="text-transform: uppercase;">
+         <label>Ano do Veículo</label><input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012" style="text-transform: uppercase;">
         <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         
         <label>Crie um PIN de 4 dígitos</label>
@@ -204,7 +204,7 @@
     <section id="view-login" class="card hidden">
         <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
         <label style="text-align: center;">Chave de Acesso</label>
-        <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;" onkeyup="if(event.key==='Enter') logar()">
+        <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;">
         <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
         <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
@@ -253,7 +253,7 @@
                     <div><label>Valor (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
                 </div>
                 
-                <label>Modelo do Veículo</label>
+                <label>Modelo e Ano do Veículo</label>
                 <input type="text" id="m-modelo" readonly style="opacity: 0.6;">
                 
                 <input type="hidden" id="m-pin-interno">
@@ -311,6 +311,27 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
+    // LÓGICA DE ENTER EM TODOS OS CAMPOS
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const activeEl = document.activeElement;
+            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
+                e.preventDefault();
+                
+                // Se for campos de ação final (Consulta ou Login)
+                if (activeEl.id === 'login-pin') return consultarCarro();
+                if (activeEl.id === 'pass-admin') return logar();
+
+                // Pular para o próximo campo
+                const inputs = Array.from(document.querySelectorAll('input:not([type="hidden"]):not([style*="display: none"]), textarea'));
+                const index = inputs.indexOf(activeEl);
+                if (index > -1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            }
+        }
+    });
+
     function toggleZoom(permitir) {
         const viewport = document.getElementById('viewport-meta');
         if (permitir) {
@@ -320,7 +341,6 @@
         }
     }
 
-    // Lógica de consulta alterada para buscar por PIN
     function consultarCarro() {
         const pinDigitado = document.getElementById('login-pin').value.trim();
         const res = document.getElementById('resultado-cliente');
@@ -331,7 +351,6 @@
 
         if(pinDigitado.length < 4) return showAlert("⚠️ PIN INVÁLIDO");
 
-        // Busca no banco de dados o objeto que contém o PIN correspondente
         let veiculoEncontrado = null;
         Object.keys(bancoDados).forEach(placa => {
             if(bancoDados[placa].pin === pinDigitado) {
@@ -357,18 +376,6 @@
         }
     }
 
-    document.addEventListener('keydown', (e) => {
-        if(e.key === "Escape") {
-            if(document.getElementById('img-modal').style.display === 'flex') {
-                document.getElementById('img-modal').style.display = 'none';
-            } else if(document.getElementById('confirm-box').style.display === 'flex') {
-                fecharConfirm();
-            } else if(!document.getElementById('view-painel').classList.contains('hidden')) {
-                limparFormulario();
-            }
-        }
-    });
-
     db.ref('veiculos').on('value', (snapshot) => {
         bancoDados = snapshot.val() || {};
         desenharTabela();
@@ -384,15 +391,16 @@
         const zap = document.getElementById('c-zap').value.trim();
         const placa = document.getElementById('c-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('c-modelo').value.trim();
+        const ano = document.getElementById('c-ano').value.trim();
         const problema = document.getElementById('c-problema').value.trim();
         const pin = document.getElementById('c-pin').value.trim();
 
-        if(!nome || !placa || !modelo || !problema || !pin) return showAlert("❌ PREENCHA TUDO");
+        if(!nome || !placa || !modelo || !problema || !pin || !ano) return showAlert("❌ PREENCHA TUDO");
         if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
         if(pin.length < 4) return showAlert("❌ PIN DEVE TER 4 DÍGITOS");
 
         db.ref('pre_cadastros/' + placa).set({
-            nome, zap, placa, modelo, problema, pin, data: new Date().toLocaleString()
+            nome, zap, placa, modelo, ano, problema, pin, data: new Date().toLocaleString()
         }).then(() => {
             showAlert("✔️ ENVIADO!");
             irPara('view-cliente');
@@ -412,7 +420,7 @@
             const s = bancoSolicitacoes[id];
             container.innerHTML += `
                 <div class="solicitacao-item">
-                    <b style="color:var(--primary)">${s.placa} - ${s.modelo}</b><br>
+                    <b style="color:var(--primary)">${s.placa} - ${s.modelo} (${s.ano})</b><br>
                     <span style="font-size:12px">Cliente: ${s.nome}</span><br>
                     <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                 </div>`;
@@ -422,8 +430,9 @@
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
         document.getElementById('m-placa').value = s.placa;
-        document.getElementById('m-modelo').value = s.modelo;
-        document.getElementById('m-pin-interno').value = s.pin; // Importa o PIN
+        // Une Modelo e Ano no campo do mecânico
+        document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
+        document.getElementById('m-pin-interno').value = s.pin;
         whatsappAtual = s.zap;
         nomeClienteAtual = s.nome;
         relatoClienteAtual = s.problema;
@@ -443,20 +452,20 @@
 
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
-        const modelo = document.getElementById('m-modelo').value.trim();
+        const modeloComp = document.getElementById('m-modelo').value.trim();
         const preco = document.getElementById('m-preco').value;
         const obs = document.getElementById('m-obs').value;
-        const pin = document.getElementById('m-pin-interno').value; // Recupera o PIN salvo
+        const pin = document.getElementById('m-pin-interno').value;
 
-        if(!placa || !modelo || !preco || !obs) return showAlert("❌ PREENCHA TUDO");
+        if(!placa || !modeloComp || !preco || !obs) return showAlert("❌ PREENCHA TUDO");
         
         const dados = {
-            modelo, status: statusSelecionado, preco, obs,
+            modelo: modeloComp, status: statusSelecionado, preco, obs,
             fotos: fotosBase64,
             clienteZap: whatsappAtual,
             clienteNome: nomeClienteAtual,
             clienteRelato: relatoClienteAtual,
-            pin: pin // Salva o PIN no banco definitivo
+            pin: pin
         };
         db.ref('veiculos/' + placa).set(dados).then(() => {
             if(bancoSolicitacoes[placa]) db.ref('pre_cadastros/' + placa).remove();
@@ -485,7 +494,7 @@
         document.getElementById('m-modelo').value = v.modelo;
         document.getElementById('m-preco').value = v.preco;
         document.getElementById('m-obs').value = v.obs;
-        document.getElementById('m-pin-interno').value = v.pin || ""; // Carrega o PIN
+        document.getElementById('m-pin-interno').value = v.pin || ""; 
         document.getElementById('btn-cancelar').classList.remove('hidden');
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
