@@ -16,12 +16,17 @@
             --transition: all 0.3s ease;
         }
 
+        html {
+            scroll-behavior: smooth;
+            /* Evita que o menu fixo cubra o título da seção ao rolar */
+            scroll-padding-top: 100px; 
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -58,7 +63,6 @@
             border-bottom: 2px solid var(--primary-blue);
         }
 
-       
         header img { 
             height: 90px; 
             width: auto;
@@ -93,14 +97,13 @@
         }
 
         .hero h1 {
-    
-    font-size: clamp(1.8rem, 4vw, 2.5rem); 
-    color: #fff;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    font-weight: 900;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    line-height: 1.2; 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            color: #fff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            line-height: 1.2; 
         }
 
         .hero p {
@@ -110,7 +113,6 @@
             margin-bottom: 40px;
         }
 
-        /* Botões */
         .hero-btns {
             display: flex;
             gap: 20px;
@@ -131,7 +133,7 @@
             font-size: 14px;
         }
 
-        .btn-whatsapp { background: #ffdb58; color: #fff; }
+        .btn-whatsapp { background: #ffdb58; color: #000 !important; }
         .btn-consult { 
             background: var(--primary-blue); 
             color: #fff; 
@@ -240,7 +242,6 @@
             color: #000;
         }
 
-       
         .location-container {
             display: flex;
             background: var(--card-bg);
@@ -321,13 +322,10 @@
         }
     </style>
 </head>
-<body>
-
-<header>
+<body id="topo"> <header>
     <img src="logo.jpg" alt="Mecânica Lima Car">
     <nav>
-        <a href="#">Início</a>
-        <a href="#servicos">Serviços</a>
+        <a href="#topo">Início</a> <a href="#servicos">Serviços</a>
         <a href="#seguranca">Segurança</a>
         <a href="#localidade">Localidade</a>
         <a href="#contato">Contato</a>
@@ -339,7 +337,7 @@
     <p>Seu carro em boas mãos: tecnologia, cuidado e confiança.</p>
     
     <div class="hero-btns">
-        <a class="btn btn-whatsapp" href="cadastro.html" style="color: #000 !important;">
+        <a class="btn btn-whatsapp" href="cadastro.html">
             <i class="fas fa-edit"></i> Cadastre seu Veículo
         </a>
         
@@ -433,8 +431,7 @@
         <h2>Nossa Localização</h2>
     </div>
     <div class="location-container">
-        <div class="location-img">
-            </div>
+        <div class="location-img"></div>
         <div class="location-info">
             <h3>Ambiente Profissional e Seguro</h3>
             <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha nos visitar e comprove nossa excelência!</p>
@@ -464,16 +461,21 @@
 
 <script>
     function scrollAndFocus() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Força o navegador a fazer o scroll suave via JS também
+        window.scrollTo({ 
+            top: 0, 
+            behavior: 'smooth' 
+        });
         
         const btn = document.getElementById('btn-cadastro-principal');
         
+        // Espera um pouco o scroll acontecer para pulsar
         setTimeout(() => {
             btn.classList.add('pulse-animation');
             setTimeout(() => {
                 btn.classList.remove('pulse-animation');
-            }, 4500);
-        }, 500);
+            }, 3000);
+        }, 800);
     }
 </script>
 
