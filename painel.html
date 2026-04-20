@@ -176,11 +176,29 @@
         </div>
         <div id="resultado-cliente"></div>
         <div id="botoes-acao-cliente">
-            <button id="btn-solicitar-cadastro" onclick="window.location.href='cadastro.html'" class="btn-main" style="background: #25d366; color: white; margin-top: 20px;">SOLICITAR MANUTENÇÃO (CADASTRO)</button>
+            <button id="btn-solicitar-cadastro" onclick="irPara('view-cadastro-cliente')" class="btn-main" style="background: #25d366; color: white; margin-top: 20px;">SOLICITAR MANUTENÇÃO (CADASTRO)</button>
             <a id="btn-falar-oficina" href="https://wa.me/5500000000000" target="_blank" class="btn-main hidden" style="background: #25d366; color: white; margin-top: 20px;">FALAR COM A OFICINA</a>
             <button id="btn-voltar-busca" onclick="location.reload()" class="btn-main hidden" style="background: #132a47; color: white; margin-top: 10px;">VOLTAR PARA CONSULTA</button>
         </div>
         <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
+    </section>
+
+    <section id="view-cadastro-cliente" class="card hidden">
+        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
+        <label>Nome Completo</label><input type="text" id="c-nome" placeholder="Seu nome">
+        <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
+        <label>Placa do Veículo</label><input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
+        <label>Modelo do Veículo</label><input type="text" id="c-modelo" placeholder="Ex: Gol G5">
+         <label>Ano do Veículo</label><input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012" style="text-transform: uppercase;">
+        <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
+        
+        <label>Crie um PIN de 4 dígitos</label>
+        <input type="password" id="c-pin" maxlength="4" placeholder="0000" style="text-align: center; font-size: 24px!important; letter-spacing: 10px;">
+        <div class="aviso-senha">⚠️ NÃO COMPARTILHE ESTE CÓDGIO! Ele é necessario para consultar as informações do seu veículo.</div>
+
+        <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
 
     <section id="view-login" class="card hidden">
@@ -293,13 +311,18 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
+    // LÓGICA DE ENTER EM TODOS OS CAMPOS
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             const activeEl = document.activeElement;
             if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
                 e.preventDefault();
+                
+                // Se for campos de ação final (Consulta ou Login)
                 if (activeEl.id === 'login-pin') return consultarCarro();
                 if (activeEl.id === 'pass-admin') return logar();
+
+                // Pular para o próximo campo
                 const inputs = Array.from(document.querySelectorAll('input:not([type="hidden"]):not([style*="display: none"]), textarea'));
                 const index = inputs.indexOf(activeEl);
                 if (index > -1 && index < inputs.length - 1) {
@@ -363,6 +386,28 @@
         desenharSolicitacoes();
     });
 
+    function clienteEnviarCadastro() {
+        const nome = document.getElementById('c-nome').value.trim();
+        const zap = document.getElementById('c-zap').value.trim();
+        const placa = document.getElementById('c-placa').value.toUpperCase().trim();
+        const modelo = document.getElementById('c-modelo').value.trim();
+        const ano = document.getElementById('c-ano').value.trim();
+        const problema = document.getElementById('c-problema').value.trim();
+        const pin = document.getElementById('c-pin').value.trim();
+
+        if(!nome || !placa || !modelo || !problema || !pin || !ano) return showAlert("❌ PREENCHA TUDO");
+        if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
+        if(pin.length < 4) return showAlert("❌ PIN DEVE TER 4 DÍGITOS");
+
+        db.ref('pre_cadastros/' + placa).set({
+            nome, zap, placa, modelo, ano, problema, pin, data: new Date().toLocaleString()
+        }).then(() => {
+            showAlert("✔️ ENVIADO!");
+            irPara('view-cliente');
+            document.querySelectorAll('#view-cadastro-cliente input, #view-cadastro-cliente textarea').forEach(i => i.value = "");
+        });
+    }
+
     function desenharSolicitacoes() {
         const container = document.getElementById('lista-solicitacoes');
         container.innerHTML = "";
@@ -385,6 +430,7 @@
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
         document.getElementById('m-placa').value = s.placa;
+        // Une Modelo e Ano no campo do mecânico
         document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
         document.getElementById('m-pin-interno').value = s.pin;
         whatsappAtual = s.zap;
