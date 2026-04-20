@@ -460,24 +460,43 @@
 </div>
 
 <script>
+    // 1. Função para os botões "Agendar Agora" (Rola para o topo e pulsa)
     function scrollAndFocus() {
-        // Força o navegador a fazer o scroll suave via JS também
         window.scrollTo({ 
             top: 0, 
             behavior: 'smooth' 
         });
         
         const btn = document.getElementById('btn-cadastro-principal');
-        
-        // Espera um pouco o scroll acontecer para pulsar
-        setTimeout(() => {
-            btn.classList.add('pulse-animation');
+        if(btn) {
             setTimeout(() => {
-                btn.classList.remove('pulse-animation');
-            }, 3000);
-        }, 800);
+                btn.classList.add('pulse-animation');
+                setTimeout(() => {
+                    btn.classList.remove('pulse-animation');
+                }, 3000);
+            }, 800);
+        }
     }
-</script>
 
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>
