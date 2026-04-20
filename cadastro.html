@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Mecânica Lima Car | Sistema Integrado</title>
+    <title>Mecânica Lima Car | Novo Cadastro</title>
     <style>
-        /* ESTILO COPIADO DO CÓDIGO ORIGINAL */
+        /* ============================================================
+           ESTILO COMPLETO COPIADO DO SEU PRIMEIRO CÓDIGO (ORIGINAL)
+           Para garantir redimensionamento e visual exatos.
+           ============================================================ */
         :root { 
             --bg: #000b1a; 
             --primary: #d4af37; 
@@ -26,55 +29,95 @@
             background-color: var(--bg); 
             background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
             color: var(--text-main); 
+            display: block;
             min-height: 100vh; 
             padding: 15px; 
+            overflow-x: hidden; 
         }
 
-        .container { width: 100%; max-width: 450px; margin: 0 auto; } 
-        section { display: block; animation: fadeIn 0.4s ease-out; width: 100%; } 
+        /* Botão Início Fixed (igual ao original) */
+        .btn-home-fixed {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--input-bg);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin-bottom: 0; z-index: 1000; }
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 450px; /* Mantendo o tamanho padrão do container */
+            margin: 0 auto;
+        } 
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
         
-        .card { background: none; border: none; padding: 5px; position: relative; width: 100%; } 
+        .card { background: none; border: none; padding: 5px; position: relative; width: 100%; animation: fadeIn 0.4s ease-out;} 
+
         .logo-box { text-align: center; margin-bottom: 25px; padding: 10px; } 
         .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); } 
         
         label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
         
-        input, textarea { 
-            width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--border); 
-            border-radius: 12px; color: #fff; font-size: 16px !important; margin-bottom: 18px; transition: 0.3s; 
+        input, textarea, select { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--input-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            color: #fff; 
+            font-size: 16px !important; 
+            margin-bottom: 18px; 
+            transition: 0.3s; 
         } 
         
         input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
         
-        .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: #fff !important; color: #000 !important; border: 4px solid var(--primary) !important; text-transform: uppercase; letter-spacing: 5px; text-align: center; border-radius: 15px !important; } 
-
         .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; display: block; text-decoration: none; text-align: center; } 
 
         .hidden { display: none !important; } 
-        .aviso-senha { background: rgba(212, 175, 55, 0.1); color: var(--primary); padding: 10px; border-radius: 10px; font-size: 10px; margin-top: -12px; margin-bottom: 18px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; font-weight: bold; }
-        
-        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; width: 80%; text-align: center; }
+
+        .relatorio-cliente-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
+
+        .aviso-senha {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-top: -12px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Alerta customizado (copiado do original) */
+        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 80%; text-align: center; }
     </style>
 </head>
 <body>
 
+<a href="index.html" class="btn-home-fixed">
+    <span>🏠</span> INÍCIO</a>
+
 <div id="custom-alert"></div>
 
 <div class="container">
-    <section id="view-cliente" class="card">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
-        <div id="area-busca">
-            <label>Consulte seu carro (Insira seu PIN)</label>
-            <input type="password" id="login-pin" class="input-placa-grande" maxlength="4" placeholder="0000">
-            <button class="btn-main" onclick="consultarCarro()">Localizar Veículo</button>
-        </div>
-        <div id="resultado-cliente"></div>
-        <button id="btn-solicitar-cadastro" onclick="irPara('view-cadastro-cliente')" class="btn-main" style="background: #25d366; color: white; margin-top: 20px;">NOVA SOLICITAÇÃO (CADASTRO)</button>
-        <button id="btn-voltar-busca" onclick="location.reload()" class="btn-main hidden" style="background: #132a47; color: white; margin-top: 10px;">VOLTAR PARA CONSULTA</button>
-    </section>
-
-    <section id="view-cadastro-cliente" class="card hidden">
+    <section id="view-cadastro-cliente" class="card">
         <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
         <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
         
@@ -85,12 +128,14 @@
         <label>Ano do Veículo</label><input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012">
         <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         
-        <label>Crie um PIN de 4 dígitos</label>
-        <input type="password" id="c-pin" maxlength="4" placeholder="0000" style="text-align: center; font-size: 24px!important; letter-spacing: 10px;">
-        <div class="aviso-senha">⚠️ ESTE PIN SERÁ USADO PARA VOCÊ CONSULTAR O STATUS DEPOIS.</div>
+        <label>Crie um PIN de 4 dígitos (Apenas números)</label>
+        <input type="password" id="c-pin" maxlength="4" placeholder="0000" style="text-align: center; font-size: 24px!important; letter-spacing: 10px;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+        
+        <div class="aviso-senha">⚠️ NÃO COMPARTILHE ESTE CÓDGIO! Ele é necessario para consultar as informações do seu veículo.</div>
 
         <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
+        
+        <center><button onclick="window.history.back()" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
 </div>
 
@@ -98,9 +143,9 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // CONFIGURAÇÃO DO SEU FIREBASE
+    // Configuração do Firebase (Use as suas credenciais aqui)
     const firebaseConfig = {
-        apiKey: "AIzaSy...", 
+        apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
         databaseURL: "https://a-fonte-43744-default-rtdb.firebaseio.com",
         projectId: "a-fonte-43744",
@@ -109,75 +154,35 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    let bancoDados = {};
-
-    // Sincronizar dados para consulta
-    db.ref('veiculos').on('value', (snapshot) => {
-        bancoDados = snapshot.val() || {};
-    });
-
-    function irPara(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
-    }
 
     function showAlert(msg) {
         const div = document.getElementById('custom-alert');
         div.innerText = msg;
         div.style.display = 'block';
-        setTimeout(() => { div.style.display = 'none'; }, 2500);
+        setTimeout(() => { div.style.display = 'none'; }, 2000);
     }
 
-    // FUNÇÃO PARA SALVAR NOVO CADASTRO
+    // Lógica de Envio (Copiada do original)
     function clienteEnviarCadastro() {
-        const dados = {
-            nome: document.getElementById('c-nome').value.trim(),
-            zap: document.getElementById('c-zap').value.trim(),
-            placa: document.getElementById('c-placa').value.toUpperCase().trim(),
-            modelo: document.getElementById('c-modelo').value.trim(),
-            ano: document.getElementById('c-ano').value.trim(),
-            problema: document.getElementById('c-problema').value.trim(),
-            pin: document.getElementById('c-pin').value.trim()
-        };
+        const nome = document.getElementById('c-nome').value.trim();
+        const zap = document.getElementById('c-zap').value.trim();
+        const placa = document.getElementById('c-placa').value.toUpperCase().trim();
+        const modelo = document.getElementById('c-modelo').value.trim();
+        const ano = document.getElementById('c-ano').value.trim();
+        const problema = document.getElementById('c-problema').value.trim();
+        const pin = document.getElementById('c-pin').value.trim();
 
-        if(Object.values(dados).some(v => v === "")) return showAlert("❌ PREENCHA TODOS OS CAMPOS");
-        if(dados.pin.length < 4) return showAlert("❌ O PIN DEVE TER 4 DÍGITOS");
+        if(!nome || !placa || !modelo || !problema || !pin || !ano) return showAlert("❌ PREENCHA TUDO");
+        if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
+        if(pin.length < 4) return showAlert("❌ PIN DEVE TER 4 DÍGITOS");
 
-        db.ref('pre_cadastros/' + dados.placa).set({
-            ...dados,
-            data: new Date().toLocaleString()
+        db.ref('pre_cadastros/' + placa).set({
+            nome, zap, placa, modelo, ano, problema, pin, data: new Date().toLocaleString()
         }).then(() => {
-            showAlert("✔️ CADASTRO ENVIADO COM SUCESSO!");
-            irPara('view-cliente');
-            // Limpar campos
+            showAlert("✔️ ENVIADO!");
+            // Limpar formulário
             document.querySelectorAll('input, textarea').forEach(i => i.value = "");
         }).catch(() => showAlert("❌ ERRO AO SALVAR"));
-    }
-
-    // FUNÇÃO PARA CONSULTAR USANDO O PIN CRIADO
-    function consultarCarro() {
-        const pinDigitado = document.getElementById('login-pin').value.trim();
-        const res = document.getElementById('resultado-cliente');
-        
-        if(!pinDigitado) return showAlert("⚠️ DIGITE SEU PIN");
-
-        let veiculo = Object.values(bancoDados).find(v => v.pin === pinDigitado);
-
-        if(veiculo) {
-            const corStatus = veiculo.status === "Pronto" ? "var(--success)" : "var(--warning)";
-            res.innerHTML = `
-                <div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
-                    <h3 style="color:var(--primary)">${veiculo.modelo}</h3>
-                    <p>Status: <b style="color:${corStatus}">${veiculo.status || 'Em Análise'}</b></p>
-                    <p style="font-size:14px; margin:15px 0; line-height:1.4">${veiculo.obs || 'Aguardando início dos trabalhos.'}</p>
-                    <p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${veiculo.preco || '0,00'}</p>
-                </div>`;
-            document.getElementById('area-busca').classList.add('hidden');
-            document.getElementById('btn-solicitar-cadastro').classList.add('hidden');
-            document.getElementById('btn-voltar-busca').classList.remove('hidden');
-        } else {
-            showAlert("🔍 PIN NÃO ENCONTRADO");
-        }
     }
 </script>
 
