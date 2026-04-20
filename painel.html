@@ -175,12 +175,9 @@
             <button class="btn-main" id="btn-localizar" onclick="consultarCarro()">Localizar Veículo</button>
         </div>
         <div id="resultado-cliente"></div>
-        <div id="botoes-acao-cliente">
-            <a id="btn-falar-oficina" href="https://wa.me/5500000000000" target="_blank" class="btn-main hidden" style="background: #25d366; color: white; margin-top: 20px;">FALAR COM A OFICINA</a>
-            <button id="btn-voltar-busca" onclick="location.reload()" class="btn-main hidden" style="background: #132a47; color: white; margin-top: 10px;">VOLTAR PARA CONSULTA</button>
-        </div>
         <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
     </section>
+
     <section id="view-login" class="card hidden">
         <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
         <label style="text-align: center;">Chave de Acesso</label>
@@ -291,18 +288,13 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
-    // LÓGICA DE ENTER EM TODOS OS CAMPOS
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             const activeEl = document.activeElement;
             if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
                 e.preventDefault();
-                
-                // Se for campos de ação final (Consulta ou Login)
                 if (activeEl.id === 'login-pin') return consultarCarro();
                 if (activeEl.id === 'pass-admin') return logar();
-
-                // Pular para o próximo campo
                 const inputs = Array.from(document.querySelectorAll('input:not([type="hidden"]):not([style*="display: none"]), textarea'));
                 const index = inputs.indexOf(activeEl);
                 if (index > -1 && index < inputs.length - 1) {
@@ -321,13 +313,11 @@
         }
     }
 
+    // NOVA LÓGICA DE CONSULTA COM BOTÕES E PIN ÚNICO
     function consultarCarro() {
         const pinDigitado = document.getElementById('login-pin').value.trim();
         const res = document.getElementById('resultado-cliente');
         const areaBusca = document.getElementById('area-busca');
-        const btnSolicitar = document.getElementById('btn-solicitar-cadastro');
-        const btnFalarOficina = document.getElementById('btn-falar-oficina');
-        const btnVoltarBusca = document.getElementById('btn-voltar-busca');
 
         if(pinDigitado.length < 4) return showAlert("⚠️ PIN INVÁLIDO");
 
@@ -343,14 +333,20 @@
             const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
             let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
             
-            res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
-                <h3 style="color:var(--primary)">${v.modelo}</h3><p>Status: <b style="color:${cor}">${v.status}</b></p>
-                <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p><p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>${fotosHtml}</div>`;
+            res.innerHTML = `
+                <div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
+                    <h3 style="color:var(--primary)">${v.modelo}</h3>
+                    <p>Status: <b style="color:${cor}">${v.status}</b></p>
+                    <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p>
+                    <p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>
+                    ${fotosHtml}
+                </div>
+                <div style="margin-top: 20px;">
+                    <a href="https://wa.me/55${v.clienteZap || '0000000000000'}" target="_blank" class="btn-main" style="background: #25d366; color: white;">FALAR COM A MECÂNICA</a>
+                    <button onclick="location.reload()" class="btn-main" style="background: #132a47; color: white; margin-top: 10px;">VOLTAR À CONSULTA</button>
+                </div>`;
             
             areaBusca.classList.add('hidden');
-            btnSolicitar.classList.add('hidden');
-            btnFalarOficina.classList.remove('hidden');
-            btnVoltarBusca.classList.remove('hidden');
         } else { 
             showAlert("🔍 PIN NÃO LOCALIZADO"); 
         }
@@ -366,6 +362,7 @@
         desenharSolicitacoes();
     });
 
+    // LÓGICA DE PIN ÚNICO NO CADASTRO
     function clienteEnviarCadastro() {
         const nome = document.getElementById('c-nome').value.trim();
         const zap = document.getElementById('c-zap').value.trim();
@@ -378,6 +375,17 @@
         if(!nome || !placa || !modelo || !problema || !pin || !ano) return showAlert("❌ PREENCHA TUDO");
         if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
         if(pin.length < 4) return showAlert("❌ PIN DEVE TER 4 DÍGITOS");
+
+        // VERIFICA SE O PIN JÁ EXISTE NO BANCO DE DADOS
+        let pinEmUso = false;
+        Object.keys(bancoDados).forEach(p => {
+            if(bancoDados[p].pin === pin) pinEmUso = true;
+        });
+        Object.keys(bancoSolicitacoes).forEach(p => {
+            if(bancoSolicitacoes[p].pin === pin) pinEmUso = true;
+        });
+
+        if(pinEmUso) return showAlert("❌ ESTE PIN JÁ ESTÁ EM USO");
 
         db.ref('pre_cadastros/' + placa).set({
             nome, zap, placa, modelo, ano, problema, pin, data: new Date().toLocaleString()
@@ -410,7 +418,6 @@
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
         document.getElementById('m-placa').value = s.placa;
-        // Une Modelo e Ano no campo do mecânico
         document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
         document.getElementById('m-pin-interno').value = s.pin;
         whatsappAtual = s.zap;
