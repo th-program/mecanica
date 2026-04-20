@@ -5,5 +5,22 @@
     <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Mecânica Lima Car | Gestão Profissional</title> 
   <body> 
-  
+   <section id="view-cadastro-cliente" class="card hidden">
+        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
+        <label>Nome Completo</label><input type="text" id="c-nome" placeholder="Seu nome">
+        <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
+        <label>Placa do Veículo</label><input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
+        <label>Modelo do Veículo</label><input type="text" id="c-modelo" placeholder="Ex: Gol G5">
+         <label>Ano do Veículo</label><input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012" style="text-transform: uppercase;">
+        <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
+        
+        <label>Crie um PIN de 4 dígitos</label>
+        <input type="password" id="c-pin" maxlength="4" placeholder="0000" style="text-align: center; font-size: 24px!important; letter-spacing: 10px;">
+        <div class="aviso-senha">⚠️ NÃO COMPARTILHE ESTE CÓDGIO! Ele é necessario para consultar as informações do seu veículo.</div>
+
+        <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
+        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
+    </section>
+
   </body>  
