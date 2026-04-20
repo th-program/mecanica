@@ -18,7 +18,6 @@
 
         html {
             scroll-behavior: smooth;
-            /* Evita que o menu fixo cubra o título da seção ao rolar */
             scroll-padding-top: 100px; 
         }
 
@@ -335,16 +334,16 @@
 <section class="hero">
     <h1>Excelência em Serviços Automotivos</h1>
     <p>Seu carro em boas mãos: tecnologia, cuidado e confiança.</p>
-    
+   
     <div class="hero-btns">
-        <a class="btn btn-whatsapp" href="cadastro.html">
-            <i class="fas fa-edit"></i> Cadastre seu Veículo
-        </a>
-        
-        <a class="btn btn-consult" id="btn-cadastro-principal" href="painel.html">
-            <i class="fas fa-car"></i> Consulte seu Veículo
-        </a>
-    </div>
+    <a class="btn btn-whatsapp" id="btn-cadastro-principal" href="cadastro.html">
+        <i class="fas fa-edit"></i> Cadastre seu Veículo
+    </a>
+    
+    <a class="btn btn-consult" href="painel.html">
+        <i class="fas fa-car"></i> Consulte seu Veículo
+    </a>
+</div>
 </section>
     
 <section id="servicos">
@@ -460,20 +459,21 @@
 </div>
 
 <script>
-    // 1. Função para os botões "Agendar Agora" (Rola para o topo e pulsa)
     function scrollAndFocus() {
         window.scrollTo({ 
             top: 0, 
             behavior: 'smooth' 
         });
         
-        const btn = document.getElementById('btn-cadastro-principal');
-        if(btn) {
+        const btnCadastro = document.getElementById('btn-cadastro-principal');
+        
+        if(btnCadastro) {
             setTimeout(() => {
-                btn.classList.add('pulse-animation');
+                btnCadastro.classList.add('pulse-animation');
+
                 setTimeout(() => {
-                    btn.classList.remove('pulse-animation');
-                }, 3000);
+                    btnCadastro.classList.remove('pulse-animation');
+                }, 4500);
             }, 800);
         }
     }
@@ -481,7 +481,6 @@
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
 
