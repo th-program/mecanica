@@ -25,12 +25,12 @@
             background-color: var(--bg); 
             background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
             color: var(--text-main); 
-            display: block;
             min-height: 100vh; 
             padding: 15px; 
             overflow-x: hidden; 
         }
 
+        /* Ajuste no botão Início para não bloquear o clique */
         .btn-home-fixed {
             display: inline-flex;
             align-items: center;
@@ -46,16 +46,20 @@
             margin-bottom: 20px;
             transition: 0.3s;
             cursor: pointer;
+            position: relative;
+            z-index: 10;
         }
 
         @media (min-width: 768px) {
-            .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin-bottom: 0; z-index: 1000; }
+            .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin-bottom: 0; }
         }
 
         .container { 
             width: 100%; 
             max-width: 450px; 
             margin: 0 auto;
+            position: relative;
+            z-index: 5;
         } 
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
@@ -77,11 +81,32 @@
             font-size: 16px !important; 
             margin-bottom: 18px; 
             transition: 0.3s; 
+            position: relative;
+            z-index: 100;
         } 
         
         input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
         
-        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); margin-top: 10px; display: block; text-decoration: none; text-align: center; } 
+        .btn-main { 
+            background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); 
+            color: #000; 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 15px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            font-size: 14px; 
+            transition: 0.2s; 
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); 
+            margin-top: 10px; 
+            display: block; 
+            text-decoration: none; 
+            text-align: center;
+            position: relative;
+            z-index: 200; /* Garante que o botão fique por cima de tudo */
+        } 
 
         .hidden { display: none !important; } 
 
@@ -129,7 +154,7 @@
         
         <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
 
-        <button class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
+        <button type="button" class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
     </section>
 
     <section id="view-veiculo" class="card hidden">
@@ -148,7 +173,7 @@
         <label>Problemas Apresentados</label>
         <textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
         
-        <button class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
+        <button type="button" class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
     </section>
 </div>
 
@@ -156,6 +181,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
+    // Mantenha suas credenciais aqui
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -177,16 +203,17 @@
         setTimeout(() => { div.style.display = 'none'; }, 2500);
     }
 
-    // Função para verificar usuário e passar para tela de veículo
     function proximoPasso() {
         const nome = document.getElementById('c-nome').value.trim();
         const zap = document.getElementById('c-zap').value.trim();
         const user = document.getElementById('c-user').value.trim().toLowerCase().replace('@', '');
         const pass = document.getElementById('c-pass').value.trim();
 
-        if(!nome || !zap || !user || !pass) return showAlert("❌ PREENCHA TODOS OS CAMPOS");
+        if(!nome || !zap || !user || !pass) {
+            showAlert("❌ PREENCHA TODOS OS CAMPOS");
+            return;
+        }
 
-        // Verifica se o usuário já existe no banco
         db.ref('usuarios/' + user).once('value').then((snapshot) => {
             if (snapshot.exists()) {
                 const dados = snapshot.val();
@@ -195,10 +222,9 @@
                     document.getElementById('msg-boas-vindas').innerText = `Bem vindo de volta, ${dados.nome}!`;
                     mostrarTelaVeiculo();
                 } else {
-                    showAlert("❌ SENHA INCORRETA PARA ESTE @");
+                    showAlert("❌ SENHA INCORRETA");
                 }
             } else {
-                // Se não existe, cria o perfil básico e prossegue
                 db.ref('usuarios/' + user).set({
                     nome, zap, senha: pass, identificador: "@" + user
                 }).then(() => {
@@ -207,6 +233,9 @@
                     mostrarTelaVeiculo();
                 });
             }
+        }).catch((e) => {
+            console.error(e);
+            showAlert("❌ ERRO DE CONEXÃO");
         });
     }
 
@@ -223,9 +252,7 @@
         const problema = document.getElementById('c-problema').value.trim();
 
         if(!placa || !modelo || !ano || !problema) return showAlert("❌ PREENCHA OS DADOS DO CARRO");
-        if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
 
-        // Salva o veículo vinculado ao identificador do usuário
         db.ref('servicos_ativos/' + placa).set({
             cliente_id: usuarioAtual,
             placa, modelo, ano, problema,
