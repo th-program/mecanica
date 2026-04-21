@@ -292,7 +292,11 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
-    // CONSULTA DO CLIENTE COM USUÁRIO, SENHA E PLACA
+    // ATALHOS DE TECLADO (ENTER)
+    document.getElementById('login-placa').addEventListener('keypress', (e) => { if(e.key === 'Enter') consultarCarro(); });
+    document.getElementById('login-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') consultarCarro(); });
+    document.getElementById('pass-admin').addEventListener('keypress', (e) => { if(e.key === 'Enter') logar(); });
+
     function consultarCarro() {
         const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
         const senhaDigitada = document.getElementById('login-pass').value.trim();
@@ -302,13 +306,10 @@
 
         if(!userDigitado || !senhaDigitada || !placaDigitada) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS");
 
-        // Verifica primeiro se o usuário existe e a senha coincide
         db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
             if(snapUser.exists() && snapUser.val().senha === senhaDigitada) {
-                // Se o login estiver correto, busca o veículo específico no banco de serviços
                 db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
                     const v = snapVeiculo.val();
-                    // Verifica se o veículo pertence a esse usuário (identificação salva no cadastro)
                     if(v && (v.identificacao === userDigitado)) {
                         const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
                         let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
@@ -347,7 +348,6 @@
         desenharSolicitacoes();
     });
 
-    // EXIBE NOME DO CLIENTE NO PAINEL TÉCNICO
     function desenharSolicitacoes() {
         const container = document.getElementById('lista-solicitacoes');
         container.innerHTML = "";
@@ -358,9 +358,11 @@
         }
         keys.forEach(id => {
             const s = bancoSolicitacoes[id];
+            // CORREÇÃO: Exibindo Modelo e Ano logo abaixo da Placa
             container.innerHTML += `
                 <div class="solicitacao-item">
-                    <b style="color:var(--primary)">${s.placa} - ${s.modelo} (${s.ano})</b><br>
+                    <b style="color:var(--primary); font-size:14px">${s.placa}</b><br>
+                    <span style="font-size:12px; color: #fff;"><b>VEÍCULO:</b> ${s.modelo} (${s.ano})</span><br>
                     <span style="font-size:12px; color: #fff;"><b>CLIENTE:</b> ${s.nome}</span><br>
                     <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                 </div>`;
@@ -389,7 +391,6 @@
         btnWhats.onclick = () => { window.open(`https://wa.me/55${numLimpo}`, '_blank'); };
     }
 
-    // SALVA REGISTROS INDEXADOS PELA PLACA (PERMITINDO VÁRIOS CARROS POR USUÁRIO)
     function salvar() {
         const placa = document.getElementById('m-placa').value.toUpperCase().trim();
         const modeloComp = document.getElementById('m-modelo').value.trim();
@@ -405,7 +406,7 @@
             clienteZap: whatsappAtual,
             clienteNome: nomeClienteAtual,
             clienteRelato: relatoClienteAtual,
-            identificacao: ident // Vincula o carro ao @usuario
+            identificacao: ident 
         };
         db.ref('veiculos/' + placa).set(dados).then(() => {
             if(bancoSolicitacoes[placa]) db.ref('pre_cadastros/' + placa).remove();
@@ -499,8 +500,6 @@
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
         document.getElementById(id).classList.remove('hidden'); 
         window.scrollTo(0,0);
-        if(id === 'view-painel') toggleZoom(true);
-        else toggleZoom(false);
     }
 
     function logar() { 
