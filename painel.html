@@ -343,7 +343,8 @@
         desenharTabela();
     });
 
-    db.ref('pre_cadastros').on('value', (snapshot) => {
+    // CORREÇÃO AQUI: Mudando para ouvir o nó 'solicitacoes' que é onde o cliente salva
+    db.ref('solicitacoes').on('value', (snapshot) => {
         bancoSolicitacoes = snapshot.val() || {};
         desenharSolicitacoes();
     });
@@ -358,7 +359,6 @@
         }
         keys.forEach(id => {
             const s = bancoSolicitacoes[id];
-            // CORREÇÃO: Exibindo Modelo e Ano logo abaixo da Placa
             container.innerHTML += `
                 <div class="solicitacao-item">
                     <b style="color:var(--primary); font-size:14px">${s.placa}</b><br>
@@ -409,7 +409,8 @@
             identificacao: ident 
         };
         db.ref('veiculos/' + placa).set(dados).then(() => {
-            if(bancoSolicitacoes[placa]) db.ref('pre_cadastros/' + placa).remove();
+            // CORREÇÃO AQUI: Remove do nó 'solicitacoes' após salvar o veículo definitivo
+            if(bancoSolicitacoes[placa]) db.ref('solicitacoes/' + placa).remove();
             showAlert("✔️ SALVO");
             limparFormulario();
         });
