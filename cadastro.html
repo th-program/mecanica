@@ -30,7 +30,6 @@
             overflow-x: hidden; 
         }
 
-        /* Ajuste no botão Início para não bloquear o clique */
         .btn-home-fixed {
             display: inline-flex;
             align-items: center;
@@ -47,7 +46,7 @@
             transition: 0.3s;
             cursor: pointer;
             position: relative;
-            z-index: 10;
+            z-index: 1001; /* Elevado para garantir clique */
         }
 
         @media (min-width: 768px) {
@@ -82,7 +81,7 @@
             margin-bottom: 18px; 
             transition: 0.3s; 
             position: relative;
-            z-index: 100;
+            z-index: 1; /* Reduzido para não sobrepor o botão */
         } 
         
         input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
@@ -105,7 +104,7 @@
             text-decoration: none; 
             text-align: center;
             position: relative;
-            z-index: 200; /* Garante que o botão fique por cima de tudo */
+            z-index: 1000; /* Força o botão a ficar no topo */
         } 
 
         .hidden { display: none !important; } 
@@ -181,7 +180,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // Mantenha suas credenciais aqui
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
