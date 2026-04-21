@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Mecânica Lima Car | Novo Cadastro</title>
+    <title>Mecânica Lima Car | Login e Cadastro</title>
     <style>
-        /* ============================================================
-           ESTILO COMPLETO COPIADO DO SEU PRIMEIRO CÓDIGO (ORIGINAL)
-           Para garantir redimensionamento e visual exatos.
-           ============================================================ */
         :root { 
             --bg: #000b1a; 
             --primary: #d4af37; 
@@ -35,7 +31,6 @@
             overflow-x: hidden; 
         }
 
-        /* Botão Início Fixed (igual ao original) */
         .btn-home-fixed {
             display: inline-flex;
             align-items: center;
@@ -59,7 +54,7 @@
 
         .container { 
             width: 100%; 
-            max-width: 450px; /* Mantendo o tamanho padrão do container */
+            max-width: 450px; 
             margin: 0 auto;
         } 
         
@@ -72,7 +67,7 @@
         
         label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
         
-        input, textarea, select { 
+        input, textarea { 
             width: 100%; 
             padding: 14px; 
             background: var(--input-bg); 
@@ -90,8 +85,6 @@
 
         .hidden { display: none !important; } 
 
-        .relatorio-cliente-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
-
         .aviso-senha {
             background: rgba(212, 175, 55, 0.1);
             color: var(--primary);
@@ -105,43 +98,64 @@
             font-weight: bold;
         }
 
-        /* Alerta customizado (copiado do original) */
         #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 80%; text-align: center; }
+        
+        .welcome-msg { color: var(--success); text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed">
-    <span>🏠</span> INÍCIO</a>
+<a href="index.html" class="btn-home-fixed"><span>🏠</span> INÍCIO</a>
 
 <div id="custom-alert"></div>
 
 <div class="container">
-    <section id="view-cadastro-cliente" class="card">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
-        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">NOVO CADASTRO</h2>
-        
-        <label>Nome Completo</label><input type="text" id="c-nome" placeholder="Seu nome">
-        <label>WhatsApp</label><input type="tel" id="c-zap" placeholder="(00) 00000-0000">
-        <label>Placa do Veículo</label><input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
-        <label>Modelo do Veículo</label><input type="text" id="c-modelo" placeholder="Ex: Gol G5">
-        <label>Ano do Veículo</label><input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012">
-        <label>Problemas Apresentados</label><textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
-        
-        <label>Crie um PIN de 4 dígitos (Apenas números)</label>
-        <input type="password" id="c-pin" maxlength="4" placeholder="0000" style="text-align: center; font-size: 24px!important; letter-spacing: 10px;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
-        
-        <div class="aviso-senha">⚠️ NÃO COMPARTILHE ESTE CÓDGIO! Ele é necessario para consultar as informações do seu veículo.</div>
+    <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
 
-        <button class="btn-main" onclick="clienteEnviarCadastro()">ENVIAR PARA OFICINA</button>
+    <section id="view-login" class="card">
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">CRIAR ACESSO</h2>
         
+        <label>Nome Completo</label>
+        <input type="text" id="c-nome" placeholder="Seu nome">
+        
+        <label>WhatsApp</label>
+        <input type="tel" id="c-zap" placeholder="(00) 00000-0000">
+
+        <label>Identificação (@ do usuário)</label>
+        <input type="text" id="c-user" placeholder="@exemplo" style="text-transform: lowercase;">
+        
+        <label>Crie uma Senha</label>
+        <input type="password" id="c-pass" placeholder="Sua senha">
+        
+        <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
+
+        <button class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
+    </section>
+
+    <section id="view-veiculo" class="card hidden">
+        <div id="msg-boas-vindas" class="welcome-msg"></div>
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">DADOS DO VEÍCULO</h2>
+        
+        <label>Placa do Veículo</label>
+        <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
+        
+        <label>Modelo do Veículo</label>
+        <input type="text" id="c-modelo" placeholder="Ex: Gol G5">
+        
+        <label>Ano do Veículo</label>
+        <input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012">
+        
+        <label>Problemas Apresentados</label>
+        <textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
+        
+        <button class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
+    </section>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // Configuração do Firebase (Use as suas credenciais aqui)
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -153,33 +167,73 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function showAlert(msg) {
+    let usuarioAtual = null;
+
+    function showAlert(msg, color = "#ff4d4d") {
         const div = document.getElementById('custom-alert');
+        div.style.background = color;
         div.innerText = msg;
         div.style.display = 'block';
-        setTimeout(() => { div.style.display = 'none'; }, 2000);
+        setTimeout(() => { div.style.display = 'none'; }, 2500);
     }
 
-    // Lógica de Envio (Copiada do original)
-    function clienteEnviarCadastro() {
+    // Função para verificar usuário e passar para tela de veículo
+    function proximoPasso() {
         const nome = document.getElementById('c-nome').value.trim();
         const zap = document.getElementById('c-zap').value.trim();
+        const user = document.getElementById('c-user').value.trim().toLowerCase().replace('@', '');
+        const pass = document.getElementById('c-pass').value.trim();
+
+        if(!nome || !zap || !user || !pass) return showAlert("❌ PREENCHA TODOS OS CAMPOS");
+
+        // Verifica se o usuário já existe no banco
+        db.ref('usuarios/' + user).once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+                const dados = snapshot.val();
+                if(dados.senha === pass) {
+                    usuarioAtual = user;
+                    document.getElementById('msg-boas-vindas').innerText = `Bem vindo de volta, ${dados.nome}!`;
+                    mostrarTelaVeiculo();
+                } else {
+                    showAlert("❌ SENHA INCORRETA PARA ESTE @");
+                }
+            } else {
+                // Se não existe, cria o perfil básico e prossegue
+                db.ref('usuarios/' + user).set({
+                    nome, zap, senha: pass, identificador: "@" + user
+                }).then(() => {
+                    usuarioAtual = user;
+                    document.getElementById('msg-boas-vindas').innerText = "Cadastro de perfil realizado!";
+                    mostrarTelaVeiculo();
+                });
+            }
+        });
+    }
+
+    function mostrarTelaVeiculo() {
+        document.getElementById('view-login').classList.add('hidden');
+        document.getElementById('view-veiculo').classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function finalizarCadastro() {
         const placa = document.getElementById('c-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('c-modelo').value.trim();
         const ano = document.getElementById('c-ano').value.trim();
         const problema = document.getElementById('c-problema').value.trim();
-        const pin = document.getElementById('c-pin').value.trim();
 
-        if(!nome || !placa || !modelo || !problema || !pin || !ano) return showAlert("❌ PREENCHA TUDO");
+        if(!placa || !modelo || !ano || !problema) return showAlert("❌ PREENCHA OS DADOS DO CARRO");
         if(placa.length < 7) return showAlert("❌ PLACA INVÁLIDA");
-        if(pin.length < 4) return showAlert("❌ PIN DEVE TER 4 DÍGITOS");
 
-        db.ref('pre_cadastros/' + placa).set({
-            nome, zap, placa, modelo, ano, problema, pin, data: new Date().toLocaleString()
+        // Salva o veículo vinculado ao identificador do usuário
+        db.ref('servicos_ativos/' + placa).set({
+            cliente_id: usuarioAtual,
+            placa, modelo, ano, problema,
+            data: new Date().toLocaleString(),
+            status: "Aguardando Avaliação"
         }).then(() => {
-            showAlert("✔️ ENVIADO!");
-            // Limpar formulário
-            document.querySelectorAll('input, textarea').forEach(i => i.value = "");
+            showAlert("✔️ ENVIADO COM SUCESSO!", "#00ff88");
+            setTimeout(() => { location.reload(); }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR"));
     }
 </script>
