@@ -266,7 +266,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     
-    // --- CONFIGURAÇÃO DE ACESSO UNIFICADO ---
     const LOGIN_ADM = "adm.limacar";
     const SENHA_ADM = "1234";
     
@@ -278,24 +277,35 @@
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
 
-    // Função que esconde/mostra a placa baseado no que é digitado
+    // CORREÇÃO 1: Lógica para mostrar placa apenas quando necessário
     function verificarUsuarioMecanico(valor) {
         const wrapperPlaca = document.getElementById('wrapper-placa');
         const loginLimpo = valor.trim().toLowerCase().replace('@','');
         
-        if (loginLimpo === LOGIN_ADM) {
+        // Se estiver começando a digitar o login ADM, mantém escondido
+        if (LOGIN_ADM.startsWith(loginLimpo) || loginLimpo === "") {
             wrapperPlaca.classList.add('hidden');
-        } else if (loginLimpo.length > 2) {
+        } else {
+            // Se for algo diferente do padrão ADM, mostra a placa (cliente)
             wrapperPlaca.classList.remove('hidden');
         }
     }
 
-    // Gerenciador de Login Unificado
+    // CORREÇÃO 2: Habilitar tecla Enter
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            const viewCliente = document.getElementById('view-cliente');
+            // Se a tela de login estiver visível, aciona o botão Entrar
+            if (!viewCliente.classList.contains('hidden')) {
+                gerenciarLogin();
+            }
+        }
+    });
+
     function gerenciarLogin() {
         const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
         const senhaDigitada = document.getElementById('login-pass').value.trim();
         
-        // Verifica se é o mecânico
         if(userDigitado === LOGIN_ADM) {
             if(senhaDigitada === SENHA_ADM) {
                 irPara('view-painel');
@@ -304,8 +314,6 @@
             }
             return;
         }
-
-        // Se não for mecânico, segue fluxo do cliente
         consultarCarro();
     }
 
@@ -349,8 +357,6 @@
             }
         });
     }
-
-    // --- RESTANTE DAS FUNÇÕES ORIGINAIS (SEM ALTERAÇÃO FUNCIONAL) ---
 
     db.ref('veiculos').on('value', (snapshot) => {
         bancoDados = snapshot.val() || {};
