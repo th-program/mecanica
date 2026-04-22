@@ -270,6 +270,27 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 <script>
+    // --- FUNCIONALIDADE DE TECLADO (ENTER PULAR CAMPO) ---
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const activeEl = document.activeElement;
+            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
+                e.preventDefault();
+                const inputs = Array.from(activeEl.closest('section').querySelectorAll('input:not([type="hidden"]), textarea'));
+                const index = inputs.indexOf(activeEl);
+                
+                if (index > -1 && index < inputs.length - 1) {
+                    // Pula para o próximo campo
+                    inputs[index + 1].focus();
+                } else {
+                    // Se for o último campo, tenta clicar no botão principal daquela seção
+                    const btn = activeEl.closest('section').querySelector('.btn-main:not(.hidden)');
+                    if (btn) btn.click();
+                }
+            }
+        }
+    });
+
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -291,10 +312,6 @@
     let whatsappAtual = "";
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
-
-    document.getElementById('login-placa').addEventListener('keypress', (e) => { if(e.key === 'Enter') consultarCarro(); });
-    document.getElementById('login-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') consultarCarro(); });
-    document.getElementById('pass-admin').addEventListener('keypress', (e) => { if(e.key === 'Enter') logar(); });
 
     function consultarCarro() {
         const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
@@ -342,7 +359,6 @@
         desenharTabela();
     });
 
-    // CORREÇÃO: Agora ouvindo 'servicos_ativos' que é o nó enviado pelo primeiro HTML
     db.ref('servicos_ativos').on('value', (snapshot) => {
         bancoSolicitacoes = snapshot.val() || {};
         desenharSolicitacoes();
@@ -358,7 +374,6 @@
         }
         keys.forEach(id => {
             const s = bancoSolicitacoes[id];
-            // Recupera o nome do perfil se estiver disponível no objeto da solicitação
             const nomeExibir = s.nome_cliente || "Cliente";
             container.innerHTML += `
                 <div class="solicitacao-item">
@@ -376,7 +391,6 @@
         document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
         document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
         
-        // Dados para o WhatsApp e Relato
         whatsappAtual = s.zap_cliente || "";
         nomeClienteAtual = s.nome_cliente || "";
         relatoClienteAtual = s.problema || "";
@@ -415,7 +429,6 @@
             identificacao: ident 
         };
         db.ref('veiculos/' + placa).set(dados).then(() => {
-            // Remove da lista de novos após salvar
             db.ref('servicos_ativos/' + placa).remove();
             showAlert("✔️ SALVO");
             limparFormulario();
