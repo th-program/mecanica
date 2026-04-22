@@ -6,12 +6,12 @@
     <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
         :root { 
-            --bg: #000814; 
+            --bg: #000814;
             --card-bg: rgba(255, 255, 255, 0.03);
             --primary: #d4af37; 
             --primary-glow: rgba(212, 175, 55, 0.3);
             --text-main: #f8f9fa; 
-            --text-dim: #94a3b8; 
+            --text-dim: #94a3b8;
             --border: rgba(212, 175, 55, 0.15); 
             --success: #10b981; 
             --warning: #f59e0b; 
@@ -24,24 +24,24 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
         
         body { 
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; 
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg); 
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.03) 0%, transparent 30%),
-                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.03) 0%, transparent 30%); 
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.03) 0%, transparent 30%);
             color: var(--text-main); 
             display: flex;
             flex-direction: column;
             min-height: 100vh; 
             padding: 10px;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
 
         @media (min-width: 768px) {
-            body { padding: 25px; }
+            body { padding: 25px; justify-content: center; }
         }
 
-        /* Scrollbar Profissional */
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
@@ -68,21 +68,28 @@
             .btn-home-fixed { position: fixed; top: 25px; left: 25px; margin-bottom: 0; z-index: 1000; }
         }
 
+        /* CORREÇÃO DO CONTAINER: Centraliza o login e expande no Admin */
         .container { 
-            width: 100%; 
+            width: 100%;
             max-width: 100%; 
             margin: 0 auto;
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            transition: max-width 0.4s ease;
         } 
 
         @media (min-width: 768px) { 
-            .container { max-width: 500px; } 
-            /* Ajuste para preencher a tela no PC */
+            .container { max-width: 450px; } /* Largura do Login no PC */
+            
+            /* Expansão automática quando o painel estiver visível */
+            .container:has(#view-painel:not(.hidden)) {
+                max-width: 95vw;
+            }
+
             #view-painel.card { 
-                max-width: 95vw !important; 
-                width: 95vw !important;
+                width: 100% !important;
                 min-height: 85vh;
                 display: flex;
                 flex-direction: column;
@@ -93,7 +100,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
         
         .card { 
-            background: var(--card-bg); 
+            background: var(--card-bg);
             border: 1px solid var(--border); 
             padding: 20px; 
             border-radius: var(--radius); 
@@ -113,69 +120,14 @@
         
         label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; } 
         
-        input, textarea, select { 
-            width: 100%; 
-            padding: 14px; 
-            background: var(--input-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            color: #fff; 
-            font-size: 16px !important; 
-            margin-bottom: 15px; 
-            transition: all 0.3s; 
-        } 
-        
+        input, textarea, select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 16px !important; margin-bottom: 15px; transition: all 0.3s; } 
         input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); background: #001a33; } 
         
-        .btn-upload-custom { 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center; 
-            background: rgba(212, 175, 55, 0.05); 
-            border: 2px dashed var(--border); 
-            color: var(--primary); 
-            padding: 25px 15px; 
-            border-radius: var(--radius); 
-            cursor: pointer; 
-            margin-bottom: 20px; 
-            font-weight: 600; 
-            font-size: 12px; 
-            transition: 0.3s; 
-            width: 100%; 
-        } 
+        .btn-upload-custom { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(212, 175, 55, 0.05); border: 2px dashed var(--border); color: var(--primary); padding: 25px 15px; border-radius: var(--radius); cursor: pointer; margin-bottom: 20px; font-weight: 600; font-size: 12px; transition: 0.3s; width: 100%; } 
         
-        .input-placa-grande { 
-            font-family: 'Monaco', monospace; 
-            font-size: 32px !important; 
-            background: linear-gradient(to bottom, #fff, #cbd5e1) !important; 
-            color: #0f172a !important; 
-            border: none !important; 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            text-align: center; 
-            border-radius: 12px !important; 
-            font-weight: 900;
-        } 
+        .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: linear-gradient(to bottom, #fff, #cbd5e1) !important; color: #0f172a !important; border: none !important; text-transform: uppercase; letter-spacing: 4px; text-align: center; border-radius: 12px !important; font-weight: 900; } 
 
-        .btn-main { 
-            background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); 
-            color: #000; 
-            width: 100%; 
-            padding: 16px; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            cursor: pointer; 
-            font-size: 13px; 
-            transition: 0.3s; 
-            box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2); 
-            margin-top: 5px; 
-            display: block; 
-            text-decoration: none; 
-            text-align: center; 
-        } 
+        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; font-size: 13px; transition: 0.3s; box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2); margin-top: 5px; display: block; text-decoration: none; text-align: center; } 
 
         .categorias-filtro { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 12px; width: 100%; scrollbar-width: none; -webkit-overflow-scrolling: touch; } 
         .categorias-filtro::-webkit-scrollbar { display: none; }
@@ -201,48 +153,21 @@
         .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(8px); }
         .confirm-box .card { background: #070b14; border: 1px solid var(--border); padding: 30px; border-radius: 20px; border-top: 4px solid var(--danger); max-width: 320px; text-align: center;}
 
-        .solicitacao-item { 
-            background: linear-gradient(145deg, rgba(212, 175, 55, 0.06), rgba(0,0,0,0)); 
-            border: 1px solid var(--border); 
-            padding: 15px; 
-            border-radius: 14px; 
-            margin-bottom: 12px; 
-            position: relative;
-        }
+        .solicitacao-item { background: linear-gradient(145deg, rgba(212, 175, 55, 0.06), rgba(0,0,0,0)); border: 1px solid var(--border); padding: 15px; border-radius: 14px; margin-bottom: 12px; position: relative; }
         .solicitacao-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
         .solicitacao-badge { background: var(--input-bg); padding: 3px 8px; border-radius: 6px; font-size: 9px; color: var(--primary); font-weight: 800; border: 1px solid var(--border); }
         .solicitacao-info b { color: var(--text-main); font-size: 14px; }
         .solicitacao-info span { color: var(--text-dim); font-size: 11px; display: block; }
 
-        .relatorio-cliente-box { 
-            background: rgba(212, 175, 55, 0.03); 
-            padding: 15px; 
-            border-radius: 12px; 
-            border-left: 3px solid var(--primary); 
-            margin-bottom: 20px; 
-        }
+        .relatorio-cliente-box { background: rgba(212, 175, 55, 0.03); padding: 15px; border-radius: 12px; border-left: 3px solid var(--primary); margin-bottom: 20px; }
 
         .painel-grid { display: flex; flex-direction: column; gap: 20px; width: 100%; flex: 1; } 
         
-        /* MODIFICAÇÃO PARA PC HORIZONTAL */
         @media (min-width: 992px) { 
-            .painel-grid { 
-                flex-direction: row; 
-                align-items: stretch; 
-            } 
-            .painel-col { 
-                flex: 1; 
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-            } 
-            /* Coluna da esquerda (Solicitações e Tabela) um pouco mais larga */
+            .painel-grid { flex-direction: row; align-items: stretch; } 
+            .painel-col { flex: 1; height: 100%; display: flex; flex-direction: column; } 
             .painel-col:first-child { flex: 1.2; }
-            
-            .table-container { 
-                flex: 1; 
-                max-height: none !important; /* No PC deixa crescer para preencher */
-            }
+            .table-container { flex: 1; max-height: none !important; }
         } 
         
         .whatsapp-float-btn { background: #128c7e !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; border: none; padding: 14px; }
@@ -266,6 +191,7 @@
 <div class="container">
     <section id="view-cliente" class="card">
         <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car Logo"></div>
+      
         <div id="area-busca">
             <label>Identificação de Acesso</label>
             <input type="text" id="login-user" placeholder="@seuusuario" oninput="verificarUsuarioMecanico(this.value)">
@@ -337,6 +263,7 @@
                 <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">
                     📸 ENVIAR FOTOS
                 </label>
+      
                 <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
                 <div id="preview-area" class="fotos-grid"></div>
 
@@ -353,6 +280,7 @@
                     <span class="tag-servico" onclick="addServico('Troca de Óleo')">+ Óleo</span>
                     <span class="tag-servico" onclick="addServico('Diagnóstico Scanner')">+ Scanner</span>
                 </div>
+      
                 <textarea id="m-obs" rows="4" placeholder="O que foi feito..."></textarea>
                 
                 <button class="btn-main" onclick="salvar()">✅ SALVAR REGISTRO</button>
@@ -366,7 +294,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 <script>
-    // ... Seu script original permanece aqui ...
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -424,9 +351,7 @@
         const placaDigitada = document.getElementById('login-placa').value.trim().toUpperCase();
         const res = document.getElementById('resultado-cliente');
         const areaBusca = document.getElementById('area-busca');
-
         if(!userDigitado || !senhaDigitada || !placaDigitada) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS");
-
         db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
             if(snapUser.exists() && snapUser.val().senha === senhaDigitada) {
                 db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
@@ -434,7 +359,6 @@
                     if(v && (v.identificacao === userDigitado)) {
                         const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
                         let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
-                        
                         res.innerHTML = `
                             <div style="margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; border:1px solid var(--border);">
                                 <h3 style="color:var(--primary); font-size: 18px; margin-bottom:10px;">${v.modelo}</h3>
@@ -548,7 +472,8 @@
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
         if(v.clienteZap) {
-            whatsappAtual = v.clienteZap; nomeClienteAtual = v.clienteNome; relatoClienteAtual = v.clienteRelato;
+            whatsappAtual = v.clienteZap;
+            nomeClienteAtual = v.clienteNome; relatoClienteAtual = v.clienteRelato;
             exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
         }
         window.scrollTo({top: 0, behavior: 'smooth'});
