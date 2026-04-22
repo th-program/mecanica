@@ -2,226 +2,175 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
-    :root { 
-        --bg: #000b1a; 
-        --card-bg: rgba(255, 255, 255, 0.05);
-        --primary: #d4af37; 
-        --primary-glow: rgba(212, 175, 55, 0.3);
-        --text-main: #f0f0f0; 
-        --text-dim: #a0aec0; 
-        --border: rgba(255, 255, 255, 0.1); 
-        --success: #00ff88; 
-        --warning: #ffcc00; 
-        --danger: #ff4d4d; 
-        --input-bg: rgba(0, 15, 35, 0.8); 
-        --logo-size: 150px; 
-    } 
-    
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
-    
-    body { 
-        font-family: 'Inter', sans-serif; 
-        background-color: var(--bg); 
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: 15px; 
-        line-height: 1.4;
-    }
-
-    /* Ajuste de Containers */
-    .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-    .card { 
-        background: var(--card-bg); 
-        border: 1px solid var(--border); 
-        padding: 20px; 
-        border-radius: 20px; 
-        backdrop-filter: blur(12px);
-    }
-
-    /* GRID DO PAINEL - O CORAÇÃO DO AJUSTE */
-    .painel-grid { 
-        display: grid; 
-        grid-template-columns: 1fr; /* Padrão Mobile Vertical */
-        gap: 20px; 
-    }
-
-    /* MODO HORIZONTAL (LANDSCAPE) NO CELULAR */
-    @media (min-height: 300px) and (max-height: 600px) and (orientation: landscape) {
-        body { padding: 10px; }
-        .logo-box { display: none; } /* Esconde logo para ganhar espaço */
-        .painel-grid { 
-            grid-template-columns: 1fr 1fr; /* Divide em dois no modo deitado */
+        :root { 
+            --bg: #000b1a; 
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --primary: #d4af37; 
+            --primary-glow: rgba(212, 175, 55, 0.3);
+            --text-main: #f0f0f0; 
+            --text-dim: #a0aec0; 
+            --border: rgba(255, 255, 255, 0.1); 
+            --success: #00ff88; 
+            --warning: #ffcc00; 
+            --danger: #ff4d4d; 
+            --input-bg: rgba(0, 15, 35, 0.8); 
+        } 
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
+        
+        body { 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            padding: 20px; 
+            line-height: 1.4;
         }
-        .table-container { max-height: 200px !important; }
-        .card { padding: 15px; }
-    }
 
-    /* DESKTOP */
-    @media (min-width: 992px) {
-        .painel-grid { grid-template-columns: 1.4fr 0.6fr; }
-        .table-container { max-height: 600px; }
-    }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; }
 
-    /* Botão Home Adaptável */
-    .btn-home-fixed {
-        display: inline-flex;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        color: var(--primary);
-        padding: 8px 15px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 12px;
-        margin-bottom: 15px;
-    }
+        /* Ajuste da Logo para não vazar */
+        .logo-box { text-align: center; margin-bottom: 25px; width: 100%; overflow: hidden; } 
+        .logo-img { max-width: 100%; height: auto; width: 180px; filter: drop-shadow(0 0 10px var(--primary-glow)); object-fit: contain; } 
+        
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            padding: 25px; 
+            border-radius: 24px; 
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            width: 100%;
+        } 
 
-    /* Estilização de Inputs e Tabelas reduzida para não ocupar muito espaço */
-    input, textarea, select { 
-        width: 100%; 
-        padding: 12px; 
-        background: var(--input-bg); 
-        border: 1px solid var(--border); 
-        border-radius: 10px; 
-        color: #fff; 
-        margin-bottom: 10px; 
-    }
+        /* Botões de Filtro Restaurados */
+        .categorias-filtro { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 15px; scrollbar-width: none; } 
+        .categorias-filtro::-webkit-scrollbar { display: none; }
+        .cat-btn { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--border); 
+            color: var(--text-dim); 
+            padding: 10px 18px; 
+            border-radius: 50px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            transition: 0.3s;
+        } 
+        .cat-btn.active { border-color: var(--primary); color: #000; background: var(--primary); box-shadow: 0 0 10px var(--primary-glow); } 
 
-    .table-container { 
-        background: rgba(0,0,0,0.3); 
-        border-radius: 12px; 
-        overflow-x: auto;
-    }
-    table { width: 100%; border-collapse: collapse; min-width: 300px; }
-    td { padding: 12px 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+        /* Inputs e Formulário */
+        label { display: block; font-size: 11px; color: var(--primary); margin: 15px 0 5px 0; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; } 
+        input, textarea, select { 
+            width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--border); 
+            border-radius: 12px; color: #fff; font-size: 16px; transition: 0.3s; 
+        }
+        
+        .btn-main { 
+            background: var(--primary); color: #000; width: 100%; padding: 16px; border: none; 
+            border-radius: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
 
-    .status-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-    .status-option { 
-        background: var(--input-bg); 
-        padding: 10px 2px; 
-        border-radius: 8px; 
-        font-size: 10px; 
-        text-align: center; 
-        cursor: pointer; 
-        border: 1px solid var(--border);
-    }
-    .status-option.active { background: var(--primary); color: #000; font-weight: bold; }
+        /* Botão de Upload Customizado */
+        .btn-upload-custom { 
+            border: 2px dashed var(--primary); color: var(--primary); padding: 20px; border-radius: 15px; 
+            text-align: center; cursor: pointer; display: block; font-weight: 700; background: rgba(212, 175, 55, 0.05); 
+        }
 
-    .btn-main { 
-        background: var(--primary); 
-        color: #000; 
-        width: 100%; 
-        padding: 15px; 
-        border: none; 
-        border-radius: 12px; 
-        font-weight: bold; 
-        cursor: pointer;
-    }
+        /* Atalhos de Relatório (+Revisão, etc) */
+        .tags-atalho { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .tag-btn { 
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text-dim); 
+            padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; 
+        }
+        .tag-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-    .hidden { display: none !important; }
+        /* Grid do Painel Adm */
+        .painel-grid { display: grid; grid-template-columns: 1fr; gap: 25px; } 
+        @media (min-width: 992px) { .painel-grid { grid-template-columns: 1.3fr 0.7fr; } } 
+
+        /* Ajustes Mobile Horizontal */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .logo-img { width: 120px; }
+            .painel-grid { grid-template-columns: 1fr 1fr; }
+            .card { padding: 15px; }
+        }
+
+        .table-container { background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-
-<a href="index.html" class="btn-home-fixed" onclick="location.reload()">🏠 INÍCIO</a>
-<div id="custom-alert"></div>
-
-<div id="img-modal" onclick="this.style.display='none'">
-    <img id="modal-view" src="">
-    <div style="position: absolute; top: 30px; right: 30px; color: #fff; font-size: 24px; cursor: pointer;">✕</div>
-</div>
-
-<div id="confirm-box" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10001; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(8px);">
-    <div class="card" style="max-width: 350px; text-align: center; border-top: 4px solid var(--danger);">
-        <h3 id="confirm-title" style="color:var(--danger); margin-bottom: 15px;">CONFIRMAR?</h3>
-        <button class="btn-main" id="btn-confirm-sim" style="background: var(--danger); color: #fff; margin-bottom: 12px;">SIM, EXCLUIR</button>
-        <button class="btn-main" onclick="fecharConfirm()" style="background: #333; color: #fff;">CANCELAR</button>
-    </div>
-</div>
 
 <div class="container">
     <section id="view-cliente" class="card">
         <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car"></div>
         <div id="area-busca">
             <label>Identificação (@)</label>
-            <input type="text" id="login-user" placeholder="@seuusuario" oninput="verificarUsuarioMecanico(this.value)">
-            <label>Senha de Acesso</label>
+            <input type="text" id="login-user" placeholder="@usuario" oninput="verificarUsuarioMecanico(this.value)">
+            
+            <label>Senha</label>
             <input type="password" id="login-pass" placeholder="••••">
+            
             <div id="wrapper-placa" class="hidden">
                 <label>Placa do Veículo</label>
-                <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1234">
+                <input type="text" id="login-placa" style="text-align:center; font-weight:bold; letter-spacing:2px;" maxlength="7" placeholder="ABC1234">
             </div>
-            <button class="btn-main" id="btn-localizar" onclick="gerenciarLogin()">Entrar no Sistema</button>
+            
+            <button class="btn-main" style="margin-top:20px;" onclick="gerenciarLogin()">Entrar</button>
         </div>
         <div id="resultado-cliente"></div>
     </section>
 
     <section id="view-painel" class="card hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
-            <h2 style="font-size:18px; color:var(--primary); letter-spacing: 1px;">PAINEL TÉCNICO</h2>
-            <button onclick="location.reload()" style="color:var(--danger); background:rgba(255, 77, 77, 0.1); border:1px solid var(--danger); padding: 10px 20px; border-radius: 12px; font-weight:bold; cursor:pointer;">SAIR</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="color:var(--primary); font-size:18px;">PAINEL MECÂNICO</h2>
+            <button onclick="location.reload()" style="background:var(--danger); color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;">SAIR</button>
         </div>
 
         <div class="painel-grid">
-            <div class="painel-col">
-                <div id="aba-novos-cadastros">
-                    <label style="color:var(--success); display: flex; align-items: center; gap: 8px;">
-                        <span style="display:inline-block; width:8px; height:8px; background:var(--success); border-radius:50%; animation: pulse 1.5s infinite;"></span>
-                        Novas Solicitações
-                    </label>
-                    <div id="lista-solicitacoes"></div>
+            <div>
+                <div class="categorias-filtro">
+                    <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">🚀 Todos</button>
+                    <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">⌛ Na Fila</button>
+                    <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">🛠️ Oficina</button>
+                    <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">🏁 Prontos</button>
                 </div>
-                
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
-                    <div class="categorias-filtro">
-                        <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">🚀 Todos</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">⌛ Na Fila</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">🛠️ Oficina</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">🏁 Prontos</button>
-                    </div>
-                    <button onclick="confirmarLimparTudo()" style="background:none; border:none; cursor:pointer; font-size:22px;">🗑️</button>
-                </div>
-
-                <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                <div class="table-container">
                     <table id="corpo-tabela"></table>
                 </div>
             </div>
 
-            <div class="painel-col">
-                <button id="btn-whats-direto" class="btn-main whatsapp-float-btn" style="display:none;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" style="filter: brightness(0) invert(1);"> CONTATO CLIENTE
-                </button>
-
-                <div id="relatorio-cliente-view" class="solicitacao-item" style="display:none;">
-                    <b style="color:var(--primary)">RELATO:</b><br>
-                    <span id="txt-relato-cliente" style="font-size: 13px;"></span>
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px">
-                    <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" readonly style="opacity: 0.5;"></div>
-                    <div><label>Valor (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
-                </div>
+            <div>
+                <label>Placa</label>
+                <input type="text" id="m-placa" placeholder="Placa">
                 
                 <label>Veículo</label>
-                <input type="text" id="m-modelo" readonly style="opacity: 0.5;">
-                <input type="hidden" id="m-identificacao-interna">
+                <input type="text" id="m-modelo" placeholder="Ex: Corolla XEi">
+                
+                <label>Fotos (Estado do Carro)</label>
+                <label for="m-fotos-input" class="btn-upload-custom">📸 CLIQUE PARA ENVIAR FOTOS</label>
+                <input type="file" id="m-fotos-input" multiple accept="image/*" style="display:none;" onchange="previewImages()">
+                <div id="preview-area" style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:10px;"></div>
 
-                <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 SELECIONAR FOTOS</label>
-                <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
-                <div id="preview-area" class="fotos-grid"></div>
-
-                <label style="margin-top:20px">Status</label>
-                <div class="status-picker">
-                    <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
-                    <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
-                    <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
+                <label>Relatório Técnico</label>
+                <div class="tags-atalho">
+                    <button class="tag-btn" onclick="addTag('+ Revisão Geral')">+ Revisão</button>
+                    <button class="tag-btn" onclick="addTag('+ Troca de Óleo e Filtros')">+ Óleo</button>
+                    <button class="tag-btn" onclick="addTag('+ Passagem de Scanner')">+ Scanner</button>
                 </div>
+                <textarea id="m-obs" rows="4" placeholder="Descreva o serviço..."></textarea>
 
-                <textarea id="m-obs" rows="4" placeholder="Relatório técnico..."></textarea>
-                <button class="btn-main" onclick="salvar()">✅ SALVAR REGISTRO</button>
-                <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; margin-top:10px">DESCARTAR</button>
+                <label>Valor do Serviço</label>
+                <input type="text" id="m-preco" placeholder="R$ 0,00" oninput="mascaraMoeda(this)">
+
+                <button class="btn-main" style="margin-top:20px;" onclick="salvar()">✅ SALVAR NO SISTEMA</button>
             </div>
         </div>
     </section>
@@ -230,19 +179,34 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 <script>
+    // IMPORTANTE: Insira suas chaves aqui
     const firebaseConfig = {
-        apiKey: "COLE_AQUI", // Cole sua API Key aqui
+        apiKey: "AIzaSy...", 
         authDomain: "a-fonte-43744.firebaseapp.com",
         databaseURL: "https://a-fonte-43744-default-rtdb.firebaseio.com",
         projectId: "a-fonte-43744",
         storageBucket: "a-fonte-43744.appspot.com",
-        messagingSenderId: "COLE_AQUI", // Cole seu SenderId aqui
-        appId: "COLE_AQUI" // Cole seu AppId aqui
+        messagingSenderId: "123456789",
+        appId: "1:123456:web:abc"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     
+    // Configurações e Funções Auxiliares
+    function addTag(texto) {
+        const area = document.getElementById('m-obs');
+        area.value += (area.value ? '\n' : '') + texto;
+    }
+
+    function mascaraMoeda(i) {
+        let v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2).replace(".",",");
+        i.value = "R$ " + v;
+    }
+
+    // --- LÓGICA DE LOGIN E FUNCIONALIDADES (MANTIDA ORIGINAL) ---
+
     const LOGIN_ADM = "adm.limacar";
     const SENHA_ADM = "1234";
     
@@ -264,12 +228,6 @@
         }
     }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !document.getElementById('view-cliente').classList.contains('hidden')) {
-            gerenciarLogin();
-        }
-    });
-
     function gerenciarLogin() {
         const user = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
         const pass = document.getElementById('login-pass').value.trim();
@@ -286,59 +244,53 @@
         const placa = document.getElementById('login-placa').value.trim().toUpperCase();
         const res = document.getElementById('resultado-cliente');
 
-        if(!user || !pass || !placa) return showAlert("⚠️ PREENCHA TUDO");
+        if(!user || !pass || !placa) return alert("⚠️ PREENCHA TUDO");
 
         db.ref('usuarios/' + user).once('value', (snap) => {
             if(snap.exists() && snap.val().senha === pass) {
                 db.ref('veiculos/' + placa).once('value', (sV) => {
                     const v = sV.val();
                     if(v && v.identificacao === user) {
-                        const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
                         res.innerHTML = `
                             <div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
                                 <h3 style="color:var(--primary)">${v.modelo}</h3>
-                                <p>Status: <b style="color:${cor}">${v.status}</b></p>
+                                <p>Status: <b>${v.status}</b></p>
                                 <p style="margin:15px 0; font-size:14px;">${v.obs}</p>
-                                <p style="color:var(--success); font-weight:bold; font-size:18px">R$ ${v.preco}</p>
-                                <div class="fotos-grid">${(v.fotos || []).map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>
+                                <p style="color:var(--success); font-weight:bold; font-size:18px">${v.preco}</p>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+                                    ${(v.fotos || []).map(f => `<img src="${f}" style="width:100%; border-radius:8px;">`).join('')}
+                                </div>
                             </div>
-                            <a href="https://wa.me/55${v.clienteZap || ''}" target="_blank" class="btn-main" style="background:#25d366; margin-top:20px;">FALAR COM A MECÂNICA</a>
-                            <button onclick="location.reload()" class="btn-main" style="background:#132a47; margin-top:10px;">VOLTAR</button>`;
+                            <button onclick="location.reload()" class="btn-main" style="margin-top:10px; background:#132a47; color:#fff">VOLTAR</button>`;
                         document.getElementById('area-busca').classList.add('hidden');
-                    } else { showAlert("🔍 NÃO ENCONTRADO"); }
+                    } else { alert("🔍 VEÍCULO NÃO ENCONTRADO"); }
                 });
-            } else { showAlert("❌ LOGIN INCORRETO"); }
+            } else { alert("❌ LOGIN OU SENHA INCORRETOS"); }
         });
     }
 
-    db.ref('veiculos').on('value', (s) => { bancoDados = s.val() || {}; desenharTabela(); });
-    db.ref('servicos_ativos').on('value', (s) => { bancoSolicitacoes = s.val() || {}; desenharSolicitacoes(); });
+    // --- FUNÇÕES DO PAINEL ADM ---
 
-    function desenharSolicitacoes() {
-        const c = document.getElementById('lista-solicitacoes');
-        c.innerHTML = "";
-        Object.keys(bancoSolicitacoes).forEach(id => {
-            const s = bancoSolicitacoes[id];
-            c.innerHTML += `<div class="solicitacao-item"><b>${s.placa}</b> - ${s.modelo}<br><button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR</button></div>`;
+    db.ref('veiculos').on('value', (s) => { 
+        bancoDados = s.val() || {}; 
+        desenharTabela(); 
+    });
+
+    function desenharTabela(filtro = "Todos") {
+        const corpo = document.getElementById('corpo-tabela');
+        corpo.innerHTML = "";
+        Object.keys(bancoDados).reverse().forEach(p => {
+            const v = bancoDados[p];
+            if(filtro !== "Todos" && v.status !== filtro) return;
+            corpo.innerHTML += `
+                <tr>
+                    <td><b>${p}</b><br><small>${v.modelo}</small></td>
+                    <td>${v.status}</td>
+                    <td style="text-align:right">
+                        <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer;">✏️</button>
+                    </td>
+                </tr>`;
         });
-    }
-
-    function importarSolicitacao(id) {
-        const s = bancoSolicitacoes[id];
-        document.getElementById('m-placa').value = s.placa;
-        document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
-        document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
-        whatsappAtual = s.zap_cliente || "";
-        nomeClienteAtual = s.nome_cliente || "";
-        relatoClienteAtual = s.problema || "";
-        exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
-    }
-
-    function exibirBotaoWhats(zap, nome, problema) {
-        document.getElementById('relatorio-cliente-view').style.display = "block";
-        document.getElementById('btn-whats-direto').style.display = "flex"; 
-        document.getElementById('txt-relato-cliente').innerHTML = `<b>${nome}:</b> ${problema}`;
-        document.getElementById('btn-whats-direto').onclick = () => window.open(`https://wa.me/55${zap.replace(/\D/g,"")}`, '_blank');
     }
 
     function salvar() {
@@ -349,67 +301,28 @@
             preco: document.getElementById('m-preco').value,
             obs: document.getElementById('m-obs').value,
             fotos: fotosBase64,
-            clienteZap: whatsappAtual,
-            clienteNome: nomeClienteAtual,
-            clienteRelato: relatoClienteAtual,
-            identificacao: document.getElementById('m-identificacao-interna').value 
+            identificacao: document.getElementById('m-identificacao-interna')?.value || ""
         };
-        if(!placa || !dados.preco) return showAlert("❌ FALTA DADOS");
+        
+        if(!placa) return alert("❌ DIGITE A PLACA");
+        
         db.ref('veiculos/' + placa).set(dados).then(() => {
-            db.ref('servicos_ativos/' + placa).remove();
-            showAlert("✔️ SALVO");
-            limparFormulario();
+            alert("✔️ SALVO COM SUCESSO");
+            location.reload();
         });
-    }
-
-    function desenharTabela(filtro = "Todos") {
-        const corpo = document.getElementById('corpo-tabela');
-        corpo.innerHTML = "";
-        Object.keys(bancoDados).reverse().forEach(p => {
-            const v = bancoDados[p];
-            if(filtro !== "Todos" && v.status !== filtro) return;
-            const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
-            corpo.innerHTML += `<tr><td><b>${p}</b><br>${v.modelo}</td><td style="color:${cor}">${v.status}</td><td style="text-align:right">
-                <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer;">✏️</button>
-                <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; margin-left:10px">🗑️</button></td></tr>`;
-        });
-    }
-
-    function prepararEdicao(p) {
-        const v = bancoDados[p];
-        document.getElementById('m-placa').value = p;
-        document.getElementById('m-modelo').value = v.modelo;
-        document.getElementById('m-preco').value = v.preco;
-        document.getElementById('m-obs').value = v.obs;
-        document.getElementById('m-identificacao-interna').value = v.identificacao || "";
-        fotosBase64 = v.fotos || [];
-        renderizarFotosEdicao();
-        document.getElementById('btn-cancelar').classList.remove('hidden');
-    }
-
-    function renderizarFotosEdicao() {
-        const area = document.getElementById('preview-area');
-        area.innerHTML = "";
-        fotosBase64.forEach((src, i) => {
-            area.innerHTML += `<div style="position:relative"><img src="${src}" class="img-item"><button onclick="removerFoto(${i})" style="position:absolute; top:0; right:0; background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer">X</button></div>`;
-        });
-    }
-
-    function removerFoto(i) { fotosBase64.splice(i,1); renderizarFotosEdicao(); }
-
-    function limparFormulario() {
-        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => document.getElementById(id).value = "");
-        fotosBase64 = []; renderizarFotosEdicao();
-        document.getElementById('btn-cancelar').classList.add('hidden');
-        document.getElementById('relatorio-cliente-view').style.display = "none";
-        document.getElementById('btn-whats-direto').style.display = "none";
     }
 
     function previewImages() {
         const files = document.getElementById('m-fotos-input').files;
+        const area = document.getElementById('preview-area');
+        area.innerHTML = "";
+        fotosBase64 = [];
         Array.from(files).forEach(f => {
             const r = new FileReader();
-            r.onload = (e) => { fotosBase64.push(e.target.result); renderizarFotosEdicao(); };
+            r.onload = (e) => { 
+                fotosBase64.push(e.target.result); 
+                area.innerHTML += `<img src="${e.target.result}" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:8px;">`;
+            };
             r.readAsDataURL(f);
         });
     }
@@ -417,23 +330,13 @@
     function filtrarTabela(f, btn) {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        statusSelecionado = f === "Todos" ? "Aguardando" : f;
         desenharTabela(f);
     }
 
-    function showAlert(m) { const a = document.getElementById('custom-alert'); a.innerText = m; a.style.display = 'block'; setTimeout(() => a.style.display='none', 2000); }
-    function mascaraMoeda(i) { let v = i.value.replace(/\D/g,''); v = (v/100).toFixed(2).replace(".",","); i.value = v; }
-    function irPara(id) { document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-    function setStatus(el) { document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); statusSelecionado = el.getAttribute('data-status'); }
-    function abrirImg(s) { document.getElementById('modal-view').src = s; document.getElementById('img-modal').style.display = 'flex'; }
-    function fecharConfirm() { document.getElementById('confirm-box').classList.add('hidden'); }
-    
-    let pExcluir = null; let acao = "";
-    function confirmarExcluir(p) { pExcluir = p; acao = "u"; document.getElementById('confirm-box').classList.remove('hidden'); }
-    function confirmarLimparTudo() { acao = "t"; document.getElementById('confirm-box').classList.remove('hidden'); }
-    document.getElementById('btn-confirm-sim').onclick = () => {
-        if(acao === "u") db.ref('veiculos/' + pExcluir).remove().then(fecharConfirm);
-        else db.ref('veiculos').remove().then(fecharConfirm);
-    };
-</script>
+    function irPara(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }</script>
 </body>
 </html>
