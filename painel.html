@@ -68,7 +68,6 @@
             .btn-home-fixed { position: fixed; top: 25px; left: 25px; margin-bottom: 0; z-index: 1000; }
         }
 
-        /* CORREÇÃO DO CONTAINER: Centraliza o login e expande no Admin */
         .container { 
             width: 100%;
             max-width: 100%; 
@@ -81,13 +80,10 @@
         } 
 
         @media (min-width: 768px) { 
-            .container { max-width: 450px; } /* Largura do Login no PC */
-            
-            /* Expansão automática quando o painel estiver visível */
+            .container { max-width: 450px; } 
             .container:has(#view-painel:not(.hidden)) {
                 max-width: 95vw;
             }
-
             #view-painel.card { 
                 width: 100% !important;
                 min-height: 85vh;
@@ -239,53 +235,57 @@
                 </div>
             </div>
 
-            <div class="painel-col">
-                <button id="btn-whats-direto" class="btn-main whatsapp-float-btn" style="display:none;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" style="filter: brightness(0) invert(1);"> 
-                    FALAR COM CLIENTE
-                </button>
+            <div class="painel-col hidden" id="coluna-formulario">
+                <div style="border: 1px solid var(--primary); padding: 15px; border-radius: var(--radius); background: rgba(212, 175, 55, 0.02);">
+                    <h3 style="color:var(--primary); font-size: 12px; margin-bottom: 15px; text-align: center;">⚙️ ÁREA DE EDIÇÃO / ATENDIMENTO</h3>
+                    
+                    <button id="btn-whats-direto" class="btn-main whatsapp-float-btn" style="display:none;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" style="filter: brightness(0) invert(1);"> 
+                        FALAR COM CLIENTE
+                    </button>
 
-                <div id="relatorio-cliente-view" class="relatorio-cliente-box" style="display:none">
-                    <b style="color:var(--primary); font-size: 11px;">RELATO DO CLIENTE:</b><br>
-                    <span id="txt-relato-cliente" style="font-size: 13px; line-height: 1.5;"></span>
+                    <div id="relatorio-cliente-view" class="relatorio-cliente-box" style="display:none">
+                        <b style="color:var(--primary); font-size: 11px;">RELATO DO CLIENTE:</b><br>
+                        <span id="txt-relato-cliente" style="font-size: 13px; line-height: 1.5;"></span>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
+                        <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" readonly style="opacity: 0.6; background: #000;"></div>
+                        <div><label>Total (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
+                    </div>
+                    
+                    <label>Veículo</label>
+                    <input type="text" id="m-modelo" readonly style="opacity: 0.6; background: #000;">
+                    <input type="hidden" id="m-identificacao-interna">
+
+                    <label>Fotos da Ordem</label>
+                    <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">
+                        📸 ENVIAR FOTOS
+                    </label>
+          
+                    <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+                    <div id="preview-area" class="fotos-grid"></div>
+
+                    <label style="margin-top: 15px;">Status</label>
+                    <div class="status-picker">
+                        <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Fila</div>
+                        <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
+                        <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
+                    </div>
+
+                    <label>Relatório Técnico</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;">
+                        <span class="tag-servico" onclick="addServico('Revisão Preventiva')">+ Revisão</span>
+                        <span class="tag-servico" onclick="addServico('Troca de Óleo')">+ Óleo</span>
+                        <span class="tag-servico" onclick="addServico('Diagnóstico Scanner')">+ Scanner</span>
+                    </div>
+          
+                    <textarea id="m-obs" rows="4" placeholder="O que foi feito..."></textarea>
+                    
+                    <button class="btn-main" onclick="salvar()">✅ SALVAR REGISTRO</button>
+                    <button class="btn-main" id="btn-cancelar" onclick="limparFormulario()" style="background:#1a1a1a; border: 1px solid #333; color:#94a3b8; margin-top:10px">DESCARTAR / FECHAR</button>
+                    <div style="height: 30px;"></div>
                 </div>
-
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-                    <div><label>Placa</label><input type="text" id="m-placa" maxlength="7" readonly style="opacity: 0.6; background: #000;"></div>
-                    <div><label>Total (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
-                </div>
-                
-                <label>Veículo</label>
-                <input type="text" id="m-modelo" readonly style="opacity: 0.6; background: #000;">
-                <input type="hidden" id="m-identificacao-interna">
-
-                <label>Fotos da Ordem</label>
-                <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">
-                    📸 ENVIAR FOTOS
-                </label>
-      
-                <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
-                <div id="preview-area" class="fotos-grid"></div>
-
-                <label style="margin-top: 15px;">Status</label>
-                <div class="status-picker">
-                    <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Fila</div>
-                    <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
-                    <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
-                </div>
-
-                <label>Relatório Técnico</label>
-                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;">
-                    <span class="tag-servico" onclick="addServico('Revisão Preventiva')">+ Revisão</span>
-                    <span class="tag-servico" onclick="addServico('Troca de Óleo')">+ Óleo</span>
-                    <span class="tag-servico" onclick="addServico('Diagnóstico Scanner')">+ Scanner</span>
-                </div>
-      
-                <textarea id="m-obs" rows="4" placeholder="O que foi feito..."></textarea>
-                
-                <button class="btn-main" onclick="salvar()">✅ SALVAR REGISTRO</button>
-                <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#1a1a1a; border: 1px solid #333; color:#94a3b8; margin-top:10px">DESCARTAR EDIÇÃO</button>
-                <div style="height: 30px;"></div>
             </div>
         </div>
     </section>
@@ -406,6 +406,7 @@
         });
     }
 
+    // MODIFICADO: Agora abre a coluna de formulário
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
         document.getElementById('m-placa').value = s.placa;
@@ -415,7 +416,11 @@
         nomeClienteAtual = s.nome_cliente || "";
         relatoClienteAtual = s.problema || "";
         exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
-        showAlert("📋 IMPORTADO");
+        
+        // Exibe a coluna e rola até ela no mobile
+        document.getElementById('coluna-formulario').classList.remove('hidden');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        showAlert("📋 ATENDIMENTO INICIADO");
     }
 
     function exibirBotaoWhats(zap, nome, problema) {
@@ -461,6 +466,7 @@
         });
     }
 
+    // MODIFICADO: Agora abre a coluna de formulário
     function prepararEdicao(p) {
         const v = bancoDados[p];
         document.getElementById('m-placa').value = p;
@@ -468,7 +474,6 @@
         document.getElementById('m-preco').value = v.preco;
         document.getElementById('m-obs').value = v.obs;
         document.getElementById('m-identificacao-interna').value = v.identificacao || ""; 
-        document.getElementById('btn-cancelar').classList.remove('hidden');
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
         if(v.clienteZap) {
@@ -476,6 +481,9 @@
             nomeClienteAtual = v.clienteNome; relatoClienteAtual = v.clienteRelato;
             exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
         }
+        
+        // Exibe a coluna e rola até ela
+        document.getElementById('coluna-formulario').classList.remove('hidden');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
@@ -494,6 +502,7 @@
 
     function removerFoto(index) { fotosBase64.splice(index, 1); renderizarFotosEdicao(); }
 
+    // MODIFICADO: Agora oculta a coluna de formulário após limpar
     function limparFormulario() {
         fotosBase64 = []; whatsappAtual = ""; nomeClienteAtual = ""; relatoClienteAtual = "";
         ['m-placa','m-modelo','m-preco','m-obs','m-fotos-input','m-identificacao-interna'].forEach(id => {
@@ -501,9 +510,11 @@
         });
         document.getElementById('preview-area').innerHTML = "";
         document.getElementById('label-upload').innerText = `📸 ENVIAR FOTOS`;
-        document.getElementById('btn-cancelar').classList.add('hidden');
         document.getElementById('relatorio-cliente-view').style.display = "none";
         document.getElementById('btn-whats-direto').style.display = "none";
+        
+        // Esconde a coluna novamente
+        document.getElementById('coluna-formulario').classList.add('hidden');
     }
 
     function filtrarTabela(f, btn) {
