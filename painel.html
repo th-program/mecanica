@@ -5,7 +5,7 @@
     <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
-       :root { 
+:root { 
     --bg: #000814; 
     --card-bg: rgba(255, 255, 255, 0.03);
     --primary: #d4af37; 
@@ -17,126 +17,133 @@
     --warning: #f59e0b; 
     --danger: #ef4444; 
     --input-bg: rgba(15, 23, 42, 0.6); 
-    --logo-size: 220px; 
+    --logo-size: 180px; 
 } 
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
 
-/* REGRA CRÍTICA: Mantém elementos escondidos */
 .hidden { display: none !important; }
 
 body { 
     font-family: 'Segoe UI', Roboto, sans-serif; 
     background-color: var(--bg); 
-    background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.07) 0%, transparent 40%);
+    background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
     color: var(--text-main); 
     min-height: 100vh; 
-    padding: 20px; 
+    padding: 10px; /* Reduzido para mobile */
 }
 
+/* Botão Início - Ajustado para não flutuar sobre o conteúdo no mobile */
 .btn-home-fixed {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     color: var(--text-main);
-    padding: 12px 24px;
-    border-radius: 12px;
+    padding: 10px 20px;
+    border-radius: 10px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    width: fit-content;
 }
 
 .container { width: 100%; max-width: 450px; margin: 0 auto; } 
 
-/* Estilo do Card Principal */
 .card { 
     background: var(--card-bg);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 25px;
-    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 20px; /* Padding menor para mobile */
+    width: 100%;
 }
 
-/* Painel Técnico (Duas Colunas no Desktop) */
-#view-painel { max-width: 1000px !important; }
-.painel-grid { display: grid; grid-template-columns: 1fr; gap: 25px; width: 100%; text-align: left; }
+/* Grid Responsiva Principal */
+.painel-grid { 
+    display: flex; 
+    flex-direction: column; /* Coluna por padrão (Mobile) */
+    gap: 20px; 
+}
 
 @media (min-width: 768px) { 
-    .container { max-width: 900px; }
-    .painel-grid { grid-template-columns: 1.2fr 0.8fr; }
-    .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin-bottom: 0; z-index: 1000; }
+    body { padding: 30px; }
+    .container { max-width: 1000px; }
+    .painel-grid { flex-direction: row; align-items: flex-start; }
+    .painel-col:first-child { flex: 1.2; }
+    .painel-col:last-child { flex: 0.8; position: sticky; top: 20px; }
+    .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin: 0; }
+    .card { padding: 30px; }
 }
 
-/* Logo */
-.logo-box { text-align: center; margin-bottom: 25px; }
-.logo-img { width: 100%; max-width: var(--logo-size); filter: drop-shadow(0 0 10px var(--primary-glow)); }
-
-/* Formulários */
-label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
+/* Inputs e Labels adaptados */
+label { display: block; font-size: 9px; color: var(--primary); margin-bottom: 5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; } 
 
 input, textarea, select { 
-    width: 100%; padding: 14px; background: var(--input-bg); 
-    border: 1px solid var(--border); border-radius: 12px; color: #fff; 
-    font-size: 16px !important; margin-bottom: 18px; transition: 0.3s;
+    width: 100%; padding: 12px; background: var(--input-bg); 
+    border: 1px solid var(--border); border-radius: 10px; color: #fff; 
+    font-size: 14px !important; margin-bottom: 15px; 
 } 
-input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.4); }
 
 .input-placa-grande { 
-    font-family: 'Monaco', monospace; font-size: 32px !important; 
-    background: #fff !important; color: #000 !important; 
-    border: 4px solid var(--primary) !important; text-transform: uppercase; 
-    letter-spacing: 5px; text-align: center; border-radius: 15px !important; 
-} 
+    font-size: 28px !important; letter-spacing: 3px; padding: 10px !important;
+}
 
 /* Botões */
 .btn-main { 
     background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); 
-    color: #000; width: 100%; padding: 16px; border: none; border-radius: 14px; 
-    font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; 
-    margin-top: 10px; display: block; text-decoration: none; text-align: center;
+    color: #000; width: 100%; padding: 15px; border: none; border-radius: 12px; 
+    font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 13px;
 }
-.btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-/* Filtros e Tabela */
-.categorias-filtro { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
+/* Tabelas e Filtros (Mobile friendly) */
+.categorias-filtro { 
+    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; 
+    scrollbar-width: none; /* Esconde scroll no Firefox */
+}
+.categorias-filtro::-webkit-scrollbar { display: none; } /* Esconde scroll no Chrome/Safari */
+
 .cat-btn { 
     background: var(--input-bg); border: 1px solid var(--border); color: var(--text-dim); 
-    padding: 10px 15px; border-radius: 10px; font-size: 11px; font-weight: 800; white-space: nowrap; cursor: pointer;
+    padding: 8px 12px; border-radius: 8px; font-size: 10px; white-space: nowrap;
 }
-.cat-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(212, 175, 55, 0.15); }
+.cat-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-.table-container { background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border); overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-td { padding: 15px 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.table-container { 
+    background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; 
+}
+td { padding: 12px 8px; font-size: 12px; border-bottom: 1px solid var(--border); }
 
-/* Status Picker */
-.status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+/* Status Picker corrigido para não quebrar */
+.status-picker { 
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; 
+}
 .status-option { 
-    background: var(--input-bg); border: 1px solid var(--border); padding: 12px 5px; 
-    border-radius: 12px; text-align: center; font-size: 10px; font-weight: 800; cursor: pointer; color: var(--text-dim);
+    background: var(--input-bg); border: 1px solid var(--border); padding: 10px 2px; 
+    border-radius: 10px; text-align: center; font-size: 9px; font-weight: 700; color: var(--text-dim);
 }
 .status-option.active { border-color: var(--primary); color: #fff; background: rgba(212, 175, 55, 0.1); }
 
-/* Caixa de Confirmação e Modal */
+/* Modais e Overlays */
 .confirm-box { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); display: none; justify-content: center; 
-    align-items: center; z-index: 10001; backdrop-filter: blur(5px); 
+    position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+    display: none; justify-content: center; align-items: center; z-index: 10000; 
+    padding: 20px;
 }
-.confirm-box .card { max-width: 320px; text-align: center; border-top: 4px solid var(--danger); }
 
-/* Outros elementos */
 .btn-upload-custom { 
-    display: flex; align-items: center; justify-content: center; 
-    border: 1px dashed var(--primary); color: var(--primary); padding: 20px; 
-    border-radius: 15px; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 13px; 
+    border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; 
+    font-size: 11px; text-align: center; color: var(--primary); margin-bottom: 15px;
 }
-.tag-servico { font-size: 10px; background: #132a47; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; }
+
+.tag-servico { font-size: 9px; background: rgba(212, 175, 55, 0.1); padding: 5px 10px; border-radius: 15px; border: 1px solid var(--border); color: var(--primary); }
+
+/* Ajuste das fotos no mobile */
+.fotos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.img-item { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
     </style>
 </head>
 <body>
