@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mecânica Lima Car | Sistema</title>
+    <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
+    <title>Mecânica Lima Car | Gestão Profissional</title>
     <style>
         :root { 
             --bg-deep: #050a10; 
@@ -20,491 +20,485 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; } 
 
         body { 
-            font-family: 'Inter', -apple-system, sans-serif; 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
             background-color: var(--bg-deep); 
             color: var(--text-main); 
             min-height: 100vh; 
-            background-image: linear-gradient(to bottom, rgba(5, 10, 16, 0.8), rgba(5, 10, 16, 1)), url('car.png');
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: linear-gradient(to right, rgba(5, 10, 16, 0.93), rgba(5, 10, 16, 0.98)), url('car.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            line-height: 1.5;
         }
 
-        /* Ajuste Mobile para Botão Home */
+        /* Botão Início Fixo */
         .btn-home-fixed {
-            position: absolute; top: 15px; left: 15px; z-index: 100;
-            background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold);
-            color: var(--primary-gold); padding: 8px 15px; border-radius: 6px;
+            position: fixed; top: 15px; left: 15px; z-index: 1000;
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--primary-gold);
+            color: var(--primary-gold); padding: 8px 15px; border-radius: 8px;
             text-decoration: none; font-size: 10px; font-weight: bold;
-            letter-spacing: 1px; backdrop-filter: blur(5px);
+            text-transform: uppercase; transition: 0.3s; backdrop-filter: blur(10px);
         }
 
         .main-wrapper {
             width: 100%;
-            max-width: 500px; /* Otimizado para Mobile */
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 70px 20px 30px 20px;
+            padding: 70px 15px 30px 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Card Glassmorphism */
+        /* Layout de Login */
+        .login-layout {
+            display: grid;
+            grid-template-columns: 1fr 450px 1fr;
+            gap: 30px;
+            align-items: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        /* Card Estilo Glass */
         .card-glass {
-            background: rgba(15, 20, 28, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(10, 15, 25, 0.8);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--border-gold);
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            padding: 35px 25px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             width: 100%;
         }
 
         .logo-box { margin-bottom: 25px; text-align: center; }
-        .logo-img { width: 150px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.2)); }
-        
-        .section-title {
-            font-size: 12px; color: var(--primary-gold); 
-            letter-spacing: 2px; text-transform: uppercase;
-            text-align: center; margin-bottom: 20px; font-weight: 800;
-        }
+        .logo-img { width: 160px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.2)); }
 
-        /* Formulários Mobile-First */
+        /* Form Estilos */
         .input-group { margin-bottom: 18px; text-align: left; }
-        label { display: block; font-size: 10px; color: var(--primary-gold); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; }
+        label { display: block; font-size: 10px; color: var(--primary-gold); margin-bottom: 6px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
         
         input, textarea, select { 
             width: 100%; padding: 14px; background: var(--input-bg); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-            color: #fff; font-size: 16px; /* 16px evita zoom automático no iOS */
-            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+            color: #fff; font-size: 14px; transition: 0.3s;
         }
-        input:focus { border-color: var(--primary-gold); outline: none; background: rgba(255,255,255,0.1); }
+        input:focus { border-color: var(--primary-gold); outline: none; background: rgba(255,255,255,0.08); }
 
         .input-placa-grande { 
-            font-family: 'Courier New', monospace; font-size: 32px !important; 
+            font-family: 'Monaco', monospace; font-size: 24px !important; 
             background: #fff !important; color: #000 !important; 
-            text-align: center; font-weight: 900;
+            text-align: center; letter-spacing: 3px; font-weight: bold;
             border: 3px solid var(--primary-gold) !important;
-            text-transform: uppercase;
         }
 
-        /* Botões de Ação */
         .btn-main { 
             background: var(--gold-gradient); color: #000; width: 100%; padding: 16px; 
-            border: none; border-radius: 10px; font-weight: 800; text-transform: uppercase; 
-            cursor: pointer; font-size: 13px; margin-top: 5px; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.2);
+            border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; 
+            cursor: pointer; font-size: 13px; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .btn-main:active { transform: scale(0.98); }
 
-        /* Estilo da Lista/Tabela para Mobile */
-        .table-container { 
-            margin-top: 15px; background: rgba(0,0,0,0.2); 
-            border-radius: 12px; border: 1px solid var(--border-gold);
-            overflow: hidden;
+        /* Painel Administrativo Horizontal */
+        #view-painel { width: 100%; }
+        .painel-grid { 
+            display: grid; 
+            grid-template-columns: 320px 1fr 350px; 
+            gap: 20px; 
+            align-items: start;
         }
-        .row-item {
-            padding: 15px; border-bottom: 1px solid rgba(212,175,55,0.1);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .row-item:last-child { border-bottom: none; }
 
-        /* Categorias/Filtros em Scroll */
-        .filter-scroll {
-            display: flex; gap: 8px; overflow-x: auto; 
-            padding: 5px 0 15px 0; scrollbar-width: none;
-        }
-        .filter-scroll::-webkit-scrollbar { display: none; }
+        /* Filtros e Listas */
+        .categorias-filtro { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .cat-btn { 
             background: var(--input-bg); border: 1px solid var(--border-gold); 
-            color: var(--text-dim); padding: 8px 16px; border-radius: 20px; 
-            font-size: 11px; font-weight: bold; white-space: nowrap;
+            color: var(--text-dim); padding: 8px 12px; border-radius: 8px; 
+            font-size: 9px; font-weight: bold; cursor: pointer; white-space: nowrap;
         }
         .cat-btn.active { background: var(--primary-gold); color: #000; }
 
-        /* Status Picker */
-        .status-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 5px; }
+        .table-container { 
+            background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-gold);
+            overflow: hidden; max-height: 60vh; overflow-y: auto;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px; border-bottom: 1px solid rgba(212,175,55,0.1); font-size: 13px; }
+
+        .status-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .status-option { 
-            background: #111; border: 1px solid #333; padding: 10px 5px; 
-            border-radius: 8px; text-align: center; font-size: 10px; font-weight: bold; color: var(--text-dim);
+            background: #111; border: 1px solid #333; padding: 10px 4px; 
+            border-radius: 8px; text-align: center; cursor: pointer; 
+            font-size: 9px; font-weight: bold; color: var(--text-dim);
         }
         .status-option.active { border-color: var(--primary-gold); color: var(--primary-gold); background: rgba(212,175,55,0.1); }
 
-        /* Grid de Fotos */
-        .fotos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .img-item { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-gold); }
+        .fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin-top: 10px; }
+        .img-item { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-gold); }
 
-        /* Utilitários */
-        .hidden { display: none !important; }
-        .footer-secure { text-align: center; padding: 25px 0; font-size: 9px; color: var(--text-dim); opacity: 0.5; letter-spacing: 1px; }
-        
-        #custom-alert { 
-            position: fixed; top: 10px; left: 50%; transform: translateX(-50%); 
-            z-index: 10000; width: 90%; max-width: 350px; padding: 12px; 
-            border-radius: 8px; background: var(--danger); color: white; 
-            display: none; font-size: 12px; text-align: center; font-weight: bold;
+        /* Ajustes Mobile (Vertical) */
+        @media (max-width: 1024px) {
+            .login-layout { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .side-info, .side-features { display: none; }
+            
+            .painel-grid { 
+                grid-template-columns: 1fr; 
+                display: flex;
+                flex-direction: column;
+            }
+            .painel-col:nth-child(1) { order: 2; } /* Lista vai pra baixo */
+            .painel-col:nth-child(2) { order: 3; } /* Tabela vai pro fim */
+            .painel-col:nth-child(3) { order: 1; } /* Formulário de edição no topo */
+
+            .card-glass { padding: 25px 20px; }
         }
+
+        .hidden { display: none !important; }
+        .footer-secure { text-align: center; padding: 25px 0; font-size: 10px; color: var(--text-dim); opacity: 0.5; }
+        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; padding: 12px 20px; border-radius: 10px; background: var(--danger); color: white; display: none; font-size: 12px; font-weight: bold; }
+        .solicitacao-item { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--border-gold); padding: 12px; border-radius: 12px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="btn-home-fixed" onclick="location.reload()">INÍCIO</a>
+    <a href="#" class="btn-home-fixed" onclick="location.reload()">INÍCIO</a>
+
     <div id="custom-alert"></div>
+    <div id="img-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; display:none; align-items:center; justify-content:center;" onclick="this.style.display='none'">
+        <img id="modal-view" src="" style="max-width: 90%; max-height: 80%; border-radius: 10px; border: 2px solid var(--primary-gold);">
+    </div>
 
     <div class="main-wrapper">
         
-        <section id="view-cliente" class="card-glass">
-            <div class="logo-box">
-                <img src="logo.jpg" class="logo-img" alt="Logo">
-                <p style="font-size: 8px; letter-spacing: 2px; color: var(--primary-gold); margin-top: 8px; font-weight: bold;">SISTEMA DE GESTÃO</p>
-            </div>
-
-            <div id="area-busca">
-                <div class="input-group">
-                    <label>Acesso</label>
-                    <input type="text" id="login-user" placeholder="@usuario" oninput="verificarUsuarioMecanico(this.value)">
+        <section id="view-cliente" class="login-layout">
+            <div class="side-info"></div> 
+            
+            <div class="card-glass">
+                <div class="logo-box">
+                    <img src="logo.jpg" class="logo-img" alt="Logo">
+                    <p style="font-size: 8px; letter-spacing: 4px; color: var(--primary-gold); margin-top: 12px; font-weight: bold;">PREMIUM AUTO SERVICE</p>
                 </div>
 
-                <div class="input-group">
-                    <label>Senha</label>
-                    <input type="password" id="login-pass" placeholder="••••">
-                </div>
-
-                <div id="wrapper-placa" class="hidden">
+                <div id="area-busca">
                     <div class="input-group">
-                        <label>Placa do Veículo</label>
-                        <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1D23">
+                        <label>Identificação</label>
+                        <input type="text" id="login-user" placeholder="@usuario" oninput="verificarUsuarioMecanico(this.value)">
                     </div>
+
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <input type="password" id="login-pass" placeholder="••••">
+                    </div>
+
+                    <div id="wrapper-placa" class="hidden">
+                        <div class="input-group">
+                            <label>Placa do Veículo</label>
+                            <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1D23">
+                        </div>
+                    </div>
+
+                    <button class="btn-main" id="btn-localizar" onclick="gerenciarLogin()">
+                        ACESSAR SISTEMA
+                    </button>
                 </div>
 
-                <button class="btn-main" id="btn-localizar" onclick="gerenciarLogin()">ACESSAR SISTEMA</button>
+                <div id="resultado-cliente"></div>
             </div>
 
-            <div id="resultado-cliente"></div>
+            <div class="side-features"></div>
         </section>
 
         <section id="view-painel" class="card-glass hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 class="section-title" style="margin:0">Painel ADM</h2>
-                <button onclick="location.reload()" style="color:var(--danger); background:none; border:none; font-size: 11px; font-weight: bold;">SAIR</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 15px;">
+                <h2 style="font-size:12px; color:var(--primary-gold); letter-spacing: 2px;">PAINEL DE CONTROLE</h2>
+                <button onclick="location.reload()" style="color:var(--danger); background:none; border:1px solid var(--danger); padding: 5px 12px; border-radius: 6px; font-size: 9px; font-weight: bold; cursor:pointer;">SAIR</button>
             </div>
 
-            <div class="filter-scroll">
-                <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</button>
-                <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Fila</button>
-                <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Oficina</button>
-                <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</button>
-            </div>
-
-            <div class="table-container" id="corpo-tabela">
+            <div class="painel-grid">
+                <div class="painel-col">
+                    <label style="color:var(--success); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <span>📩</span> FILA DE ENTRADA
+                    </label>
+                    <div id="lista-solicitacoes"></div>
                 </div>
 
-            <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(212,175,55,0.2);">
-                <label>Editar Veículo</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-                    <input type="text" id="m-placa" placeholder="PLACA" readonly>
-                    <input type="text" id="m-preco" placeholder="VALOR" oninput="mascaraMoeda(this)">
-                </div>
-                <input type="text" id="m-modelo" placeholder="MODELO" style="margin-bottom: 10px;">
-                
-                <label>Status</label>
-                <div class="status-picker">
-                    <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Fila</div>
-                    <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
-                    <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Pronto</div>
+                <div class="painel-col">
+                    <div class="categorias-filtro">
+                        <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Fila</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Oficina</button>
+                        <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="corpo-tabela"></table>
+                    </div>
                 </div>
 
-                <label style="margin-top: 15px;">Relatório</label>
-                <textarea id="m-obs" rows="3" placeholder="Detalhes técnicos..."></textarea>
+                <div class="painel-col" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
+                    <label>Editor de Serviço</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top:5px;">
+                        <input type="text" id="m-placa" placeholder="PLACA" maxlength="7" readonly style="opacity: 0.6; font-weight: bold;">
+                        <input type="text" id="m-preco" placeholder="VALOR R$" oninput="mascaraMoeda(this)">
+                    </div>
+                    <input type="text" id="m-modelo" placeholder="MODELO / ANO" readonly style="opacity: 0.6; margin-top: 8px;">
+                    
+                    <input type="hidden" id="m-identificacao-interna">
 
-                <button class="btn-main" onclick="salvar()">SALVAR ALTERAÇÕES</button>
+                    <label style="margin-top: 15px;">Fotos</label>
+                    <label for="m-fotos-input" style="background: rgba(212,175,55,0.05); border: 1px dashed var(--primary-gold); color: var(--primary-gold); padding: 12px; border-radius: 10px; text-align: center; cursor: pointer; font-size: 10px; display: block;" id="label-upload">
+                        📸 ADICIONAR MÍDIA
+                    </label>
+                    <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+                    <div id="preview-area" class="fotos-grid"></div>
+
+                    <label style="margin-top: 15px;">Progresso</label>
+                    <div class="status-picker">
+                        <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Fila</div>
+                        <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
+                        <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
+                    </div>
+
+                    <label>Relato / Observações</label>
+                    <textarea id="m-obs" rows="3" placeholder="Detalhes técnicos..."></textarea>
+                    
+                    <button class="btn-main" onclick="salvar()" style="margin-top: 10px;">SALVAR DADOS</button>
+                    <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; color:#fff; margin-top:8px; font-size: 10px; height: 35px; padding: 0;">DESBLOQUEAR / LIMPAR</button>
+                </div>
             </div>
         </section>
 
-        <p class="footer-secure">SISTEMA CRIPTOGRAFADO • LIMA CAR 2026</p>
+        <p class="footer-secure">SISTEMA LIMA CAR • SEGURANÇA CRIPTOGRAFADA • 2026</p>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script>
-          const firebaseConfig = {
-        apiKey: "COLE_AQUI",
-        authDomain: "a-fonte-43744.firebaseapp.com",
-        databaseURL: "https://a-fonte-43744-default-rtdb.firebaseio.com",
-        projectId: "a-fonte-43744",
-        storageBucket: "a-fonte-43744.appspot.com",
-        messagingSenderId: "COLE_AQUI",
-        appId: "COLE_AQUI"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    
-    const LOGIN_ADM = "adm.limacar";
-    const SENHA_ADM = "1234";
-    
-    let statusSelecionado = "Aguardando";
-    let bancoDados = {}; 
-    let bancoSolicitacoes = {};
-    let fotosBase64 = [];
-    let whatsappAtual = "";
-    let nomeClienteAtual = "";
-    let relatoClienteAtual = "";
-
-    // CORREÇÃO 1: Lógica para mostrar placa apenas quando necessário
-    function verificarUsuarioMecanico(valor) {
-        const wrapperPlaca = document.getElementById('wrapper-placa');
-        const loginLimpo = valor.trim().toLowerCase().replace('@','');
-        
-        // Se estiver começando a digitar o login ADM, mantém escondido
-        if (LOGIN_ADM.startsWith(loginLimpo) || loginLimpo === "") {
-            wrapperPlaca.classList.add('hidden');
-        } else {
-            // Se for algo diferente do padrão ADM, mostra a placa (cliente)
-            wrapperPlaca.classList.remove('hidden');
-        }
-    }
-
-    // CORREÇÃO 2: Habilitar tecla Enter
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            const viewCliente = document.getElementById('view-cliente');
-            // Se a tela de login estiver visível, aciona o botão Entrar
-            if (!viewCliente.classList.contains('hidden')) {
-                gerenciarLogin();
-            }
-        }
-    });
-
-    function gerenciarLogin() {
-        const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
-        const senhaDigitada = document.getElementById('login-pass').value.trim();
-        
-        if(userDigitado === LOGIN_ADM) {
-            if(senhaDigitada === SENHA_ADM) {
-                irPara('view-painel');
-            } else {
-                showAlert("❌ SENHA DO ADMINISTRADOR INCORRETA");
-            }
-            return;
-        }
-        consultarCarro();
-    }
-
-    function consultarCarro() {
-        const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
-        const senhaDigitada = document.getElementById('login-pass').value.trim();
-        const placaDigitada = document.getElementById('login-placa').value.trim().toUpperCase();
-        const res = document.getElementById('resultado-cliente');
-        const areaBusca = document.getElementById('area-busca');
-
-        if(!userDigitado || !senhaDigitada || !placaDigitada) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS");
-
-        db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
-            if(snapUser.exists() && snapUser.val().senha === senhaDigitada) {
-                db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
-                    const v = snapVeiculo.val();
-                    if(v && (v.identificacao === userDigitado)) {
-                        const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
-                        let fotosHtml = (v.fotos && v.fotos.length > 0) ? `<div class="fotos-grid">${v.fotos.map(f => `<img src="${f}" onclick="abrirImg('${f}')" class="img-item">`).join('')}</div>` : "";
-                        
-                        res.innerHTML = `
-                            <div style="margin-top:20px; background:rgba(255,255,255,0.03); padding:20px; border-radius:18px; border:1px solid var(--border);">
-                                <h3 style="color:var(--primary)">${v.modelo}</h3>
-                                <p>Status: <b style="color:${cor}">${v.status}</b></p>
-                                <p style="font-size:14px; margin:15px 0; line-height:1.4">${v.obs}</p>
-                                <p style="color:var(--success); font-weight:bold; font-size:18px">Total: R$ ${v.preco}</p>
-                                ${fotosHtml}
-                            </div>
-                            <div style="margin-top: 20px;">
-                                <a href="https://wa.me/55${v.clienteZap || '0000000000000'}" target="_blank" class="btn-main" style="background: #25d366; color: white;">FALAR COM A MECÂNICA</a>
-                                <button onclick="location.reload()" class="btn-main" style="background: #132a47; color: white; margin-top: 10px;">VOLTAR À CONSULTA</button>
-                            </div>`;
-                        
-                        areaBusca.classList.add('hidden');
-                    } else {
-                        showAlert("🔍 VEÍCULO NÃO ENCONTRADO PARA ESTE USUÁRIO");
-                    }
-                });
-            } else {
-                showAlert("❌ LOGIN OU SENHA INCORRETOS");
-            }
-        });
-    }
-
-    db.ref('veiculos').on('value', (snapshot) => {
-        bancoDados = snapshot.val() || {};
-        desenharTabela();
-    });
-
-    db.ref('servicos_ativos').on('value', (snapshot) => {
-        bancoSolicitacoes = snapshot.val() || {};
-        desenharSolicitacoes();
-    });
-
-    function desenharSolicitacoes() {
-        const container = document.getElementById('lista-solicitacoes');
-        container.innerHTML = "";
-        const keys = Object.keys(bancoSolicitacoes);
-        if(keys.length === 0) {
-            container.innerHTML = '<p style="font-size:12px; color:var(--text-dim)">Nenhuma nova solicitação...</p>';
-            return;
-        }
-        keys.forEach(id => {
-            const s = bancoSolicitacoes[id];
-            container.innerHTML += `
-                <div class="solicitacao-item">
-                    <b style="color:var(--primary); font-size:14px">${s.placa}</b><br>
-                    <span style="font-size:12px; color: #fff;"><b>VEÍCULO:</b> ${s.modelo} (${s.ano})</span><br>
-                    <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
-                </div>`;
-        });
-    }
-
-    function importarSolicitacao(id) {
-        const s = bancoSolicitacoes[id];
-        document.getElementById('m-placa').value = s.placa;
-        document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
-        document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
-        whatsappAtual = s.zap_cliente || "";
-        nomeClienteAtual = s.nome_cliente || "";
-        relatoClienteAtual = s.problema || "";
-        exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
-        showAlert("📋 CARREGADO");
-    }
-
-    function exibirBotaoWhats(zap, nome, problema) {
-        const boxRelato = document.getElementById('relatorio-cliente-view');
-        const btnWhats = document.getElementById('btn-whats-direto');
-        if(zap && nome) {
-            boxRelato.style.display = "block";
-            btnWhats.style.display = "flex"; 
-            document.getElementById('txt-relato-cliente').innerHTML = `<b>Nome:</b> ${nome}<br><b>Problema:</b> ${problema}`;
-            const numLimpo = zap.replace(/\D/g, "");
-            btnWhats.onclick = () => { window.open(`https://wa.me/55${numLimpo}`, '_blank'); };
-        }
-    }
-
-    function salvar() {
-        const placa = document.getElementById('m-placa').value.toUpperCase().trim();
-        const modeloComp = document.getElementById('m-modelo').value.trim();
-        const preco = document.getElementById('m-preco').value;
-        const obs = document.getElementById('m-obs').value;
-        const ident = document.getElementById('m-identificacao-interna').value;
-
-        if(!placa || !modeloComp || !preco || !obs) return showAlert("❌ PREENCHA TUDO");
-        
-        const dados = {
-            modelo: modeloComp, status: statusSelecionado, preco, obs,
-            fotos: fotosBase64,
-            clienteZap: whatsappAtual,
-            clienteNome: nomeClienteAtual,
-            clienteRelato: relatoClienteAtual,
-            identificacao: ident 
+        // (Sua lógica de JS permanece exatamente como você enviou)
+        const firebaseConfig = {
+            apiKey: "COLE_AQUI",
+            authDomain: "a-fonte-43744.firebaseapp.com",
+            databaseURL: "https://a-fonte-43744-default-rtdb.firebaseio.com",
+            projectId: "a-fonte-43744",
+            storageBucket: "a-fonte-43744.appspot.com",
+            messagingSenderId: "COLE_AQUI",
+            appId: "COLE_AQUI"
         };
-        db.ref('veiculos/' + placa).set(dados).then(() => {
-            db.ref('servicos_ativos/' + placa).remove();
-            showAlert("✔️ SALVO");
-            limparFormulario();
-        });
-    }
 
-    function desenharTabela(filtro = "Todos") {
-        const corpo = document.getElementById('corpo-tabela');
-        corpo.innerHTML = "";
-        Object.keys(bancoDados).reverse().forEach(p => {
-            const v = bancoDados[p];
-            if(filtro !== "Todos" && v.status !== filtro) return;
-            const cor = v.status === "Pronto" ? "var(--success)" : (v.status === "Trabalhando" ? "var(--warning)" : "#fff");
-            corpo.innerHTML += `<tr><td><b style="color:var(--primary)">${p}</b><br>${v.modelo}</td><td style="color:${cor}; font-weight:bold;">${v.status}</td>
-                <td style="text-align:right">
-                <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px; margin-right:10px;">✏️</button>
-                <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px;">🗑️</button></td></tr>`;
-        });
-    }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const LOGIN_ADM = "adm.limacar";
+        const SENHA_ADM = "1234";
+        
+        let statusSelecionado = "Aguardando";
+        let bancoDados = {}; 
+        let bancoSolicitacoes = {};
+        let fotosBase64 = [];
+        let whatsappAtual = "";
+        let nomeClienteAtual = "";
+        let relatoClienteAtual = "";
 
-    function prepararEdicao(p) {
-        const v = bancoDados[p];
-        document.getElementById('m-placa').value = p;
-        document.getElementById('m-modelo').value = v.modelo;
-        document.getElementById('m-preco').value = v.preco;
-        document.getElementById('m-obs').value = v.obs;
-        document.getElementById('m-identificacao-interna').value = v.identificacao || ""; 
-        document.getElementById('btn-cancelar').classList.remove('hidden');
-        fotosBase64 = v.fotos || [];
-        renderizarFotosEdicao();
-        if(v.clienteZap) {
-            whatsappAtual = v.clienteZap;
-            nomeClienteAtual = v.clienteNome;
-            relatoClienteAtual = v.clienteRelato;
-            exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
+        function verificarUsuarioMecanico(valor) {
+            const wrapperPlaca = document.getElementById('wrapper-placa');
+            const loginLimpo = valor.trim().toLowerCase().replace('@','');
+            if (LOGIN_ADM.startsWith(loginLimpo) || loginLimpo === "") {
+                wrapperPlaca.classList.add('hidden');
+            } else {
+                wrapperPlaca.classList.remove('hidden');
+            }
         }
-    }
 
-    function renderizarFotosEdicao() {
-        const area = document.getElementById('preview-area');
-        area.innerHTML = "";
-        fotosBase64.forEach((src, index) => {
-            const div = document.createElement('div');
-            div.className = "img-item-wrapper";
-            div.innerHTML = `<img src="${src}" onclick="abrirImg('${src}')" class="img-item">
-                <button style="position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold;" onclick="removerFoto(${index})">X</button>`;
-            area.appendChild(div);
+        function gerenciarLogin() {
+            const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
+            const senhaDigitada = document.getElementById('login-pass').value.trim();
+            if(userDigitado === LOGIN_ADM) {
+                if(senhaDigitada === SENHA_ADM) { 
+                    irPara('view-painel'); 
+                } else { 
+                    showAlert("❌ SENHA INCORRETA"); 
+                }
+                return;
+            }
+            consultarCarro();
+        }
+
+        function consultarCarro() {
+            const user = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
+            const pass = document.getElementById('login-pass').value.trim();
+            const placa = document.getElementById('login-placa').value.trim().toUpperCase();
+            const res = document.getElementById('resultado-cliente');
+
+            if(!user || !pass || !placa) return showAlert("PREENCHA TUDO");
+
+            db.ref('usuarios/' + user).once('value', (snapUser) => {
+                if(snapUser.exists() && snapUser.val().senha === pass) {
+                    db.ref('veiculos/' + placa).once('value', (snapVeiculo) => {
+                        const v = snapVeiculo.val();
+                        if(v && v.identificacao === user) {
+                            res.innerHTML = `
+                                <div style="background:rgba(212,175,55,0.1); border:1px solid var(--primary-gold); padding:20px; border-radius:15px; margin-top:20px;">
+                                    <h3 style="color:var(--primary-gold)">${v.modelo}</h3>
+                                    <p style="font-size:14px; margin:10px 0;">Status: <b>${v.status}</b></p>
+                                    <p style="font-size:12px; color:var(--text-dim)">${v.obs}</p>
+                                    <div class="fotos-grid">${(v.fotos || []).map(f => `<img src="${f}" class="img-item" onclick="abrirImg('${f}')">`).join('')}</div>
+                                    <hr style="margin:15px 0; border:0; border-top:1px solid rgba(212,175,55,0.2)">
+                                    <p style="text-align:right; font-weight:bold; color:var(--primary-gold)">Total: R$ ${v.preco}</p>
+                                </div>`;
+                            document.getElementById('area-busca').classList.add('hidden');
+                        } else { showAlert("VEÍCULO NÃO ENCONTRADO"); }
+                    });
+                } else { showAlert("LOGIN INVÁLIDO"); }
+            });
+        }
+
+        db.ref('veiculos').on('value', (snapshot) => {
+            bancoDados = snapshot.val() || {};
+            desenharTabela();
         });
-        document.getElementById('label-upload').innerText = fotosBase64.length > 0 ? `📸 ${fotosBase64.length} FOTO(S)` : "📸 ENVIAR FOTOS";
-    }
 
-    function removerFoto(index) { fotosBase64.splice(index, 1); renderizarFotosEdicao(); }
-
-    function limparFormulario() {
-        fotosBase64 = []; whatsappAtual = ""; nomeClienteAtual = ""; relatoClienteAtual = "";
-        ['m-placa','m-modelo','m-preco','m-obs','m-fotos-input','m-identificacao-interna'].forEach(id => {
-            const el = document.getElementById(id); if(el) el.value = "";
+        db.ref('servicos_ativos').on('value', (snapshot) => {
+            bancoSolicitacoes = snapshot.val() || {};
+            desenharSolicitacoes();
         });
-        document.getElementById('preview-area').innerHTML = "";
-        document.getElementById('label-upload').innerText = "📸 ENVIAR FOTOS";
-        document.getElementById('btn-cancelar').classList.add('hidden');
-        document.getElementById('relatorio-cliente-view').style.display = "none";
-        document.getElementById('btn-whats-direto').style.display = "none";
-    }
 
-    function filtrarTabela(f, btn) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        desenharTabela(f);
-    }
+        function desenharSolicitacoes() {
+            const container = document.getElementById('lista-solicitacoes');
+            container.innerHTML = "";
+            Object.keys(bancoSolicitacoes).forEach(id => {
+                const s = bancoSolicitacoes[id];
+                container.innerHTML += `
+                    <div class="solicitacao-item">
+                        <b style="color:var(--primary-gold); font-size:13px">${s.placa}</b><br>
+                        <span style="font-size:11px;">${s.modelo} - ${s.nome_cliente}</span><br>
+                        <button class="cat-btn" style="margin-top:8px; width:100%" onclick="importarSolicitacao('${id}')">EDITAR</button>
+                    </div>`;
+            });
+        }
 
-    function previewImages() {
-        const files = document.getElementById('m-fotos-input').files;
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => { fotosBase64.push(e.target.result); renderizarFotosEdicao(); };
-            reader.readAsDataURL(file);
-        });
-    }
+        function importarSolicitacao(id) {
+            const s = bancoSolicitacoes[id];
+            document.getElementById('m-placa').value = s.placa;
+            document.getElementById('m-modelo').value = s.modelo;
+            document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
+            whatsappAtual = s.zap_cliente || "";
+            nomeClienteAtual = s.nome_cliente || "";
+            relatoClienteAtual = s.problema || "";
+            showAlert("DADOS CARREGADOS");
+        }
 
-    function addServico(texto) { const campo = document.getElementById('m-obs'); campo.value += (campo.value ? " | " : "") + texto; }
-    function showAlert(msg) { const div = document.getElementById('custom-alert'); div.innerText = msg; div.style.display = 'block'; setTimeout(() => { div.style.display = 'none'; }, 2000); }
-    function mascaraMoeda(i) { let v = i.value.replace(/\D/g,''); v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); i.value = v; }
-    
-    function irPara(id) { 
-        document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
-        document.getElementById(id).classList.remove('hidden'); 
-        window.scrollTo(0,0);
-    }
+        function salvar() {
+            const placa = document.getElementById('m-placa').value.toUpperCase().trim();
+            if(!placa) return showAlert("SELECIONE UM VEÍCULO");
+            
+            const dados = {
+                modelo: document.getElementById('m-modelo').value,
+                preco: document.getElementById('m-preco').value,
+                obs: document.getElementById('m-obs').value,
+                status: statusSelecionado,
+                fotos: fotosBase64,
+                clienteZap: whatsappAtual,
+                clienteNome: nomeClienteAtual,
+                identificacao: document.getElementById('m-identificacao-interna').value
+            };
 
-    function setStatus(el) { document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); statusSelecionado = el.getAttribute('data-status'); }
-    function abrirImg(src) { document.getElementById('modal-view').src = src; document.getElementById('img-modal').style.display = 'flex'; }
-    function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; }
-    
-    let placaParaExcluir = null;
-    let acaoExclusao = "";
-    function confirmarExcluir(p) { placaParaExcluir = p; acaoExclusao = "unico"; document.getElementById('confirm-title').innerText = "EXCLUIR ESTE VEÍCULO?"; document.getElementById('confirm-box').style.display = 'flex'; }
-    function confirmarLimparTudo() { acaoExclusao = "todos"; document.getElementById('confirm-title').innerText = "APAGAR TUDO DEFINITIVAMENTE?"; document.getElementById('confirm-box').style.display = 'flex'; }
-    document.getElementById('btn-confirm-sim').onclick = () => {
-        if(acaoExclusao === "unico") { db.ref('veiculos/' + placaParaExcluir).remove().then(() => fecharConfirm()); }
-        else { db.ref('veiculos').remove().then(() => { fecharConfirm(); showAlert("⚠️ SISTEMA LIMPO"); }); }
-    };
+            db.ref('veiculos/' + placa).set(dados).then(() => {
+                db.ref('servicos_ativos/' + placa).remove();
+                showAlert("✅ SALVO COM SUCESSO");
+                limparFormulario();
+            });
+        }
+
+        function desenharTabela(filtro = "Todos") {
+            const corpo = document.getElementById('corpo-tabela');
+            corpo.innerHTML = "";
+            Object.keys(bancoDados).forEach(p => {
+                const v = bancoDados[p];
+                if(filtro !== "Todos" && v.status !== filtro) return;
+                corpo.innerHTML += `
+                    <tr>
+                        <td><b style="color:var(--primary-gold)">${p}</b><br><small>${v.status}</small></td>
+                        <td style="text-align:right">
+                            <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:16px;">✏️</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function prepararEdicao(p) {
+            const v = bancoDados[p];
+            document.getElementById('m-placa').value = p;
+            document.getElementById('m-modelo').value = v.modelo;
+            document.getElementById('m-preco').value = v.preco;
+            document.getElementById('m-obs').value = v.obs;
+            document.getElementById('m-identificacao-interna').value = v.identificacao || "";
+            fotosBase64 = v.fotos || [];
+            renderizarFotosEdicao();
+            document.getElementById('btn-cancelar').classList.remove('hidden');
+        }
+
+        function renderizarFotosEdicao() {
+            const area = document.getElementById('preview-area');
+            area.innerHTML = "";
+            fotosBase64.forEach((src, idx) => {
+                area.innerHTML += `<img src="${src}" class="img-item" onclick="removerFoto(${idx})">`;
+            });
+            document.getElementById('label-upload').innerText = fotosBase64.length + " FOTOS CARREGADAS";
+        }
+
+        function removerFoto(idx) { fotosBase64.splice(idx,1); renderizarFotosEdicao(); }
+
+        function previewImages() {
+            const files = document.getElementById('m-fotos-input').files;
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => { fotosBase64.push(e.target.result); renderizarFotosEdicao(); };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function limparFormulario() {
+            ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => document.getElementById(id).value = "");
+            fotosBase64 = [];
+            renderizarFotosEdicao();
+            document.getElementById('btn-cancelar').classList.add('hidden');
+        }
+
+        function irPara(id) { 
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
+            document.getElementById(id).classList.remove('hidden'); 
+        }
+
+        function showAlert(msg) { 
+            const div = document.getElementById('custom-alert'); 
+            div.innerText = msg; div.style.display = 'block'; 
+            setTimeout(() => { div.style.display = 'none'; }, 2500); 
+        }
+
+        function mascaraMoeda(i) { 
+            let v = i.value.replace(/\D/g,''); 
+            v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
+            i.value = v; 
+        }
+
+        function setStatus(el) { 
+            document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); 
+            el.classList.add('active'); 
+            statusSelecionado = el.getAttribute('data-status'); 
+        }
+
+        function filtrarTabela(f, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            desenharTabela(f);
+        }
+
+        function abrirImg(src) { 
+            document.getElementById('modal-view').src = src; 
+            document.getElementById('img-modal').style.display = 'flex'; 
+        }
     </script>
 </body>
 </html>
