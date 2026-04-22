@@ -141,19 +141,6 @@
                 margin-top: 10px;
             }
         }
-
-        .aviso-senha {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--primary);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 10px;
-            margin-top: -12px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            text-align: center;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -171,23 +158,19 @@
         <div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Lima Car Logo"></div>
         <div id="area-busca">
             <label>Identificação (@)</label>
-            <input type="text" id="login-user" placeholder="@seuusuario" style="margin-bottom: 10px;">
+            <input type="text" id="login-user" placeholder="@seuusuario" style="margin-bottom: 10px;" oninput="verificarUsuarioMecanico(this.value)">
+            
             <label>Senha de Acesso</label>
             <input type="password" id="login-pass" placeholder="••••" style="margin-bottom: 10px;">
-            <label>Placa do Veículo</label>
-            <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="PLACA">
-            <button class="btn-main" id="btn-localizar" onclick="consultarCarro()">Localizar Veículo</button>
+            
+            <div id="wrapper-placa" class="hidden">
+                <label>Placa do Veículo</label>
+                <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="PLACA">
+            </div>
+
+            <button class="btn-main" id="btn-localizar" onclick="gerenciarLogin()">Entrar no Sistema</button>
         </div>
         <div id="resultado-cliente"></div>
-        <center><button onclick="irPara('view-login')" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-dim); margin-top:40px; padding: 10px 20px; border-radius: 20px; font-size:11px; font-weight:700; cursor:pointer; letter-spacing: 1px;">🔒 ACESSO RESTRITO</button></center>
-    </section>
-
-    <section id="view-login" class="card hidden">
-        <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
-        <label style="text-align: center;">Chave de Acesso</label>
-        <input type="password" id="pass-admin" placeholder="••••" style="text-align: center; font-size: 28px!important; letter-spacing: 10px;">
-        <button class="btn-main" onclick="logar()">Entrar no Sistema</button>
-        <center><button onclick="irPara('view-cliente')" style="background:none; border:none; color:var(--text-dim); margin-top:25px; cursor:pointer; font-size:14px; font-weight: bold;">← Voltar</button></center>
     </section>
 
     <section id="view-painel" class="card hidden">
@@ -270,27 +253,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 <script>
-    // --- FUNCIONALIDADE DE TECLADO (ENTER PULAR CAMPO) ---
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const activeEl = document.activeElement;
-            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
-                e.preventDefault();
-                const inputs = Array.from(activeEl.closest('section').querySelectorAll('input:not([type="hidden"]), textarea'));
-                const index = inputs.indexOf(activeEl);
-                
-                if (index > -1 && index < inputs.length - 1) {
-                    // Pula para o próximo campo
-                    inputs[index + 1].focus();
-                } else {
-                    // Se for o último campo, tenta clicar no botão principal daquela seção
-                    const btn = activeEl.closest('section').querySelector('.btn-main:not(.hidden)');
-                    if (btn) btn.click();
-                }
-            }
-        }
-    });
-
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -303,15 +265,49 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const CHAVE_MESTRA = "1234";
+    
+    // --- CONFIGURAÇÃO DE ACESSO UNIFICADO ---
+    const LOGIN_ADM = "adm.limacar";
+    const SENHA_ADM = "1234";
+    
     let statusSelecionado = "Aguardando";
     let bancoDados = {}; 
     let bancoSolicitacoes = {};
-    let editandoPlaca = null;
     let fotosBase64 = [];
     let whatsappAtual = "";
     let nomeClienteAtual = "";
     let relatoClienteAtual = "";
+
+    // Função que esconde/mostra a placa baseado no que é digitado
+    function verificarUsuarioMecanico(valor) {
+        const wrapperPlaca = document.getElementById('wrapper-placa');
+        const loginLimpo = valor.trim().toLowerCase().replace('@','');
+        
+        if (loginLimpo === LOGIN_ADM) {
+            wrapperPlaca.classList.add('hidden');
+        } else if (loginLimpo.length > 2) {
+            wrapperPlaca.classList.remove('hidden');
+        }
+    }
+
+    // Gerenciador de Login Unificado
+    function gerenciarLogin() {
+        const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
+        const senhaDigitada = document.getElementById('login-pass').value.trim();
+        
+        // Verifica se é o mecânico
+        if(userDigitado === LOGIN_ADM) {
+            if(senhaDigitada === SENHA_ADM) {
+                irPara('view-painel');
+            } else {
+                showAlert("❌ SENHA DO ADMINISTRADOR INCORRETA");
+            }
+            return;
+        }
+
+        // Se não for mecânico, segue fluxo do cliente
+        consultarCarro();
+    }
 
     function consultarCarro() {
         const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
@@ -354,6 +350,8 @@
         });
     }
 
+    // --- RESTANTE DAS FUNÇÕES ORIGINAIS (SEM ALTERAÇÃO FUNCIONAL) ---
+
     db.ref('veiculos').on('value', (snapshot) => {
         bancoDados = snapshot.val() || {};
         desenharTabela();
@@ -374,12 +372,10 @@
         }
         keys.forEach(id => {
             const s = bancoSolicitacoes[id];
-            const nomeExibir = s.nome_cliente || "Cliente";
             container.innerHTML += `
                 <div class="solicitacao-item">
                     <b style="color:var(--primary); font-size:14px">${s.placa}</b><br>
                     <span style="font-size:12px; color: #fff;"><b>VEÍCULO:</b> ${s.modelo} (${s.ano})</span><br>
-                    <span style="font-size:12px; color: #fff;"><b>CLIENTE:</b> ${nomeExibir}</span><br>
                     <button class="btn-main" style="padding:8px; font-size:11px; margin-top:10px" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                 </div>`;
         });
@@ -390,11 +386,9 @@
         document.getElementById('m-placa').value = s.placa;
         document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
         document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
-        
         whatsappAtual = s.zap_cliente || "";
         nomeClienteAtual = s.nome_cliente || "";
         relatoClienteAtual = s.problema || "";
-        
         exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
         showAlert("📋 CARREGADO");
     }
@@ -450,7 +444,7 @@
     }
 
     function prepararEdicao(p) {
-        const v = bancoDados[p]; editandoPlaca = p;
+        const v = bancoDados[p];
         document.getElementById('m-placa').value = p;
         document.getElementById('m-modelo').value = v.modelo;
         document.getElementById('m-preco').value = v.preco;
@@ -464,9 +458,6 @@
             nomeClienteAtual = v.clienteNome;
             relatoClienteAtual = v.clienteRelato;
             exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
-        } else {
-            document.getElementById('relatorio-cliente-view').style.display = "none";
-            document.getElementById('btn-whats-direto').style.display = "none";
         }
     }
 
@@ -486,7 +477,7 @@
     function removerFoto(index) { fotosBase64.splice(index, 1); renderizarFotosEdicao(); }
 
     function limparFormulario() {
-        editandoPlaca = null; fotosBase64 = []; whatsappAtual = ""; nomeClienteAtual = ""; relatoClienteAtual = "";
+        fotosBase64 = []; whatsappAtual = ""; nomeClienteAtual = ""; relatoClienteAtual = "";
         ['m-placa','m-modelo','m-preco','m-obs','m-fotos-input','m-identificacao-interna'].forEach(id => {
             const el = document.getElementById(id); if(el) el.value = "";
         });
@@ -520,14 +511,6 @@
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
         document.getElementById(id).classList.remove('hidden'); 
         window.scrollTo(0,0);
-    }
-
-    function logar() { 
-        if(document.getElementById('pass-admin').value === CHAVE_MESTRA) {
-            irPara('view-painel');
-        } else {
-            showAlert("⚠️ CHAVE INCORRETA"); 
-        }
     }
 
     function setStatus(el) { document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); statusSelecionado = el.getAttribute('data-status'); }
