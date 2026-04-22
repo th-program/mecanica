@@ -180,6 +180,26 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
+    // Gerenciador de teclas ENTER
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const activeEl = document.activeElement;
+            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
+                e.preventDefault();
+                const section = activeEl.closest('section');
+                const inputs = Array.from(section.querySelectorAll('input:not([type="hidden"]), textarea'));
+                const index = inputs.indexOf(activeEl);
+                
+                if (index > -1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                } else {
+                    const btn = section.querySelector('.btn-main');
+                    if (btn) btn.click();
+                }
+            }
+        }
+    });
+
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
