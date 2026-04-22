@@ -274,6 +274,22 @@
     let bancoDados = {}; let bancoSolicitacoes = {}; let fotosBase64 = [];
     let whatsappAtual = ""; let nomeClienteAtual = ""; let relatoClienteAtual = "";
 
+    // --- ATALHOS DE TECLADO ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") {
+            if (document.getElementById('confirm-box').style.display === 'flex') fecharConfirm();
+            else if (document.getElementById('img-modal').style.display === 'flex') document.getElementById('img-modal').style.display = 'none';
+            else limparFormulario();
+        }
+        if (e.key === "Enter") {
+            const painelVisivel = !document.getElementById('view-painel').classList.contains('hidden');
+            const formAberto = !document.getElementById('coluna-formulario').classList.contains('hidden');
+            
+            if (!painelVisivel) gerenciarLogin();
+            else if (formAberto && document.activeElement.id === "m-obs") salvar();
+        }
+    });
+
     function verificarUsuarioMecanico(valor) {
         const wrapperPlaca = document.getElementById('wrapper-placa');
         const loginLimpo = valor.trim().toLowerCase().replace('@','');
@@ -293,22 +309,28 @@
         const senhaDigitada = document.getElementById('login-pass').value.trim();
         const placaDigitada = document.getElementById('login-placa').value.trim().toUpperCase();
         const res = document.getElementById('resultado-cliente');
+        
         if(!userDigitado || !senhaDigitada || !placaDigitada) return showAlert("⚠️ CAMPOS VAZIOS");
-        db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
-            if(snapUser.exists() && snapUser.val().senha === senhaDigitada) {
-                db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
-                    const v = snapVeiculo.val();
-                    if(v && v.identificacao === userDigitado) {
-                        res.innerHTML = `<div style="margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:16px;">
-                            <h3 style="color:var(--primary);">${v.modelo}</h3>
-                            <p>Status: <b>${v.status}</b></p>
-                            <p style="margin:15px 0; color:#cbd5e1;">${v.obs}</p>
-                            <p style="color:var(--success); font-weight:900; font-size:20px">R$ ${v.preco}</p>
-                        </div><button onclick="location.reload()" class="btn-main" style="background:none; border:1px solid #333; color:#fff; margin-top:10px">SAIR</button>`;
+        
+        db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
+            const v = snapVeiculo.val();
+            if(v && v.identificacao === userDigitado) {
+                // Verificação de segurança simples por senha salva no cadastro do usuário
+                db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
+                    if(snapUser.val().senha === senhaDigitada) {
+                         res.innerHTML = `
+                            <div style="margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; border:1px solid var(--border)">
+                                <h3 style="color:var(--primary);">${v.modelo || 'Veículo'}</h3>
+                                <p style="margin: 5px 0">Status: <b style="color:var(--primary)">${v.status}</b></p>
+                                <div style="margin:15px 0; color:#cbd5e1; font-size:14px; line-height:1.4">${v.obs || 'Sem observações técnicas.'}</div>
+                                ${v.fotos ? `<div class="fotos-grid" style="margin-bottom:15px">${v.fotos.map(f => `<img src="${f}" class="img-item" onclick="zoomImg('${f}')">`).join('')}</div>` : ''}
+                                <p style="color:var(--success); font-weight:900; font-size:24px">R$ ${v.preco || '0,00'}</p>
+                            </div>
+                            <button onclick="location.reload()" class="btn-main" style="background:none; border:1px solid #333; color:#fff; margin-top:10px">SAIR</button>`;
                         document.getElementById('area-busca').classList.add('hidden');
-                    } else showAlert("🔍 NÃO ENCONTRADO");
+                    } else showAlert("❌ SENHA INCORRETA");
                 });
-            } else showAlert("❌ LOGIN INVÁLIDO");
+            } else showAlert("🔍 VEÍCULO NÃO LOCALIZADO");
         });
     }
 
@@ -320,13 +342,14 @@
         container.innerHTML = "";
         Object.keys(bancoSolicitacoes).forEach(id => {
             const s = bancoSolicitacoes[id];
-            container.innerHTML += `<div class="solicitacao-item">
-                <div class="solicitacao-header">
-                    <div class="solicitacao-info"><b>${s.nome_cliente}</b><span>@${s.cliente_id}</span></div>
-                    <div class="solicitacao-badge">${s.placa}</div>
-                </div>
-                <button class="btn-main" style="padding:8px; font-size:10px;" onclick="importarSolicitacao('${id}')">ATENDER AGORA</button>
-            </div>`;
+            container.innerHTML += `
+                <div class="solicitacao-item">
+                    <div class="solicitacao-header">
+                        <div class="solicitacao-info"><b>${s.nome_cliente || 'Cliente'}</b><span>@${s.cliente_id || '---'}</span></div>
+                        <div class="solicitacao-badge">${s.placa || 'S/P'}</div>
+                    </div>
+                    <button class="btn-main" style="padding:8px; font-size:10px;" onclick="importarSolicitacao('${id}')">ATENDER AGORA</button>
+                </div>`;
         });
     }
 
@@ -337,7 +360,7 @@
         
         col.classList.remove('hidden');
         wrapper.classList.remove('animar-entrada');
-        void wrapper.offsetWidth; // Trigger reflow para reiniciar animação
+        void wrapper.offsetWidth; 
         wrapper.classList.add('animar-entrada');
 
         if(modo === 'novo') {
@@ -351,14 +374,16 @@
 
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
-        document.getElementById('m-placa').value = s.placa;
-        document.getElementById('m-modelo').value = `${s.modelo} - ${s.ano}`;
+        // Prevenção de undefined
+        document.getElementById('m-placa').value = s.placa || "";
+        document.getElementById('m-modelo').value = (s.modelo || "") + " " + (s.ano || "");
         document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
-        whatsappAtual = s.zap_cliente || "";
-        nomeClienteAtual = s.nome_cliente || "";
-        relatoClienteAtual = s.problema || "";
-        exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
         
+        whatsappAtual = s.zap_cliente || "";
+        nomeClienteAtual = s.nome_cliente || "Cliente";
+        relatoClienteAtual = s.problema || "Não informado";
+        
+        exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
         abrirFormulario('novo');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -366,72 +391,99 @@
     function prepararEdicao(p) {
         const v = bancoDados[p];
         document.getElementById('m-placa').value = p;
-        document.getElementById('m-modelo').value = v.modelo;
-        document.getElementById('m-preco').value = v.preco;
-        document.getElementById('m-obs').value = v.obs;
+        document.getElementById('m-modelo').value = v.modelo || "";
+        document.getElementById('m-preco').value = v.preco || "0,00";
+        document.getElementById('m-obs').value = v.obs || "";
         document.getElementById('m-identificacao-interna').value = v.identificacao || ""; 
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
         
-        if(v.clienteZap) {
-            whatsappAtual = v.clienteZap; nomeClienteAtual = v.clienteNome; relatoClienteAtual = v.clienteRelato;
-            exibirBotaoWhats(v.clienteZap, v.clienteNome, v.clienteRelato);
-        }
+        whatsappAtual = v.clienteZap || "";
+        nomeClienteAtual = v.clienteNome || "Cliente";
+        relatoClienteAtual = v.clienteRelato || "Histórico de oficina";
         
+        if(whatsappAtual) exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
+        else document.getElementById('btn-whats-direto').style.display = "none";
+
         abrirFormulario('editar');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function salvar() {
-        const placa = document.getElementById('m-placa').value;
+        const placa = document.getElementById('m-placa').value.toUpperCase();
+        if(!placa) return showAlert("⚠️ PLACA OBRIGATÓRIA");
+
         const dados = { 
             modelo: document.getElementById('m-modelo').value, 
             status: statusSelecionado, 
-            preco: document.getElementById('m-preco').value, 
+            preco: document.getElementById('m-preco').value || "0,00", 
             obs: document.getElementById('m-obs').value, 
             fotos: fotosBase64, 
-            clienteZap: whatsappAtual, 
+            clienteZap: whatsappAtual,
+            clienteNome: nomeClienteAtual,
+            clienteRelato: relatoClienteAtual,
             identificacao: document.getElementById('m-identificacao-interna').value 
         };
+
         db.ref('veiculos/' + placa).set(dados).then(() => {
             db.ref('servicos_ativos/' + placa).remove();
-            showAlert("✔️ SALVO COM SUCESSO");
+            showAlert("✔️ REGISTRO ATUALIZADO");
             limparFormulario();
         });
     }
 
     function limparFormulario() {
         document.getElementById('coluna-formulario').classList.add('hidden');
-        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => document.getElementById(id).value = "");
+        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.value = "";
+        });
         fotosBase64 = [];
         document.getElementById('preview-area').innerHTML = "";
         document.getElementById('relatorio-cliente-view').style.display = "none";
         document.getElementById('btn-whats-direto').style.display = "none";
+        whatsappAtual = "";
     }
 
     function desenharTabela(filtro = "Todos") {
         const corpo = document.getElementById('corpo-tabela');
         corpo.innerHTML = "";
-        Object.keys(bancoDados).reverse().forEach(p => {
+        const chaves = Object.keys(bancoDados).reverse();
+        
+        if(chaves.length === 0) {
+            corpo.innerHTML = "<tr><td colspan='3' style='text-align:center; color:var(--text-dim)'>Nenhum veículo em pátio</td></tr>";
+            return;
+        }
+
+        chaves.forEach(p => {
             const v = bancoDados[p];
             if(filtro !== "Todos" && v.status !== filtro) return;
-            corpo.innerHTML += `<tr>
-                <td><b>${p}</b><br><small>${v.modelo}</small></td>
-                <td><small>${v.status}</small></td>
-                <td style="text-align:right">
-                    <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer;">✏️</button>
-                    <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; margin-left:10px;">🗑️</button>
-                </td></tr>`;
+            corpo.innerHTML += `
+                <tr>
+                    <td><b>${p}</b><br><small style="color:var(--text-dim)">${v.modelo || 'S/M'}</small></td>
+                    <td><span style="color:${v.status === 'Pronto' ? 'var(--success)' : 'var(--warning)'}">${v.status}</span></td>
+                    <td style="text-align:right">
+                        <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:18px;">✏️</button>
+                        <button onclick="confirmarExcluir('${p}')" style="background:none; border:none; cursor:pointer; margin-left:10px; font-size:18px;">🗑️</button>
+                    </td>
+                </tr>`;
         });
     }
 
     function exibirBotaoWhats(zap, nome, problema) {
         const box = document.getElementById('relatorio-cliente-view');
         const btn = document.getElementById('btn-whats-direto');
-        if(zap) {
-            box.style.display = "block"; btn.style.display = "flex"; 
-            document.getElementById('txt-relato-cliente').innerText = `Cliente: ${nome}\nProblema: ${problema}`;
-            btn.onclick = () => window.open(`https://wa.me/55${zap.replace(/\D/g, "")}`, '_blank');
+        if(zap && zap.length > 5) {
+            box.style.display = "block"; 
+            btn.style.display = "flex"; 
+            document.getElementById('txt-relato-cliente').innerText = `Cliente: ${nome}\nRelato: ${problema}`;
+            btn.onclick = () => {
+                const link = `https://wa.me/55${zap.replace(/\D/g, "")}`;
+                window.open(link, '_blank');
+            };
+        } else {
+            box.style.display = "none";
+            btn.style.display = "none";
         }
     }
 
@@ -439,32 +491,82 @@
         const area = document.getElementById('preview-area');
         area.innerHTML = "";
         fotosBase64.forEach((src, idx) => {
-            area.innerHTML += `<div style="position:relative"><img src="${src}" class="img-item">
-            <button onclick="fotosBase64.splice(${idx},1);renderizarFotosEdicao()" style="position:absolute;top:0;right:0;background:red;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer">×</button></div>`;
+            area.innerHTML += `
+                <div style="position:relative">
+                    <img src="${src}" class="img-item" onclick="zoomImg('${src}')" style="cursor:zoom-in">
+                    <button onclick="event.stopPropagation(); fotosBase64.splice(${idx},1); renderizarFotosEdicao()" 
+                        style="position:absolute; top:-5px; right:-5px; background:var(--danger); color:white; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; font-weight:bold; box-shadow: 0 2px 5px rgba(0,0,0,0.5)">×</button>
+                </div>`;
         });
+    }
+
+    function zoomImg(src) {
+        const modal = document.getElementById('img-modal');
+        const view = document.getElementById('modal-view');
+        view.src = src;
+        modal.style.display = 'flex';
     }
 
     function previewImages() {
         const files = document.getElementById('m-fotos-input').files;
         Array.from(files).forEach(file => {
             const reader = new FileReader();
-            reader.onload = (e) => { fotosBase64.push(e.target.result); renderizarFotosEdicao(); };
+            reader.onload = (e) => { 
+                fotosBase64.push(e.target.result); 
+                renderizarFotosEdicao(); 
+            };
             reader.readAsDataURL(file);
         });
     }
 
-    function addServico(t) { const c = document.getElementById('m-obs'); c.value += (c.value ? " | " : "") + t; }
-    function showAlert(m) { const d = document.getElementById('custom-alert'); d.innerText = m; d.style.display = 'block'; setTimeout(() => d.style.display='none', 2500); }
-    function mascaraMoeda(i) { let v = i.value.replace(/\D/g,''); v = (v/100).toFixed(2).replace(".",","); i.value = v; }
-    function irPara(id) { document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-    function setStatus(el) { document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); statusSelecionado = el.getAttribute('data-status'); }
+    function addServico(t) { 
+        const c = document.getElementById('m-obs'); 
+        c.value += (c.value ? " | " : "") + t; 
+    }
+
+    function showAlert(m) { 
+        const d = document.getElementById('custom-alert'); 
+        d.innerText = m; 
+        d.style.display = 'block'; 
+        setTimeout(() => d.style.display='none', 2500); 
+    }
+
+    function mascaraMoeda(i) { 
+        let v = i.value.replace(/\D/g,''); 
+        v = (v/100).toFixed(2).replace(".",","); 
+        i.value = v; 
+    }
+
+    function irPara(id) { 
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
+        document.getElementById(id).classList.remove('hidden'); 
+    }
+
+    function setStatus(el) { 
+        document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); 
+        el.classList.add('active'); 
+        statusSelecionado = el.getAttribute('data-status'); 
+    }
+
     function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; }
-    function filtrarTabela(f, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); desenharTabela(f); }
+
+    function filtrarTabela(f, btn) { 
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); 
+        btn.classList.add('active'); 
+        desenharTabela(f); 
+    }
 
     let placaParaExcluir = null;
-    function confirmarExcluir(p) { placaParaExcluir = p; document.getElementById('confirm-box').style.display = 'flex'; }
+    function confirmarExcluir(p) { 
+        placaParaExcluir = p; 
+        document.getElementById('confirm-box').style.display = 'flex'; 
+    }
+
     document.getElementById('btn-confirm-sim').onclick = () => {
-        db.ref('veiculos/' + placaParaExcluir).remove().then(() => fecharConfirm());
+        db.ref('veiculos/' + placaParaExcluir).remove().then(() => {
+            fecharConfirm();
+            showAlert("🗑️ REMOVIDO");
+        });
     };
 </script>
 </body>
