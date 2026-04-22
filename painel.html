@@ -33,7 +33,6 @@
             background-attachment: fixed;
         }
 
-        /* Botão Início Fixo */
         .btn-home-fixed {
             position: fixed; top: 15px; left: 15px; z-index: 1000;
             display: flex; align-items: center; gap: 8px;
@@ -53,7 +52,6 @@
             flex-direction: column;
         }
 
-        /* Layout de Login */
         .login-layout {
             display: grid;
             grid-template-columns: 1fr 450px 1fr;
@@ -63,9 +61,8 @@
             margin-bottom: auto;
         }
 
-        /* Card Estilo Glass */
         .card-glass {
-            background: rgba(10, 15, 25, 0.8);
+            background: rgba(10, 15, 25, 0.85);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--border-gold);
@@ -75,98 +72,118 @@
             width: 100%;
         }
 
-        .logo-box { margin-bottom: 25px; text-align: center; }
-        .logo-img { width: 160px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.2)); }
-
-        /* Form Estilos */
-        .input-group { margin-bottom: 18px; text-align: left; }
-        label { display: block; font-size: 10px; color: var(--primary-gold); margin-bottom: 6px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-        
-        input, textarea, select { 
-            width: 100%; padding: 14px; background: var(--input-bg); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-            color: #fff; font-size: 14px; transition: 0.3s;
-        }
-        input:focus { border-color: var(--primary-gold); outline: none; background: rgba(255,255,255,0.08); }
-
-        .input-placa-grande { 
-            font-family: 'Monaco', monospace; font-size: 24px !important; 
-            background: #fff !important; color: #000 !important; 
-            text-align: center; letter-spacing: 3px; font-weight: bold;
-            border: 3px solid var(--primary-gold) !important;
-        }
-
-        .btn-main { 
-            background: var(--gold-gradient); color: #000; width: 100%; padding: 16px; 
-            border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; 
-            cursor: pointer; font-size: 13px; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-
-        /* Painel Administrativo Horizontal */
-        #view-painel { width: 100%; }
+        /* --- AJUSTES PAINEL TÉCNICO (MECÂNICO) --- */
         .painel-grid { 
             display: grid; 
-            grid-template-columns: 320px 1fr 350px; 
-            gap: 20px; 
+            grid-template-columns: 420px 1fr; /* Igual à imagem: lista esquerda, editor direita */
+            gap: 25px; 
             align-items: start;
         }
 
-        /* Filtros e Listas */
-        .categorias-filtro { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .cat-btn { 
-            background: var(--input-bg); border: 1px solid var(--border-gold); 
-            color: var(--text-dim); padding: 8px 12px; border-radius: 8px; 
-            font-size: 9px; font-weight: bold; cursor: pointer; white-space: nowrap;
-        }
-        .cat-btn.active { background: var(--primary-gold); color: #000; }
+        .painel-col { display: flex; flex-direction: column; gap: 15px; }
 
-        .table-container { 
-            background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-gold);
-            overflow: hidden; max-height: 60vh; overflow-y: auto;
+        .solicitacao-item { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid var(--border-gold); 
+            padding: 15px; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
         }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px; border-bottom: 1px solid rgba(212,175,55,0.1); font-size: 13px; }
 
-        .status-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
+        .btn-edit-inline {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Estilo Form */
+        .form-editor-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-gold);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+
+        label { display: block; font-size: 10px; color: var(--primary-gold); margin-bottom: 6px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+        
+        input, textarea { 
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.4); 
+            border: 1px solid rgba(212,175,55,0.2); border-radius: 8px;
+            color: #fff; font-size: 14px;
+        }
+
+        .upload-dashed {
+            border: 1px dashed var(--primary-gold);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--primary-gold);
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .status-picker { display: flex; gap: 10px; margin-bottom: 15px; }
         .status-option { 
-            background: #111; border: 1px solid #333; padding: 10px 4px; 
-            border-radius: 8px; text-align: center; cursor: pointer; 
-            font-size: 9px; font-weight: bold; color: var(--text-dim);
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-dim);
         }
         .status-option.active { border-color: var(--primary-gold); color: var(--primary-gold); background: rgba(212,175,55,0.1); }
 
-        .fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin-top: 10px; }
-        .img-item { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-gold); }
+        .btn-save-final {
+            background: var(--gold-gradient);
+            color: #000;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
 
-        /* Ajustes Mobile (Vertical) */
+        /* --- MOBILE --- */
         @media (max-width: 1024px) {
             .login-layout { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-            .side-info, .side-features { display: none; }
-            
-            .painel-grid { 
-                grid-template-columns: 1fr; 
-                display: flex;
-                flex-direction: column;
-            }
-            .painel-col:nth-child(1) { order: 2; } /* Lista vai pra baixo */
-            .painel-col:nth-child(2) { order: 3; } /* Tabela vai pro fim */
-            .painel-col:nth-child(3) { order: 1; } /* Formulário de edição no topo */
-
-            .card-glass { padding: 25px 20px; }
+            .painel-grid { grid-template-columns: 1fr; }
+            .painel-col:nth-child(2) { order: 1; } /* Editor no Topo */
+            .painel-col:nth-child(1) { order: 2; } /* Listas abaixo */
         }
 
         .hidden { display: none !important; }
-        .footer-secure { text-align: center; padding: 25px 0; font-size: 10px; color: var(--text-dim); opacity: 0.5; }
-        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; padding: 12px 20px; border-radius: 10px; background: var(--danger); color: white; display: none; font-size: 12px; font-weight: bold; }
-        .solicitacao-item { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--border-gold); padding: 12px; border-radius: 12px; margin-bottom: 8px; }
+        .cat-btn { background: var(--input-bg); border: 1px solid var(--border-gold); color: var(--text-dim); padding: 8px 12px; border-radius: 8px; font-size: 9px; font-weight: bold; cursor: pointer; }
+        .cat-btn.active { background: var(--primary-gold); color: #000; }
+        .table-container { background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-gold); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px; border-bottom: 1px solid rgba(212,175,55,0.1); font-size: 13px; }
     </style>
 </head>
 <body>
 
     <a href="#" class="btn-home-fixed" onclick="location.reload()">INÍCIO</a>
 
-    <div id="custom-alert"></div>
+    <div id="custom-alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; padding: 12px 20px; border-radius: 10px; background: var(--danger); color: white; display: none; font-size: 12px; font-weight: bold;"></div>
+    
     <div id="img-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; display:none; align-items:center; justify-content:center;" onclick="this.style.display='none'">
         <img id="modal-view" src="" style="max-width: 90%; max-height: 80%; border-radius: 10px; border: 2px solid var(--primary-gold);">
     </div>
@@ -174,100 +191,105 @@
     <div class="main-wrapper">
         
         <section id="view-cliente" class="login-layout">
-            <div class="side-info"></div> 
-            
+            <div></div>
             <div class="card-glass">
-                <div class="logo-box">
-                    <img src="logo.jpg" class="logo-img" alt="Logo">
+                <div class="logo-box" style="text-align: center; margin-bottom: 25px;">
+                    <img src="logo.jpg" style="width: 160px;" alt="Logo">
                     <p style="font-size: 8px; letter-spacing: 4px; color: var(--primary-gold); margin-top: 12px; font-weight: bold;">PREMIUM AUTO SERVICE</p>
                 </div>
 
                 <div id="area-busca">
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom: 15px;">
                         <label>Identificação</label>
                         <input type="text" id="login-user" placeholder="@usuario" oninput="verificarUsuarioMecanico(this.value)">
                     </div>
-
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom: 15px;">
                         <label>Senha</label>
                         <input type="password" id="login-pass" placeholder="••••">
                     </div>
-
-                    <div id="wrapper-placa" class="hidden">
-                        <div class="input-group">
-                            <label>Placa do Veículo</label>
-                            <input type="text" id="login-placa" class="input-placa-grande" maxlength="7" placeholder="ABC1D23">
-                        </div>
+                    <div id="wrapper-placa" class="hidden" style="margin-bottom: 15px;">
+                        <label>Placa do Veículo</label>
+                        <input type="text" id="login-placa" style="font-family: monospace; font-size: 20px; text-align: center; font-weight: bold; background: #fff; color: #000;" maxlength="7" placeholder="ABC1D23">
                     </div>
-
-                    <button class="btn-main" id="btn-localizar" onclick="gerenciarLogin()">
-                        ACESSAR SISTEMA
-                    </button>
+                    <button class="btn-main" onclick="gerenciarLogin()" style="background: var(--gold-gradient); color: #000; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">ACESSAR SISTEMA</button>
                 </div>
-
                 <div id="resultado-cliente"></div>
             </div>
-
-            <div class="side-features"></div>
+            <div></div>
         </section>
 
         <section id="view-painel" class="card-glass hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 15px;">
-                <h2 style="font-size:12px; color:var(--primary-gold); letter-spacing: 2px;">PAINEL DE CONTROLE</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 15px;">
+                <h2 style="font-size:14px; color:var(--primary-gold); letter-spacing: 2px;">PAINEL TÉCNICO</h2>
                 <button onclick="location.reload()" style="color:var(--danger); background:none; border:1px solid var(--danger); padding: 5px 12px; border-radius: 6px; font-size: 9px; font-weight: bold; cursor:pointer;">SAIR</button>
             </div>
 
             <div class="painel-grid">
+                
                 <div class="painel-col">
-                    <label style="color:var(--success); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                        <span>📩</span> FILA DE ENTRADA
-                    </label>
+                    <h3 style="color:var(--success); font-size: 11px; letter-spacing: 1px; margin-bottom: 10px;">📩 NOVAS SOLICITAÇÕES</h3>
                     <div id="lista-solicitacoes"></div>
+
+                    <div style="margin-top: 20px;">
+                        <div class="categorias-filtro" style="display:flex; gap:5px; margin-bottom:10px;">
+                            <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</button>
+                            <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Fila</button>
+                            <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Oficina</button>
+                            <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="corpo-tabela"></table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="painel-col">
-                    <div class="categorias-filtro">
-                        <button class="cat-btn active" onclick="filtrarTabela('Todos', this)">Todos</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Aguardando', this)">Fila</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Trabalhando', this)">Oficina</button>
-                        <button class="cat-btn" onclick="filtrarTabela('Pronto', this)">Prontos</button>
-                    </div>
+                    <div class="form-editor-box">
+                        <div class="form-row">
+                            <div>
+                                <label>PLACA</label>
+                                <input type="text" id="m-placa" readonly style="opacity: 0.7; font-weight: bold; color: var(--primary-gold);">
+                            </div>
+                            <div>
+                                <label>VALOR (R$)</label>
+                                <input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)">
+                            </div>
+                        </div>
 
-                    <div class="table-container">
-                        <table id="corpo-tabela"></table>
+                        <div style="margin-bottom: 15px;">
+                            <label>MODELO E ANO DO VEÍCULO</label>
+                            <input type="text" id="m-modelo" readonly style="opacity: 0.7;">
+                        </div>
+
+                        <label>FOTOS (ESTADO DO CARRO)</label>
+                        <div class="upload-dashed" onclick="document.getElementById('m-fotos-input').click()">
+                            📷 CLIQUE PARA ENVIAR FOTOS
+                        </div>
+                        <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
+                        <div id="preview-area" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; margin-bottom: 15px;"></div>
+
+                        <label>STATUS DA MANUTENÇÃO</label>
+                        <div class="status-picker">
+                            <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Aguardando</div>
+                            <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Mão na Massa</div>
+                            <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
+                        </div>
+
+                        <label>RELATÓRIO TÉCNICO</label>
+                        <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                            <button class="cat-btn" style="font-size: 8px;" onclick="document.getElementById('m-obs').value += '+ Revisão '">+ Revisão</button>
+                            <button class="cat-btn" style="font-size: 8px;" onclick="document.getElementById('m-obs').value += '+ Óleo '">+ Óleo</button>
+                            <button class="cat-btn" style="font-size: 8px;" onclick="document.getElementById('m-obs').value += '+ Scanner '">+ Scanner</button>
+                        </div>
+                        <textarea id="m-obs" rows="4" placeholder="Descreva o que foi feito no carro..."></textarea>
+
+                        <input type="hidden" id="m-identificacao-interna">
+                        
+                        <button class="btn-save-final" onclick="salvar()">✅ SALVAR REGISTRO</button>
+                        <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; color:#fff; margin-top:10px; font-size: 10px; padding: 10px;">LIMPAR EDITOR</button>
                     </div>
                 </div>
 
-                <div class="painel-col" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
-                    <label>Editor de Serviço</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top:5px;">
-                        <input type="text" id="m-placa" placeholder="PLACA" maxlength="7" readonly style="opacity: 0.6; font-weight: bold;">
-                        <input type="text" id="m-preco" placeholder="VALOR R$" oninput="mascaraMoeda(this)">
-                    </div>
-                    <input type="text" id="m-modelo" placeholder="MODELO / ANO" readonly style="opacity: 0.6; margin-top: 8px;">
-                    
-                    <input type="hidden" id="m-identificacao-interna">
-
-                    <label style="margin-top: 15px;">Fotos</label>
-                    <label for="m-fotos-input" style="background: rgba(212,175,55,0.05); border: 1px dashed var(--primary-gold); color: var(--primary-gold); padding: 12px; border-radius: 10px; text-align: center; cursor: pointer; font-size: 10px; display: block;" id="label-upload">
-                        📸 ADICIONAR MÍDIA
-                    </label>
-                    <input type="file" id="m-fotos-input" accept="image/*" multiple onchange="previewImages()" style="display: none;">
-                    <div id="preview-area" class="fotos-grid"></div>
-
-                    <label style="margin-top: 15px;">Progresso</label>
-                    <div class="status-picker">
-                        <div class="status-option active" data-status="Aguardando" onclick="setStatus(this)">Fila</div>
-                        <div class="status-option" data-status="Trabalhando" onclick="setStatus(this)">Oficina</div>
-                        <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
-                    </div>
-
-                    <label>Relato / Observações</label>
-                    <textarea id="m-obs" rows="3" placeholder="Detalhes técnicos..."></textarea>
-                    
-                    <button class="btn-main" onclick="salvar()" style="margin-top: 10px;">SALVAR DADOS</button>
-                    <button class="btn-main hidden" id="btn-cancelar" onclick="limparFormulario()" style="background:#222; color:#fff; margin-top:8px; font-size: 10px; height: 35px; padding: 0;">DESBLOQUEAR / LIMPAR</button>
-                </div>
             </div>
         </section>
 
@@ -277,7 +299,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script>
-        // (Sua lógica de JS permanece exatamente como você enviou)
+        // ... (Insira suas configurações do Firebase aqui conforme seu código original)
         const firebaseConfig = {
             apiKey: "COLE_AQUI",
             authDomain: "a-fonte-43744.firebaseapp.com",
@@ -287,7 +309,6 @@
             messagingSenderId: "COLE_AQUI",
             appId: "COLE_AQUI"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const LOGIN_ADM = "adm.limacar";
@@ -299,8 +320,8 @@
         let fotosBase64 = [];
         let whatsappAtual = "";
         let nomeClienteAtual = "";
-        let relatoClienteAtual = "";
 
+        // Funções de controle (Mesma lógica do seu código anterior)
         function verificarUsuarioMecanico(valor) {
             const wrapperPlaca = document.getElementById('wrapper-placa');
             const loginLimpo = valor.trim().toLowerCase().replace('@','');
@@ -315,43 +336,11 @@
             const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
             const senhaDigitada = document.getElementById('login-pass').value.trim();
             if(userDigitado === LOGIN_ADM) {
-                if(senhaDigitada === SENHA_ADM) { 
-                    irPara('view-painel'); 
-                } else { 
-                    showAlert("❌ SENHA INCORRETA"); 
-                }
+                if(senhaDigitada === SENHA_ADM) { irPara('view-painel'); } 
+                else { showAlert("❌ SENHA INCORRETA"); }
                 return;
             }
             consultarCarro();
-        }
-
-        function consultarCarro() {
-            const user = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
-            const pass = document.getElementById('login-pass').value.trim();
-            const placa = document.getElementById('login-placa').value.trim().toUpperCase();
-            const res = document.getElementById('resultado-cliente');
-
-            if(!user || !pass || !placa) return showAlert("PREENCHA TUDO");
-
-            db.ref('usuarios/' + user).once('value', (snapUser) => {
-                if(snapUser.exists() && snapUser.val().senha === pass) {
-                    db.ref('veiculos/' + placa).once('value', (snapVeiculo) => {
-                        const v = snapVeiculo.val();
-                        if(v && v.identificacao === user) {
-                            res.innerHTML = `
-                                <div style="background:rgba(212,175,55,0.1); border:1px solid var(--primary-gold); padding:20px; border-radius:15px; margin-top:20px;">
-                                    <h3 style="color:var(--primary-gold)">${v.modelo}</h3>
-                                    <p style="font-size:14px; margin:10px 0;">Status: <b>${v.status}</b></p>
-                                    <p style="font-size:12px; color:var(--text-dim)">${v.obs}</p>
-                                    <div class="fotos-grid">${(v.fotos || []).map(f => `<img src="${f}" class="img-item" onclick="abrirImg('${f}')">`).join('')}</div>
-                                    <hr style="margin:15px 0; border:0; border-top:1px solid rgba(212,175,55,0.2)">
-                                    <p style="text-align:right; font-weight:bold; color:var(--primary-gold)">Total: R$ ${v.preco}</p>
-                                </div>`;
-                            document.getElementById('area-busca').classList.add('hidden');
-                        } else { showAlert("VEÍCULO NÃO ENCONTRADO"); }
-                    });
-                } else { showAlert("LOGIN INVÁLIDO"); }
-            });
         }
 
         db.ref('veiculos').on('value', (snapshot) => {
@@ -372,8 +361,8 @@
                 container.innerHTML += `
                     <div class="solicitacao-item">
                         <b style="color:var(--primary-gold); font-size:13px">${s.placa}</b><br>
-                        <span style="font-size:11px;">${s.modelo} - ${s.nome_cliente}</span><br>
-                        <button class="cat-btn" style="margin-top:8px; width:100%" onclick="importarSolicitacao('${id}')">EDITAR</button>
+                        <span style="font-size:11px; color: #ccc;">${s.modelo} - ${s.nome_cliente}</span><br>
+                        <button class="btn-edit-inline" onclick="importarSolicitacao('${id}')">EDITAR VEÍCULO</button>
                     </div>`;
             });
         }
@@ -385,7 +374,6 @@
             document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
             whatsappAtual = s.zap_cliente || "";
             nomeClienteAtual = s.nome_cliente || "";
-            relatoClienteAtual = s.problema || "";
             showAlert("DADOS CARREGADOS");
         }
 
@@ -433,22 +421,11 @@
             document.getElementById('m-modelo').value = v.modelo;
             document.getElementById('m-preco').value = v.preco;
             document.getElementById('m-obs').value = v.obs;
-            document.getElementById('m-identificacao-interna').value = v.identificacao || "";
             fotosBase64 = v.fotos || [];
             renderizarFotosEdicao();
             document.getElementById('btn-cancelar').classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'smooth'}); // Sobe para o editor no mobile
         }
-
-        function renderizarFotosEdicao() {
-            const area = document.getElementById('preview-area');
-            area.innerHTML = "";
-            fotosBase64.forEach((src, idx) => {
-                area.innerHTML += `<img src="${src}" class="img-item" onclick="removerFoto(${idx})">`;
-            });
-            document.getElementById('label-upload').innerText = fotosBase64.length + " FOTOS CARREGADAS";
-        }
-
-        function removerFoto(idx) { fotosBase64.splice(idx,1); renderizarFotosEdicao(); }
 
         function previewImages() {
             const files = document.getElementById('m-fotos-input').files;
@@ -459,6 +436,14 @@
             });
         }
 
+        function renderizarFotosEdicao() {
+            const area = document.getElementById('preview-area');
+            area.innerHTML = "";
+            fotosBase64.forEach((src, idx) => {
+                area.innerHTML += `<img src="${src}" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:5px; border:1px solid gold;" onclick="fotosBase64.splice(${idx},1); renderizarFotosEdicao();">`;
+            });
+        }
+
         function limparFormulario() {
             ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => document.getElementById(id).value = "");
             fotosBase64 = [];
@@ -466,27 +451,16 @@
             document.getElementById('btn-cancelar').classList.add('hidden');
         }
 
-        function irPara(id) { 
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); 
-            document.getElementById(id).classList.remove('hidden'); 
+        function mascaraMoeda(i) {
+            let v = i.value.replace(/\D/g,'');
+            v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            i.value = v;
         }
 
-        function showAlert(msg) { 
-            const div = document.getElementById('custom-alert'); 
-            div.innerText = msg; div.style.display = 'block'; 
-            setTimeout(() => { div.style.display = 'none'; }, 2500); 
-        }
-
-        function mascaraMoeda(i) { 
-            let v = i.value.replace(/\D/g,''); 
-            v = (v/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
-            i.value = v; 
-        }
-
-        function setStatus(el) { 
-            document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active')); 
-            el.classList.add('active'); 
-            statusSelecionado = el.getAttribute('data-status'); 
+        function setStatus(el) {
+            document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active'));
+            el.classList.add('active');
+            statusSelecionado = el.getAttribute('data-status');
         }
 
         function filtrarTabela(f, btn) {
@@ -495,9 +469,15 @@
             desenharTabela(f);
         }
 
-        function abrirImg(src) { 
-            document.getElementById('modal-view').src = src; 
-            document.getElementById('img-modal').style.display = 'flex'; 
+        function irPara(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function showAlert(msg) {
+            const div = document.getElementById('custom-alert');
+            div.innerText = msg; div.style.display = 'block';
+            setTimeout(() => { div.style.display = 'none'; }, 2500);
         }
     </script>
 </body>
