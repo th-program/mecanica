@@ -223,6 +223,9 @@
                     <input type="text" id="m-modelo" readonly>
                     <input type="hidden" id="m-identificacao-interna">
 
+                    <label>WhatsApp do Cliente</label>
+                    <input type="text" id="m-zap" placeholder="Ex: 11999999999" oninput="toggleBtnWhats(this.value)">
+
                     <label>Fotos</label>
                     <label for="m-fotos-input" class="btn-upload-custom" id="label-upload">📸 ENVIAR FOTOS</label>
                     <input type="file" id="m-fotos-input" multiple onchange="previewImages()" style="display:none;">
@@ -269,10 +272,13 @@
     const db = firebase.database();
     const LOGIN_ADM = "adm.limacar";
     const SENHA_ADM = "1234";
+
+    // VARIÁVEL NOVA: NÚMERO DA MECÂNICA PARA O CLIENTE ENTRAR EM CONTATO
+    const WHATSAPP_MECANICA = "5511999999999"; // <-- Substitua pelo número da mecânica (com 55 e DDD)
     
     let statusSelecionado = "Aguardando";
     let bancoDados = {}; let bancoSolicitacoes = {}; let fotosBase64 = [];
-    let whatsappAtual = ""; let nomeClienteAtual = ""; let relatoClienteAtual = "";
+    let nomeClienteAtual = ""; let relatoClienteAtual = "";
 
     // --- ATALHOS DE TECLADO ---
     document.addEventListener('keydown', (e) => {
@@ -325,6 +331,8 @@
                                 <div style="margin:15px 0; color:#cbd5e1; font-size:14px; line-height:1.4">${v.obs || 'Sem observações técnicas.'}</div>
                                 ${v.fotos ? `<div class="fotos-grid" style="margin-bottom:15px">${v.fotos.map(f => `<img src="${f}" class="img-item" onclick="zoomImg('${f}')">`).join('')}</div>` : ''}
                                 <p style="color:var(--success); font-weight:900; font-size:24px">R$ ${v.preco || '0,00'}</p>
+                                
+                                <a href="https://wa.me/${WHATSAPP_MECANICA}?text=Ol%C3%A1,%20gostaria%20de%20falar%20sobre%20o%20ve%C3%ADculo%20placa%20${placaDigitada}" target="_blank" class="btn-main whatsapp-float-btn" style="margin-top:20px; text-decoration:none; justify-content:center;">💬 FALAR COM A MECÂNICA</a>
                             </div>
                             <button onclick="location.reload()" class="btn-main" style="background:none; border:1px solid #333; color:#fff; margin-top:10px">SAIR</button>`;
                         document.getElementById('area-busca').classList.add('hidden');
@@ -379,11 +387,14 @@
         document.getElementById('m-modelo').value = (s.modelo || "") + " " + (s.ano || "");
         document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
         
-        whatsappAtual = s.zap_cliente || "";
+        // Puxa e ativa o WhatsApp
+        document.getElementById('m-zap').value = s.zap_cliente || "";
+        toggleBtnWhats(s.zap_cliente || "");
+        
         nomeClienteAtual = s.nome_cliente || "Cliente";
         relatoClienteAtual = s.problema || "Não informado";
         
-        exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
+        exibirRelatoCliente(nomeClienteAtual, relatoClienteAtual);
         abrirFormulario('novo');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -398,13 +409,14 @@
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
         
-        whatsappAtual = v.clienteZap || "";
+        // Puxa e ativa o WhatsApp
+        document.getElementById('m-zap').value = v.clienteZap || "";
+        toggleBtnWhats(v.clienteZap || "");
+        
         nomeClienteAtual = v.clienteNome || "Cliente";
         relatoClienteAtual = v.clienteRelato || "Histórico de oficina";
         
-        if(whatsappAtual) exibirBotaoWhats(whatsappAtual, nomeClienteAtual, relatoClienteAtual);
-        else document.getElementById('btn-whats-direto').style.display = "none";
-
+        exibirRelatoCliente(nomeClienteAtual, relatoClienteAtual);
         abrirFormulario('editar');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -419,7 +431,7 @@
             preco: document.getElementById('m-preco').value || "0,00", 
             obs: document.getElementById('m-obs').value, 
             fotos: fotosBase64, 
-            clienteZap: whatsappAtual,
+            clienteZap: document.getElementById('m-zap').value.replace(/\D/g, ""), // Salva limpo
             clienteNome: nomeClienteAtual,
             clienteRelato: relatoClienteAtual,
             identificacao: document.getElementById('m-identificacao-interna').value 
@@ -434,15 +446,14 @@
 
     function limparFormulario() {
         document.getElementById('coluna-formulario').classList.add('hidden');
-        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna'].forEach(id => {
+        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna','m-zap'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.value = "";
         });
         fotosBase64 = [];
         document.getElementById('preview-area').innerHTML = "";
         document.getElementById('relatorio-cliente-view').style.display = "none";
-        document.getElementById('btn-whats-direto').style.display = "none";
-        whatsappAtual = "";
+        toggleBtnWhats(""); // Esconde o botão do WhatsApp
     }
 
     function desenharTabela(filtro = "Todos") {
@@ -470,20 +481,30 @@
         });
     }
 
-    function exibirBotaoWhats(zap, nome, problema) {
-        const box = document.getElementById('relatorio-cliente-view');
+    // NOVA FUNÇÃO: Controla a exibição do botão do WhatsApp dinamicamente
+    function toggleBtnWhats(zap) {
         const btn = document.getElementById('btn-whats-direto');
-        if(zap && zap.length > 5) {
-            box.style.display = "block"; 
+        const numeroLimpo = zap ? zap.replace(/\D/g, "") : "";
+        
+        if(numeroLimpo.length >= 10) {
             btn.style.display = "flex"; 
-            document.getElementById('txt-relato-cliente').innerText = `Cliente: ${nome}\nRelato: ${problema}`;
             btn.onclick = () => {
-                const link = `https://wa.me/55${zap.replace(/\D/g, "")}`;
+                const link = `https://wa.me/55${numeroLimpo}`;
                 window.open(link, '_blank');
             };
         } else {
-            box.style.display = "none";
             btn.style.display = "none";
+        }
+    }
+
+    // FUNÇÃO ATUALIZADA: Exibe apenas o box de relato do cliente
+    function exibirRelatoCliente(nome, problema) {
+        const box = document.getElementById('relatorio-cliente-view');
+        if(nome && problema && problema !== "Não informado" && problema !== "Histórico de oficina") {
+            box.style.display = "block"; 
+            document.getElementById('txt-relato-cliente').innerText = `Cliente: ${nome}\nRelato: ${problema}`;
+        } else {
+            box.style.display = "none";
         }
     }
 
