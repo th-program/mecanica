@@ -23,7 +23,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
         
         body { 
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             background-color: var(--bg); 
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.03) 0%, transparent 30%),
@@ -63,14 +63,24 @@
 
         .btn-home-fixed {
             position: fixed; top: 20px; left: 20px; text-decoration: none; color: var(--text-dim);
-            font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px;
+            font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; z-index: 1000;
         }
 
         .hidden { display: none !important; }
+        
         #custom-alert { 
             position: fixed; top: 20px; z-index: 9999; padding: 15px; border-radius: 10px; 
             color: white; font-weight: 600; display: none; width: 90%; max-width: 400px; text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+
+        /* Classes trazidas do outro código */
+        .aviso-senha {
+            background: rgba(212, 175, 55, 0.1); color: var(--primary); padding: 10px;
+            border-radius: 10px; font-size: 10px; margin-top: -5px; margin-bottom: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; font-weight: bold;
+        }
+        .welcome-msg { color: var(--success); text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -96,17 +106,23 @@
         <label>Crie uma Senha</label>
         <input type="password" id="c-pass" placeholder="••••••">
         
+        <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
+        
         <button class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
     </section>
 
     <section id="view-veiculo" class="card hidden">
+        <div id="msg-boas-vindas" class="welcome-msg"></div>
         <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">2. DETALHES DO VEÍCULO</h2>
         
         <label>Placa</label>
         <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
         
-        <label>Veículo (Modelo e Ano)</label>
-        <input type="text" id="c-modelo" placeholder="Ex: Honda Civic 2020">
+        <label>Modelo do Veículo</label>
+        <input type="text" id="c-modelo" placeholder="Ex: Honda Civic">
+
+        <label>Ano do Veículo</label>
+        <input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2020">
         
         <label>O que está acontecendo?</label>
         <textarea id="c-problema" rows="4" placeholder="Descreva o problema..."></textarea>
@@ -120,7 +136,26 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // --- CONFIGURAÇÃO FIREBASE (IGUAL AO ACESSO) ---
+    // Gerenciador de teclas ENTER integrado
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const activeEl = document.activeElement;
+            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
+                e.preventDefault();
+                const section = activeEl.closest('section');
+                const inputs = Array.from(section.querySelectorAll('input:not([type="hidden"]), textarea'));
+                const index = inputs.indexOf(activeEl);        
+                if (index > -1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                } else {
+                    const btn = section.querySelector('.btn-main');
+                    if (btn) btn.click();
+                }
+            }
+        }
+    });
+
+    // --- CONFIGURAÇÃO FIREBASE ---
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -144,47 +179,73 @@
 
     function proximoPasso() {
         const nome = document.getElementById('c-nome').value.trim();
-        const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
+        const zap = document.getElementById('c-zap').value.replace(/\D/g, ""); // Mantém apenas números
         const user = document.getElementById('c-user').value.trim().toLowerCase().replace('@', '');
         const pass = document.getElementById('c-pass').value.trim();
 
-        if(!nome || !zap || !user || !pass) return showAlert("⚠️ PREENCHA TUDO");
+        if(!nome || !zap || !user || !pass) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS");
 
-        // Salva os dados do cliente para usar no próximo passo
-        dadosTemporariosCliente = { nome, zap, pass, user };
-
-        // Sincroniza o usuário no banco para ele conseguir logar depois
-        db.ref('usuarios/' + user).set({
-            nome: nome,
-            zap: zap,
-            senha: pass,
-            identificador: "@" + user
-        }).then(() => {
-            document.getElementById('view-login').classList.add('hidden');
-            document.getElementById('view-veiculo').classList.remove('hidden');
+        // Verifica no banco se o usuário já existe
+        db.ref('usuarios/' + user).once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+                const dados = snapshot.val();
+                if(dados.senha === pass) {
+                    // Usuário e senha batem: Faz login
+                    dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user };
+                    document.getElementById('msg-boas-vindas').innerText = `Bem-vindo de volta, ${dados.nome}!`;
+                    mostrarTelaVeiculo();
+                } else {
+                    // Usuário existe mas senha está errada
+                    showAlert("❌ SENHA INCORRETA OU USUÁRIO EM USO");
+                }
+            } else {
+                // Usuário não existe: Cria novo cadastro
+                db.ref('usuarios/' + user).set({
+                    nome: nome,
+                    zap: zap,
+                    senha: pass,
+                    identificador: "@" + user
+                }).then(() => {
+                    dadosTemporariosCliente = { nome, zap, user };
+                    document.getElementById('msg-boas-vindas').innerText = "Cadastro de perfil realizado com sucesso!";
+                    mostrarTelaVeiculo();
+                });
+            }
+        }).catch((e) => {
+            console.error(e);
+            showAlert("❌ ERRO DE CONEXÃO COM O BANCO");
         });
+    }
+
+    function mostrarTelaVeiculo() {
+        document.getElementById('view-login').classList.add('hidden');
+        document.getElementById('view-veiculo').classList.remove('hidden');
+        window.scrollTo(0,0);
     }
 
     function finalizarCadastro() {
         const placa = document.getElementById('c-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('c-modelo').value.trim();
+        const ano = document.getElementById('c-ano').value.trim();
         const problema = document.getElementById('c-problema').value.trim();
 
-        if(!placa || !modelo || !problema) return showAlert("⚠️ DADOS DO CARRO FALTANDO");
+        if(!placa || !modelo || !ano || !problema) return showAlert("⚠️ PREENCHA OS DADOS DO VEÍCULO");
 
-        // CRITICAL SYNC: Envia exatamente o que o script do mecânico precisa ler
+        // Envia exatamente o que o script do mecânico precisa ler
         db.ref('servicos_ativos/' + placa).set({
             cliente_id: dadosTemporariosCliente.user,
-            nome_cliente: dadosTemporariosCliente.nome, // Sincronizado com importarSolicitacao
-            zap_cliente: dadosTemporariosCliente.zap,   // Sincronizado com importarSolicitacao
+            nome_cliente: dadosTemporariosCliente.nome, 
+            zap_cliente: dadosTemporariosCliente.zap,   
             placa: placa,
             modelo: modelo,
+            ano: ano,
             problema: problema,
-            data: new Date().toLocaleString()
+            data: new Date().toLocaleString(),
+            status: "Aguardando Avaliação" // Status inicial adicionado do outro código
         }).then(() => {
-            showAlert("✔️ SOLICITAÇÃO ENVIADA!", "#10b981");
+            showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
             setTimeout(() => { location.href = "acesso.html"; }, 2000);
-        });
+        }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
 </script>
 </body>
