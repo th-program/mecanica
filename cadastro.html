@@ -244,8 +244,8 @@
             status: "Aguardando Avaliação"
         }).then(() => {
             showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
-            setTimeout(() => {
-    window.location.href = "index.html";
+         setTimeout(() => {
+    window.location.href = "./index.html"; 
 }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
