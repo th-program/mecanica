@@ -2,177 +2,117 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Mecânica Lima Car | Login e Cadastro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mecânica Lima Car | Cadastro de Serviço</title>
     <style>
+        /* CSS SINCRONIZADO COM A PÁGINA DE ACESSO */
         :root { 
-            --bg: #000b1a; 
+            --bg: #000814;
+            --card-bg: rgba(255, 255, 255, 0.03);
             --primary: #d4af37; 
-            --text-main: #f0f0f0; 
-            --text-dim: #a0aec0; 
-            --border: #132a47; 
-            --success: #00ff88; 
-            --warning: #ffcc00; 
-            --danger: #ff4d4d; 
-            --input-bg: rgba(0, 30, 61, 0.7); 
-            --logo-size: 200px; 
+            --primary-glow: rgba(212, 175, 55, 0.3);
+            --text-main: #f8f9fa; 
+            --text-dim: #94a3b8;
+            --border: rgba(212, 175, 55, 0.15); 
+            --success: #10b981; 
+            --danger: #ef4444; 
+            --input-bg: #001226; 
+            --radius: 16px;
         } 
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
         
         body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg); 
-            background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%); 
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.03) 0%, transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.03) 0%, transparent 30%);
             color: var(--text-main); 
-            min-height: 100vh; 
-            padding: 15px; 
-            overflow-x: hidden; 
+            display: flex; flex-direction: column; min-height: 100vh; padding: 20px; align-items: center; justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 450px; }
+
+        .card { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 30px; 
+            border-radius: var(--radius); backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .logo-box { text-align: center; margin-bottom: 30px; } 
+        .logo-img { width: 180px; filter: drop-shadow(0 0 10px var(--primary-glow)); } 
+        
+        label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; } 
+        
+        input, textarea { 
+            width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--border); 
+            border-radius: 12px; color: #fff; font-size: 16px; margin-bottom: 15px; transition: 0.3s; 
+        } 
+        
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); }
+
+        .btn-main { 
+            background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; 
+            width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; 
+            text-transform: uppercase; cursor: pointer; font-size: 13px; transition: 0.3s; 
+            box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2);
         }
 
         .btn-home-fixed {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--input-bg);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 18px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            z-index: 1001; /* Elevado para garantir clique */
+            position: fixed; top: 20px; left: 20px; text-decoration: none; color: var(--text-dim);
+            font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px;
         }
 
-        @media (min-width: 768px) {
-            .btn-home-fixed { position: fixed; top: 20px; left: 20px; margin-bottom: 0; }
+        .hidden { display: none !important; }
+        #custom-alert { 
+            position: fixed; top: 20px; z-index: 9999; padding: 15px; border-radius: 10px; 
+            color: white; font-weight: 600; display: none; width: 90%; max-width: 400px; text-align: center; 
         }
-
-        .container { 
-            width: 100%; 
-            max-width: 450px; 
-            margin: 0 auto;
-            position: relative;
-            z-index: 5;
-        } 
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
-        
-        .card { background: none; border: none; padding: 5px; position: relative; width: 100%; animation: fadeIn 0.4s ease-out;} 
-
-        .logo-box { text-align: center; margin-bottom: 25px; padding: 10px; } 
-        .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); } 
-        
-        label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; } 
-        
-        input, textarea { 
-            width: 100%; 
-            padding: 14px; 
-            background: var(--input-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            color: #fff; 
-            font-size: 16px !important; 
-            margin-bottom: 18px; 
-            transition: 0.3s; 
-            position: relative;
-            z-index: 1; /* Reduzido para não sobrepor o botão */
-        } 
-        
-        input:focus { border-color: var(--primary); outline: none; background: rgba(0, 30, 61, 0.9); } 
-        
-        .btn-main { 
-            background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); 
-            color: #000; 
-            width: 100%; 
-            padding: 18px; 
-            border: none; 
-            border-radius: 15px; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            cursor: pointer; 
-            font-size: 14px; 
-            transition: 0.2s; 
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15); 
-            margin-top: 10px; 
-            display: block; 
-            text-decoration: none; 
-            text-align: center;
-            position: relative;
-            z-index: 1000; /* Força o botão a ficar no topo */
-        } 
-
-        .hidden { display: none !important; } 
-
-        .aviso-senha {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--primary);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 10px;
-            margin-top: -12px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            text-align: center;
-            font-weight: bold;
-        }
-
-        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 25px; border-radius: 12px; background: var(--danger); color: white; font-size: 14px; font-weight: 800; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 80%; text-align: center; }
-        
-        .welcome-msg { color: var(--success); text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed"><span>🏠</span> INÍCIO</a>
-
+<a href="index.html" class="btn-home-fixed">🏠 INÍCIO</a>
 <div id="custom-alert"></div>
 
 <div class="container">
     <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
 
     <section id="view-login" class="card">
-        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">CRIAR ACESSO</h2>
+        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">1. IDENTIFICAÇÃO</h2>
         
         <label>Nome Completo</label>
-        <input type="text" id="c-nome" placeholder="Seu nome">
+        <input type="text" id="c-nome" placeholder="Ex: João Silva">
         
-        <label>WhatsApp</label>
-        <input type="tel" id="c-zap" placeholder="(00) 00000-0000">
+        <label>WhatsApp (com DDD)</label>
+        <input type="tel" id="c-zap" placeholder="11999999999">
 
-        <label>Identificação (@ do usuário)</label>
-        <input type="text" id="c-user" placeholder="@exemplo" style="text-transform: lowercase;">
+        <label>Escolha um Usuário (@)</label>
+        <input type="text" id="c-user" placeholder="ex: joao.silva" style="text-transform: lowercase;">
         
         <label>Crie uma Senha</label>
-        <input type="password" id="c-pass" placeholder="Sua senha">
+        <input type="password" id="c-pass" placeholder="••••••">
         
-        <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
-
-        <button type="button" class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
+        <button class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
     </section>
 
     <section id="view-veiculo" class="card hidden">
-        <div id="msg-boas-vindas" class="welcome-msg"></div>
-        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:25px; letter-spacing: 2px;">DADOS DO VEÍCULO</h2>
+        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">2. DETALHES DO VEÍCULO</h2>
         
-        <label>Placa do Veículo</label>
-        <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase;">
+        <label>Placa</label>
+        <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
         
-        <label>Modelo do Veículo</label>
-        <input type="text" id="c-modelo" placeholder="Ex: Gol G5">
+        <label>Veículo (Modelo e Ano)</label>
+        <input type="text" id="c-modelo" placeholder="Ex: Honda Civic 2020">
         
-        <label>Ano do Veículo</label>
-        <input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2012">
+        <label>O que está acontecendo?</label>
+        <textarea id="c-problema" rows="4" placeholder="Descreva o problema..."></textarea>
         
-        <label>Problemas Apresentados</label>
-        <textarea id="c-problema" rows="4" placeholder="O que o carro tem?"></textarea>
-        
-        <button type="button" class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
+        <button class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
+        <button onclick="location.reload()" style="background:none; border:none; color:var(--text-dim); width:100%; margin-top:15px; cursor:pointer; font-size:11px;">VOLTAR</button>
     </section>
 </div>
 
@@ -180,26 +120,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // Gerenciador de teclas ENTER
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const activeEl = document.activeElement;
-            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
-                e.preventDefault();
-                const section = activeEl.closest('section');
-                const inputs = Array.from(section.querySelectorAll('input:not([type="hidden"]), textarea'));
-                const index = inputs.indexOf(activeEl);
-                
-                if (index > -1 && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                } else {
-                    const btn = section.querySelector('.btn-main');
-                    if (btn) btn.click();
-                }
-            }
-        }
-    });
-
+    // --- CONFIGURAÇÃO FIREBASE (IGUAL AO ACESSO) ---
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -211,77 +132,60 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let usuarioAtual = null;
+    let dadosTemporariosCliente = {};
 
-    function showAlert(msg, color = "#ff4d4d") {
+    function showAlert(msg, color = "#ef4444") {
         const div = document.getElementById('custom-alert');
         div.style.background = color;
         div.innerText = msg;
         div.style.display = 'block';
-        setTimeout(() => { div.style.display = 'none'; }, 2500);
+        setTimeout(() => { div.style.display = 'none'; }, 3000);
     }
 
     function proximoPasso() {
         const nome = document.getElementById('c-nome').value.trim();
-        const zap = document.getElementById('c-zap').value.trim();
+        const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
         const user = document.getElementById('c-user').value.trim().toLowerCase().replace('@', '');
         const pass = document.getElementById('c-pass').value.trim();
 
-        if(!nome || !zap || !user || !pass) {
-            showAlert("❌ PREENCHA TODOS OS CAMPOS");
-            return;
-        }
+        if(!nome || !zap || !user || !pass) return showAlert("⚠️ PREENCHA TUDO");
 
-        db.ref('usuarios/' + user).once('value').then((snapshot) => {
-            if (snapshot.exists()) {
-                const dados = snapshot.val();
-                if(dados.senha === pass) {
-                    usuarioAtual = user;
-                    document.getElementById('msg-boas-vindas').innerText = `Bem vindo de volta, ${dados.nome}!`;
-                    mostrarTelaVeiculo();
-                } else {
-                    showAlert("❌ SENHA INCORRETA");
-                }
-            } else {
-                db.ref('usuarios/' + user).set({
-                    nome, zap, senha: pass, identificador: "@" + user
-                }).then(() => {
-                    usuarioAtual = user;
-                    document.getElementById('msg-boas-vindas').innerText = "Cadastro de perfil realizado!";
-                    mostrarTelaVeiculo();
-                });
-            }
-        }).catch((e) => {
-            console.error(e);
-            showAlert("❌ ERRO DE CONEXÃO");
+        // Salva os dados do cliente para usar no próximo passo
+        dadosTemporariosCliente = { nome, zap, pass, user };
+
+        // Sincroniza o usuário no banco para ele conseguir logar depois
+        db.ref('usuarios/' + user).set({
+            nome: nome,
+            zap: zap,
+            senha: pass,
+            identificador: "@" + user
+        }).then(() => {
+            document.getElementById('view-login').classList.add('hidden');
+            document.getElementById('view-veiculo').classList.remove('hidden');
         });
-    }
-
-    function mostrarTelaVeiculo() {
-        document.getElementById('view-login').classList.add('hidden');
-        document.getElementById('view-veiculo').classList.remove('hidden');
-        window.scrollTo(0,0);
     }
 
     function finalizarCadastro() {
         const placa = document.getElementById('c-placa').value.toUpperCase().trim();
         const modelo = document.getElementById('c-modelo').value.trim();
-        const ano = document.getElementById('c-ano').value.trim();
         const problema = document.getElementById('c-problema').value.trim();
 
-        if(!placa || !modelo || !ano || !problema) return showAlert("❌ PREENCHA OS DADOS DO CARRO");
+        if(!placa || !modelo || !problema) return showAlert("⚠️ DADOS DO CARRO FALTANDO");
 
+        // CRITICAL SYNC: Envia exatamente o que o script do mecânico precisa ler
         db.ref('servicos_ativos/' + placa).set({
-            cliente_id: usuarioAtual,
-            placa, modelo, ano, problema,
-            data: new Date().toLocaleString(),
-            status: "Aguardando Avaliação"
+            cliente_id: dadosTemporariosCliente.user,
+            nome_cliente: dadosTemporariosCliente.nome, // Sincronizado com importarSolicitacao
+            zap_cliente: dadosTemporariosCliente.zap,   // Sincronizado com importarSolicitacao
+            placa: placa,
+            modelo: modelo,
+            problema: problema,
+            data: new Date().toLocaleString()
         }).then(() => {
-            showAlert("✔️ ENVIADO COM SUCESSO!", "#00ff88");
-            setTimeout(() => { location.reload(); }, 2000);
-        }).catch(() => showAlert("❌ ERRO AO SALVAR"));
+            showAlert("✔️ SOLICITAÇÃO ENVIADA!", "#10b981");
+            setTimeout(() => { location.href = "acesso.html"; }, 2000);
+        });
     }
 </script>
-
 </body>
 </html>
