@@ -245,7 +245,7 @@
         }).then(() => {
             showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
             setTimeout(() => {
-    window.location.href = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/') + '/index.html';
+    window.location.href = "index.html";
 }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
