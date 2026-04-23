@@ -241,10 +241,10 @@
             ano: ano,
             problema: problema,
             data: new Date().toLocaleString(),
-            status: "Aguardando Avaliação" // Status inicial adicionado do outro código
+            status: "Aguardando Avaliação"
         }).then(() => {
             showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
-            setTimeout(() => { location.href = "acesso.html"; }, 2000);
+            setTimeout(() => { location.href = "index.html"; }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
 </script>
