@@ -145,6 +145,155 @@
         #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 20px; border-radius: 10px; background: #1e293b; color: white; border-left: 4px solid var(--primary); font-size: 13px; font-weight: 600; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 85%; text-align: center; }
     </style>
 </head>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mecânica Lima Car | Gestão Profissional</title>
+    <style>
+        :root { 
+            --bg: #000814;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --primary: #d4af37; 
+            --primary-glow: rgba(212, 175, 55, 0.3);
+            --text-main: #f8f9fa; 
+            --text-dim: #94a3b8;
+            --border: rgba(212, 175, 55, 0.15); 
+            --success: #10b981; 
+            --warning: #f59e0b; 
+            --danger: #ef4444; 
+            --input-bg: #001226; 
+            --logo-size: 200px; 
+            --radius: 16px;
+        } 
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } 
+        
+        body { 
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg); 
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.03) 0%, transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.03) 0%, transparent 30%);
+            color: var(--text-main); 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animar-entrada {
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .badge-modo {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .modo-novo { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid var(--success); }
+        .modo-edicao { background: rgba(212, 175, 55, 0.15); color: var(--primary); border: 1px solid var(--primary); }
+
+        @media (min-width: 768px) {
+            body { padding: 25px; justify-content: center; }
+        }
+
+        .btn-home-fixed {
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px); border: 1px solid var(--border); color: var(--text-main);
+            padding: 10px 18px; border-radius: 50px; text-decoration: none; font-size: 12px;
+            font-weight: 600; margin-bottom: 20px; transition: all 0.3s ease; width: fit-content;
+        }
+
+        @media (min-width: 768px) {
+            .btn-home-fixed { position: fixed; top: 25px; left: 25px; margin-bottom: 0; z-index: 1000; }
+        }
+
+        .container { width: 100%; max-width: 100%; margin: 0 auto; flex: 1; display: flex; flex-direction: column; justify-content: center; transition: max-width 0.4s ease; } 
+
+        @media (min-width: 768px) { 
+            .container { max-width: 450px; } 
+            .container:has(#view-painel:not(.hidden)) { max-width: 95vw; }
+            #view-painel.card { width: 100% !important; min-height: 85vh; display: flex; flex-direction: column; }
+        }
+
+        section { display: block; animation: fadeIn 0.5s ease; width: 100%; } 
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } } 
+        
+        .card { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 20px; 
+            border-radius: var(--radius); position: relative; width: 100%; backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); margin: 0 auto;
+        } 
+
+        .logo-box { text-align: center; margin-bottom: 30px; } 
+        .logo-img { width: 100%; max-width: var(--logo-size); height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px var(--primary-glow)); } 
+        
+        label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; } 
+        input, textarea, select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 16px !important; margin-bottom: 15px; transition: 0.3s; } 
+        
+        .btn-upload-custom { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(212, 175, 55, 0.05); border: 2px dashed var(--border); color: var(--primary); padding: 25px 15px; border-radius: var(--radius); cursor: pointer; margin-bottom: 20px; font-weight: 600; font-size: 12px; transition: 0.3s; width: 100%; } 
+        .input-placa-grande { font-family: 'Monaco', monospace; font-size: 32px !important; background: linear-gradient(to bottom, #fff, #cbd5e1) !important; color: #0f172a !important; border: none !important; text-transform: uppercase; letter-spacing: 4px; text-align: center; border-radius: 12px !important; font-weight: 900; } 
+        .btn-main { background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; font-size: 13px; transition: 0.3s; box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2); margin-top: 5px; display: block; text-decoration: none; text-align: center; } 
+
+        .categorias-filtro { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 12px; width: 100%; scrollbar-width: none; } 
+        .cat-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 16px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; } 
+        .cat-btn.active { border-color: var(--primary); color: #000; background: var(--primary); } 
+
+        .status-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; } 
+        .status-option { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 12px 4px; border-radius: 10px; text-align: center; font-size: 9px; font-weight: 700; cursor: pointer; color: var(--text-dim); text-transform: uppercase; } 
+        .status-option.active { border-color: var(--primary); color: var(--primary); background: rgba(212, 175, 55, 0.1); }
+
+        .table-container { margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 14px; border: 1px solid var(--border); overflow-x: auto; max-height: 400px; } 
+        table { width: 100%; border-collapse: collapse; min-width: 280px; }
+        td { padding: 14px 10px; border-bottom: 1px solid var(--border); font-size: 13px; } 
+        
+        .hidden { display: none !important; } 
+        #img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); } 
+        #modal-view { max-width: 95%; max-height: 80%; border: 1px solid var(--primary); border-radius: 10px; } 
+
+        .fotos-grid { display: grid; gap: 8px; margin-top: 15px; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); } 
+        .img-item { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); } 
+
+        .confirm-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001; backdrop-filter: blur(8px); }
+        .confirm-box .card { background: #070b14; border: 1px solid var(--border); padding: 30px; border-radius: 20px; border-top: 4px solid var(--danger); max-width: 320px; text-align: center;}
+
+        .solicitacao-item { background: linear-gradient(145deg, rgba(212, 175, 55, 0.06), rgba(0,0,0,0)); border: 1px solid var(--border); padding: 15px; border-radius: 14px; margin-bottom: 12px; position: relative; }
+        .solicitacao-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .solicitacao-badge { background: var(--input-bg); padding: 3px 8px; border-radius: 6px; font-size: 9px; color: var(--primary); font-weight: 800; border: 1px solid var(--border); }
+        .solicitacao-info b { color: var(--text-main); font-size: 14px; text-transform: uppercase; }
+        .solicitacao-info span { color: var(--primary); font-size: 11px; font-weight: 700; display: block; margin-top: 2px; }
+
+        .relatorio-cliente-box { background: rgba(212, 175, 55, 0.03); padding: 15px; border-radius: 12px; border-left: 3px solid var(--primary); margin-bottom: 20px; }
+        .painel-grid { display: flex; flex-direction: column; gap: 20px; width: 100%; flex: 1; } 
+        
+        @media (min-width: 992px) { 
+            .painel-grid { flex-direction: row; align-items: stretch; } 
+            .painel-col { flex: 1; height: 100%; display: flex; flex-direction: column; } 
+            .painel-col:first-child { flex: 1.2; }
+        } 
+        
+        .whatsapp-float-btn { background: #128c7e !important; color: white !important; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; border: none; padding: 14px; }
+        .tag-servico { font-size: 10px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 100px; cursor: pointer; border: 1px solid var(--border); color: var(--text-dim); font-weight: 600; }
+        #custom-alert { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30000; padding: 15px 20px; border-radius: 10px; background: #1e293b; color: white; border-left: 4px solid var(--primary); font-size: 13px; font-weight: 600; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 85%; text-align: center; }
+        
+        .btn-danger-outline { background: none; border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer; width: 100%; margin-top: 15px; transition: 0.3s; }
+        .btn-danger-outline:hover { background: var(--danger); color: white; }
+    </style>
+</head>
 <body>
 
 <a href="index.html" class="btn-home-fixed" onclick="location.reload()"><span>🏠</span> VOLTAR AO INÍCIO</a>
@@ -152,10 +301,12 @@
 <div id="img-modal" onclick="this.style.display='none'"><img id="modal-view" src=""></div>
 
 <div id="confirm-box" class="confirm-box">
-    <div class="card"><h3 id="confirm-title" style="color:var(--danger); margin-bottom:10px;">CONFIRMAR?</h3>
-    <p style="font-size:13px; color:var(--text-dim); margin-bottom:20px;">Esta ação não pode ser desfeita.</p>
-    <button class="btn-main" id="btn-confirm-sim" style="background:var(--danger); color:#fff;">SIM, CONFIRMAR</button>
-    <button class="btn-main" onclick="fecharConfirm()" style="background:#222; color:#fff; margin-top:10px">CANCELAR</button></div>
+    <div class="card">
+        <h3 id="confirm-title" style="color:var(--danger); margin-bottom:10px;">CONFIRMAR?</h3>
+        <p id="confirm-text" style="font-size:13px; color:var(--text-dim); margin-bottom:20px;">Esta ação não pode ser desfeita.</p>
+        <button class="btn-main" id="btn-confirm-sim" style="background:var(--danger); color:#fff;">SIM, CONFIRMAR</button>
+        <button class="btn-main" onclick="fecharConfirm()" style="background:#222; color:#fff; margin-top:10px">CANCELAR</button>
+    </div>
 </div>
 
 <div class="container">
@@ -178,7 +329,7 @@
     <section id="view-painel" class="card hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
             <h2 style="font-size:14px; color:var(--primary); font-weight:800;">PAINEL TÉCNICO</h2>
-            <button onclick="location.reload()" style="color:var(--danger); background:none; border:1px solid var(--danger); padding:6px 12px; border-radius:8px; font-size:10px; cursor:pointer;">SAIR</button>
+            <button onclick="fazerSair()" style="color:var(--danger); background:none; border:1px solid var(--danger); padding:6px 12px; border-radius:8px; font-size:10px; cursor:pointer;">SAIR</button>
         </div>
 
         <div class="painel-grid">
@@ -198,6 +349,8 @@
                 <div class="table-container">
                     <table id="corpo-tabela"></table>
                 </div>
+                
+                <button class="btn-danger-outline" onclick="confirmarLimpezaGeral()">🗑️ LIMPAR TODOS OS CADASTROS</button>
             </div>
 
             <div class="painel-col hidden" id="coluna-formulario">
@@ -219,8 +372,11 @@
                         <div><label>Total (R$)</label><input type="text" id="m-preco" placeholder="0,00" oninput="mascaraMoeda(this)"></div>
                     </div>
                     
-                    <label>Veículo</label>
-                    <input type="text" id="m-modelo" readonly>
+                    <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:10px">
+                        <div><label>Modelo Veículo</label><input type="text" id="m-modelo" readonly></div>
+                        <div><label>Ano</label><input type="text" id="m-ano" readonly></div>
+                    </div>
+                    
                     <input type="hidden" id="m-identificacao-interna">
 
                     <label>WhatsApp do Cliente</label>
@@ -238,7 +394,7 @@
                         <div class="status-option" data-status="Pronto" onclick="setStatus(this)">Liberado</div>
                     </div>
 
-                    <label>Serviços Rapidos</label>
+                    <label>Serviços Rápidos</label>
                     <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">
                         <span class="tag-servico" onclick="addServico('Revisão')">+ Revisão</span>
                         <span class="tag-servico" onclick="addServico('Óleo')">+ Óleo</span>
@@ -272,13 +428,27 @@
     const db = firebase.database();
     const LOGIN_ADM = "adm.limacar";
     const SENHA_ADM = "1234";
-
-    // VARIÁVEL NOVA: NÚMERO DA MECÂNICA PARA O CLIENTE ENTRAR EM CONTATO
-    const WHATSAPP_MECANICA = "5511999999999"; // <-- Substitua pelo número da mecânica (com 55 e DDD)
+    const WHATSAPP_MECANICA = "5511999999999"; 
     
     let statusSelecionado = "Aguardando";
     let bancoDados = {}; let bancoSolicitacoes = {}; let fotosBase64 = [];
     let nomeClienteAtual = ""; let relatoClienteAtual = "";
+    let acaoConfirmacao = null; // Para gerenciar o que o botão SIM do modal faz
+
+    // --- BLOQUEIO BOTÃO VOLTAR MOBILE ---
+    function travarNavegacao() {
+        window.history.pushState({page: 'admin'}, 'Admin', '#admin');
+        window.onpopstate = function(event) {
+            if (!document.getElementById('view-painel').classList.contains('hidden')) {
+                window.history.pushState({page: 'admin'}, 'Admin', '#admin');
+                showAlert("🛑 Use o botão 'SAIR' para fazer logout.");
+            }
+        };
+    }
+
+    function fazerSair() {
+        location.reload();
+    }
 
     // --- ATALHOS DE TECLADO ---
     document.addEventListener('keydown', (e) => {
@@ -290,7 +460,6 @@
         if (e.key === "Enter") {
             const painelVisivel = !document.getElementById('view-painel').classList.contains('hidden');
             const formAberto = !document.getElementById('coluna-formulario').classList.contains('hidden');
-            
             if (!painelVisivel) gerenciarLogin();
             else if (formAberto && document.activeElement.id === "m-obs") salvar();
         }
@@ -306,7 +475,10 @@
     function gerenciarLogin() {
         const userDigitado = document.getElementById('login-user').value.trim().toLowerCase().replace('@','');
         const senhaDigitada = document.getElementById('login-pass').value.trim();
-        if(userDigitado === LOGIN_ADM && senhaDigitada === SENHA_ADM) irPara('view-painel');
+        if(userDigitado === LOGIN_ADM && senhaDigitada === SENHA_ADM) {
+            irPara('view-painel');
+            travarNavegacao();
+        }
         else consultarCarro();
     }
 
@@ -321,9 +493,8 @@
         db.ref('veiculos/' + placaDigitada).once('value', (snapVeiculo) => {
             const v = snapVeiculo.val();
             if(v && v.identificacao === userDigitado) {
-                // Verificação de segurança simples por senha salva no cadastro do usuário
                 db.ref('usuarios/' + userDigitado).once('value', (snapUser) => {
-                    if(snapUser.val().senha === senhaDigitada) {
+                    if(snapUser.val() && snapUser.val().senha === senhaDigitada) {
                          res.innerHTML = `
                             <div style="margin-top:20px; background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; border:1px solid var(--border)">
                                 <h3 style="color:var(--primary);">${v.modelo || 'Veículo'}</h3>
@@ -331,7 +502,6 @@
                                 <div style="margin:15px 0; color:#cbd5e1; font-size:14px; line-height:1.4">${v.obs || 'Sem observações técnicas.'}</div>
                                 ${v.fotos ? `<div class="fotos-grid" style="margin-bottom:15px">${v.fotos.map(f => `<img src="${f}" class="img-item" onclick="zoomImg('${f}')">`).join('')}</div>` : ''}
                                 <p style="color:var(--success); font-weight:900; font-size:24px">R$ ${v.preco || '0,00'}</p>
-                                
                                 <a href="https://wa.me/${WHATSAPP_MECANICA}?text=Ol%C3%A1,%20gostaria%20de%20falar%20sobre%20o%20ve%C3%ADculo%20placa%20${placaDigitada}" target="_blank" class="btn-main whatsapp-float-btn" style="margin-top:20px; text-decoration:none; justify-content:center;">💬 FALAR COM A MECÂNICA</a>
                             </div>
                             <button onclick="location.reload()" class="btn-main" style="background:none; border:1px solid #333; color:#fff; margin-top:10px">SAIR</button>`;
@@ -353,10 +523,16 @@
             container.innerHTML += `
                 <div class="solicitacao-item">
                     <div class="solicitacao-header">
-                        <div class="solicitacao-info"><b>${s.nome_cliente || 'Cliente'}</b><span>@${s.cliente_id || '---'}</span></div>
+                        <div class="solicitacao-info">
+                            <b>${s.modelo || 'Não Informado'}</b>
+                            <span>Ano: ${s.ano || '---'}</span>
+                        </div>
                         <div class="solicitacao-badge">${s.placa || 'S/P'}</div>
                     </div>
-                    <button class="btn-main" style="padding:8px; font-size:10px;" onclick="importarSolicitacao('${id}')">ATENDER AGORA</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-main" style="padding:8px; font-size:10px; flex:2;" onclick="importarSolicitacao('${id}')">ACEITAR</button>
+                        <button class="btn-main" style="padding:8px; font-size:10px; flex:1; background:var(--danger); color:#fff;" onclick="confirmarRejeitarSolicitacao('${id}')">REJEITAR</button>
+                    </div>
                 </div>`;
         });
     }
@@ -365,12 +541,10 @@
         const col = document.getElementById('coluna-formulario');
         const wrapper = document.getElementById('wrapper-animado');
         const indicador = document.getElementById('indicador-modo');
-        
         col.classList.remove('hidden');
         wrapper.classList.remove('animar-entrada');
         void wrapper.offsetWidth; 
         wrapper.classList.add('animar-entrada');
-
         if(modo === 'novo') {
             indicador.innerText = "✨ MODO: NOVO CADASTRO";
             indicador.className = "badge-modo modo-novo";
@@ -382,18 +556,14 @@
 
     function importarSolicitacao(id) {
         const s = bancoSolicitacoes[id];
-        // Prevenção de undefined
         document.getElementById('m-placa').value = s.placa || "";
-        document.getElementById('m-modelo').value = (s.modelo || "") + " " + (s.ano || "");
+        document.getElementById('m-modelo').value = s.modelo || "";
+        document.getElementById('m-ano').value = s.ano || "";
         document.getElementById('m-identificacao-interna').value = s.cliente_id || "";
-        
-        // Puxa e ativa o WhatsApp
         document.getElementById('m-zap').value = s.zap_cliente || "";
         toggleBtnWhats(s.zap_cliente || "");
-        
         nomeClienteAtual = s.nome_cliente || "Cliente";
         relatoClienteAtual = s.problema || "Não informado";
-        
         exibirRelatoCliente(nomeClienteAtual, relatoClienteAtual);
         abrirFormulario('novo');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -403,19 +573,16 @@
         const v = bancoDados[p];
         document.getElementById('m-placa').value = p;
         document.getElementById('m-modelo').value = v.modelo || "";
+        document.getElementById('m-ano').value = v.ano || "";
         document.getElementById('m-preco').value = v.preco || "0,00";
         document.getElementById('m-obs').value = v.obs || "";
         document.getElementById('m-identificacao-interna').value = v.identificacao || ""; 
         fotosBase64 = v.fotos || [];
         renderizarFotosEdicao();
-        
-        // Puxa e ativa o WhatsApp
         document.getElementById('m-zap').value = v.clienteZap || "";
         toggleBtnWhats(v.clienteZap || "");
-        
         nomeClienteAtual = v.clienteNome || "Cliente";
         relatoClienteAtual = v.clienteRelato || "Histórico de oficina";
-        
         exibirRelatoCliente(nomeClienteAtual, relatoClienteAtual);
         abrirFormulario('editar');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -427,11 +594,12 @@
 
         const dados = { 
             modelo: document.getElementById('m-modelo').value, 
+            ano: document.getElementById('m-ano').value,
             status: statusSelecionado, 
             preco: document.getElementById('m-preco').value || "0,00", 
             obs: document.getElementById('m-obs').value, 
             fotos: fotosBase64, 
-            clienteZap: document.getElementById('m-zap').value.replace(/\D/g, ""), // Salva limpo
+            clienteZap: document.getElementById('m-zap').value.replace(/\D/g, ""), 
             clienteNome: nomeClienteAtual,
             clienteRelato: relatoClienteAtual,
             identificacao: document.getElementById('m-identificacao-interna').value 
@@ -446,14 +614,14 @@
 
     function limparFormulario() {
         document.getElementById('coluna-formulario').classList.add('hidden');
-        ['m-placa','m-modelo','m-preco','m-obs','m-identificacao-interna','m-zap'].forEach(id => {
+        ['m-placa','m-modelo','m-ano','m-preco','m-obs','m-identificacao-interna','m-zap'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.value = "";
         });
         fotosBase64 = [];
         document.getElementById('preview-area').innerHTML = "";
         document.getElementById('relatorio-cliente-view').style.display = "none";
-        toggleBtnWhats(""); // Esconde o botão do WhatsApp
+        toggleBtnWhats(""); 
     }
 
     function desenharTabela(filtro = "Todos") {
@@ -471,7 +639,7 @@
             if(filtro !== "Todos" && v.status !== filtro) return;
             corpo.innerHTML += `
                 <tr>
-                    <td><b>${p}</b><br><small style="color:var(--text-dim)">${v.modelo || 'S/M'}</small></td>
+                    <td><b>${p}</b><br><small style="color:var(--text-dim)">${v.modelo || 'S/M'} ${v.ano || ''}</small></td>
                     <td><span style="color:${v.status === 'Pronto' ? 'var(--success)' : 'var(--warning)'}">${v.status}</span></td>
                     <td style="text-align:right">
                         <button onclick="prepararEdicao('${p}')" style="background:none; border:none; cursor:pointer; font-size:18px;">✏️</button>
@@ -481,11 +649,9 @@
         });
     }
 
-    // NOVA FUNÇÃO: Controla a exibição do botão do WhatsApp dinamicamente
     function toggleBtnWhats(zap) {
         const btn = document.getElementById('btn-whats-direto');
         const numeroLimpo = zap ? zap.replace(/\D/g, "") : "";
-        
         if(numeroLimpo.length >= 10) {
             btn.style.display = "flex"; 
             btn.onclick = () => {
@@ -497,7 +663,6 @@
         }
     }
 
-    // FUNÇÃO ATUALIZADA: Exibe apenas o box de relato do cliente
     function exibirRelatoCliente(nome, problema) {
         const box = document.getElementById('relatorio-cliente-view');
         if(nome && problema && problema !== "Não informado" && problema !== "Histórico de oficina") {
@@ -569,7 +734,7 @@
         statusSelecionado = el.getAttribute('data-status'); 
     }
 
-    function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; }
+    function fecharConfirm() { document.getElementById('confirm-box').style.display = 'none'; acaoConfirmacao = null; }
 
     function filtrarTabela(f, btn) { 
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); 
@@ -577,17 +742,46 @@
         desenharTabela(f); 
     }
 
-    let placaParaExcluir = null;
+    // --- SISTEMA DE CONFIRMAÇÕES ---
+    
     function confirmarExcluir(p) { 
-        placaParaExcluir = p; 
+        document.getElementById('confirm-title').innerText = "EXCLUIR VEÍCULO?";
+        document.getElementById('confirm-text').innerText = "A placa " + p + " será removida permanentemente.";
         document.getElementById('confirm-box').style.display = 'flex'; 
+        acaoConfirmacao = () => {
+            db.ref('veiculos/' + p).remove().then(() => {
+                fecharConfirm();
+                showAlert("🗑️ REMOVIDO");
+            });
+        };
+    }
+
+    function confirmarRejeitarSolicitacao(id) {
+        document.getElementById('confirm-title').innerText = "REJEITAR PEDIDO?";
+        document.getElementById('confirm-text').innerText = "Esta solicitação será apagada da fila.";
+        document.getElementById('confirm-box').style.display = 'flex'; 
+        acaoConfirmacao = () => {
+            db.ref('servicos_ativos/' + id).remove().then(() => {
+                fecharConfirm();
+                showAlert("🚫 REJEITADA");
+            });
+        };
+    }
+
+    function confirmarLimpezaGeral() {
+        document.getElementById('confirm-title').innerText = "LIMPAR TUDO?";
+        document.getElementById('confirm-text').innerText = "VOCÊ VAI APAGAR TODOS OS VEÍCULOS DO PÁTIO AGORA!";
+        document.getElementById('confirm-box').style.display = 'flex'; 
+        acaoConfirmacao = () => {
+            db.ref('veiculos').remove().then(() => {
+                fecharConfirm();
+                showAlert("💥 PÁTIO LIMPO!");
+            });
+        };
     }
 
     document.getElementById('btn-confirm-sim').onclick = () => {
-        db.ref('veiculos/' + placaParaExcluir).remove().then(() => {
-            fecharConfirm();
-            showAlert("🗑️ REMOVIDO");
-        });
+        if(acaoConfirmacao) acaoConfirmacao();
     };
 </script>
 </body>
