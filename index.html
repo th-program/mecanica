@@ -1,501 +1,506 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Mecânica Lima Car | Excelência Automotiva</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Mecânica Lima Car | Excelência Automotiva</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #002d5b; 
+            --accent-gold: #f5c400;  
+            --dark-bg: #0a0a0b;
+            --card-bg: #161b22;
+            --text-light: #f0f0f0;
+            --transition: all 0.3s ease;
+        }
 
-    <style>
-        :root {
-            --primary-blue: #002d5b; 
-            --accent-gold: #f5c400;  
-            --dark-bg: #0a0a0b;
-            --card-bg: #161b22;
-            --text-light: #f0f0f0;
-            --transition: all 0.3s ease;
-        }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; 
+        }
 
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 100px; 
-        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
-        }
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vw;
+            background: url('logo/logo.png') center/contain no-repeat;
+            opacity: 0.03; 
+            z-index: -1;
+            pointer-events: none;
+        }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            height: 60vw;
-            background: url('logo/logo.png') center/contain no-repeat;
-            opacity: 0.03; 
-            z-index: -1;
-            pointer-events: none;
-        }
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 5%; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary-blue);
+        }
 
-        header {
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 10px 5%; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid var(--primary-blue);
-        }
+        header img { 
+            height: 90px; 
+            width: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
 
-        header img { 
-            height: 90px; 
-            width: auto;
-            object-fit: contain;
-            transition: var(--transition);
-        }
+        nav a {
+            color: #fff;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        nav a {
-            color: #fff;
-            margin-left: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        nav a:hover { color: var(--accent-gold); }
+        
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,18,36,0.8), rgba(10,10,11,1)), 
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+            text-align: center;
+            padding: 40px 20px;
+        }
 
-        nav a:hover { color: var(--accent-gold); }
-        
-        .hero {
-            position: relative;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(rgba(0,18,36,0.8), rgba(10,10,11,1)), 
-                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-            text-align: center;
-            padding: 40px 20px;
-        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            color: #fff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            line-height: 1.2; 
+        }
 
-        .hero h1 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem); 
-            color: #fff;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            font-weight: 900;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            line-height: 1.2; 
-        }
+        .hero p {
+            max-width: 700px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #ccc;
+            margin-bottom: 40px;
+        }
 
-        .hero p {
-            max-width: 700px;
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            color: #ccc;
-            margin-bottom: 40px;
-        }
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-        .hero-btns {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .btn {
+            padding: 16px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 14px;
+        }
 
-        .btn {
-            padding: 16px 35px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 14px;
-        }
+        .btn-whatsapp { background: #ffdb58; color: #000 !important; }
+        .btn-consult { 
+            background: var(--primary-blue); 
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-        .btn-whatsapp { background: #ffdb58; color: #000 !important; }
-        .btn-consult { 
-            background: var(--primary-blue); 
-            color: #fff; 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 15px rgba(245, 196, 0, 0); transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0); transform: scale(1); }
+        }
 
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7); transform: scale(1); }
-            70% { box-shadow: 0 0 0 15px rgba(245, 196, 0, 0); transform: scale(1.05); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0); transform: scale(1); }
-        }
+        .pulse-animation {
+            animation: pulse-gold 1.5s infinite;
+        }
 
-        .pulse-animation {
-            animation: pulse-gold 1.5s infinite;
-        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); opacity: 0.9; }
 
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); opacity: 0.9; }
+        section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: auto;
+        }
 
-        section {
-            padding: 100px 5%;
-            max-width: 1400px;
-            margin: auto;
-        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+        .section-title h2 {
+            color: var(--accent-gold);
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
 
-        .section-title h2 {
-            color: var(--accent-gold);
-            font-size: 2.5rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
-        }
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: var(--primary-blue);
+        }
 
-        .section-title h2::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 3px;
-            background: var(--primary-blue);
-        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: var(--transition);
+        }
 
-        .card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            filter: grayscale(30%);
-            transition: var(--transition);
-        }
+        .card:hover .card-img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .card:hover .card-img { filter: grayscale(0%); transform: scale(1.05); }
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card h3 {
+            margin-bottom: 12px;
+            color: var(--accent-gold);
+            font-size: 20px;
+        }
 
-        .card h3 {
-            margin-bottom: 12px;
-            color: var(--accent-gold);
-            font-size: 20px;
-        }
+        .card p { font-size: 14px; color: #aaa; margin-bottom: 20px; }
 
-        .card p { font-size: 14px; color: #aaa; margin-bottom: 20px; }
+        .btn-agendar {
+            background: transparent;
+            color: var(--accent-gold);
+            padding: 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid var(--accent-gold);
+            text-align: center;
+            margin-top: auto;
+            transition: var(--transition);
+        }
 
-        .btn-agendar {
-            background: transparent;
-            color: var(--accent-gold);
-            padding: 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            border: 1px solid var(--accent-gold);
-            text-align: center;
-            margin-top: auto;
-            transition: var(--transition);
-        }
+        .btn-agendar:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
 
-        .btn-agendar:hover {
-            background: var(--accent-gold);
-            color: #000;
-        }
+        .location-container {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-        .location-container {
-            display: flex;
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            align-items: center;
-            flex-wrap: wrap;
-        }
+        .location-img {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background: url('fachada.jpg') center/cover no-repeat;
+            background-color: #333;
+        }
 
-        .location-img {
-            flex: 1;
-            min-width: 300px;
-            height: 400px;
-            background: url('fachada.jpg') center/cover no-repeat;
-            background-color: #333;
-        }
+        .location-info {
+            flex: 1;
+            padding: 40px;
+            min-width: 300px;
+        }
 
-        .location-info {
-            flex: 1;
-            padding: 40px;
-            min-width: 300px;
-        }
+        .location-info h3 {
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
 
-        .location-info h3 {
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
+        .location-info p {
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #ccc;
+        }
 
-        .location-info p {
-            margin-bottom: 30px;
-            font-size: 16px;
-            color: #ccc;
-        }
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid var(--primary-blue);
+        }
+        
+        .floating-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
 
-        footer {
-            background: #000;
-            text-align: center;
-            padding: 60px 20px;
-            border-top: 1px solid var(--primary-blue);
-        }
-        
-        .floating-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
-        }
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            text-decoration: none;
+        }
 
-        .float-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            color: #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: var(--transition);
-            text-decoration: none;
-        }
+        .float-btn:hover { transform: scale(1.1); }
+        .whatsapp-float { background: #25d366; }
+        .maps-float { background: #4285F4; } 
 
-        .float-btn:hover { transform: scale(1.1); }
-        .whatsapp-float { background: #25d366; }
-        .maps-float { background: #4285F4; } 
-
-        @media (max-width: 768px) {
-            header { flex-direction: column; gap: 10px; padding: 15px 5%; }
-            header img { height: 70px; } 
-            nav a { margin: 0 10px; font-size: 12px; }
-            section { padding: 60px 20px; }
-            .location-img { height: 250px; }
-        }
-    </style>
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 15px 5%; }
+            header img { height: 70px; } 
+            nav a { margin: 0 10px; font-size: 12px; }
+            section { padding: 60px 20px; }
+            .location-img { height: 250px; }
+        }
+    </style>
 </head>
-<body id="topo"> <header>
-    <img src="logo.jpg" alt="Mecânica Lima Car">
-    <nav>
-        <a href="#topo">Início</a> <a href="#servicos">Serviços</a>
-        <a href="#seguranca">Segurança</a>
-        <a href="#localidade">Localidade</a>
-        <a href="#contato">Contato</a>
-    </nav>
+
+<body id="topo"> 
+<header>
+    <img src="logo.jpg" alt="Mecânica Lima Car">
+    <nav>
+        <a href="#topo">Início</a> 
+        <a href="#servicos">Serviços</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#localidade">Localidade</a>
+        <a href="#contato">Contato</a>
+    </nav>
 </header>
 
-<section class="hero">
-    <h1>Excelência em Serviços Automotivos</h1>
-    <p>Seu carro em boas mãos: tecnologia, cuidado e confiança.</p>
-   
-    <div class="hero-btns">
-    <a class="btn btn-whatsapp" id="btn-cadastro-principal" href="cadastro.html">
-        <i class="fas fa-edit"></i> Cadastre-se
-    </a>
-    
-    <a class="btn btn-consult" href="painel.html">
-        <i class="fas fa-car"></i> Consulte seu Veículo
-    </a>
-</div>
-</section>
-    
-<section id="servicos">
-    <div class="section-title">
-        <h2>Nossos Serviços</h2>
-    </div>
+<main>
+    <section class="hero">
+        <h1>Excelência em Serviços Automotivos</h1>
+        <p>Seu carro em boas mãos: tecnologia, cuidado e confiança.</p>
+       
+        <div class="hero-btns">
+            <a class="btn btn-whatsapp" id="btn-cadastro-principal" href="cadastro.html">
+                <i class="fas fa-edit"></i> Cadastre-se
+            </a>
+            
+            <a class="btn btn-consult" href="painel.html">
+                <i class="fas fa-car"></i> Consulte seu Veículo
+            </a>
+        </div>
+    </section>
+        
+    <section id="servicos">
+        <div class="section-title">
+            <h2>Nossos Serviços</h2>
+        </div>
 
-    <div class="cards">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
-            <div class="card-body">
-                <h3>Alinhamento 3D</h3>
-                <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
-            </div>
-        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
+                <div class="card-body">
+                    <h3>Alinhamento 3D</h3>
+                    <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                </div>
+            </div>
 
-        <div class="card">
-            <img src="lubrificacao.jpg" class="card-img" alt="Troca de óleo">
-            <div class="card-body">
-                <h3>Lubrificação</h3>
-                <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
-            </div>
-        </div>
+            <div class="card">
+                <img src="lubrificacao.jpg" class="card-img" alt="Troca de óleo">
+                <div class="card-body">
+                    <h3>Lubrificação</h3>
+                    <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                </div>
+            </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
-            <div class="card-body">
-                <h3>Suspensão Curva</h3>
-                <p>Segurança e conforto térmico em qualquer terreno. Revisão completa.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
-            </div>
-        </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
+                <div class="card-body">
+                    <h3>Suspensão</h3>
+                    <p>Segurança e conforto térmico em qualquer terreno. Revisão completa.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                </div>
+            </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
-            <div class="card-body">
-                <h3>Sistema de Freios</h3>
-                <p>Pastilhas, discos e ABS. A sua segurança em primeiro lugar.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
-            </div>
-        </div>
-    </div>
-</section>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
+                <div class="card-body">
+                    <h3>Sistema de Freios</h3>
+                    <p>Pastilhas, discos e ABS. A sua segurança em primeiro lugar.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section id="seguranca" style="background: rgba(255,255,255,0.02); border-radius: 30px;">
-    <div class="section-title">
-        <h2>Prevenção & Segurança</h2>
-    </div>
+    <section id="seguranca" style="background: rgba(255,255,255,0.02); border-radius: 30px;">
+        <div class="section-title">
+            <h2>Prevenção & Segurança</h2>
+        </div>
 
-    <div class="cards">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia">
-            <div class="card-body">
-                <h3>Correia Dentada</h3>
-                <p>Evite danos catastróficos ao motor com a troca preventiva.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Verificar Minha Correia</a>
-            </div>
-        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia">
+                <div class="card-body">
+                    <h3>Correia Dentada</h3>
+                    <p>Evite danos catastróficos ao motor com a troca preventiva.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Verificar Minha Correia</a>
+                </div>
+            </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
-            <div class="card-body">
-                <h3>Check-up de Viagem</h3>
-                <p>Mais de 40 itens verificados para você viajar sem preocupações.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Solicitar Check-up</a>
-            </div>
-        </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
+                <div class="card-body">
+                    <h3>Check-up de Viagem</h3>
+                    <p>Mais de 40 itens verificados para você viajar sem preocupações.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Solicitar Check-up</a>
+                </div>
+            </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Diagnóstico">
-            <div class="card-body">
-                <h3>Diagnóstico Injeção</h3>
-                <p>Scanner automotivo de última geração para leitura de falhas.</p>
-                <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Passar Scanner</a>
-            </div>
-        </div>
-    </div>
-</section>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Diagnóstico">
+                <div class="card-body">
+                    <h3>Diagnóstico Injeção</h3>
+                    <p>Scanner automotivo de última geração para leitura de falhas.</p>
+                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Passar Scanner</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section id="localidade">
-    <div class="section-title">
-        <h2>Nossa Localização</h2>
-    </div>
-    <div class="location-container">
-        <div class="location-img"></div>
-        <div class="location-info">
-            <h3>Ambiente Profissional e Seguro</h3>
-            <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha nos visitar e comprove nossa excelência!</p>
-            <a href="https://maps.google.com" target="_blank" class="btn btn-consult" style="display: inline-flex; border: 1px solid var(--accent-gold); color: var(--accent-gold);">
-                <i class="fas fa-map-marked-alt"></i> Abrir no GPS / Maps
-            </a>
-        </div>
-    </div>
-</section>
+    <section id="localidade">
+        <div class="section-title">
+            <h2>Nossa Localização</h2>
+        </div>
+        <div class="location-container">
+            <div class="location-img"></div>
+            <div class="location-info">
+                <h3>Ambiente Profissional e Seguro</h3>
+                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha nos visitar e comprove nossa excelência!</p>
+                <a href="https://maps.google.com" target="_blank" class="btn btn-consult" style="display: inline-flex; border: 1px solid var(--accent-gold); color: var(--accent-gold);">
+                    <i class="fas fa-map-marked-alt"></i> Abrir no GPS / Maps
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
 
 <footer id="contato">
-    <div style="margin-bottom: 20px;">
-        <img src="logo.jpg" alt="Lima Car" style="height: 100px; filter: grayscale(1) brightness(2);">
-    </div>
-    <p>Mecânica Lima Car © 2026 | CNPJ: 00.000.000/0001-00</p>
-    <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px;">Excelência Automotiva e Transparência</p>
+    <div style="margin-bottom: 20px;">
+        <img src="logo.jpg" alt="Lima Car" style="height: 100px; filter: grayscale(1) brightness(2);">
+    </div>
+    <p>Mecânica Lima Car © 2026 | CNPJ: 00.000.000/0001-00</p>
+    <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px;">Excelência Automotiva e Transparência</p>
 </footer>
 
 <div class="floating-container">
-    <a href="https://maps.google.com" target="_blank" class="float-btn maps-float">
-        <i class="fas fa-location-dot"></i>
-    </a>
-    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <a href="https://maps.google.com" target="_blank" class="float-btn maps-float">
+        <i class="fas fa-location-dot"></i>
+    </a>
+    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 </div>
 
 <script>
-    function scrollAndFocus() {
-        window.scrollTo({ 
-            top: 0, 
-            behavior: 'smooth' 
-        });
-        
-        const btnCadastro = document.getElementById('btn-cadastro-principal');
-        
-        if(btnCadastro) {
-            setTimeout(() => {
-                btnCadastro.classList.add('pulse-animation');
+    function scrollAndFocus() {
+        window.scrollTo({ 
+            top: 0, 
+            behavior: 'smooth' 
+        });
+        
+        const btnCadastro = document.getElementById('btn-cadastro-principal');
+        
+        if(btnCadastro) {
+            setTimeout(() => {
+                btnCadastro.classList.add('pulse-animation');
 
-                setTimeout(() => {
-                    btnCadastro.classList.remove('pulse-animation');
-                }, 4500);
-            }, 800);
-        }
-    }
+                setTimeout(() => {
+                    btnCadastro.classList.remove('pulse-animation');
+                }, 4500);
+            }, 800);
+        }
+    }
 
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
 
-            if (targetElement) {
-                const headerOffset = 100;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 </script>
 </body>
 </html>
