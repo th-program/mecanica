@@ -74,7 +74,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Classes trazidas do outro código */
         .aviso-senha {
             background: rgba(212, 175, 55, 0.1); color: var(--primary); padding: 10px;
             border-radius: 10px; font-size: 10px; margin-top: -5px; margin-bottom: 15px;
@@ -94,21 +93,23 @@
     <section id="view-login" class="card">
         <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">1. IDENTIFICAÇÃO</h2>
         
-        <label>Nome Completo</label>
-        <input type="text" id="c-nome" placeholder="Ex: João Silva">
-        
-        <label>WhatsApp (com DDD)</label>
-        <input type="tel" id="c-zap" placeholder="11999999999">
+        <label>E-mail</label>
+        <input type="email" id="c-email" placeholder="exemplo@email.com" onblur="verificarUsuario(this.value)">
 
-        <label>Escolha um Usuário (@)</label>
-        <input type="text" id="c-user" placeholder="ex: joao.silva" style="text-transform: lowercase;">
-        
-        <label>Crie uma Senha</label>
+        <label>Sua Senha</label>
         <input type="password" id="c-pass" placeholder="••••••">
+
+        <div id="grupo-cadastro">
+            <label>Nome Completo</label>
+            <input type="text" id="c-nome" placeholder="Ex: João Silva">
+            
+            <label>WhatsApp (com DDD)</label>
+            <input type="tel" id="c-zap" placeholder="11999999999">
+        </div>
         
         <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
         
-        <button class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
+        <button id="btn-acao" class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
     </section>
 
     <section id="view-veiculo" class="card hidden">
@@ -136,25 +137,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // Gerenciador de teclas ENTER integrado
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const activeEl = document.activeElement;
-            if (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') {
-                e.preventDefault();
-                const section = activeEl.closest('section');
-                const inputs = Array.from(section.querySelectorAll('input:not([type="hidden"]), textarea'));
-                const index = inputs.indexOf(activeEl);        
-                if (index > -1 && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                } else {
-                    const btn = section.querySelector('.btn-main');
-                    if (btn) btn.click();
-                }
-            }
-        }
-    });
-
     // --- CONFIGURAÇÃO FIREBASE ---
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
@@ -168,6 +150,7 @@
     const db = firebase.database();
 
     let dadosTemporariosCliente = {};
+    let usuarioExistente = false;
 
     function showAlert(msg, color = "#ef4444") {
         const div = document.getElementById('custom-alert');
@@ -177,44 +160,68 @@
         setTimeout(() => { div.style.display = 'none'; }, 3000);
     }
 
+    // Função que sanitiza o email para usar como chave no Firebase (remove pontos)
+    function sanitizarEmail(email) {
+        return email.replace(/\./g, '_').replace(/@/g, '_at_');
+    }
+
+    // Verifica se o email já existe para esconder os campos
+    function verificarUsuario(email) {
+        if(!email.includes('@')) return;
+        
+        const emailChave = sanitizarEmail(email);
+        db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
+            const grupo = document.getElementById('grupo-cadastro');
+            const btn = document.getElementById('btn-acao');
+            
+            if (snapshot.exists()) {
+                usuarioExistente = true;
+                grupo.classList.add('hidden');
+                btn.innerText = "ENTRAR E CONTINUAR";
+            } else {
+                usuarioExistente = false;
+                grupo.classList.remove('hidden');
+                btn.innerText = "PRÓXIMO PASSO";
+            }
+        });
+    }
+
     function proximoPasso() {
-        const nome = document.getElementById('c-nome').value.trim();
-        const zap = document.getElementById('c-zap').value.replace(/\D/g, ""); // Mantém apenas números
-        const user = document.getElementById('c-user').value.trim().toLowerCase().replace('@', '');
+        const email = document.getElementById('c-email').value.trim().toLowerCase();
         const pass = document.getElementById('c-pass').value.trim();
+        const nome = document.getElementById('c-nome').value.trim();
+        const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
+        
+        const emailChave = sanitizarEmail(email);
 
-        if(!nome || !zap || !user || !pass) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS");
+        if(!email || !pass) return showAlert("⚠️ PREENCHA E-MAIL E SENHA");
 
-        // Verifica no banco se o usuário já existe
-        db.ref('usuarios/' + user).once('value').then((snapshot) => {
+        db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
             if (snapshot.exists()) {
                 const dados = snapshot.val();
                 if(dados.senha === pass) {
-                    // Usuário e senha batem: Faz login
-                    dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user };
+                    dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user: emailChave };
                     document.getElementById('msg-boas-vindas').innerText = `Bem-vindo de volta, ${dados.nome}!`;
                     mostrarTelaVeiculo();
                 } else {
-                    // Usuário existe mas senha está errada
-                    showAlert("❌ SENHA INCORRETA OU USUÁRIO EM USO");
+                    showAlert("❌ SENHA INCORRETA");
                 }
             } else {
-                // Usuário não existe: Cria novo cadastro
-                db.ref('usuarios/' + user).set({
+                // Novo Cadastro
+                if(!nome || !zap) return showAlert("⚠️ PREENCHA NOME E WHATSAPP PARA O PRIMEIRO ACESSO");
+                
+                db.ref('usuarios/' + emailChave).set({
                     nome: nome,
                     zap: zap,
                     senha: pass,
-                    identificador: "@" + user
+                    email: email
                 }).then(() => {
-                    dadosTemporariosCliente = { nome, zap, user };
+                    dadosTemporariosCliente = { nome, zap, user: emailChave };
                     document.getElementById('msg-boas-vindas').innerText = "Cadastro de perfil realizado com sucesso!";
                     mostrarTelaVeiculo();
                 });
             }
-        }).catch((e) => {
-            console.error(e);
-            showAlert("❌ ERRO DE CONEXÃO COM O BANCO");
-        });
+        }).catch(() => showAlert("❌ ERRO DE CONEXÃO"));
     }
 
     function mostrarTelaVeiculo() {
@@ -231,7 +238,6 @@
 
         if(!placa || !modelo || !ano || !problema) return showAlert("⚠️ PREENCHA OS DADOS DO VEÍCULO");
 
-        // Envia exatamente o que o script do mecânico precisa ler
         db.ref('servicos_ativos/' + placa).set({
             cliente_id: dadosTemporariosCliente.user,
             nome_cliente: dadosTemporariosCliente.nome, 
@@ -244,11 +250,10 @@
             status: "Aguardando Avaliação"
         }).then(() => {
             showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
-         setTimeout(() => {
-    window.location.href = "./index.html"; 
-}, 2000);
+            setTimeout(() => { window.location.href = "./index.html"; }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
 </script>
+
 </body>
 </html>
