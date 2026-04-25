@@ -13,11 +13,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
+        html, body {
+            height: 100%;
             background-color: #000;
             color: #fff;
-            overflow-x: hidden; /* Evita scroll lateral */
             line-height: 1.6;
+            overflow-x: hidden; /* Garante que não haja quebra lateral */
         }
 
         /* Cabeçalho */
@@ -25,31 +26,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.95);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #111;
+            border-bottom: 1px solid #222;
         }
 
         .logo img {
-            height: 50px; /* Aumentado em ~20% para destaque */
+            height: 60px; /* Aumentado em 20% para memorabilidade */
             width: auto;
+            display: block;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             text-transform: uppercase;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             transition: color 0.3s;
         }
@@ -61,46 +63,45 @@
         /* Botão Login Superior (Ghost Button) */
         .btn-login-top {
             border: 2px solid #ffcc00;
-            color: #ffcc00;
-            padding: 8px 18px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 13px;
-            transition: all 0.3s;
+            color: #ffcc00 !important; /* Força a cor do texto */
+            padding: 8px 20px;
+            border-radius: 4px;
+            background: transparent;
+            font-weight: 700;
+            transition: all 0.3s ease;
         }
 
         .btn-login-top:hover {
             background: #ffcc00;
-            color: #000;
+            color: #000 !important;
         }
 
         /* Seção Hero */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
-            /* Removido logo de fundo para limpar o visual, conforme sugerido */
-            background: radial-gradient(circle, #111 0%, #000 100%);
+            padding: 100px 20px 60px 20px; /* Padding superior para não cobrir o header */
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            max-width: 900px;
+            max-width: 1000px;
+            letter-spacing: -1px;
         }
 
         .hero p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            color: #ccc;
-            margin-bottom: 35px;
-            max-width: 700px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: #bbb;
+            margin-bottom: 40px;
+            max-width: 750px;
         }
 
         /* Container de Botões Principais */
@@ -109,141 +110,164 @@
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-        }
-
-        /* Botão Serviços (Estilizado/Transparente) */
-        .btn-services {
-            background: rgba(255, 204, 0, 0.1);
-            border: 1px solid rgba(255, 204, 0, 0.5);
-            color: #ffcc00;
-            padding: 15px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
         }
 
-        .btn-services:hover {
-            background: rgba(255, 204, 0, 0.2);
-            border-color: #ffcc00;
-        }
-
-        /* Botão Painel do Cliente (Destaque Principal) */
+        /* Botão Painel do Cliente (Destaque Principal em Azul) */
         .btn-panel {
-            background: #004080; /* Azul sólido */
+            background: #004080; 
             color: #fff;
-            padding: 15px 35px;
-            border-radius: 5px;
+            padding: 18px 40px;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0, 64, 128, 0.4);
-            transition: transform 0.2s, background 0.3s;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(0, 64, 128, 0.5);
+            transition: transform 0.3s, background 0.3s;
+            font-size: 16px;
         }
 
         .btn-panel:hover {
             background: #0059b3;
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+        }
+
+        /* Botão Serviços (Transparente Estilizado) */
+        .btn-services {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 18px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .btn-services:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
         }
 
         .hero span {
             display: block;
-            margin-top: 20px;
-            font-size: 13px;
-            font-style: italic;
-            color: #777;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+            max-width: 500px;
         }
 
         /* Balão de Conversão */
         #chat-bubble {
             position: fixed;
-            bottom: 90px;
+            bottom: 100px;
             right: 30px;
             background: #fff;
             color: #000;
-            padding: 12px 20px;
-            border-radius: 15px 15px 0 15px;
+            padding: 15px 25px;
+            border-radius: 20px 20px 5px 20px;
             font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none; /* Oculto inicialmente */
-            animation: fadeIn 0.5s ease-out;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 999;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Botões Flutuantes */
         .floating-buttons {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             z-index: 1000;
         }
 
         .float-btn {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #fff;
             text-decoration: none;
-            font-size: 24px;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
         }
 
+        .float-btn:hover { transform: scale(1.1); }
         .btn-maps { background: #4285F4; }
         .btn-wpp { background: #25D366; }
 
-        /* --- RESPONSIVIDADE (MOBILE E TABLET) --- */
+        /* --- RESPONSIVIDADE --- */
+
+        /* Tablets e Mobile */
         @media (max-width: 768px) {
             header {
-                padding: 15px 20px;
+                padding: 10px 5%;
             }
 
-            .logo img { height: 40px; }
+            .logo img { height: 48px; } /* Ajustado para não ocupar muito espaço no mobile */
 
-            nav { display: none; } /* Esconde menu texto no mobile para limpar */
+            nav a:not(.btn-login-top) {
+                display: none; /* Simplifica o menu mobile */
+            }
 
             .btn-login-top {
-                font-size: 11px;
-                padding: 6px 12px;
+                font-size: 12px;
+                padding: 6px 15px;
+            }
+
+            .hero {
+                padding-top: 120px;
             }
 
             .cta-container {
                 flex-direction: column;
                 width: 100%;
-                max-width: 300px;
+                padding: 0 20px;
             }
 
-            .btn-services, .btn-panel {
+            .btn-panel, .btn-services {
                 width: 100%;
+                max-width: 320px;
                 justify-content: center;
             }
 
             #chat-bubble {
                 right: 20px;
-                bottom: 140px;
-                font-size: 12px;
+                left: 20px; /* Centraliza no mobile */
+                bottom: 160px;
+                text-align: center;
+                border-radius: 15px;
             }
         }
 
-        /* Ajuste para Mobile Horizontal (Landscape) */
+        /* Ajuste para Mobile Horizontal (Landscape) e telas pequenas */
         @media (max-height: 500px) {
-            .hero { padding-top: 100px; height: auto; padding-bottom: 50px; }
+            .hero { 
+                height: auto; 
+                padding-top: 100px;
+                padding-bottom: 50px; 
+            }
             .hero h1 { font-size: 1.8rem; }
+            .hero p { margin-bottom: 20px; }
+            .floating-buttons { flex-direction: row; } /* Botões lado a lado para economizar altura */
         }
     </style>
 </head>
@@ -263,33 +287,36 @@
     </header>
 
     <section class="hero">
-        <h1>EXCELÊNCIA EM SERVIÇOS AUTOMOTIVOS</h1>
+        <h1>Excelência em Serviços Automotivos</h1>
         <p>Seu carro em boas mãos: tecnologia, cuidado e total transparência no diagnóstico.</p>
         
         <div class="cta-container">
-            <a href="#" class="btn-services">
-                <i>🛠</i> CONHEÇA OS NOSSOS SERVIÇOS
-            </a>
             <a href="#" class="btn-panel">
                 <i>🚗</i> PAINEL DO CLIENTE
             </a>
+            <a href="#" class="btn-services">
+                <i>🛠</i> Conheça nossos serviços
+            </a>
         </div>
 
-        <span>*Faça seu cadastro para agendar serviços e acompanhar o histórico do seu veículo.</span>
+        <span>*Faça seu login ou cadastre-se para agendar serviços e acompanhar o histórico completo do seu veículo.</span>
     </section>
 
     <div id="chat-bubble">Olá! Precisa de um orçamento rápido?</div>
 
     <div class="floating-buttons">
-        <a href="#" class="float-btn btn-maps">📍</a>
-        <a href="#" class="float-btn btn-wpp">💬</a>
+        <a href="#" class="float-btn btn-maps" title="Localização">📍</a>
+        <a href="#" class="float-btn btn-wpp" title="WhatsApp">💬</a>
     </div>
 
     <script>
-        // Script para o balão aparecer após 5 segundos
-        setTimeout(function() {
-            document.getElementById('chat-bubble').style.display = 'block';
-        }, 5000);
+        // Exibe o balão de texto após exatos 5 segundos
+        window.onload = function() {
+            setTimeout(function() {
+                const bubble = document.getElementById('chat-bubble');
+                bubble.style.display = 'block';
+            }, 5000);
+        };
     </script>
 
 </body>
