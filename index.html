@@ -36,10 +36,9 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER ATUALIZADO (Transparente e com transição) --- */
         header {
-            background: rgba(0, 0, 0, 0.6); /* Fundo transparente escuro */
-            backdrop-filter: blur(15px); /* Efeito de vidro borrado no fundo */
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(15px); 
             padding: 15px 8%; 
             display: flex;
             justify-content: space-between;
@@ -49,22 +48,20 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transition: padding 0.4s ease, background 0.4s ease; /* Animação suave */
+            transition: padding 0.4s ease, background 0.4s ease;
         }
 
-        /* Classe ativada via JavaScript quando rola a tela */
+        
         header.header-encolhido {
-            padding: 5px 8%; /* Encolhe a barra diminuindo o espaçamento */
-            background: rgba(0, 0, 0, 0.85); /* Fica um pouco mais escuro para facilitar a leitura por cima das fotos */
-        }
+            padding: 5px 8%;
+            background: rgba(0, 0, 0, 0.85);
 
         .logo-container img { 
-            height: 150px; /* AUMENTADO: Era 110px, agora 150px para mais destaque */
+            height: 150px; 
             width: auto;
-            transition: height 0.4s ease; /* Animação suave na logo */
+            transition: height 0.4s ease;
         }
 
-        /* Encolhe a logo junto com a barra */
         header.header-encolhido .logo-container img {
             height: 70px; 
         }
@@ -98,8 +95,7 @@
         }
         nav a:hover { color: var(--accent-gold); }
         nav a:hover::after { width: 100%; }
-
-        /* Botão Login Ghost */
+            
         .btn-header-login {
             background: transparent;
             color: var(--accent-gold);
@@ -121,7 +117,6 @@
             box-shadow: 0 0 15px rgba(245, 196, 0, 0.4);
         }
 
-        /* --- HERO SECTION --- */
         .hero {
             position: relative;
             min-height: 90vh;
@@ -130,7 +125,7 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
-                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+                        url('https://www.lsmaterials.co.kr/kr/images/ultracapacitor/celldule_04_01.png') center/cover no-repeat;
             text-align: center;
             padding: 40px 5%;
         }
