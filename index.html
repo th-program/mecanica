@@ -8,8 +8,8 @@
     
     <style>
         :root {
-            --primary-blue: #004080; /* Azul um pouco mais vivo */
-            --accent-gold: #ffcc00;  /* Dourado mais brilhante */
+            --primary-blue: #004080;
+            --accent-gold: #ffcc00;  
             --dark-bg: #0a0a0b;
             --card-bg: #161b22;
             --text-light: #f0f0f0;
@@ -35,19 +35,7 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            height: 60vw;
-            background: url('logo.png') center/contain no-repeat;
-            opacity: 0.03; 
-            z-index: -1;
-            pointer-events: none;
-        }
+        /* Removido o logo de fundo (body::before) para limpeza visual conforme solicitado */
 
         /* HEADER E NAVEGAÇÃO */
         header {
@@ -64,8 +52,8 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        header img { 
-            height: 70px; /* Levemente menor para mais elegância */
+        .logo-box img { 
+            height: 85px; /* Aumentado em ~20% para memorabilidade */
             width: auto;
             object-fit: contain;
             transition: var(--transition);
@@ -89,31 +77,32 @@
 
         nav a:hover { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
 
+        /* Botão Login Header - Agora estilo GHOST */
         .btn-header-cad {
-            background: var(--accent-gold);
-            color: #000 !important;
+            background: transparent; /* Transparente */
+            color: var(--accent-gold) !important;
             padding: 8px 18px;
+            border: 2px solid var(--accent-gold); /* Apenas contorno */
             border-radius: 6px;
             font-weight: 700;
             font-size: 14px;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
+            transition: var(--transition);
         }
 
         .btn-header-cad:hover {
+            background: var(--accent-gold);
+            color: #000 !important;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
-            background: #ffe066;
         }
         
         /* HERO SECTION */
         .hero {
             position: relative;
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* IMAGEM ATUALIZADA AQUI: Mais chamativa, tecnológica e premium */
             background: linear-gradient(rgba(0,18,36,0.7), rgba(10,10,11,1)), 
                         url('https://images.unsplash.com/photo-1605810730811-4da8d69a2399?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             text-align: center;
@@ -121,7 +110,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(1.5rem, 3.5vw, 2.2rem); /* Ajustado para não ficar tão massivo */
+            font-size: clamp(1.8rem, 5vw, 3rem);
             color: #fff;
             margin-bottom: 15px;
             text-transform: uppercase;
@@ -133,17 +122,16 @@
 
         .hero p {
             max-width: 700px;
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(1rem, 2vw, 1.2rem);
             color: #e0e0e0;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            margin-bottom: 35px;
         }
 
         .hero-action-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .hero-btns {
@@ -151,12 +139,6 @@
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-        }
-
-        .hero-info-text {
-            font-size: 13px;
-            color: #aaa;
-            font-style: italic;
         }
 
         .btn {
@@ -173,33 +155,30 @@
             letter-spacing: 0.5px;
         }
 
+        /* Botão Conheça nossos serviços - Estilo Ghost Yellow */
         .btn-cadastro { 
-            background: var(--accent-gold); 
-            color: #000 !important; 
-            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
+            background: transparent;
+            color: var(--accent-gold) !important;
+            border: 2px solid var(--accent-gold);
         }
         
+        /* Botão Painel do Cliente - Destaque com Borda fina */
         .btn-consult { 
-            background: rgba(0, 64, 128, 0.8); 
+            background: var(--primary-blue); 
             color: #fff; 
-            border: 1px solid var(--primary-blue);
+            border: 1px solid rgba(255,255,255,0.4); /* Borda fina para destaque */
         }
 
         .btn:hover { 
             transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
             filter: brightness(1.1);
         }
 
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.8); transform: scale(1); }
-            70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); transform: scale(1.05); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); transform: scale(1); }
-        }
-
-        .pulse-animation {
-            animation: pulse-gold 1s infinite;
-            background: #fff0b3 !important;
+        .hero-info-text {
+            font-size: 13px;
+            color: #aaa;
+            font-style: italic;
         }
 
         /* SEÇÕES E CARDS */
@@ -234,7 +213,7 @@
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
         }
 
@@ -246,20 +225,7 @@
             transition: var(--transition);
             display: flex;
             flex-direction: column;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s forwards;
         }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Aplica um delay em cada card para um efeito dinâmico bonito */
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
 
         .card:hover {
             transform: translateY(-8px);
@@ -269,28 +235,18 @@
 
         .card-img {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
-            filter: grayscale(40%) brightness(0.8);
-            transition: var(--transition);
         }
 
-        .card:hover .card-img { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
-
-        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-
-        .card h3 {
-            margin-bottom: 10px;
-            color: #fff;
-            font-size: 18px;
-        }
-
-        .card p { font-size: 14px; color: #bbb; margin-bottom: 20px; }
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card h3 { margin-bottom: 10px; color: #fff; }
+        .card p { font-size: 14.5px; color: #bbb; margin-bottom: 20px; }
 
         .btn-agendar {
             background: transparent;
             color: var(--accent-gold);
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             text-decoration: none;
             font-size: 13px;
@@ -305,10 +261,7 @@
             gap: 8px;
         }
 
-        .btn-agendar:hover {
-            background: var(--accent-gold);
-            color: #000;
-        }
+        .btn-agendar:hover { background: var(--accent-gold); color: #000; }
 
         /* LOCALIZAÇÃO */
         .location-container {
@@ -319,40 +272,16 @@
             border: 1px solid rgba(255,255,255,0.1);
             align-items: center;
             flex-wrap: wrap;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
 
-        .location-img {
-            flex: 1;
-            min-width: 300px;
-            height: 350px;
-            background: url('fachada.jpg') center/cover no-repeat;
-            background-color: #222; /* Fallback */
-        }
-
-        .location-info {
-            flex: 1;
-            padding: 40px;
-            min-width: 300px;
-        }
-
-        .location-info h3 {
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-
-        .location-info p {
-            margin-bottom: 25px;
-            font-size: 15px;
-            color: #ccc;
-        }
+        .location-img { flex: 1; min-width: 300px; height: 400px; background: #222 url('fachada.jpg') center/cover; }
+        .location-info { flex: 1; padding: 50px; min-width: 300px; }
 
         /* FOOTER & FLOATING BTNS */
         footer {
             background: #050505;
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
             border-top: 2px solid #111;
         }
         
@@ -367,24 +296,55 @@
         }
 
         .float-btn {
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 28px;
             color: #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             transition: var(--transition);
             text-decoration: none;
         }
 
-        .float-btn:hover { transform: scale(1.15); }
-        .whatsapp-float { background: #25d366; }
+        .float-btn:hover { transform: scale(1.1); }
+        .whatsapp-float { background: #25d366; position: relative; }
         .maps-float { background: #4285F4; } 
 
-        /* TOAST DE AVISO (DINÂMICA DE CADASTRO) */
+        /* BALÃO WHATSAPP (Aparece em 5s) */
+        .wa-bubble {
+            position: absolute;
+            right: 70px;
+            bottom: 10px;
+            background: white;
+            color: #333;
+            width: 200px;
+            padding: 12px;
+            border-radius: 12px 12px 0 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none; /* Inicialmente oculto */
+            animation: fadeInRight 0.5s ease-out;
+        }
+
+        .wa-bubble::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            bottom: 0;
+            border-left: 10px solid white;
+            border-top: 10px solid transparent;
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* TOAST */
         .toast {
             visibility: hidden;
             min-width: 280px;
@@ -403,23 +363,46 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid var(--accent-gold);
             opacity: 0;
-            transition: opacity 0.5s, bottom 0.5s ease-in-out;
+            transition: opacity 0.5s, bottom 0.5s;
         }
 
-        .toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-        /* RESPONSIVO */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
+        }
+        .pulse-animation { animation: pulse-gold 1s infinite; background: var(--accent-gold) !important; color: #000 !important; }
+
+        /* RESPONSIVIDADE TOTAL (PC E MOBILE) */
         @media (max-width: 850px) {
-            header { flex-direction: column; gap: 15px; padding: 15px 5%; }
-            nav { flex-wrap: wrap; justify-content: center; gap: 15px; }
-            nav a { font-size: 13px; }
-            .btn-header-cad { width: 100%; text-align: center; }
-            section { padding: 60px 20px; }
-            .location-img { height: 250px; }
+            header { 
+                flex-direction: column; 
+                padding: 15px 5%; 
+                text-align: center;
+            }
+            .logo-box img { height: 70px; margin-bottom: 10px; }
+            nav { justify-content: center; width: 100%; gap: 12px; }
+            nav a { font-size: 12px; }
+            
+            /* Ajuste do botão Login/Cadastro no mobile */
+            .btn-header-cad { 
+                width: 90%; 
+                padding: 10px; 
+                font-size: 13px; /* Proporcional conforme solicitado */
+                margin-top: 5px;
+            }
+            
+            .hero h1 { font-size: 1.8rem; }
+            .hero-btns { flex-direction: column; width: 100%; align-items: center; }
+            .btn { width: 100%; max-width: 300px; justify-content: center; }
+        }
+
+        /* Mobile Horizontal */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero { min-height: 120vh; padding-top: 120px; }
+            .hero-btns { flex-direction: row; }
         }
     </style>
 </head>
@@ -427,13 +410,17 @@
 <body id="topo"> 
 
 <header>
-    <img src="logo.jpg" alt="Mecânica Lima Car">
+    <div class="logo-box">
+        <img src="logo.jpg" alt="Mecânica Lima Car">
+    </div>
     <nav>
         <a href="#topo">Início</a> 
         <a href="#servicos">Serviços</a>
         <a href="#seguranca">Segurança</a>
         <a href="#localidade">Contato</a>
-        <a href="cadastro.html" class="btn-header-cad" id="btn-cad-header"><i class="fas fa-user-circle"></i> Cadastre-se / Login</a>
+        <a href="cadastro.html" class="btn-header-cad" id="btn-cad-header">
+            <i class="fas fa-user-circle"></i> Login / Cadastre-se
+        </a>
     </nav>
 </header>
 
@@ -441,7 +428,7 @@
     <section class="hero">
         <h1>Excelência em Serviços Automotivos</h1>
         <p>Seu carro em boas mãos: tecnologia, cuidado e total transparência no diagnóstico.</p>
-       
+        
         <div class="hero-action-area">
             <div class="hero-btns">
                 <a class="btn btn-cadastro" href="#servicos">
@@ -472,7 +459,7 @@
             </div>
 
             <div class="card">
-                <img src="lubrificacao.jpg" class="card-img" alt="Troca de óleo">
+                <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Troca de óleo">
                 <div class="card-body">
                     <h3>Lubrificação</h3>
                     <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
@@ -484,7 +471,7 @@
                 <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
                 <div class="card-body">
                     <h3>Suspensão</h3>
-                    <p>Segurança e conforto térmico em qualquer terreno. Revisão completa.</p>
+                    <p>Segurança e conforto em qualquer terreno com revisão completa do sistema.</p>
                     <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
                 </div>
             </div>
@@ -493,7 +480,7 @@
                 <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
                 <div class="card-body">
                     <h3>Sistema de Freios</h3>
-                    <p>Pastilhas, discos e ABS. A sua segurança em primeiro lugar.</p>
+                    <p>Pastilhas, discos e fluido. A sua segurança em primeiro lugar.</p>
                     <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
                 </div>
             </div>
@@ -543,7 +530,7 @@
             <div class="location-img"></div>
             <div class="location-info">
                 <h3>Ambiente Profissional e Seguro</h3>
-                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha nos visitar e comprove nossa excelência!</p>
+                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas e equipamentos de alta precisão. Venha nos visitar!</p>
                 <a href="https://maps.google.com" target="_blank" class="btn btn-consult" style="display: inline-flex; border: 1px solid var(--accent-gold); color: var(--accent-gold); background: transparent;">
                     <i class="fas fa-map-marked-alt"></i> Abrir no GPS / Maps
                 </a>
@@ -556,8 +543,7 @@
     <div style="margin-bottom: 20px;">
         <img src="logo.jpg" alt="Lima Car" style="height: 80px; filter: grayscale(1) brightness(2);">
     </div>
-    <p>Mecânica Lima Car © 2026 | CNPJ: 00.000.000/0001-00</p>
-    <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px;">Excelência Automotiva e Transparência</p>
+    <p>Mecânica Lima Car © 2026 | Excelência Automotiva e Transparência</p>
 </footer>
 
 <div class="floating-container">
@@ -565,63 +551,53 @@
         <i class="fas fa-location-dot"></i>
     </a>
     <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
+        <div id="wa-bubble" class="wa-bubble">Olá! Precisa de um orçamento rápido? 🛠️</div>
         <i class="fab fa-whatsapp"></i>
     </a>
 </div>
 
-<div id="toast" class="toast">⚠️ Faça seu cadastro rápido para solicitar e agendar serviços!</div>
+<div id="toast" class="toast">⚠️ Faça seu login ou cadastro rápido para agendar serviços!</div>
 
 <script>
-    // Função que exibe o aviso, rola para o topo e destaca APENAS o botão do Header
+    // 1. Mostrar balão do WhatsApp após 5 segundos
+    window.onload = function() {
+        setTimeout(function() {
+            const bubble = document.getElementById('wa-bubble');
+            if(bubble) bubble.style.display = 'block';
+        }, 5000);
+    };
+
+    // Função de aviso de cadastro
     function requireRegistration() {
-        // 1. Mostra a notificação
         const toast = document.getElementById("toast");
         toast.className = "toast show";
-        
-        // Esconde a notificação após 4 segundos
         setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
 
-        // 2. Rola para o topo suavemente (Direto para o header de Cadastro/Login)
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        // 3. Faz o botão do header piscar chamando a atenção
         const btnHeader = document.getElementById('btn-cad-header');
-        
         setTimeout(() => {
             if(btnHeader) btnHeader.classList.add('pulse-animation');
-
             setTimeout(() => {
                 if(btnHeader) btnHeader.classList.remove('pulse-animation');
-            }, 3000); // Para de piscar após 3 segundos
-        }, 600); // Aguarda um pouquinho a rolagem começar
+            }, 3000);
+        }, 600);
     }
 
-    // Scroll suave ajustado para funcionar em qualquer link que inicie com #
+    // Scroll suave geral
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            
-            // Impede bugs com links que tenham apenas href="#"
             if (targetId === '#') return;
-
             e.preventDefault();
             
-            if(targetId === '#topo') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
-            
-            const targetElement = document.querySelector(targetId);
-
+            const targetElement = document.querySelector(targetId === '#topo' ? 'body' : targetId);
             if (targetElement) {
                 const headerOffset = 90;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
         });
     });
