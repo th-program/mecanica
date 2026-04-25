@@ -612,6 +612,39 @@
     }
 
     document.getElementById('btn-confirm-sim').onclick = () => { if(acaoConfirmacao) acaoConfirmacao(); };
+
+    // --- CORREÇÃO: ADICIONANDO SUPORTE A TECLAS ENTER E ESC ---
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            // Se estiver na tela de login
+            if (!document.getElementById('view-cliente').classList.contains('hidden')) {
+                gerenciarLogin();
+            }
+            // Se o formulário técnico estiver aberto
+            else if (!document.getElementById('coluna-formulario').classList.contains('hidden')) {
+                salvar();
+            }
+            // Se houver uma caixa de confirmação aberta
+            if (document.getElementById('confirm-box').style.display === 'flex') {
+                if(acaoConfirmacao) acaoConfirmacao();
+            }
+        }
+        
+        if (event.key === 'Escape') {
+            // Fecha o modal de imagem primeiro
+            if (document.getElementById('img-modal').style.display === 'flex') {
+                document.getElementById('img-modal').style.display = 'none';
+            }
+            // Fecha caixa de confirmação
+            else if (document.getElementById('confirm-box').style.display === 'flex') {
+                fecharConfirm();
+            }
+            // Cancela edição/formulário se estiver aberto
+            else if (!document.getElementById('coluna-formulario').classList.contains('hidden')) {
+                limparFormulario();
+            }
+        }
+    });
 </script>
 </body>
 </html>
