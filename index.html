@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
+      :root {
             --primary-blue: #004085; 
             --accent-gold: #f5c400;  
             --dark-bg: #0d0d0e;
@@ -36,9 +36,10 @@
             overflow-x: hidden;
         }
 
+        /* --- HEADER ATUALIZADO (Transparente e com transição) --- */
         header {
-            background: rgba(0, 0, 0, 0.6); 
-            backdrop-filter: blur(15px); 
+            background: rgba(0, 0, 0, 0.6); /* Fundo transparente escuro */
+            backdrop-filter: blur(15px); /* Efeito de vidro borrado no fundo */
             padding: 15px 8%; 
             display: flex;
             justify-content: space-between;
@@ -48,20 +49,22 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transition: padding 0.4s ease, background 0.4s ease;
+            transition: padding 0.4s ease, background 0.4s ease; /* Animação suave */
         }
 
-        
+        /* Classe ativada via JavaScript quando rola a tela */
         header.header-encolhido {
-            padding: 5px 8%;
-            background: rgba(0, 0, 0, 0.85);
+            padding: 5px 8%; /* Encolhe a barra diminuindo o espaçamento */
+            background: rgba(0, 0, 0, 0.85); /* Fica um pouco mais escuro para facilitar a leitura por cima das fotos */
+        }
 
         .logo-container img { 
-            height: 150px; 
+            height: 150px; /* AUMENTADO: Era 110px, agora 150px para mais destaque */
             width: auto;
-            transition: height 0.4s ease;
+            transition: height 0.4s ease; /* Animação suave na logo */
         }
 
+        /* Encolhe a logo junto com a barra */
         header.header-encolhido .logo-container img {
             height: 70px; 
         }
@@ -95,7 +98,8 @@
         }
         nav a:hover { color: var(--accent-gold); }
         nav a:hover::after { width: 100%; }
-            
+
+        /* Botão Login Ghost */
         .btn-header-login {
             background: transparent;
             color: var(--accent-gold);
@@ -117,6 +121,7 @@
             box-shadow: 0 0 15px rgba(245, 196, 0, 0.4);
         }
 
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
             min-height: 90vh;
