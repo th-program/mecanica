@@ -1,606 +1,296 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Mecânica Lima Car | Excelência Automotiva</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>Mecânica Lima Car</title>
     <style>
-        :root {
-            --primary-blue: #004080;
-            --accent-gold: #ffcc00;  
-            --dark-bg: #0a0a0b;
-            --card-bg: #161b22;
-            --text-light: #f0f0f0;
-            --transition: all 0.3s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 100px; 
-        }
-
+        /* Reset e Configurações Gerais */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden; /* Evita scroll lateral */
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* Removido o logo de fundo (body::before) para limpeza visual conforme solicitado */
-
-        /* HEADER E NAVEGAÇÃO */
+        /* Cabeçalho */
         header {
-            background: rgba(10, 10, 11, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 10px 5%; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            padding: 20px 5%;
+            background: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 2px solid var(--primary-blue);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid #111;
         }
 
-        .logo-box img { 
-            height: 85px; /* Aumentado em ~20% para memorabilidade */
+        .logo img {
+            height: 50px; /* Aumentado em ~20% para destaque */
             width: auto;
-            object-fit: contain;
-            transition: var(--transition);
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
-            transition: var(--transition);
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        nav a:hover { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
-
-        /* Botão Login Header - Agora estilo GHOST */
-        .btn-header-cad {
-            background: transparent; /* Transparente */
-            color: var(--accent-gold) !important;
-            padding: 8px 18px;
-            border: 2px solid var(--accent-gold); /* Apenas contorno */
-            border-radius: 6px;
-            font-weight: 700;
             font-size: 14px;
-            transition: var(--transition);
+            font-weight: 600;
+            transition: color 0.3s;
         }
 
-        .btn-header-cad:hover {
-            background: var(--accent-gold);
-            color: #000 !important;
-            transform: scale(1.05);
+        nav a:hover {
+            color: #ffcc00;
         }
-        
-        /* HERO SECTION */
+
+        /* Botão Login Superior (Ghost Button) */
+        .btn-login-top {
+            border: 2px solid #ffcc00;
+            color: #ffcc00;
+            padding: 8px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .btn-login-top:hover {
+            background: #ffcc00;
+            color: #000;
+        }
+
+        /* Seção Hero */
         .hero {
-            position: relative;
-            min-height: 85vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(0,18,36,0.7), rgba(10,10,11,1)), 
-                        url('https://images.unsplash.com/photo-1605810730811-4da8d69a2399?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             text-align: center;
-            padding: 40px 20px;
+            padding: 0 20px;
+            /* Removido logo de fundo para limpar o visual, conforme sugerido */
+            background: radial-gradient(circle, #111 0%, #000 100%);
         }
 
         .hero h1 {
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            color: #fff;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
             margin-bottom: 15px;
             text-transform: uppercase;
-            font-weight: 900;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
-            line-height: 1.2; 
             max-width: 900px;
         }
 
         .hero p {
-            max-width: 700px;
             font-size: clamp(1rem, 2vw, 1.2rem);
-            color: #e0e0e0;
+            color: #ccc;
             margin-bottom: 35px;
+            max-width: 700px;
         }
 
-        .hero-action-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .hero-btns {
+        /* Container de Botões Principais */
+        .cta-container {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .btn {
+        /* Botão Serviços (Estilizado/Transparente) */
+        .btn-services {
+            background: rgba(255, 204, 0, 0.1);
+            border: 1px solid rgba(255, 204, 0, 0.5);
+            color: #ffcc00;
             padding: 15px 30px;
+            border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
-            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.5px;
+            transition: all 0.3s;
         }
 
-        /* Botão Conheça nossos serviços - Estilo Ghost Yellow */
-        .btn-cadastro { 
-            background: transparent;
-            color: var(--accent-gold) !important;
-            border: 2px solid var(--accent-gold);
-        }
-        
-        /* Botão Painel do Cliente - Destaque com Borda fina */
-        .btn-consult { 
-            background: var(--primary-blue); 
-            color: #fff; 
-            border: 1px solid rgba(255,255,255,0.4); /* Borda fina para destaque */
+        .btn-services:hover {
+            background: rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
         }
 
-        .btn:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
-            filter: brightness(1.1);
-        }
-
-        .hero-info-text {
-            font-size: 13px;
-            color: #aaa;
-            font-style: italic;
-        }
-
-        /* SEÇÕES E CARDS */
-        section {
-            padding: 80px 5%;
-            max-width: 1400px;
-            margin: auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            color: var(--accent-gold);
-            font-size: 2.2rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .section-title h2::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 15%;
-            width: 70%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-gold);
-            box-shadow: 0 10px 30px rgba(0, 64, 128, 0.4);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card h3 { margin-bottom: 10px; color: #fff; }
-        .card p { font-size: 14.5px; color: #bbb; margin-bottom: 20px; }
-
-        .btn-agendar {
-            background: transparent;
-            color: var(--accent-gold);
-            padding: 12px;
-            border-radius: 6px;
+        /* Botão Painel do Cliente (Destaque Principal) */
+        .btn-panel {
+            background: #004080; /* Azul sólido */
+            color: #fff;
+            padding: 15px 35px;
+            border-radius: 5px;
             text-decoration: none;
-            font-size: 13px;
             font-weight: bold;
-            border: 1px solid var(--accent-gold);
-            text-align: center;
-            margin-top: auto;
-            transition: var(--transition);
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 64, 128, 0.4);
+            transition: transform 0.2s, background 0.3s;
         }
 
-        .btn-agendar:hover { background: var(--accent-gold); color: #000; }
-
-        /* LOCALIZAÇÃO */
-        .location-container {
-            display: flex;
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            align-items: center;
-            flex-wrap: wrap;
+        .btn-panel:hover {
+            background: #0059b3;
+            transform: translateY(-3px);
         }
 
-        .location-img { flex: 1; min-width: 300px; height: 400px; background: #222 url('fachada.jpg') center/cover; }
-        .location-info { flex: 1; padding: 50px; min-width: 300px; }
-
-        /* FOOTER & FLOATING BTNS */
-        footer {
-            background: #050505;
-            text-align: center;
-            padding: 60px 20px;
-            border-top: 2px solid #111;
+        .hero span {
+            display: block;
+            margin-top: 20px;
+            font-size: 13px;
+            font-style: italic;
+            color: #777;
         }
-        
-        .floating-container {
+
+        /* Balão de Conversão */
+        #chat-bubble {
             position: fixed;
-            bottom: 30px;
+            bottom: 90px;
             right: 30px;
+            background: #fff;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 15px 15px 0 15px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none; /* Oculto inicialmente */
+            animation: fadeIn 0.5s ease-out;
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botões Flutuantes */
+        .floating-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             z-index: 1000;
         }
 
         .float-btn {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
             color: #fff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transition: var(--transition);
             text-decoration: none;
+            font-size: 24px;
         }
 
-        .float-btn:hover { transform: scale(1.1); }
-        .whatsapp-float { background: #25d366; position: relative; }
-        .maps-float { background: #4285F4; } 
+        .btn-maps { background: #4285F4; }
+        .btn-wpp { background: #25D366; }
 
-        /* BALÃO WHATSAPP (Aparece em 5s) */
-        .wa-bubble {
-            position: absolute;
-            right: 70px;
-            bottom: 10px;
-            background: white;
-            color: #333;
-            width: 200px;
-            padding: 12px;
-            border-radius: 12px 12px 0 12px;
-            font-size: 13px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none; /* Inicialmente oculto */
-            animation: fadeInRight 0.5s ease-out;
-        }
-
-        .wa-bubble::after {
-            content: '';
-            position: absolute;
-            right: -8px;
-            bottom: 0;
-            border-left: 10px solid white;
-            border-top: 10px solid transparent;
-        }
-
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* TOAST */
-        .toast {
-            visibility: hidden;
-            min-width: 280px;
-            background-color: var(--primary-blue);
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 16px;
-            position: fixed;
-            z-index: 2000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 15px;
-            font-weight: bold;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            border: 1px solid var(--accent-gold);
-            opacity: 0;
-            transition: opacity 0.5s, bottom 0.5s;
-        }
-
-        .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
-        }
-        .pulse-animation { animation: pulse-gold 1s infinite; background: var(--accent-gold) !important; color: #000 !important; }
-
-        /* RESPONSIVIDADE TOTAL (PC E MOBILE) */
-        @media (max-width: 850px) {
-            header { 
-                flex-direction: column; 
-                padding: 15px 5%; 
-                text-align: center;
+        /* --- RESPONSIVIDADE (MOBILE E TABLET) --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
             }
-            .logo-box img { height: 70px; margin-bottom: 10px; }
-            nav { justify-content: center; width: 100%; gap: 12px; }
-            nav a { font-size: 12px; }
-            
-            /* Ajuste do botão Login/Cadastro no mobile */
-            .btn-header-cad { 
-                width: 90%; 
-                padding: 10px; 
-                font-size: 13px; /* Proporcional conforme solicitado */
-                margin-top: 5px;
+
+            .logo img { height: 40px; }
+
+            nav { display: none; } /* Esconde menu texto no mobile para limpar */
+
+            .btn-login-top {
+                font-size: 11px;
+                padding: 6px 12px;
             }
-            
+
+            .cta-container {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn-services, .btn-panel {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #chat-bubble {
+                right: 20px;
+                bottom: 140px;
+                font-size: 12px;
+            }
+        }
+
+        /* Ajuste para Mobile Horizontal (Landscape) */
+        @media (max-height: 500px) {
+            .hero { padding-top: 100px; height: auto; padding-bottom: 50px; }
             .hero h1 { font-size: 1.8rem; }
-            .hero-btns { flex-direction: column; width: 100%; align-items: center; }
-            .btn { width: 100%; max-width: 300px; justify-content: center; }
-        }
-
-        /* Mobile Horizontal */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .hero { min-height: 120vh; padding-top: 120px; }
-            .hero-btns { flex-direction: row; }
         }
     </style>
 </head>
+<body>
 
-<body id="topo"> 
+    <header>
+        <div class="logo">
+            <img src="logo-lima-car.png" alt="Mecânica Lima Car">
+        </div>
+        <nav>
+            <a href="#">Início</a>
+            <a href="#">Serviços</a>
+            <a href="#">Segurança</a>
+            <a href="#">Contato</a>
+            <a href="#" class="btn-login-top">LOGIN / CADASTRE-SE</a>
+        </nav>
+    </header>
 
-<header>
-    <div class="logo-box">
-        <img src="logo.jpg" alt="Mecânica Lima Car">
-    </div>
-    <nav>
-        <a href="#topo">Início</a> 
-        <a href="#servicos">Serviços</a>
-        <a href="#seguranca">Segurança</a>
-        <a href="#localidade">Contato</a>
-        <a href="cadastro.html" class="btn-header-cad" id="btn-cad-header">
-            <i class="fas fa-user-circle"></i> Login / Cadastre-se
-        </a>
-    </nav>
-</header>
-
-<main>
     <section class="hero">
-        <h1>Excelência em Serviços Automotivos</h1>
+        <h1>EXCELÊNCIA EM SERVIÇOS AUTOMOTIVOS</h1>
         <p>Seu carro em boas mãos: tecnologia, cuidado e total transparência no diagnóstico.</p>
         
-        <div class="hero-action-area">
-            <div class="hero-btns">
-                <a class="btn btn-cadastro" href="#servicos">
-                    <i class="fas fa-tools"></i> Conheça os nossos serviços
-                </a>
-                
-                <a class="btn btn-consult" href="painel.html">
-                    <i class="fas fa-car"></i> Painel do Cliente
-                </a>
-            </div>
-            <span class="hero-info-text">*Faça seu cadastro para agendar serviços e acompanhar o histórico do seu veículo.</span>
-        </div>
-    </section>
-        
-    <section id="servicos">
-        <div class="section-title">
-            <h2>Nossos Serviços</h2>
+        <div class="cta-container">
+            <a href="#" class="btn-services">
+                <i>🛠</i> CONHEÇA OS NOSSOS SERVIÇOS
+            </a>
+            <a href="#" class="btn-panel">
+                <i>🚗</i> PAINEL DO CLIENTE
+            </a>
         </div>
 
-        <div class="cards">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
-                <div class="card-body">
-                    <h3>Alinhamento 3D</h3>
-                    <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Troca de óleo">
-                <div class="card-body">
-                    <h3>Lubrificação</h3>
-                    <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
-                <div class="card-body">
-                    <h3>Suspensão</h3>
-                    <p>Segurança e conforto em qualquer terreno com revisão completa do sistema.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
-                <div class="card-body">
-                    <h3>Sistema de Freios</h3>
-                    <p>Pastilhas, discos e fluido. A sua segurança em primeiro lugar.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="far fa-calendar-check"></i> Agendar Serviço</a>
-                </div>
-            </div>
-        </div>
+        <span>*Faça seu cadastro para agendar serviços e acompanhar o histórico do seu veículo.</span>
     </section>
 
-    <section id="seguranca" style="background: rgba(255,255,255,0.02); border-radius: 20px;">
-        <div class="section-title">
-            <h2>Prevenção & Segurança</h2>
-        </div>
+    <div id="chat-bubble">Olá! Precisa de um orçamento rápido?</div>
 
-        <div class="cards">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia">
-                <div class="card-body">
-                    <h3>Correia Dentada</h3>
-                    <p>Evite danos catastróficos ao motor com a troca preventiva.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="fas fa-wrench"></i> Solicitar Revisão</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
-                <div class="card-body">
-                    <h3>Check-up de Viagem</h3>
-                    <p>Mais de 40 itens verificados para você viajar sem preocupações.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="fas fa-car-side"></i> Marcar Check-up</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Diagnóstico">
-                <div class="card-body">
-                    <h3>Diagnóstico Injeção</h3>
-                    <p>Scanner automotivo de última geração para leitura de falhas.</p>
-                    <a href="javascript:void(0)" onclick="requireRegistration()" class="btn-agendar"><i class="fas fa-desktop"></i> Passar Scanner</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="localidade">
-        <div class="section-title">
-            <h2>Nossa Localização</h2>
-        </div>
-        <div class="location-container">
-            <div class="location-img"></div>
-            <div class="location-info">
-                <h3>Ambiente Profissional e Seguro</h3>
-                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas e equipamentos de alta precisão. Venha nos visitar!</p>
-                <a href="https://maps.google.com" target="_blank" class="btn btn-consult" style="display: inline-flex; border: 1px solid var(--accent-gold); color: var(--accent-gold); background: transparent;">
-                    <i class="fas fa-map-marked-alt"></i> Abrir no GPS / Maps
-                </a>
-            </div>
-        </div>
-    </section>
-</main>
-
-<footer id="contato">
-    <div style="margin-bottom: 20px;">
-        <img src="logo.jpg" alt="Lima Car" style="height: 80px; filter: grayscale(1) brightness(2);">
+    <div class="floating-buttons">
+        <a href="#" class="float-btn btn-maps">📍</a>
+        <a href="#" class="float-btn btn-wpp">💬</a>
     </div>
-    <p>Mecânica Lima Car © 2026 | Excelência Automotiva e Transparência</p>
-</footer>
 
-<div class="floating-container">
-    <a href="https://maps.google.com" target="_blank" class="float-btn maps-float">
-        <i class="fas fa-location-dot"></i>
-    </a>
-    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
-        <div id="wa-bubble" class="wa-bubble">Olá! Precisa de um orçamento rápido? 🛠️</div>
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</div>
-
-<div id="toast" class="toast">⚠️ Faça seu login ou cadastro rápido para agendar serviços!</div>
-
-<script>
-    // 1. Mostrar balão do WhatsApp após 5 segundos
-    window.onload = function() {
+    <script>
+        // Script para o balão aparecer após 5 segundos
         setTimeout(function() {
-            const bubble = document.getElementById('wa-bubble');
-            if(bubble) bubble.style.display = 'block';
+            document.getElementById('chat-bubble').style.display = 'block';
         }, 5000);
-    };
+    </script>
 
-    // Função de aviso de cadastro
-    function requireRegistration() {
-        const toast = document.getElementById("toast");
-        toast.className = "toast show";
-        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        const btnHeader = document.getElementById('btn-cad-header');
-        setTimeout(() => {
-            if(btnHeader) btnHeader.classList.add('pulse-animation');
-            setTimeout(() => {
-                if(btnHeader) btnHeader.classList.remove('pulse-animation');
-            }, 3000);
-        }, 600);
-    }
-
-    // Scroll suave geral
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            e.preventDefault();
-            
-            const targetElement = document.querySelector(targetId === '#topo' ? 'body' : targetId);
-            if (targetElement) {
-                const headerOffset = 90;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }
-        });
-    });
-</script>
 </body>
 </html>
