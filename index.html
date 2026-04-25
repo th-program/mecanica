@@ -19,7 +19,7 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 90px; /* Ajuste para o header fixo não cobrir os títulos */
+            scroll-padding-top: 90px;
         }
 
         * {
@@ -36,10 +36,10 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER ATUALIZADO --- */
+        /* --- HEADER ATUALIZADO (Transparente e com transição) --- */
         header {
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.6); /* Fundo transparente escuro */
+            backdrop-filter: blur(15px); /* Efeito de vidro borrado no fundo */
             padding: 15px 8%; 
             display: flex;
             justify-content: space-between;
@@ -49,12 +49,24 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: padding 0.4s ease, background 0.4s ease; /* Animação suave */
+        }
+
+        /* Classe ativada via JavaScript quando rola a tela */
+        header.header-encolhido {
+            padding: 5px 8%; /* Encolhe a barra diminuindo o espaçamento */
+            background: rgba(0, 0, 0, 0.85); /* Fica um pouco mais escuro para facilitar a leitura por cima das fotos */
         }
 
         .logo-container img { 
-            height: 110px; 
+            height: 150px; /* AUMENTADO: Era 110px, agora 150px para mais destaque */
             width: auto;
-            transition: var(--transition);
+            transition: height 0.4s ease; /* Animação suave na logo */
+        }
+
+        /* Encolhe a logo junto com a barra */
+        header.header-encolhido .logo-container img {
+            height: 70px; 
         }
 
         .header-right {
@@ -319,7 +331,7 @@
         /* --- BALÃO DE ORÇAMENTO --- */
         #budget-bubble {
             position: fixed;
-            bottom: 170px; /* Ajustado para ficar acima dos botões flutuantes */
+            bottom: 170px; 
             right: 35px;
             background: #fff;
             color: #333;
@@ -392,10 +404,14 @@
 
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 20px; }
+            header.header-encolhido { padding: 10px; } /* Ajuste no mobile */
+            
             .header-right { flex-direction: column; width: 100%; gap: 15px; }
             nav { justify-content: center; width: 100%; flex-wrap: wrap; }
             .btn-header-login { width: 100%; justify-content: center; }
-            .logo-container img { height: 80px; }
+            
+            .logo-container img { height: 100px; } /* Logo também maior no mobile */
+            header.header-encolhido .logo-container img { height: 60px; }
 
             .hero h1 { font-size: 2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
@@ -624,7 +640,7 @@
         setTimeout(function() {
             bubble.classList.add('show');
             
-            // Fazer o balão sumir sozinho após 6 segundos visível (se o usuário não clicar antes)
+            // Fazer o balão sumir sozinho após 6 segundos visível
             hideTimeout = setTimeout(function() {
                 bubble.classList.remove('show');
             }, 6000); 
@@ -635,7 +651,18 @@
         document.addEventListener('click', function() {
             if (bubble.classList.contains('show')) {
                 bubble.classList.remove('show');
-                clearTimeout(hideTimeout); // Cancela o timer para evitar bugs
+                clearTimeout(hideTimeout);
+            }
+        });
+
+        // NOVO CÓDIGO: Efeito de encolher o header no scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            // Se rolar mais de 50 pixels, adiciona a classe que encolhe a barra
+            if (window.scrollY > 50) {
+                header.classList.add('header-encolhido');
+            } else {
+                header.classList.remove('header-encolhido');
             }
         });
     });
