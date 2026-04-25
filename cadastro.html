@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Mecânica Lima Car | Cadastro de Serviço</title>
+    <title>Mecânica Lima Car | Acesso</title>
     <style>
-        /* CSS SINCRONIZADO COM A PÁGINA DE ACESSO */
         :root { 
             --bg: #000814;
             --card-bg: rgba(255, 255, 255, 0.03);
@@ -61,6 +60,16 @@
             box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2);
         }
 
+        .btn-main:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        .toggle-mode {
+            text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-dim);
+        }
+
+        .toggle-mode span {
+            color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline;
+        }
+
         .btn-home-fixed {
             position: fixed; top: 20px; left: 20px; text-decoration: none; color: var(--text-dim);
             font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; z-index: 1000;
@@ -75,9 +84,9 @@
         }
 
         .aviso-senha {
-            background: rgba(212, 175, 55, 0.1); color: var(--primary); padding: 10px;
-            border-radius: 10px; font-size: 10px; margin-top: -5px; margin-bottom: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; font-weight: bold;
+            background: rgba(212, 175, 55, 0.05); color: var(--text-dim); padding: 10px;
+            border-radius: 10px; font-size: 11px; margin-bottom: 15px;
+            border: 1px dotted var(--border); text-align: center;
         }
         .welcome-msg { color: var(--success); text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
     </style>
@@ -91,30 +100,34 @@
     <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
 
     <section id="view-login" class="card">
-        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">1. IDENTIFICAÇÃO</h2>
+        <h2 id="titulo-acesso" style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:20px; letter-spacing: 1px;">FAÇA LOGIN</h2>
         
-        <label>E-mail</label>
-        <input type="email" id="c-email" placeholder="exemplo@email.com" onblur="verificarUsuario(this.value)">
-
-        <label>Sua Senha</label>
-        <input type="password" id="c-pass" placeholder="••••••">
-
-        <div id="grupo-cadastro">
+        <div id="campos-cadastro" class="hidden">
             <label>Nome Completo</label>
             <input type="text" id="c-nome" placeholder="Ex: João Silva">
             
             <label>WhatsApp (com DDD)</label>
             <input type="tel" id="c-zap" placeholder="11999999999">
         </div>
+
+        <label>E-mail</label>
+        <input type="email" id="c-email" placeholder="exemplo@email.com">
+
+        <label>Sua Senha</label>
+        <input type="password" id="c-pass" placeholder="••••••">
         
-        <div class="aviso-senha">Sua identificação e senha serão usadas para consultar seus serviços futuros.</div>
+        <div class="aviso-senha">Protegemos seus dados com criptografia de ponta a ponta.</div>
         
-        <button id="btn-acao" class="btn-main" onclick="proximoPasso()">PRÓXIMO PASSO</button>
+        <button id="btn-acao" class="btn-main" onclick="processarAcesso()">ENTRAR NO SISTEMA</button>
+
+        <div class="toggle-mode" id="container-toggle">
+            Ainda não tem conta? <span onclick="alternarModo('cadastro')">Se cadastrar</span>
+        </div>
     </section>
 
     <section id="view-veiculo" class="card hidden">
         <div id="msg-boas-vindas" class="welcome-msg"></div>
-        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">2. DETALHES DO VEÍCULO</h2>
+        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">DETALHES DO VEÍCULO</h2>
         
         <label>Placa</label>
         <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
@@ -129,7 +142,7 @@
         <textarea id="c-problema" rows="4" placeholder="Descreva o problema..."></textarea>
         
         <button class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
-        <button onclick="location.reload()" style="background:none; border:none; color:var(--text-dim); width:100%; margin-top:15px; cursor:pointer; font-size:11px;">VOLTAR</button>
+        <button onclick="location.reload()" style="background:none; border:none; color:var(--text-dim); width:100%; margin-top:15px; cursor:pointer; font-size:11px;">VOLTAR PARA IDENTIFICAÇÃO</button>
     </section>
 </div>
 
@@ -150,7 +163,7 @@
     const db = firebase.database();
 
     let dadosTemporariosCliente = {};
-    let usuarioExistente = false;
+    let modoAtual = 'login'; // 'login' ou 'cadastro'
 
     function showAlert(msg, color = "#ef4444") {
         const div = document.getElementById('custom-alert');
@@ -160,68 +173,78 @@
         setTimeout(() => { div.style.display = 'none'; }, 3000);
     }
 
-    // Função que sanitiza o email para usar como chave no Firebase (remove pontos)
     function sanitizarEmail(email) {
         return email.replace(/\./g, '_').replace(/@/g, '_at_');
     }
 
-    // Verifica se o email já existe para esconder os campos
-    function verificarUsuario(email) {
-        if(!email.includes('@')) return;
-        
-        const emailChave = sanitizarEmail(email);
-        db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
-            const grupo = document.getElementById('grupo-cadastro');
-            const btn = document.getElementById('btn-acao');
-            
-            if (snapshot.exists()) {
-                usuarioExistente = true;
-                grupo.classList.add('hidden');
-                btn.innerText = "ENTRAR E CONTINUAR";
-            } else {
-                usuarioExistente = false;
-                grupo.classList.remove('hidden');
-                btn.innerText = "PRÓXIMO PASSO";
-            }
-        });
+    // ALTERNA ENTRE LOGIN E CADASTRO
+    function alternarModo(novoModo) {
+        modoAtual = novoModo;
+        const camposCadastro = document.getElementById('campos-cadastro');
+        const titulo = document.getElementById('titulo-acesso');
+        const btn = document.getElementById('btn-acao');
+        const toggleContainer = document.getElementById('container-toggle');
+
+        if (novoModo === 'cadastro') {
+            camposCadastro.classList.remove('hidden');
+            titulo.innerText = "CRIAR NOVA CONTA";
+            btn.innerText = "CADASTRAR E CONTINUAR";
+            toggleContainer.innerHTML = 'Já possui conta? <span onclick="alternarModo(\'login\')">Fazer Login</span>';
+        } else {
+            camposCadastro.classList.add('hidden');
+            titulo.innerText = "FAÇA LOGIN";
+            btn.innerText = "ENTRAR NO SISTEMA";
+            toggleContainer.innerHTML = 'Ainda não tem conta? <span onclick="alternarModo(\'cadastro\')">Se cadastrar</span>';
+        }
     }
 
-    function proximoPasso() {
+    function processarAcesso() {
         const email = document.getElementById('c-email').value.trim().toLowerCase();
         const pass = document.getElementById('c-pass').value.trim();
-        const nome = document.getElementById('c-nome').value.trim();
-        const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
-        
         const emailChave = sanitizarEmail(email);
 
         if(!email || !pass) return showAlert("⚠️ PREENCHA E-MAIL E SENHA");
 
-        db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
-            if (snapshot.exists()) {
-                const dados = snapshot.val();
-                if(dados.senha === pass) {
-                    dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user: emailChave };
-                    document.getElementById('msg-boas-vindas').innerText = `Bem-vindo de volta, ${dados.nome}!`;
-                    mostrarTelaVeiculo();
+        if (modoAtual === 'login') {
+            // LÓGICA DE LOGIN
+            db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const dados = snapshot.val();
+                    if(dados.senha === pass) {
+                        dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user: emailChave };
+                        document.getElementById('msg-boas-vindas').innerText = `Bem-vindo de volta, ${dados.nome}!`;
+                        mostrarTelaVeiculo();
+                    } else {
+                        showAlert("❌ SENHA INCORRETA");
+                    }
                 } else {
-                    showAlert("❌ SENHA INCORRETA");
+                    showAlert("❌ E-MAIL NÃO ENCONTRADO. CLIQUE EM SE CADASTRAR.");
                 }
-            } else {
-                // Novo Cadastro
-                if(!nome || !zap) return showAlert("⚠️ PREENCHA NOME E WHATSAPP PARA O PRIMEIRO ACESSO");
-                
-                db.ref('usuarios/' + emailChave).set({
-                    nome: nome,
-                    zap: zap,
-                    senha: pass,
-                    email: email
-                }).then(() => {
-                    dadosTemporariosCliente = { nome, zap, user: emailChave };
-                    document.getElementById('msg-boas-vindas').innerText = "Cadastro de perfil realizado com sucesso!";
-                    mostrarTelaVeiculo();
-                });
-            }
-        }).catch(() => showAlert("❌ ERRO DE CONEXÃO"));
+            });
+        } else {
+            // LÓGICA DE NOVO CADASTRO
+            const nome = document.getElementById('c-nome').value.trim();
+            const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
+
+            if(!nome || !zap) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS PARA CADASTRO");
+
+            db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
+                if(snapshot.exists()) {
+                    showAlert("⚠️ ESTE E-MAIL JÁ POSSUI CADASTRO.");
+                } else {
+                    db.ref('usuarios/' + emailChave).set({
+                        nome: nome,
+                        zap: zap,
+                        senha: pass,
+                        email: email
+                    }).then(() => {
+                        dadosTemporariosCliente = { nome, zap, user: emailChave };
+                        document.getElementById('msg-boas-vindas').innerText = "Conta criada com sucesso!";
+                        mostrarTelaVeiculo();
+                    });
+                }
+            });
+        }
     }
 
     function mostrarTelaVeiculo() {
@@ -250,7 +273,7 @@
             status: "Aguardando Avaliação"
         }).then(() => {
             showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
-            setTimeout(() => { window.location.href = "./index.html"; }, 2000);
+            setTimeout(() => { window.location.href = "index.html"; }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
 </script>
