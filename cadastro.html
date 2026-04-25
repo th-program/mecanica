@@ -206,7 +206,6 @@
         if(!email || !pass) return showAlert("⚠️ PREENCHA E-MAIL E SENHA");
 
         if (modoAtual === 'login') {
-            // LÓGICA DE LOGIN
             db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
                 if (snapshot.exists()) {
                     const dados = snapshot.val();
@@ -222,7 +221,6 @@
                 }
             });
         } else {
-            // LÓGICA DE NOVO CADASTRO
             const nome = document.getElementById('c-nome').value.trim();
             const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
 
@@ -276,6 +274,26 @@
             setTimeout(() => { window.location.href = "index.html"; }, 2000);
         }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
     }
+
+    // --- ADICIONADO: SUPORTE AO TECLADO (ENTER e ESC) ---
+    document.addEventListener('keydown', function(event) {
+        // Se pressionar ENTER
+        if (event.key === 'Enter') {
+            const loginVisivel = !document.getElementById('view-login').classList.contains('hidden');
+            const veiculoVisivel = !document.getElementById('view-veiculo').classList.contains('hidden');
+
+            if (loginVisivel) {
+                processarAcesso();
+            } else if (veiculoVisivel) {
+                finalizarCadastro();
+            }
+        }
+
+        // Se pressionar ESC (funciona como botão voltar/reset)
+        if (event.key === 'Escape') {
+            location.reload();
+        }
+    });
 </script>
 
 </body>
