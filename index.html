@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap');
+
         :root {
             --primary-blue: #002d5b; 
             --accent-gold: #f5c400;  
@@ -18,14 +20,14 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 100px; 
+            scroll-padding-top: 90px; 
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         body {
@@ -33,26 +35,39 @@
             color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Textura de fundo estilo "Duckbill", mas com tema automotivo */
         body::before {
             content: "";
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            height: 60vw;
-            background: url('logo.png') center/contain no-repeat;
-            opacity: 0.03; 
-            z-index: -1;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(245, 196, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 45, 91, 0.05) 0%, transparent 50%);
+            z-index: -2;
             pointer-events: none;
         }
 
+        /* Ícones flutuantes no fundo */
+        .bg-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* --- HEADER --- */
         header {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(10, 10, 11, 0.95);
             backdrop-filter: blur(10px);
-            padding: 10px 5%; 
+            padding: 15px 5%; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -60,10 +75,11 @@
             top: 0;
             z-index: 1000;
             border-bottom: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
 
         header img { 
-            height: 90px; 
+            height: 60px; 
             width: auto;
             object-fit: contain;
             transition: var(--transition);
@@ -73,43 +89,58 @@
             color: #fff;
             margin-left: 25px;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 14px;
             transition: var(--transition);
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background-color: var(--accent-gold);
+            transition: var(--transition);
         }
 
         nav a:hover { color: var(--accent-gold); }
+        nav a:hover::after { width: 100%; }
         
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(0,18,36,0.8), rgba(10,10,11,1)), 
+            background: linear-gradient(to right, rgba(10,10,11,0.9) 20%, rgba(0,45,91,0.4)), 
                         url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             text-align: center;
             padding: 40px 20px;
         }
 
         .hero h1 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
             color: #fff;
             margin-bottom: 15px;
             text-transform: uppercase;
             font-weight: 900;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            line-height: 1.2; 
+            line-height: 1.1; 
+            letter-spacing: -1px;
         }
+
+        .hero h1 span { color: var(--accent-gold); }
 
         .hero p {
             max-width: 700px;
             font-size: clamp(1rem, 2vw, 1.2rem);
             color: #ccc;
             margin-bottom: 40px;
+            font-weight: 300;
         }
 
         .hero-btns {
@@ -122,39 +153,33 @@
         .btn {
             padding: 16px 35px;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
+            font-weight: 900;
+            border-radius: 50px; /* Estilo pílula como os botões de franquia */
             display: flex;
             align-items: center;
             gap: 12px;
             transition: var(--transition);
             text-transform: uppercase;
             font-size: 14px;
+            letter-spacing: 1px;
         }
 
-        .btn-whatsapp { background: #ffdb58; color: #000 !important; }
+        .btn-whatsapp { background: var(--accent-gold); color: #000 !important; }
         .btn-consult { 
-            background: var(--primary-blue); 
+            background: transparent; 
             color: #fff; 
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--primary-blue);
         }
+        .btn-consult:hover { background: var(--primary-blue); }
 
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7); transform: scale(1); }
-            70% { box-shadow: 0 0 0 15px rgba(245, 196, 0, 0); transform: scale(1.05); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 196, 0, 0); transform: scale(1); }
-        }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(245, 196, 0, 0.3); }
 
-        .pulse-animation {
-            animation: pulse-gold 1.5s infinite;
-        }
-
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); opacity: 0.9; }
-
+        /* --- GERAL DAS SEÇÕES --- */
         section {
             padding: 100px 5%;
             max-width: 1400px;
             margin: auto;
+            position: relative;
         }
 
         .section-title {
@@ -163,23 +188,38 @@
         }
 
         .section-title h2 {
-            color: var(--accent-gold);
-            font-size: 2.5rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
+            color: #fff;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.2;
         }
+        .section-title h2 span { color: var(--accent-gold); display: block; font-size: 0.6em; letter-spacing: 3px; margin-bottom: 10px;}
 
-        .section-title h2::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 3px;
-            background: var(--primary-blue);
+        /* --- APRESENTAÇÃO (Novo estilo Duckbill) --- */
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: linear-gradient(145deg, var(--card-bg), #000);
+            border-radius: 30px;
+            padding: 50px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
+        
+        .about-text { flex: 1; }
+        .about-text h3 { font-size: 2.5rem; color: var(--accent-gold); font-weight: 900; margin-bottom: 20px; text-transform: uppercase;}
+        .about-text p { margin-bottom: 15px; font-size: 1.1rem; color: #bbb; }
+        
+        .about-img {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 20px 20px 0px var(--primary-blue);
+        }
+        .about-img img { width: 100%; height: auto; display: block; filter: grayscale(20%); }
 
+        /* --- CARDS (Serviços e Segurança) --- */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -188,63 +228,92 @@
 
         .card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
             transition: var(--transition);
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+
+        .card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--accent-gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; z-index: 10;
         }
 
         .card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
+        .card:hover::before { transform: scaleX(1); }
 
         .card-img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            filter: grayscale(30%);
+            filter: grayscale(40%);
             transition: var(--transition);
         }
 
         .card:hover .card-img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; background: linear-gradient(to top, #0a0a0b, var(--card-bg)); z-index: 2;}
 
         .card h3 {
-            margin-bottom: 12px;
-            color: var(--accent-gold);
-            font-size: 20px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
         }
 
-        .card p { font-size: 14px; color: #aaa; margin-bottom: 20px; }
+        .card p { font-size: 15px; color: #aaa; margin-bottom: 25px; }
 
         .btn-agendar {
             background: transparent;
             color: var(--accent-gold);
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 50px;
             text-decoration: none;
             font-size: 13px;
-            font-weight: bold;
-            border: 1px solid var(--accent-gold);
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 2px solid var(--accent-gold);
             text-align: center;
             margin-top: auto;
             transition: var(--transition);
         }
 
-        .btn-agendar:hover {
-            background: var(--accent-gold);
-            color: #000;
-        }
+        .btn-agendar:hover { background: var(--accent-gold); color: #000; }
 
+        /* --- DEPOIMENTOS / FÃS --- */
+        .fans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .fan-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+        }
+        .fan-item img {
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s;
+        }
+        .fan-item:hover img { transform: scale(1.1); filter: brightness(0.6); }
+        .fan-quote {
+            position: absolute; bottom: -100%; left: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, #000); transition: 0.4s;
+        }
+        .fan-item:hover .fan-quote { bottom: 0; }
+        .fan-quote p { font-size: 0.9rem; font-style: italic; color: #fff; }
+        .fan-quote strong { display: block; margin-top: 5px; color: var(--accent-gold); font-size: 0.8rem; text-transform: uppercase;}
+
+        /* --- LOCALIDADE --- */
         .location-container {
             display: flex;
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 30px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
             align-items: center;
@@ -255,34 +324,21 @@
             flex: 1;
             min-width: 300px;
             height: 400px;
-            background: url('fachada.jpg') center/cover no-repeat;
-            background-color: #333;
+            background: url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
         }
 
-        .location-info {
-            flex: 1;
-            padding: 40px;
-            min-width: 300px;
-        }
+        .location-info { flex: 1; padding: 50px; min-width: 300px; }
+        .location-info h3 { color: var(--accent-gold); margin-bottom: 20px; font-size: 28px; font-weight: 900; text-transform: uppercase;}
+        .location-info p { margin-bottom: 30px; font-size: 16px; color: #ccc; }
 
-        .location-info h3 {
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .location-info p {
-            margin-bottom: 30px;
-            font-size: 16px;
-            color: #ccc;
-        }
-
+        /* --- FOOTER --- */
         footer {
             background: #000;
             text-align: center;
             padding: 60px 20px;
-            border-top: 1px solid var(--primary-blue);
+            border-top: 4px solid var(--primary-blue);
         }
+        footer h2 { color: var(--accent-gold); margin-bottom: 10px; font-weight: 900;}
         
         .floating-container {
             position: fixed;
@@ -295,17 +351,10 @@
         }
 
         .float-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            color: #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: var(--transition);
-            text-decoration: none;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 28px; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transition: var(--transition); text-decoration: none;
         }
 
         .float-btn:hover { transform: scale(1.1); }
@@ -313,46 +362,65 @@
         .maps-float { background: #4285F4; } 
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 10px; padding: 15px 5%; }
-            header img { height: 70px; } 
+            header { flex-direction: column; gap: 15px; padding: 20px; }
             nav a { margin: 0 10px; font-size: 12px; }
-            section { padding: 60px 20px; }
+            .about-container { flex-direction: column; padding: 30px; }
             .location-img { height: 250px; }
         }
     </style>
 </head>
 
 <body id="topo"> 
+
+<i class="fas fa-cog bg-icon" style="top: 15%; left: 5%; font-size: 150px;"></i>
+<i class="fas fa-wrench bg-icon" style="top: 45%; right: 5%; font-size: 100px; animation-duration: 15s;"></i>
+<i class="fas fa-cogs bg-icon" style="top: 80%; left: 10%; font-size: 120px; animation-duration: 12s;"></i>
+
 <header>
-    <img src="logo.jpg" alt="Mecânica Lima Car">
+    <h2 style="color: #fff; font-weight: 900; font-style: italic;">LIMA<span style="color: var(--accent-gold);">CAR</span></h2>
     <nav>
         <a href="#topo">Início</a> 
+        <a href="#sobre">A Oficina</a> 
         <a href="#servicos">Serviços</a>
-        <a href="#seguranca">Segurança</a>
-        <a href="#localidade">Localidade</a>
-        <a href="#contato">Contato</a>
+        <a href="#depoimentos">Clientes</a>
+        <a href="#localidade">Contato</a>
     </nav>
 </header>
 
 <main>
     <section class="hero">
-        <h1>Excelência em Serviços Automotivos</h1>
-        <p>Seu carro em boas mãos: tecnologia, cuidado e confiança.</p>
-       
+        <h1><span>Excelência</span> em <br> Serviços Automotivos</h1>
+        <p>Seu carro em boas mãos: tecnologia de ponta, cuidado absoluto e confiança para você rodar tranquilo.</p>
+        
         <div class="hero-btns">
             <a class="btn btn-whatsapp" id="btn-cadastro-principal" href="cadastro.html">
                 <i class="fas fa-edit"></i> Cadastre-se
             </a>
-            
             <a class="btn btn-consult" href="painel.html">
                 <i class="fas fa-car"></i> Consulte seu Veículo
             </a>
         </div>
     </section>
+
+    <section id="sobre">
+        <div class="section-title">
+            <h2><span>Prazer em conhecer</span> A Lima Car</h2>
+        </div>
+        <div class="about-container">
+            <div class="about-text">
+                <h3>Sua segurança é nosso negócio</h3>
+                <p>Nascemos da paixão por motores e do compromisso com a verdade. Na Lima Car, acreditamos que a manutenção do seu veículo não deve ser uma dor de cabeça, mas sim uma garantia de tranquilidade.</p>
+                <p>Com equipamentos de última geração e uma equipe constantemente atualizada, transformamos a oficina mecânica em um ambiente limpo, organizado e transparente. Aqui, você acompanha tudo de perto.</p>
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=800&auto=format&fit=crop" alt="Mecânico trabalhando">
+            </div>
+        </div>
+    </section>
         
     <section id="servicos">
         <div class="section-title">
-            <h2>Nossos Serviços</h2>
+            <h2><span>O que fazemos</span> Nossos Serviços</h2>
         </div>
 
         <div class="cards">
@@ -360,26 +428,26 @@
                 <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
                 <div class="card-body">
                     <h3>Alinhamento 3D</h3>
-                    <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                    <p>Estabilidade absoluta e economia de pneus com tecnologia de precisão a laser.</p>
+                    <a href="#" class="btn-agendar">Agendar Agora</a>
                 </div>
             </div>
 
             <div class="card">
-                <img src="lubrificacao.jpg" class="card-img" alt="Troca de óleo">
+                <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Troca de óleo">
                 <div class="card-body">
                     <h3>Lubrificação</h3>
-                    <p>Troca de óleo e filtros com as melhores marcas do mercado mundial.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                    <p>Troca de óleo e filtros utilizando apenas as melhores marcas do mercado mundial.</p>
+                    <a href="#" class="btn-agendar">Agendar Agora</a>
                 </div>
             </div>
 
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
+                <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Motor">
                 <div class="card-body">
-                    <h3>Suspensão</h3>
-                    <p>Segurança e conforto térmico em qualquer terreno. Revisão completa.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                    <h3>Motor e Correias</h3>
+                    <p>Revisão de injeção, troca preventiva de correia dentada e manutenção completa.</p>
+                    <a href="#" class="btn-agendar">Agendar Agora</a>
                 </div>
             </div>
 
@@ -387,43 +455,44 @@
                 <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Freios">
                 <div class="card-body">
                     <h3>Sistema de Freios</h3>
-                    <p>Pastilhas, discos e ABS. A sua segurança em primeiro lugar.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Agendar Agora</a>
+                    <p>Pastilhas, discos, fluidos e ABS. A sua segurança sempre em primeiro lugar.</p>
+                    <a href="#" class="btn-agendar">Agendar Agora</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="seguranca" style="background: rgba(255,255,255,0.02); border-radius: 30px;">
+    <section id="depoimentos">
         <div class="section-title">
-            <h2>Prevenção & Segurança</h2>
+            <h2><span>Confiança Comprovada</span> Clientes Lima Car</h2>
         </div>
-
-        <div class="cards">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1635437536607-b8572f443763?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia">
-                <div class="card-body">
-                    <h3>Correia Dentada</h3>
-                    <p>Evite danos catastróficos ao motor com a troca preventiva.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Verificar Minha Correia</a>
+        <div class="fans-grid">
+            <div class="fan-item">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=400&auto=format&fit=crop" alt="Carro na oficina">
+                <div class="fan-quote">
+                    <p>"Serviço impecável. Meu carro saiu parecendo novo. Atendimento nota 10!"</p>
+                    <strong>- Carlos Eduardo</strong>
                 </div>
             </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1506544777-64cfbe1142df?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Revisão">
-                <div class="card-body">
-                    <h3>Check-up de Viagem</h3>
-                    <p>Mais de 40 itens verificados para você viajar sem preocupações.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Solicitar Check-up</a>
+            <div class="fan-item">
+                <img src="https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=400&auto=format&fit=crop" alt="Carro na oficina">
+                <div class="fan-quote">
+                    <p>"A transparência deles me conquistou. Mostraram as peças velhas e explicaram tudo."</p>
+                    <strong>- Mariana Silva</strong>
                 </div>
             </div>
-
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Diagnóstico">
-                <div class="card-body">
-                    <h3>Diagnóstico Injeção</h3>
-                    <p>Scanner automotivo de última geração para leitura de falhas.</p>
-                    <a href="javascript:void(0)" onclick="scrollAndFocus()" class="btn-agendar">Passar Scanner</a>
+            <div class="fan-item">
+                <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=400&auto=format&fit=crop" alt="Carro na oficina">
+                <div class="fan-quote">
+                    <p>"Fiz o check-up de viagem e rodei 2000km sem nenhuma dor de cabeça. Recomendo!"</p>
+                    <strong>- Roberto Alves</strong>
+                </div>
+            </div>
+            <div class="fan-item">
+                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=400&auto=format&fit=crop" alt="Carro na oficina">
+                <div class="fan-quote">
+                    <p>"Preço justo e honestidade. Difícil achar uma mecânica assim hoje em dia."</p>
+                    <strong>- Amanda Costa</strong>
                 </div>
             </div>
         </div>
@@ -431,58 +500,38 @@
 
     <section id="localidade">
         <div class="section-title">
-            <h2>Nossa Localização</h2>
+            <h2><span>Onde Estamos</span> Venha nos Visitar</h2>
         </div>
         <div class="location-container">
             <div class="location-img"></div>
             <div class="location-info">
-                <h3>Ambiente Profissional e Seguro</h3>
-                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha nos visitar e comprove nossa excelência!</p>
-                <a href="https://maps.google.com" target="_blank" class="btn btn-consult" style="display: inline-flex; border: 1px solid var(--accent-gold); color: var(--accent-gold);">
-                    <i class="fas fa-map-marked-alt"></i> Abrir no GPS / Maps
+                <h3>Ambiente Profissional</h3>
+                <p>A <strong>Mecânica Lima Car</strong> conta com instalações modernas, equipamentos de alta precisão e um espaço organizado para cuidar do seu patrimônio com a transparência que você merece. Venha tomar um café com a gente!</p>
+                <a href="#" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; width: fit-content;">
+                    <i class="fas fa-map-marked-alt"></i> Traçar Rota no GPS
                 </a>
             </div>
         </div>
     </section>
 </main>
 
-<footer id="contato">
-    <div style="margin-bottom: 20px;">
-        <img src="logo.jpg" alt="Lima Car" style="height: 100px; filter: grayscale(1) brightness(2);">
-    </div>
+<footer>
+    <h2>LIMA CAR</h2>
     <p>Mecânica Lima Car © 2026 | CNPJ: 00.000.000/0001-00</p>
-    <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px;">Excelência Automotiva e Transparência</p>
+    <p style="color: var(--accent-gold); font-size: 14px; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">Excelência e Transparência</p>
 </footer>
 
 <div class="floating-container">
-    <a href="https://maps.google.com" target="_blank" class="float-btn maps-float">
+    <a href="#" target="_blank" class="float-btn maps-float">
         <i class="fas fa-location-dot"></i>
     </a>
-    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank">
+    <a class="float-btn whatsapp-float" href="#" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 </div>
 
 <script>
-    function scrollAndFocus() {
-        window.scrollTo({ 
-            top: 0, 
-            behavior: 'smooth' 
-        });
-        
-        const btnCadastro = document.getElementById('btn-cadastro-principal');
-        
-        if(btnCadastro) {
-            setTimeout(() => {
-                btnCadastro.classList.add('pulse-animation');
-
-                setTimeout(() => {
-                    btnCadastro.classList.remove('pulse-animation');
-                }, 4500);
-            }, 800);
-        }
-    }
-
+    // Script suave para rolagem de links
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -490,7 +539,7 @@
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                const headerOffset = 100;
+                const headerOffset = 90;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
