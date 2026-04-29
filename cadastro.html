@@ -284,6 +284,16 @@
             .dash-content { padding: 20px; }
             .v-foto-destaque { height: 200px; }
         }
+
+        /* NOVAS ADIÇÕES PARA O MENU HAMBÚRGUER E LAYOUT PRINCIPAL */
+        .dash-sidebar { display: none; } /* Oculto por padrão */
+        .dash-sidebar.open { display: flex; animation: fadeIn 0.3s ease; }
+        .btn-hamburguer {
+            background: transparent; border: 1px solid var(--border); color: var(--primary);
+            font-size: 24px; padding: 5px 12px; border-radius: 8px; cursor: pointer;
+            margin-bottom: 20px; display: inline-block; transition: 0.3s;
+        }
+        .btn-hamburguer:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px var(--primary-glow); }
     </style>
 </head>
 <body>
@@ -356,8 +366,9 @@
         </aside>
 
         <main class="dash-content">
+            <button class="btn-hamburguer" onclick="toggleMenu()" title="Abrir Menu">&#9776;</button>
             
-            <div id="aba-dados">
+            <div id="aba-dados" class="hidden">
                 <h3 class="content-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                     Informações de Contato
@@ -375,7 +386,7 @@
                 <button class="btn-main" style="margin-top: 10px;" onclick="salvarDadosPerfil()">ATUALIZAR MEUS DADOS</button>
             </div>
 
-            <div id="aba-veiculos" class="hidden">
+            <div id="aba-veiculos">
                 <h3 class="content-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
                     Veículos na Garagem
@@ -548,10 +559,17 @@
         document.getElementById('edit-zap').value = dadosTemporariosCliente.zap;
 
         carregarVeiculos();
-        mostrarAba('dados');
+        
+        /* ALTERADO DE 'dados' PARA 'veiculos' PARA ABRIR AUTOMATICAMENTE */
+        mostrarAba('veiculos');
     }
 
-    // --- NOVA LÓGICA DE ABAS (Histórico removido) ---
+    // --- NOVA FUNÇÃO PARA ABRIR O MENU HAMBÚRGUER ---
+    function toggleMenu() {
+        document.querySelector('.dash-sidebar').classList.toggle('open');
+    }
+
+    // --- NOVA LÓGICA DE ABAS ---
     function mostrarAba(abaSelecionada) {
         const abas = ['dados', 'veiculos', 'suporte'];
         abas.forEach(aba => {
@@ -561,6 +579,9 @@
 
         document.getElementById('aba-' + abaSelecionada).classList.remove('hidden');
         document.getElementById('btn-nav-' + abaSelecionada).classList.add('active');
+
+        /* FECHA O MENU AUTOMATICAMENTE AO CLICAR EM UMA ABA */
+        document.querySelector('.dash-sidebar').classList.remove('open');
     }
 
     function salvarDadosPerfil() {
@@ -581,7 +602,6 @@
         }).catch(() => showAlert("ERRO: AO ATUALIZAR DADOS"));
     }
 
-    // --- LÓGICA MULTI-VEÍCULOS COM LAYOUT AMPLIADO ---
     function carregarVeiculos() {
         const lista = document.getElementById('lista-veiculos');
         lista.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:var(--text-dim); padding:20px;">Buscando sua garagem no sistema...</div>';
