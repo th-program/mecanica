@@ -110,7 +110,8 @@
 
         .dash-layout {
             display: flex;
-            gap: 25px;
+            flex-direction: column;
+            gap: 20px;
             padding: 0; 
             background: transparent;
             border: none;
@@ -118,121 +119,100 @@
             backdrop-filter: none;
         }
 
-        .dash-sidebar {
-            width: 280px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 25px 20px;
+        /* --- ALTERAÇÕES DE HEADER E MENU LATERAL --- */
+        .dash-header-top {
             display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-
-        .user-profile {
-            display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            width: 100%;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .avatar-circle {
-            width: 80px;
-            height: 80px;
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .header-profile .welcome-text { font-size: 10px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .header-profile .user-name { font-weight: bold; font-size: 16px; color: var(--text-main); }
+        .header-profile .avatar-circle {
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%);
             color: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 20px;
             font-weight: 900;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 20px var(--primary-glow);
+            box-shadow: 0 5px 15px var(--primary-glow);
         }
 
-        .welcome-text { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .user-name { font-weight: bold; font-size: 18px; color: var(--text-main); margin-bottom: 5px;}
-        .user-status { font-size: 11px; color: var(--success); font-weight: 600; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 20px; }
-
-        .menu-nav {
+        .dash-sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg);
+            border-right: 1px solid var(--border);
+            padding: 80px 20px 20px 20px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
+            z-index: 2000;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.8);
         }
 
-        .svg-icon {
-            width: 1.2em;
-            height: 1.2em;
-            fill: currentColor;
-            flex-shrink: 0;
+        .dash-sidebar.open { left: 0; }
+
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
+            z-index: 1999; display: none; opacity: 0; transition: opacity 0.3s;
         }
+        .sidebar-overlay.open { display: block; opacity: 1; }
+
+        .btn-hamburguer {
+            background: transparent; border: 1px solid var(--border); color: var(--primary);
+            font-size: 24px; padding: 8px; border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+        }
+        .btn-hamburguer:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px var(--primary-glow); }
+
+        .menu-nav { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+        .svg-icon { width: 1.2em; height: 1.2em; fill: currentColor; flex-shrink: 0; }
 
         .btn-side {
-            background: transparent;
-            border: none;
-            color: var(--text-dim);
-            padding: 14px 15px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-transform: uppercase;
+            background: transparent; border: none; color: var(--text-dim); padding: 14px 15px;
+            border-radius: 10px; text-align: left; font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: 0.3s; display: flex; align-items: center; gap: 12px; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
-        .btn-side:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-        }
-
-        .btn-side.active {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--primary);
-            border-left: 4px solid var(--primary);
-        }
-
+        .btn-side:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-main); }
+        .btn-side.active { background: rgba(212, 175, 55, 0.1); color: var(--primary); border-left: 4px solid var(--primary); }
         .btn-side.logout { margin-top: auto; color: var(--danger); }
         .btn-side.logout:hover { background: rgba(239, 68, 68, 0.1); }
 
+        /* --- REMOÇÃO DO QUADRADO DA TELA PRINCIPAL --- */
         .dash-content {
             flex-grow: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 35px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            min-height: 500px;
+            background: transparent; /* Integrado como parte do site */
+            border: none;
+            padding: 10px 0;
+            box-shadow: none;
         }
 
         .content-title {
-            color: var(--primary);
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--primary); font-size: 20px; margin-bottom: 20px; padding-bottom: 15px;
+            border-bottom: 1px solid var(--border); letter-spacing: 1px; display: flex; align-items: center; gap: 10px;
         }
 
-        .veiculos-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
+        .veiculos-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
 
         .veiculo-card {
             background: linear-gradient(145deg, var(--input-bg), rgba(0,0,0,0.2)); 
@@ -241,7 +221,6 @@
             transition: 0.3s; display: flex; flex-direction: column;
             overflow: hidden;
         }
-        
         .veiculo-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         
         .v-card-content { padding: 25px; }
@@ -249,13 +228,21 @@
         .veiculo-card strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 24px; letter-spacing: 2px; font-family: 'Monaco', monospace;}
         .veiculo-card .v-modelo { display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-main); margin-bottom: 15px; font-weight: bold;}
         
-        .v-foto-destaque { width: 100%; height: 260px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+        /* --- FOTOS EM QUADRADOS MENORES --- */
+        .v-foto-destaque { 
+            width: 140px; height: 140px; margin: 25px auto 0; 
+            border-radius: 12px; border: 2px solid var(--border);
+            overflow: hidden; cursor: pointer; transition: transform 0.3s ease, border-color 0.3s;
+        }
+        .v-foto-destaque:hover {
+            transform: scale(1.05); border-color: var(--primary);
+        }
         .v-foto-destaque img { width: 100%; height: 100%; object-fit: cover; }
         
         .v-fotos-galeria { display: flex; gap: 10px; padding: 15px 25px 0; overflow-x: auto; background: rgba(255,255,255,0.01); }
-        .v-fotos-galeria img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+        .v-fotos-galeria img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; }
 
-        .v-foto-placeholder { width: 100%; height: 140px; background: rgba(212, 175, 55, 0.05); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
+        .v-foto-placeholder { width: 140px; height: 140px; margin: 25px auto 0; background: rgba(212, 175, 55, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; color: var(--text-dim); border: 1px dashed var(--border); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
 
         .v-info-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-top: 10px;}
         .v-preco { font-size: 22px; font-weight: 900; color: var(--success); margin-bottom: 10px; display: block; }
@@ -272,28 +259,21 @@
             border-radius: 12px; color:var(--text-dim); font-size: 14px;
         }
 
-        @media (max-width: 768px) {
-            .dash-layout { flex-direction: column; }
-            .dash-sidebar { width: 100%; padding: 20px; }
-            .user-profile { flex-direction: row; text-align: left; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; align-items: center;}
-            .avatar-circle { width: 60px; height: 60px; font-size: 24px; margin-bottom: 0;}
-            .menu-nav { flex-direction: row; overflow-x: auto; padding-bottom: 5px; }
-            .btn-side { white-space: nowrap; padding: 10px; border-left: none; border-bottom: 2px solid transparent;}
-            .btn-side.active { border-left: none; border-bottom: 2px solid var(--primary); }
-            .btn-side.logout { margin-top: 0; margin-left: auto; }
-            .dash-content { padding: 20px; }
-            .v-foto-destaque { height: 200px; }
+        /* --- MODAL PARA TELA CHEIA --- */
+        #foto-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center;
+        }
+        #foto-modal img { max-width: 95%; max-height: 90%; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .fechar-modal {
+            position: absolute; top: 20px; right: 25px; color: white; font-size: 40px;
+            cursor: pointer; font-weight: bold; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* NOVAS ADIÇÕES PARA O MENU HAMBÚRGUER E LAYOUT PRINCIPAL */
-        .dash-sidebar { display: none; } /* Oculto por padrão */
-        .dash-sidebar.open { display: flex; animation: fadeIn 0.3s ease; }
-        .btn-hamburguer {
-            background: transparent; border: 1px solid var(--border); color: var(--primary);
-            font-size: 24px; padding: 5px 12px; border-radius: 8px; cursor: pointer;
-            margin-bottom: 20px; display: inline-block; transition: 0.3s;
+        @media (max-width: 768px) {
+            .dash-content { padding: 10px; }
+            .v-foto-destaque, .v-foto-placeholder { width: 120px; height: 120px; margin-top: 20px; }
         }
-        .btn-hamburguer:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px var(--primary-glow); }
     </style>
 </head>
 <body>
@@ -303,6 +283,13 @@
     INÍCIO
 </a>
 <div id="custom-alert"></div>
+
+<div class="sidebar-overlay" onclick="toggleMenu()"></div>
+
+<div id="foto-modal">
+    <span class="fechar-modal" onclick="fecharFotoTelaCheia()">&times;</span>
+    <img id="img-tela-cheia" src="">
+</div>
 
 <div class="container" id="main-container">
     <div class="logo-box" id="caixa-logo"><img src="logo.jpg" class="logo-img" alt="Logo"></div>
@@ -335,24 +322,29 @@
 
     <section id="view-dashboard" class="dash-layout hidden">
         
-        <aside class="dash-sidebar">
-            <div class="user-profile">
-                <div class="avatar-circle" id="avatar-letra">S</div>
+        <div class="dash-header-top">
+            <button class="btn-hamburguer" onclick="toggleMenu()" title="Abrir Menu">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="width: 28px; height: 28px;"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+            
+            <div class="header-profile">
                 <div>
                     <div class="welcome-text">Bem-vindo(a)</div>
                     <div class="user-name" id="nome-perfil">Saulo Silva</div>
-                    <div class="user-status">● Área do Cliente</div>
                 </div>
+                <div class="avatar-circle" id="avatar-letra">S</div>
             </div>
-            
+        </div>
+
+        <aside class="dash-sidebar">
             <nav class="menu-nav">
-                <button class="btn-side active" id="btn-nav-dados" onclick="mostrarAba('dados')">
-                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    Meus Dados
-                </button>
                 <button class="btn-side" id="btn-nav-veiculos" onclick="mostrarAba('veiculos')">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
                     Meus Veículos
+                </button>
+                <button class="btn-side" id="btn-nav-dados" onclick="mostrarAba('dados')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Meus Dados
                 </button>
                 <button class="btn-side" id="btn-nav-suporte" onclick="mostrarAba('suporte')">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
@@ -366,7 +358,6 @@
         </aside>
 
         <main class="dash-content">
-            <button class="btn-hamburguer" onclick="toggleMenu()" title="Abrir Menu">&#9776;</button>
             
             <div id="aba-dados" class="hidden">
                 <h3 class="content-title">
@@ -450,7 +441,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // --- CONFIGURAÇÃO FIREBASE ---
     const firebaseConfig = {
         apiKey: "COLE_AQUI",
         authDomain: "a-fonte-43744.firebaseapp.com",
@@ -476,6 +466,13 @@
 
     function sanitizarEmail(email) {
         return email.replace(/\./g, '_').replace(/@/g, '_at_');
+    }
+
+    // Função para pegar primeiro e último nome
+    function formatarNomeAbreviado(nomeCompleto) {
+        const partes = nomeCompleto.trim().split(' ');
+        if (partes.length === 1) return partes[0];
+        return partes[0] + ' ' + partes[partes.length - 1];
     }
 
     function alternarModo(novoModo) {
@@ -552,24 +549,35 @@
         document.getElementById('view-dashboard').classList.remove('hidden');
         window.scrollTo(0,0);
 
+        // Aplica o nome abreviado (Primeiro + Último) no canto superior direito
         document.getElementById('avatar-letra').innerText = dadosTemporariosCliente.nome.charAt(0).toUpperCase();
-        document.getElementById('nome-perfil').innerText = dadosTemporariosCliente.nome.split(' ')[0] + ' ' + (dadosTemporariosCliente.nome.split(' ')[1] || '');
+        document.getElementById('nome-perfil').innerText = formatarNomeAbreviado(dadosTemporariosCliente.nome);
+        
         document.getElementById('edit-email').value = dadosTemporariosCliente.emailOriginal || dadosTemporariosCliente.user.replace(/_at_/g, '@').replace(/_/g, '.');
         document.getElementById('edit-nome').value = dadosTemporariosCliente.nome;
         document.getElementById('edit-zap').value = dadosTemporariosCliente.zap;
 
         carregarVeiculos();
-        
-        /* ALTERADO DE 'dados' PARA 'veiculos' PARA ABRIR AUTOMATICAMENTE */
         mostrarAba('veiculos');
     }
 
-    // --- NOVA FUNÇÃO PARA ABRIR O MENU HAMBÚRGUER ---
+    // Controle do menu lateral e overlay
     function toggleMenu() {
         document.querySelector('.dash-sidebar').classList.toggle('open');
+        document.querySelector('.sidebar-overlay').classList.toggle('open');
     }
 
-    // --- NOVA LÓGICA DE ABAS ---
+    // Controle de tela cheia para as fotos
+    function abrirFotoTelaCheia(src) {
+        document.getElementById('img-tela-cheia').src = src;
+        document.getElementById('foto-modal').style.display = 'flex';
+    }
+
+    function fecharFotoTelaCheia() {
+        document.getElementById('foto-modal').style.display = 'none';
+        document.getElementById('img-tela-cheia').src = '';
+    }
+
     function mostrarAba(abaSelecionada) {
         const abas = ['dados', 'veiculos', 'suporte'];
         abas.forEach(aba => {
@@ -580,8 +588,9 @@
         document.getElementById('aba-' + abaSelecionada).classList.remove('hidden');
         document.getElementById('btn-nav-' + abaSelecionada).classList.add('active');
 
-        /* FECHA O MENU AUTOMATICAMENTE AO CLICAR EM UMA ABA */
+        // Fecha o menu lateral após clicar
         document.querySelector('.dash-sidebar').classList.remove('open');
+        document.querySelector('.sidebar-overlay').classList.remove('open');
     }
 
     function salvarDadosPerfil() {
@@ -596,8 +605,11 @@
         }).then(() => {
             dadosTemporariosCliente.nome = novoNome;
             dadosTemporariosCliente.zap = novoZap;
+            
+            // Atualiza Header com Primeiro + Último nome
             document.getElementById('avatar-letra').innerText = novoNome.charAt(0).toUpperCase();
-            document.getElementById('nome-perfil').innerText = novoNome.split(' ')[0] + ' ' + (novoNome.split(' ')[1] || '');
+            document.getElementById('nome-perfil').innerText = formatarNomeAbreviado(novoNome);
+            
             showAlert("SUCESSO: DADOS ATUALIZADOS COM SUCESSO!", "#10b981");
         }).catch(() => showAlert("ERRO: AO ATUALIZAR DADOS"));
     }
@@ -648,18 +660,19 @@
         if(status === "Trabalhando" || status === "Oficina") classStatus = "status-oficina";
         if(status === "Pronto" || status === "Liberado") classStatus = "status-pronto";
 
+        // A foto destaque agora é menor, centralizada e tem o onclick de abrir tela cheia
         let htmlFotos = '';
         if(tipo === 'oficina' && fotos && fotos.length > 0) {
-            htmlFotos = `<div class="v-foto-destaque">
+            htmlFotos = `<div class="v-foto-destaque" onclick="abrirFotoTelaCheia('${fotos[0]}')" title="Clique para ampliar">
                             <img src="${fotos[0]}" alt="Foto do veículo em manutenção">
                          </div>`;
             if(fotos.length > 1) {
                 htmlFotos += `<div class="v-fotos-galeria">
-                                ${fotos.slice(1).map(f => `<img src="${f}" alt="foto extra">`).join('')}
+                                ${fotos.slice(1).map(f => `<img src="${f}" alt="foto extra" onclick="abrirFotoTelaCheia('${f}')" title="Clique para ampliar">`).join('')}
                               </div>`;
             }
         } else {
-            htmlFotos = `<div class="v-foto-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> ${modelo}</div>`;
+            htmlFotos = `<div class="v-foto-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>`;
         }
 
         let htmlExtras = '';
@@ -746,7 +759,6 @@
         }).catch(() => showAlert("ERRO: AO SALVAR SOLICITAÇÃO"));
     }
 
-    // --- SUPORTE AO TECLADO ---
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             const loginVisivel = !document.getElementById('view-login').classList.contains('hidden');
@@ -761,7 +773,13 @@
 
         if (event.key === 'Escape') {
             const veiculoVisivel = !document.getElementById('view-veiculo').classList.contains('hidden');
-            if (veiculoVisivel) { voltarAoPainel(); }
+            const fotoModalVisivel = document.getElementById('foto-modal').style.display === 'flex';
+            
+            if (fotoModalVisivel) {
+                fecharFotoTelaCheia();
+            } else if (veiculoVisivel) { 
+                voltarAoPainel(); 
+            }
         }
     });
 </script>
