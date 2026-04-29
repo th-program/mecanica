@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Mecânica Lima Car | Acesso</title>
+    <title>Mecânica Lima Car | Portal do Cliente</title>
     <style>
         :root { 
             --bg: #000814;
@@ -14,6 +14,7 @@
             --text-dim: #94a3b8;
             --border: rgba(212, 175, 55, 0.15); 
             --success: #10b981; 
+            --warning: #f59e0b;
             --danger: #ef4444; 
             --input-bg: #001226; 
             --radius: 16px;
@@ -31,7 +32,15 @@
             display: flex; flex-direction: column; min-height: 100vh; padding: 20px; align-items: center; justify-content: center;
         }
 
-        .container { width: 100%; max-width: 450px; }
+        .container { 
+            width: 100%; 
+            max-width: 450px; 
+            transition: max-width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .container.wide {
+            max-width: 1050px;
+        }
 
         .card { 
             background: var(--card-bg); border: 1px solid var(--border); padding: 30px; 
@@ -41,7 +50,7 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .logo-box { text-align: center; margin-bottom: 30px; } 
+        .logo-box { text-align: center; margin-bottom: 30px; transition: 0.3s; } 
         .logo-img { width: 180px; filter: drop-shadow(0 0 10px var(--primary-glow)); } 
         
         label { display: block; font-size: 10px; color: var(--primary); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; } 
@@ -51,24 +60,21 @@
             border-radius: 12px; color: #fff; font-size: 16px; margin-bottom: 15px; transition: 0.3s; 
         } 
         
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); }
+        input:focus, textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); }
+        input:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .btn-main { 
             background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%); color: #000; 
             width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; 
             text-transform: uppercase; cursor: pointer; font-size: 13px; transition: 0.3s; 
             box-shadow: 0 5px 15px rgba(184, 150, 45, 0.2);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
 
-        .btn-main:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-main:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 8px 20px rgba(184, 150, 45, 0.4); }
 
-        .toggle-mode {
-            text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-dim);
-        }
-
-        .toggle-mode span {
-            color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline;
-        }
+        .toggle-mode { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-dim); }
+        .toggle-mode span { color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline; }
 
         .btn-home-fixed {
             position: fixed; top: 20px; left: 20px; text-decoration: none; color: var(--text-dim);
@@ -80,7 +86,8 @@
         #custom-alert { 
             position: fixed; top: 20px; z-index: 9999; padding: 15px; border-radius: 10px; 
             color: white; font-weight: 600; display: none; width: 90%; max-width: 400px; text-align: center; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-left: 4px solid rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 1px; font-size: 12px;
         }
 
         .aviso-senha {
@@ -88,16 +95,207 @@
             border-radius: 10px; font-size: 11px; margin-bottom: 15px;
             border: 1px dotted var(--border); text-align: center;
         }
-        .welcome-msg { color: var(--success); text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
+        
+        .instruction-box {
+            background: linear-gradient(to right, rgba(212, 175, 55, 0.1), transparent);
+            border-left: 3px solid var(--primary);
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12.5px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .instruction-box b { color: var(--primary); }
+
+        .dash-layout {
+            display: flex;
+            gap: 25px;
+            padding: 0; 
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        .dash-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37 0%, #b8962d 100%);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        .welcome-text { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .user-name { font-weight: bold; font-size: 18px; color: var(--text-main); margin-bottom: 5px;}
+        .user-status { font-size: 11px; color: var(--success); font-weight: 600; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 20px; }
+
+        .menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .svg-icon {
+            width: 1.2em;
+            height: 1.2em;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .btn-side {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            padding: 14px 15px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-side:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .btn-side.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .btn-side.logout { margin-top: auto; color: var(--danger); }
+        .btn-side.logout:hover { background: rgba(239, 68, 68, 0.1); }
+
+        .dash-content {
+            flex-grow: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 35px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            min-height: 500px;
+        }
+
+        .content-title {
+            color: var(--primary);
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .veiculos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .veiculo-card {
+            background: linear-gradient(145deg, var(--input-bg), rgba(0,0,0,0.2)); 
+            border: 1px solid var(--border); 
+            border-radius: 14px; text-align: left; position: relative;
+            transition: 0.3s; display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .veiculo-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        .v-card-content { padding: 25px; }
+
+        .veiculo-card strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 24px; letter-spacing: 2px; font-family: 'Monaco', monospace;}
+        .veiculo-card .v-modelo { display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-main); margin-bottom: 15px; font-weight: bold;}
+        
+        .v-foto-destaque { width: 100%; height: 260px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+        .v-foto-destaque img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .v-fotos-galeria { display: flex; gap: 10px; padding: 15px 25px 0; overflow-x: auto; background: rgba(255,255,255,0.01); }
+        .v-fotos-galeria img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+
+        .v-foto-placeholder { width: 100%; height: 140px; background: rgba(212, 175, 55, 0.05); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
+
+        .v-info-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-top: 10px;}
+        .v-preco { font-size: 22px; font-weight: 900; color: var(--success); margin-bottom: 10px; display: block; }
+        .v-obs { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+        .v-obs-title { color: var(--text-main); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: bold; }
+
+        .status-badge { position: absolute; top: 20px; right: 20px; font-size: 12px; padding: 8px 16px; border-radius: 8px; font-weight: 800; text-transform: uppercase; z-index: 10; backdrop-filter: blur(5px);}
+        .status-fila { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 1px solid var(--warning); }
+        .status-oficina { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); }
+        .status-pronto { background: rgba(212, 175, 55, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+
+        .box-placeholder {
+            text-align:center; padding: 40px; border: 1px dashed var(--border); 
+            border-radius: 12px; color:var(--text-dim); font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .dash-layout { flex-direction: column; }
+            .dash-sidebar { width: 100%; padding: 20px; }
+            .user-profile { flex-direction: row; text-align: left; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; align-items: center;}
+            .avatar-circle { width: 60px; height: 60px; font-size: 24px; margin-bottom: 0;}
+            .menu-nav { flex-direction: row; overflow-x: auto; padding-bottom: 5px; }
+            .btn-side { white-space: nowrap; padding: 10px; border-left: none; border-bottom: 2px solid transparent;}
+            .btn-side.active { border-left: none; border-bottom: 2px solid var(--primary); }
+            .btn-side.logout { margin-top: 0; margin-left: auto; }
+            .dash-content { padding: 20px; }
+            .v-foto-destaque { height: 200px; }
+        }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="btn-home-fixed">🏠 INÍCIO</a>
+<a href="index.html" class="btn-home-fixed">
+    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> 
+    INÍCIO
+</a>
 <div id="custom-alert"></div>
 
-<div class="container">
-    <div class="logo-box"><img src="logo.jpg" class="logo-img"></div>
+<div class="container" id="main-container">
+    <div class="logo-box" id="caixa-logo"><img src="logo.jpg" class="logo-img" alt="Logo"></div>
 
     <section id="view-login" class="card">
         <h2 id="titulo-acesso" style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:20px; letter-spacing: 1px;">FAÇA LOGIN</h2>
@@ -125,11 +323,102 @@
         </div>
     </section>
 
-    <section id="view-veiculo" class="card hidden">
-        <div id="msg-boas-vindas" class="welcome-msg"></div>
-        <h2 style="color:var(--primary); font-size:16px; text-align:center; margin-bottom:20px;">DETALHES DO VEÍCULO</h2>
+    <section id="view-dashboard" class="dash-layout hidden">
         
-        <label>Placa</label>
+        <aside class="dash-sidebar">
+            <div class="user-profile">
+                <div class="avatar-circle" id="avatar-letra">S</div>
+                <div>
+                    <div class="welcome-text">Bem-vindo(a)</div>
+                    <div class="user-name" id="nome-perfil">Saulo Silva</div>
+                    <div class="user-status">● Área do Cliente</div>
+                </div>
+            </div>
+            
+            <nav class="menu-nav">
+                <button class="btn-side active" id="btn-nav-dados" onclick="mostrarAba('dados')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Meus Dados
+                </button>
+                <button class="btn-side" id="btn-nav-veiculos" onclick="mostrarAba('veiculos')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    Meus Veículos
+                </button>
+                <button class="btn-side" id="btn-nav-suporte" onclick="mostrarAba('suporte')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                    Suporte e Contato
+                </button>
+                <button class="btn-side logout" onclick="location.reload()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                    Sair da Conta
+                </button>
+            </nav>
+        </aside>
+
+        <main class="dash-content">
+            
+            <div id="aba-dados">
+                <h3 class="content-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Informações de Contato
+                </h3>
+                <div class="instruction-box">
+                    <b>Mantenha seus dados atualizados!</b><br>
+                    Utilizamos seu WhatsApp para enviar relatórios, fotos das peças e avisar quando seu veículo estiver liberado para retirada.
+                </div>
+                <label>E-mail (Login)</label>
+                <input type="email" id="edit-email" disabled>
+                <label>Nome Completo</label>
+                <input type="text" id="edit-nome">
+                <label>WhatsApp (com DDD)</label>
+                <input type="tel" id="edit-zap">
+                <button class="btn-main" style="margin-top: 10px;" onclick="salvarDadosPerfil()">ATUALIZAR MEUS DADOS</button>
+            </div>
+
+            <div id="aba-veiculos" class="hidden">
+                <h3 class="content-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    Veículos na Garagem
+                </h3>
+                <div class="instruction-box">
+                    <b>Acompanhamento em Tempo Real</b><br>
+                    Aqui você visualiza os veículos na fila de espera e também os que já estão em manutenção com fotos e detalhes.
+                </div>
+                <div id="lista-veiculos" class="veiculos-grid"></div>
+                <button class="btn-main" style="margin-top: 25px;" onclick="prepararNovoVeiculo()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    CADASTRAR NOVO VEÍCULO PARA OFICINA
+                </button>
+            </div>
+
+            <div id="aba-suporte" class="hidden">
+                <h3 class="content-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                    Suporte e Contato
+                </h3>
+                <div class="instruction-box">
+                    <b>Precisa de ajuda imediata?</b><br>
+                    Fale diretamente com nosso mecânico responsável ou com a equipe de atendimento via WhatsApp.
+                </div>
+                <div style="display: flex; gap: 15px; flex-direction: column;">
+                    <button class="btn-main" style="background: #25D366; color: white; border: none;" onclick="window.open('https://wa.me/5500000000000', '_blank')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.46 14.07c-.23.64-1.32 1.23-1.83 1.34-.49.1-1.12.18-3.18-.68-2.43-1.02-3.99-3.52-4.11-3.69-.13-.17-.98-1.31-.98-2.5 0-1.19.62-1.78.85-2.03.22-.24.49-.3.65-.3h.46c.16 0 .38-.06.59.43.22.49.74 1.8.81 1.94.06.14.11.31.02.48-.09.18-.14.28-.28.45-.14.16-.29.35-.41.48-.14.15-.29.31-.13.59.16.27.71 1.18 1.54 1.91 1.07.95 1.97 1.24 2.25 1.38.27.14.43.11.59-.06.16-.18.68-.8.86-1.07.18-.28.37-.23.62-.14.25.09 1.59.75 1.86.89.27.14.45.21.51.34.08.13.08.73-.15 1.37z"/></svg>
+                        CHAMAR OFICINA NO WHATSAPP
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </section>
+
+    <section id="view-veiculo" class="card hidden">
+        <h2 style="color:var(--primary); font-size:18px; text-align:center; margin-bottom:10px;">DETALHES DO VEÍCULO</h2>
+        
+        <div class="instruction-box" style="margin-bottom: 20px;">
+            Ao enviar este formulário, seu veículo entrará na nossa <b>fila de triagem</b>. Em breve o mecânico fará a avaliação! Você pode registrar múltiplos carros.
+        </div>
+
+        <label>Placa do Veículo</label>
         <input type="text" id="c-placa" maxlength="7" placeholder="ABC1D23" style="text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
         
         <label>Modelo do Veículo</label>
@@ -139,10 +428,10 @@
         <input type="text" id="c-ano" maxlength="4" placeholder="Ex: 2020">
         
         <label>O que está acontecendo?</label>
-        <textarea id="c-problema" rows="4" placeholder="Descreva o problema..."></textarea>
+        <textarea id="c-problema" rows="4" placeholder="Descreva os barulhos, falhas ou o que precisa ser revisado..."></textarea>
         
         <button class="btn-main" onclick="finalizarCadastro()">ENVIAR PARA OFICINA</button>
-        <button onclick="location.reload()" style="background:none; border:none; color:var(--text-dim); width:100%; margin-top:15px; cursor:pointer; font-size:11px;">VOLTAR PARA IDENTIFICAÇÃO</button>
+        <button onclick="voltarAoPainel()" style="background:none; border:none; color:var(--text-dim); width:100%; margin-top:15px; cursor:pointer; font-size:11px; font-weight:bold;">VOLTAR AO PAINEL</button>
     </section>
 </div>
 
@@ -163,11 +452,12 @@
     const db = firebase.database();
 
     let dadosTemporariosCliente = {};
-    let modoAtual = 'login'; // 'login' ou 'cadastro'
+    let modoAtual = 'login'; 
 
     function showAlert(msg, color = "#ef4444") {
         const div = document.getElementById('custom-alert');
-        div.style.background = color;
+        div.style.borderColor = color;
+        div.style.borderLeft = `4px solid ${color}`; 
         div.innerText = msg;
         div.style.display = 'block';
         setTimeout(() => { div.style.display = 'none'; }, 3000);
@@ -177,7 +467,6 @@
         return email.replace(/\./g, '_').replace(/@/g, '_at_');
     }
 
-    // ALTERNA ENTRE LOGIN E CADASTRO
     function alternarModo(novoModo) {
         modoAtual = novoModo;
         const camposCadastro = document.getElementById('campos-cadastro');
@@ -203,32 +492,31 @@
         const pass = document.getElementById('c-pass').value.trim();
         const emailChave = sanitizarEmail(email);
 
-        if(!email || !pass) return showAlert("⚠️ PREENCHA E-MAIL E SENHA");
+        if(!email || !pass) return showAlert("AVISO: PREENCHA E-MAIL E SENHA", "#f59e0b");
 
         if (modoAtual === 'login') {
             db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
                 if (snapshot.exists()) {
                     const dados = snapshot.val();
                     if(dados.senha === pass) {
-                        dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user: emailChave };
-                        document.getElementById('msg-boas-vindas').innerText = `Bem-vindo de volta, ${dados.nome}!`;
-                        mostrarTelaVeiculo();
+                        dadosTemporariosCliente = { nome: dados.nome, zap: dados.zap, user: emailChave, emailOriginal: dados.email };
+                        prepararDashboard();
                     } else {
-                        showAlert("❌ SENHA INCORRETA");
+                        showAlert("ERRO: SENHA INCORRETA");
                     }
                 } else {
-                    showAlert("❌ E-MAIL NÃO ENCONTRADO. CLIQUE EM SE CADASTRAR.");
+                    showAlert("ERRO: E-MAIL NÃO ENCONTRADO. CLIQUE EM SE CADASTRAR.");
                 }
             });
         } else {
             const nome = document.getElementById('c-nome').value.trim();
             const zap = document.getElementById('c-zap').value.replace(/\D/g, "");
 
-            if(!nome || !zap) return showAlert("⚠️ PREENCHA TODOS OS CAMPOS PARA CADASTRO");
+            if(!nome || !zap) return showAlert("AVISO: PREENCHA TODOS OS CAMPOS PARA CADASTRO", "#f59e0b");
 
             db.ref('usuarios/' + emailChave).once('value').then((snapshot) => {
                 if(snapshot.exists()) {
-                    showAlert("⚠️ ESTE E-MAIL JÁ POSSUI CADASTRO.");
+                    showAlert("AVISO: ESTE E-MAIL JÁ POSSUI CADASTRO.", "#f59e0b");
                 } else {
                     db.ref('usuarios/' + emailChave).set({
                         nome: nome,
@@ -236,19 +524,182 @@
                         senha: pass,
                         email: email
                     }).then(() => {
-                        dadosTemporariosCliente = { nome, zap, user: emailChave };
-                        document.getElementById('msg-boas-vindas').innerText = "Conta criada com sucesso!";
-                        mostrarTelaVeiculo();
+                        dadosTemporariosCliente = { nome, zap, user: emailChave, emailOriginal: email };
+                        showAlert("SUCESSO: CONTA CRIADA!", "#10b981");
+                        setTimeout(prepararDashboard, 1000);
                     });
                 }
             });
         }
     }
 
-    function mostrarTelaVeiculo() {
+    function prepararDashboard() {
+        document.getElementById('main-container').classList.add('wide');
+        document.getElementById('caixa-logo').classList.add('hidden'); 
         document.getElementById('view-login').classList.add('hidden');
-        document.getElementById('view-veiculo').classList.remove('hidden');
+        document.getElementById('view-veiculo').classList.add('hidden');
+        document.getElementById('view-dashboard').classList.remove('hidden');
         window.scrollTo(0,0);
+
+        document.getElementById('avatar-letra').innerText = dadosTemporariosCliente.nome.charAt(0).toUpperCase();
+        document.getElementById('nome-perfil').innerText = dadosTemporariosCliente.nome.split(' ')[0] + ' ' + (dadosTemporariosCliente.nome.split(' ')[1] || '');
+        document.getElementById('edit-email').value = dadosTemporariosCliente.emailOriginal || dadosTemporariosCliente.user.replace(/_at_/g, '@').replace(/_/g, '.');
+        document.getElementById('edit-nome').value = dadosTemporariosCliente.nome;
+        document.getElementById('edit-zap').value = dadosTemporariosCliente.zap;
+
+        carregarVeiculos();
+        mostrarAba('dados');
+    }
+
+    // --- NOVA LÓGICA DE ABAS (Histórico removido) ---
+    function mostrarAba(abaSelecionada) {
+        const abas = ['dados', 'veiculos', 'suporte'];
+        abas.forEach(aba => {
+            document.getElementById('aba-' + aba).classList.add('hidden');
+            document.getElementById('btn-nav-' + aba).classList.remove('active');
+        });
+
+        document.getElementById('aba-' + abaSelecionada).classList.remove('hidden');
+        document.getElementById('btn-nav-' + abaSelecionada).classList.add('active');
+    }
+
+    function salvarDadosPerfil() {
+        const novoNome = document.getElementById('edit-nome').value.trim();
+        const novoZap = document.getElementById('edit-zap').value.replace(/\D/g, "");
+
+        if(!novoNome || !novoZap) return showAlert("AVISO: PREENCHA NOME E WHATSAPP", "#f59e0b");
+
+        db.ref('usuarios/' + dadosTemporariosCliente.user).update({
+            nome: novoNome,
+            zap: novoZap
+        }).then(() => {
+            dadosTemporariosCliente.nome = novoNome;
+            dadosTemporariosCliente.zap = novoZap;
+            document.getElementById('avatar-letra').innerText = novoNome.charAt(0).toUpperCase();
+            document.getElementById('nome-perfil').innerText = novoNome.split(' ')[0] + ' ' + (novoNome.split(' ')[1] || '');
+            showAlert("SUCESSO: DADOS ATUALIZADOS COM SUCESSO!", "#10b981");
+        }).catch(() => showAlert("ERRO: AO ATUALIZAR DADOS"));
+    }
+
+    // --- LÓGICA MULTI-VEÍCULOS COM LAYOUT AMPLIADO ---
+    function carregarVeiculos() {
+        const lista = document.getElementById('lista-veiculos');
+        lista.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:var(--text-dim); padding:20px;">Buscando sua garagem no sistema...</div>';
+
+        Promise.all([
+            db.ref('servicos_ativos').orderByChild('cliente_id').equalTo(dadosTemporariosCliente.user).once('value'),
+            db.ref('veiculos').orderByChild('identificacao').equalTo(dadosTemporariosCliente.user).once('value')
+        ]).then(([snapFila, snapOficina]) => {
+            lista.innerHTML = '';
+            let encontrou = false;
+
+            if(snapFila.exists()) {
+                encontrou = true;
+                snapFila.forEach(child => {
+                    const v = child.val();
+                    renderizarCardVeiculo(v.placa, v.modelo, v.ano, v.status || 'Na Fila', v.problema, null, null, null, 'fila');
+                });
+            }
+
+            if(snapOficina.exists()) {
+                encontrou = true;
+                snapOficina.forEach(child => {
+                    const v = child.val();
+                    renderizarCardVeiculo(child.key, v.modelo, v.ano, v.status, v.clienteRelato, v.preco, v.obs, v.fotos, 'oficina');
+                });
+            }
+
+            if(!encontrou) {
+                lista.style.display = "block";
+                lista.innerHTML = `
+                <div class="box-placeholder">
+                    Você ainda não tem veículos cadastrados. <br> Adicione um novo abaixo para enviá-lo à nossa mecânica.
+                </div>`;
+            } else {
+                lista.style.display = "grid";
+            }
+        });
+    }
+
+    function renderizarCardVeiculo(placa, modelo, ano, status, relato, preco, obs, fotos, tipo) {
+        const lista = document.getElementById('lista-veiculos');
+        
+        let classStatus = "status-fila";
+        if(status === "Trabalhando" || status === "Oficina") classStatus = "status-oficina";
+        if(status === "Pronto" || status === "Liberado") classStatus = "status-pronto";
+
+        let htmlFotos = '';
+        if(tipo === 'oficina' && fotos && fotos.length > 0) {
+            htmlFotos = `<div class="v-foto-destaque">
+                            <img src="${fotos[0]}" alt="Foto do veículo em manutenção">
+                         </div>`;
+            if(fotos.length > 1) {
+                htmlFotos += `<div class="v-fotos-galeria">
+                                ${fotos.slice(1).map(f => `<img src="${f}" alt="foto extra">`).join('')}
+                              </div>`;
+            }
+        } else {
+            htmlFotos = `<div class="v-foto-placeholder"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> ${modelo}</div>`;
+        }
+
+        let htmlExtras = '';
+
+        if(tipo === 'oficina') {
+            htmlExtras = `
+                <div class="v-info-box">
+                    <span class="v-preco">Total do Orçamento: R$ ${preco || '0,00'}</span>
+                    <span class="v-obs" style="display:block; margin-top:8px;">
+                        <span class="v-obs-title"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.5 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg> Nota Técnica e Serviços:</span>
+                        <br>${obs || 'O mecânico ainda não adicionou notas técnicas.'}
+                    </span>
+                </div>
+            `;
+        } else {
+            htmlExtras = `
+                <div class="v-info-box" style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border);">
+                    <span class="v-obs">
+                        <span class="v-obs-title"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> O que você relatou:</span>
+                        <br>"${relato || 'Não informado'}"
+                    </span>
+                    <span class="v-obs" style="display:block; margin-top:15px; color:var(--warning); font-weight:bold;">Aguardando avaliação da nossa equipe na oficina.</span>
+                </div>
+            `;
+        }
+
+        lista.innerHTML += `
+            <div class="veiculo-card">
+                ${htmlFotos}
+                <div class="status-badge ${classStatus}">${status || 'Em Análise'}</div>
+                <div class="v-card-content">
+                    <strong>${placa}</strong>
+                    <span class="v-modelo"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> ${modelo} - ${ano || 'Ano não informado'}</span>
+                    ${htmlExtras}
+                </div>
+            </div>
+        `;
+    }
+
+    function prepararNovoVeiculo() {
+        document.getElementById('main-container').classList.remove('wide');
+        document.getElementById('c-placa').value = '';
+        document.getElementById('c-modelo').value = '';
+        document.getElementById('c-ano').value = '';
+        document.getElementById('c-problema').value = '';
+        
+        document.getElementById('view-dashboard').classList.add('hidden');
+        document.getElementById('view-veiculo').classList.remove('hidden');
+    }
+
+    function voltarAoPainel() {
+        if(dadosTemporariosCliente.user) {
+            document.getElementById('main-container').classList.add('wide');
+            document.getElementById('view-veiculo').classList.add('hidden');
+            document.getElementById('view-dashboard').classList.remove('hidden');
+            carregarVeiculos(); 
+            mostrarAba('veiculos'); 
+        } else {
+            location.reload();
+        }
     }
 
     function finalizarCadastro() {
@@ -257,7 +708,7 @@
         const ano = document.getElementById('c-ano').value.trim();
         const problema = document.getElementById('c-problema').value.trim();
 
-        if(!placa || !modelo || !ano || !problema) return showAlert("⚠️ PREENCHA OS DADOS DO VEÍCULO");
+        if(!placa || !modelo || !ano || !problema) return showAlert("AVISO: PREENCHA TODOS OS DADOS DO VEÍCULO", "#f59e0b");
 
         db.ref('servicos_ativos/' + placa).set({
             cliente_id: dadosTemporariosCliente.user,
@@ -270,14 +721,13 @@
             data: new Date().toLocaleString(),
             status: "Aguardando Avaliação"
         }).then(() => {
-            showAlert("✔️ SOLICITAÇÃO ENVIADA COM SUCESSO!", "#10b981");
-            setTimeout(() => { window.location.href = "index.html"; }, 2000);
-        }).catch(() => showAlert("❌ ERRO AO SALVAR SOLICITAÇÃO"));
+            showAlert("SUCESSO: VEÍCULO ENVIADO COM SUCESSO!", "#10b981");
+            setTimeout(() => { voltarAoPainel(); }, 2000);
+        }).catch(() => showAlert("ERRO: AO SALVAR SOLICITAÇÃO"));
     }
 
-    // --- ADICIONADO: SUPORTE AO TECLADO (ENTER e ESC) ---
+    // --- SUPORTE AO TECLADO ---
     document.addEventListener('keydown', function(event) {
-        // Se pressionar ENTER
         if (event.key === 'Enter') {
             const loginVisivel = !document.getElementById('view-login').classList.contains('hidden');
             const veiculoVisivel = !document.getElementById('view-veiculo').classList.contains('hidden');
@@ -289,9 +739,9 @@
             }
         }
 
-        // Se pressionar ESC (funciona como botão voltar/reset)
         if (event.key === 'Escape') {
-            location.reload();
+            const veiculoVisivel = !document.getElementById('view-veiculo').classList.contains('hidden');
+            if (veiculoVisivel) { voltarAoPainel(); }
         }
     });
 </script>
