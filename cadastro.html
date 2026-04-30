@@ -38,8 +38,10 @@
             transition: max-width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        /* ALTERAÇÃO: Força o painel a usar toda a borda da tela */
         .container.wide {
-            max-width: 1050px;
+            max-width: 100%; 
+            padding: 0 10px; /* Garante uso das bordas sem colar totalmente */
         }
 
         .card { 
@@ -119,7 +121,6 @@
             backdrop-filter: none;
         }
 
-        /* --- ALTERAÇÕES DE HEADER E MENU LATERAL --- */
         .dash-header-top {
             display: flex;
             justify-content: space-between;
@@ -198,10 +199,9 @@
         .btn-side.logout { margin-top: auto; color: var(--danger); }
         .btn-side.logout:hover { background: rgba(239, 68, 68, 0.1); }
 
-        /* --- REMOÇÃO DO QUADRADO DA TELA PRINCIPAL --- */
         .dash-content {
             flex-grow: 1;
-            background: transparent; /* Integrado como parte do site */
+            background: transparent; 
             border: none;
             padding: 10px 0;
             box-shadow: none;
@@ -212,25 +212,53 @@
             border-bottom: 1px solid var(--border); letter-spacing: 1px; display: flex; align-items: center; gap: 10px;
         }
 
-        .veiculos-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        /* ALTERAÇÃO: Grade flexível para preencher espaços das bordas */
+        .veiculos-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 25px; 
+            width: 100%;
+        }
 
+        /* ALTERAÇÃO: Veículo clicável (minimizado por padrão) */
         .veiculo-card {
             background: linear-gradient(145deg, var(--input-bg), rgba(0,0,0,0.2)); 
             border: 1px solid var(--border); 
             border-radius: 14px; text-align: left; position: relative;
             transition: 0.3s; display: flex; flex-direction: column;
             overflow: hidden;
+            cursor: pointer; /* Cursor de clique */
         }
         .veiculo-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         
         .v-card-content { padding: 25px; }
 
         .veiculo-card strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 24px; letter-spacing: 2px; font-family: 'Monaco', monospace;}
-        .veiculo-card .v-modelo { display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-main); margin-bottom: 15px; font-weight: bold;}
+        .veiculo-card .v-modelo { display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-main); font-weight: bold;}
         
-        /* --- FOTOS EM QUADRADOS MENORES --- */
+        /* ALTERAÇÃO: Classes do estado minimizado/expandido */
+        .veiculo-detalhes {
+            display: none; /* Oculto por padrão */
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border);
+            animation: fadeIn 0.4s ease;
+        }
+        .veiculo-card.expandido .veiculo-detalhes {
+            display: block; /* Revela ao clicar */
+        }
+        
+        .clique-para-abrir {
+            font-size: 11px; color: var(--text-dim); text-align: center; 
+            margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .veiculo-card.expandido .clique-para-abrir {
+            display: none; /* Esconde aviso se estiver aberto */
+        }
+
         .v-foto-destaque { 
-            width: 140px; height: 140px; margin: 25px auto 0; 
+            width: 140px; height: 140px; margin: 0 auto 0; 
             border-radius: 12px; border: 2px solid var(--border);
             overflow: hidden; cursor: pointer; transition: transform 0.3s ease, border-color 0.3s;
         }
@@ -239,12 +267,12 @@
         }
         .v-foto-destaque img { width: 100%; height: 100%; object-fit: cover; }
         
-        .v-fotos-galeria { display: flex; gap: 10px; padding: 15px 25px 0; overflow-x: auto; background: rgba(255,255,255,0.01); }
+        .v-fotos-galeria { display: flex; gap: 10px; padding: 15px 0 0; overflow-x: auto; }
         .v-fotos-galeria img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; }
 
-        .v-foto-placeholder { width: 140px; height: 140px; margin: 25px auto 0; background: rgba(212, 175, 55, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; color: var(--text-dim); border: 1px dashed var(--border); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
+        .v-foto-placeholder { width: 140px; height: 140px; margin: 0 auto 0; background: rgba(212, 175, 55, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; color: var(--text-dim); border: 1px dashed var(--border); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
 
-        .v-info-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-top: 10px;}
+        .v-info-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-top: 15px;}
         .v-preco { font-size: 22px; font-weight: 900; color: var(--success); margin-bottom: 10px; display: block; }
         .v-obs { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
         .v-obs-title { color: var(--text-main); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: bold; }
@@ -259,7 +287,6 @@
             border-radius: 12px; color:var(--text-dim); font-size: 14px;
         }
 
-        /* --- MODAL PARA TELA CHEIA --- */
         #foto-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center;
@@ -272,7 +299,7 @@
 
         @media (max-width: 768px) {
             .dash-content { padding: 10px; }
-            .v-foto-destaque, .v-foto-placeholder { width: 120px; height: 120px; margin-top: 20px; }
+            .v-foto-destaque, .v-foto-placeholder { width: 120px; height: 120px; }
         }
     </style>
 </head>
@@ -468,7 +495,6 @@
         return email.replace(/\./g, '_').replace(/@/g, '_at_');
     }
 
-    // Função para pegar primeiro e último nome
     function formatarNomeAbreviado(nomeCompleto) {
         const partes = nomeCompleto.trim().split(' ');
         if (partes.length === 1) return partes[0];
@@ -549,7 +575,6 @@
         document.getElementById('view-dashboard').classList.remove('hidden');
         window.scrollTo(0,0);
 
-        // Aplica o nome abreviado (Primeiro + Último) no canto superior direito
         document.getElementById('avatar-letra').innerText = dadosTemporariosCliente.nome.charAt(0).toUpperCase();
         document.getElementById('nome-perfil').innerText = formatarNomeAbreviado(dadosTemporariosCliente.nome);
         
@@ -561,13 +586,11 @@
         mostrarAba('veiculos');
     }
 
-    // Controle do menu lateral e overlay
     function toggleMenu() {
         document.querySelector('.dash-sidebar').classList.toggle('open');
         document.querySelector('.sidebar-overlay').classList.toggle('open');
     }
 
-    // Controle de tela cheia para as fotos
     function abrirFotoTelaCheia(src) {
         document.getElementById('img-tela-cheia').src = src;
         document.getElementById('foto-modal').style.display = 'flex';
@@ -588,7 +611,6 @@
         document.getElementById('aba-' + abaSelecionada).classList.remove('hidden');
         document.getElementById('btn-nav-' + abaSelecionada).classList.add('active');
 
-        // Fecha o menu lateral após clicar
         document.querySelector('.dash-sidebar').classList.remove('open');
         document.querySelector('.sidebar-overlay').classList.remove('open');
     }
@@ -606,7 +628,6 @@
             dadosTemporariosCliente.nome = novoNome;
             dadosTemporariosCliente.zap = novoZap;
             
-            // Atualiza Header com Primeiro + Último nome
             document.getElementById('avatar-letra').innerText = novoNome.charAt(0).toUpperCase();
             document.getElementById('nome-perfil').innerText = formatarNomeAbreviado(novoNome);
             
@@ -660,15 +681,15 @@
         if(status === "Trabalhando" || status === "Oficina") classStatus = "status-oficina";
         if(status === "Pronto" || status === "Liberado") classStatus = "status-pronto";
 
-        // A foto destaque agora é menor, centralizada e tem o onclick de abrir tela cheia
+        /* ALTERAÇÃO: Adicionado event.stopPropagation() nas fotos para evitar que o clique nelas feche a sanfona */
         let htmlFotos = '';
         if(tipo === 'oficina' && fotos && fotos.length > 0) {
-            htmlFotos = `<div class="v-foto-destaque" onclick="abrirFotoTelaCheia('${fotos[0]}')" title="Clique para ampliar">
+            htmlFotos = `<div class="v-foto-destaque" onclick="event.stopPropagation(); abrirFotoTelaCheia('${fotos[0]}')" title="Clique para ampliar">
                             <img src="${fotos[0]}" alt="Foto do veículo em manutenção">
                          </div>`;
             if(fotos.length > 1) {
                 htmlFotos += `<div class="v-fotos-galeria">
-                                ${fotos.slice(1).map(f => `<img src="${f}" alt="foto extra" onclick="abrirFotoTelaCheia('${f}')" title="Clique para ampliar">`).join('')}
+                                ${fotos.slice(1).map(f => `<img src="${f}" alt="foto extra" onclick="event.stopPropagation(); abrirFotoTelaCheia('${f}')" title="Clique para ampliar">`).join('')}
                               </div>`;
             }
         } else {
@@ -699,14 +720,20 @@
             `;
         }
 
+        /* ALTERAÇÃO: Card agora tem um "onclick" para abrir a sanfona, e todo o conteúdo excedente está oculto por padrão */
         lista.innerHTML += `
-            <div class="veiculo-card">
-                ${htmlFotos}
+            <div class="veiculo-card" onclick="this.classList.toggle('expandido')">
                 <div class="status-badge ${classStatus}">${status || 'Em Análise'}</div>
                 <div class="v-card-content">
                     <strong>${placa}</strong>
                     <span class="v-modelo"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> ${modelo} - ${ano || 'Ano não informado'}</span>
-                    ${htmlExtras}
+                    
+                    <div class="clique-para-abrir">▼ Clique para ver os detalhes ▼</div>
+
+                    <div class="veiculo-detalhes">
+                        ${htmlFotos}
+                        ${htmlExtras}
+                    </div>
                 </div>
             </div>
         `;
