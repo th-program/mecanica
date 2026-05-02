@@ -8,13 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-      :root {
-            --primary-blue: #004085; 
+        :root {
+            --primary-blue: #00b4d8; /* Azul mais moderno e elétrico */
+            --primary-dark: #0077b6;
             --accent-gold: #f5c400;  
-            --dark-bg: #0d0d0e;
-            --card-bg: #1a1d21;
+            --dark-bg: #0b0c10;
+            --card-bg: #1f2833;
             --text-light: #f8f9fa;
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --neon-shadow: 0 0 15px rgba(0, 180, 216, 0.4);
         }
 
         html {
@@ -36,8 +38,9 @@
             overflow-x: hidden;
         }
 
+        /* --- HEADER --- */
         header {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(11, 12, 16, 0.85);
             backdrop-filter: blur(15px); 
             padding: 15px 8%; 
             display: flex;
@@ -46,25 +49,24 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transition: padding 0.4s ease, background 0.4s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+            transition: padding 0.4s ease;
         }
 
         header.header-encolhido {
-            padding: 5px 8%; 
-            background: rgba(0, 0, 0, 0.85); 
+            padding: 8px 8%; 
+            background: rgba(11, 12, 16, 0.95); 
         }
 
-        .logo-container img { 
-            height: 150px; 
-            width: auto;
-            transition: height 0.4s ease; 
+        .logo-container h1 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
         }
-
-        header.header-encolhido .logo-container img {
-            height: 70px; 
-        }
+        .logo-container h1 span { color: var(--primary-blue); }
 
         .header-right {
             display: flex;
@@ -76,8 +78,8 @@
         nav a {
             color: #ccc;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 13px;
+            font-weight: 600;
+            font-size: 14px;
             transition: var(--transition);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -88,55 +90,20 @@
             position: absolute;
             width: 0;
             height: 2px;
-            bottom: -4px;
+            bottom: -5px;
             left: 0;
-            background-color: var(--accent-gold);
+            background-color: var(--primary-blue);
             transition: width 0.3s ease;
+            box-shadow: var(--neon-shadow);
         }
-        nav a:hover { color: var(--accent-gold); }
+        nav a:hover { color: #fff; }
         nav a:hover::after { width: 100%; }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            position: relative;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
-                        url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
-            text-align: center;
-            padding: 40px 5%;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 6vw, 4rem); 
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .hero p {
-            max-width: 650px;
-            font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-        }
-
+        /* --- BOTOES GERAIS --- */
         .btn {
             padding: 15px 35px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 8px;
             display: inline-flex;
             align-items: center;
@@ -144,135 +111,208 @@
             transition: var(--transition);
             text-transform: uppercase;
             font-size: 13px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-blue { 
-            background: var(--primary-blue); 
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark)); 
             color: #fff; 
-            box-shadow: 0 10px 30px rgba(0, 64, 133, 0.4);
+            box-shadow: var(--neon-shadow);
         }
         .btn-blue:hover {
-            background: #003066;
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 64, 133, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.6);
         }
 
-        .btn-ghost-white {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(11, 12, 16, 0.8), rgba(11, 12, 16, 1)), 
+                        url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            text-align: center;
+            padding: 40px 5%;
         }
-        .btn-ghost-white:hover { 
-            background: rgba(255,255,255,0.15); 
-            border-color: #fff; 
-            transform: translateY(-3px);
+
+        .hero h2 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+        .hero h2 span { color: var(--primary-blue); }
+
+        .hero p {
+            max-width: 700px;
+            font-size: 1.2rem;
+            color: #d1d5db;
+            margin-bottom: 40px;
         }
 
         /* --- SEÇÕES GERAIS --- */
         section { padding: 90px 8%; }
         .section-title { text-align: center; margin-bottom: 60px; }
         .section-title h2 { font-size: 2.5rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
-        .section-title span { color: var(--accent-gold); }
-        .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
+        .section-title span { color: var(--primary-blue); }
+        .section-title p { color: #9ca3af; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        .cards { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
+        /* --- EFEITO CUBO (DESTAQUES EM CASCATA/CUBO) --- */
+        #destaques { overflow: hidden; padding-top: 40px; }
+        .scene {
+            width: 300px;
+            height: 300px;
+            margin: 40px auto;
+            perspective: 1000px;
         }
-
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            overflow: hidden; 
-            transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.05);
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: girarCubo 20s infinite linear;
+        }
+        .cube__face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .cube__face img { width: 160px; height: 160px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .cube__face h3 { font-size: 1.2rem; color: #fff; }
+        .cube__face span { color: var(--accent-gold); font-size: 0.9rem; font-weight: bold; }
+
+        .cube__face--front  { transform: rotateY(  0deg) translateZ(150px); }
+        .cube__face--right  { transform: rotateY( 90deg) translateZ(150px); }
+        .cube__face--back   { transform: rotateY(180deg) translateZ(150px); }
+        .cube__face--left   { transform: rotateY(-270deg) translateZ(150px); }
+
+        @keyframes girarCubo {
+            0% { transform: translateZ(-150px) rotateY(0deg); }
+            100% { transform: translateZ(-150px) rotateY(360deg); }
+        }
+        .scene:hover .cube { animation-play-state: paused; }
+
+        /* --- CATÁLOGO GERAL (ESTILO KAIZEN ADAPTADO PREMIUM) --- */
+        .cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; 
+        }
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .card:hover { 
             transform: translateY(-10px);
             border-color: var(--primary-blue);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(0, 180, 216, 0.1);
         }
-
         .card-img-container {
-            overflow: hidden;
             width: 100%; 
-            height: 220px;
+            height: 200px;
             background: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .card:hover .card-img { transform: scale(1.15); }
+        .card-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s ease; }
+        .card:hover .card-img { transform: scale(1.1); }
 
-        .card-body { padding: 30px; text-align: left; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        
-        .card-category {
-            background: rgba(245, 196, 0, 0.15);
-            color: var(--accent-gold);
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 10px;
+        .card-body { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
+        .card-body p { color: #9ca3af; font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+
+        /* --- BANNER: NÃO ENCONTROU SUA PEÇA? --- */
+        .banner-whatsapp {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--dark-bg) 100%);
+            border: 2px solid var(--primary-blue);
             border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
+            padding: 50px 30px;
+            text-align: center;
+            margin: 0 8% 90px 8%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(0, 180, 216, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
         }
-
-        .card-body h3 { margin-bottom: 10px; font-size: 1.3rem; color: #fff; line-height: 1.3; }
-        .card-body p { color: #aaa; font-size: 0.9rem; margin-bottom: 25px; }
-
-        .btn-agendar {
-            display: block;
-            background: transparent;
-            color: #25d366;
-            padding: 12px;
-            border: 1px solid #25d366;
-            border-radius: 6px;
+        .banner-whatsapp::before {
+            content: '\f232';
+            font-family: 'Font Awesome 5 Brands';
+            position: absolute;
+            font-size: 15rem;
+            color: rgba(37, 211, 102, 0.03);
+            right: -20px;
+            bottom: -40px;
+            transform: rotate(-15deg);
+        }
+        .banner-whatsapp h2 { font-size: 2.2rem; color: #fff; z-index: 1; }
+        .banner-whatsapp h2 span { color: var(--primary-blue); }
+        .btn-whatsapp-large {
+            background: #25d366;
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
             transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-align: center;
+            z-index: 1;
         }
-        .btn-agendar:hover { background: #25d366; color: #000; }
+        .btn-whatsapp-large:hover { background: #1ebc5a; transform: scale(1.05); }
 
-        /* --- QUALIDADE / CONFIANÇA --- */
-        #qualidade {
-            background: linear-gradient(135deg, #111 0%, #1a1d21 100%);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
+        /* --- QUALIDADE --- */
+        #qualidade { background: var(--card-bg); border-top: 1px solid rgba(255,255,255,0.02); }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
         .trust-item {
-            padding: 30px;
-            background: rgba(0,0,0,0.3);
+            padding: 40px 30px;
+            background: rgba(11, 12, 16, 0.5);
             border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
             transition: var(--transition);
         }
-        .trust-item:hover {
-            transform: translateY(-5px);
-            background: rgba(0,0,0,0.6);
-            border-color: var(--accent-gold);
+        /* Classe ativada via JS para piscar */
+        .trust-item.blink-active {
+            animation: piscarNeon 0.8s ease-in-out;
         }
-        .trust-icon {
-            font-size: 3rem;
-            color: var(--accent-gold);
-            margin-bottom: 20px;
+        @keyframes piscarNeon {
+            0%, 100% { border-color: rgba(255,255,255,0.05); box-shadow: none; background: rgba(11, 12, 16, 0.5); }
+            50% { border-color: var(--primary-blue); box-shadow: 0 0 30px var(--primary-blue); background: rgba(0, 180, 216, 0.1); }
         }
+        .trust-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 20px; transition: 0.3s; }
         .trust-item h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; }
-        .trust-item p { color: #999; font-size: 0.95rem; }
+        .trust-item p { color: #9ca3af; font-size: 0.95rem; }
 
         /* --- LOCALIDADE --- */
         .location-container {
@@ -281,141 +321,53 @@
             gap: 50px;
             align-items: center;
             background: var(--card-bg);
-            padding: 40px;
+            padding: 50px;
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
         }
-        .location-info h3 { font-size: 2rem; color: #fff; margin-bottom: 20px; }
-        .location-info p { color: #aaa; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
-        .location-info i { color: var(--primary-blue); font-size: 1.3rem; }
-        .map-wrapper {
-            width: 100%;
-            height: 350px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* Classe ativada via JS para levitar o container */
+        .location-container.lifted {
+            transform: translateY(-25px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 180, 216, 0.3);
+            border-color: var(--primary-blue);
         }
+        .location-info h3 { font-size: 2rem; color: #fff; margin-bottom: 25px; }
+        .location-info p { color: #d1d5db; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-size: 1.1rem; }
+        .location-info i { color: var(--primary-blue); font-size: 1.3rem; width: 25px; text-align: center; }
+        .map-wrapper { width: 100%; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.05); }
         .map-wrapper iframe { width: 100%; height: 100%; border: none; }
 
         /* --- CONTATO / FOOTER --- */
-        #contato {
-            background: #050505;
-            padding: 80px 8% 30px;
-            border-top: 2px solid var(--primary-blue);
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
-        }
+        #contato { background: #050608; padding: 80px 8% 30px; border-top: 2px solid var(--primary-blue); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
         .footer-col h4 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-col h4 span { color: var(--accent-gold); }
-        .footer-col p, .footer-col a { color: #888; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; }
-        .footer-col a:hover { color: var(--accent-gold); padding-left: 5px; }
-        .footer-col .social-links { display: flex; gap: 15px; margin-top: 20px; }
-        .footer-col .social-links a { width: 40px; height: 40px; background: #1a1d21; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #fff; font-size: 1.2rem; }
-        .footer-col .social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
-        
-        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #222; color: #555; font-size: 13px; }
-
-        /* --- BALÃO DE ORÇAMENTO --- */
-        #budget-bubble {
-            position: fixed;
-            bottom: 170px; 
-            right: 35px;
-            background: #fff;
-            color: #333;
-            padding: 15px 20px;
-            border-radius: 15px 15px 0 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(20px) scale(0.8);
-            visibility: hidden;
-            transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-        }
-        #budget-bubble.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            visibility: visible;
-        }
-        #budget-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: 0;
-            border-left: 10px solid transparent;
-            border-top: 10px solid #fff;
-        }
-
-        /* --- FLOATING BUTTONS --- */
-        .floating-container { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 30px; 
-            z-index: 1000; 
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .float-btn {
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            color: #fff; 
-            font-size: 28px; 
-            text-decoration: none; 
-            transition: var(--transition);
-        }
-        
-        .whatsapp-float { 
-            background: #25d366; 
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-        }
-        .whatsapp-float:hover { background: #20b858; transform: scale(1.1); }
-
-        .location-float {
-            background: var(--primary-blue);
-            box-shadow: 0 5px 15px rgba(0, 64, 133, 0.4);
-        }
-        .location-float:hover { background: #003066; transform: scale(1.1); }
+        .footer-col h4 span { color: var(--primary-blue); }
+        .footer-col p, .footer-col a { color: #9ca3af; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; font-size: 0.95rem; }
+        .footer-col a:hover { color: var(--primary-blue); padding-left: 8px; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 40px; height: 40px; background: #1f2833; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #fff; font-size: 1.2rem; }
+        .social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: #6b7280; font-size: 13px; }
 
         /* --- RESPONSIVIDADE --- */
-        @media (max-width: 992px) {
-            .location-container { grid-template-columns: 1fr; }
-            .map-wrapper { height: 300px; }
-        }
-
+        @media (max-width: 992px) { .location-container { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 20px; }
-            header.header-encolhido { padding: 10px; } 
-            
-            .header-right { flex-direction: column; width: 100%; gap: 15px; }
-            nav { justify-content: center; width: 100%; flex-wrap: wrap; }
-            
-            .logo-container img { height: 100px; } 
-            header.header-encolhido .logo-container img { height: 60px; }
-
-            .hero h1 { font-size: 2rem; }
-            .hero-btns { flex-direction: column; width: 100%; }
-            .btn { width: 100%; justify-content: center; }
-            
-            section { padding: 60px 5%; }
-            #budget-bubble { right: 20px; bottom: 150px; }
-            .floating-container { bottom: 20px; right: 20px; }
-            .float-btn { width: 50px; height: 50px; font-size: 24px; }
-        }
-
-        @media (max-height: 500px) and (orientation: landscape) {
-            .hero { min-height: 120vh; padding: 100px 20px; }
-            header { position: relative; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            .hero h2 { font-size: 2rem; }
+            .banner-whatsapp h2 { font-size: 1.5rem; }
+            .btn-whatsapp-large { font-size: 1rem; padding: 15px 25px; width: 100%; justify-content: center;}
+            .scene { width: 250px; height: 250px; }
+            .cube__face { width: 250px; height: 250px; }
+            .cube__face--front  { transform: rotateY(  0deg) translateZ(125px); }
+            .cube__face--right  { transform: rotateY( 90deg) translateZ(125px); }
+            .cube__face--back   { transform: rotateY(180deg) translateZ(125px); }
+            .cube__face--left   { transform: rotateY(-270deg) translateZ(125px); }
+            @keyframes girarCubo {
+                0% { transform: translateZ(-125px) rotateY(0deg); }
+                100% { transform: translateZ(-125px) rotateY(360deg); }
+            }
         }
     </style>
 </head>
@@ -424,177 +376,147 @@
 
 <header>
     <div class="logo-container">
-        <img src="logo.jpg" alt="Lima Auto Peças">
+        <h1>Lima <span>Auto Peças</span></h1>
     </div>
     <div class="header-right">
         <nav>
             <a href="#topo">Início</a> 
+            <a href="#destaques">Destaques</a>
             <a href="#catalogo">Catálogo</a>
-            <a href="#qualidade">Qualidade</a>
-            <a href="#localidade">Localidade</a>
-            <a href="#contato">Contato</a>
+            <a href="#qualidade" id="nav-qualidade">Qualidade</a>
+            <a href="#localidade" id="nav-localidade">Localidade</a>
         </nav>
     </div>
 </header>
 
 <main>
     <section class="hero">
-        <h1>Catálogo de Peças <span>Lima</span></h1>
-        <p>A maior precisão em auto peças para o seu veículo. Qualidade garantida, pronta entrega e o melhor atendimento técnico especializado da região.</p>
-        
-        <div class="hero-btns">
-            <a class="btn btn-blue" href="#catalogo">
-                <i class="fas fa-search"></i> Explorar Catálogo
-            </a>
+        <h2>A Peça Certa, no <span>Momento Exato</span></h2>
+        <p>Sistema otimizado para você encontrar as peças mais procuradas do mercado. Desempenho, durabilidade e segurança para o seu veículo.</p>
+        <a class="btn btn-blue" href="#catalogo">Explorar Catálogo Completo</a>
+    </section>
 
-            <a class="btn btn-ghost-white" href="https://wa.me/5500000000000?text=Olá!%20Estou%20buscando%20uma%20peça%20específica%20que%20não%20achei%20no%20site." target="_blank">
-                <i class="fab fa-whatsapp"></i> Falar com Vendedor
-            </a>
+    <section id="destaques">
+        <div class="section-title">
+            <h2>Ofertas <span>Especiais</span></h2>
+            <p>Os itens mais desejados rodando em tempo real para você.</p>
+        </div>
+        <div class="scene">
+          <div class="cube">
+            <div class="cube__face cube__face--front">
+                <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=300&auto=format&fit=crop" alt="Pastilha">
+                <h3>Pastilha de Cerâmica</h3>
+                <span>Promoção</span>
+            </div>
+            <div class="cube__face cube__face--right">
+                <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=300&auto=format&fit=crop" alt="Amortecedor">
+                <h3>Kit Amortecedor</h3>
+                <span>15% OFF</span>
+            </div>
+            <div class="cube__face cube__face--back">
+                <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=300&auto=format&fit=crop" alt="Oleo">
+                <h3>Óleo Sintético 5W40</h3>
+                <span>Mais Vendido</span>
+            </div>
+            <div class="cube__face cube__face--left">
+                <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=300&auto=format&fit=crop" alt="Disco">
+                <h3>Disco de Freio</h3>
+                <span>Alta Performance</span>
+            </div>
+          </div>
         </div>
     </section>
         
     <section id="catalogo">
         <div class="section-title">
-            <h2>Nosso <span>Catálogo</span> em Destaque</h2>
-            <p>Trabalhamos com uma linha completa de peças genuínas e de 1ª linha. Confira nossos principais produtos à disposição.</p>
+            <h2>Algumas das peças <span>mais procuradas</span></h2>
         </div>
         
         <div class="cards">
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição">
+                    <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Óleo motor">
                 </div>
                 <div class="card-body">
-                    <span class="card-category">Motor</span>
-                    <h3>Vela de Ignição Iridium NGK</h3>
-                    <p>Referência BKR6EIX. Alta performance, ignição rápida e maior durabilidade para motores flex e gasolina.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium%20NGK.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Óleo motor</h3>
+                    <p>Todos os tipos de óleo para seu carro: 5w30, 15w40, 10w40, 5w40 e muito mais.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor">
+                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Amortecedor">
                 </div>
                 <div class="card-body">
-                    <span class="card-category">Suspensão</span>
-                    <h3>Amortecedor Diant. Monroe OESpectrum</h3>
-                    <p>Tecnologia avançada para estabilidade superior e conforto. Código padrão de montadora.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Monroe%20OESpectrum.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Amortecedor</h3>
+                    <p>Amortecedor traseiro e dianteiro original do seu carro. Aqui você encontra as melhores marcas do mercado.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem">
+                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pastilha de freio">
                 </div>
                 <div class="card-body">
-                    <span class="card-category">Transmissão</span>
-                    <h3>Kit Embreagem LUK RepSet</h3>
-                    <p>Platô, disco e rolamento. Troca de marchas suaves e eliminação de trepidações. Padrão original.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20LUK.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Pastilha de freio</h3>
+                    <p>Garanta a segurança do seu carro com pastilha de freio comum ou de cerâmica. Temos para todos os carros.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio">
+                    <img src="https://images.unsplash.com/photo-1590756254933-2873d72a83b6?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Limpador de Parabrisa">
                 </div>
                 <div class="card-body">
-                    <span class="card-category">Freios</span>
-                    <h3>Pastilha de Freio Cerâmica Cobreq</h3>
-                    <p>Frenagem silenciosa e eficiente, gerando menos pó nas rodas. Alta dissipação térmica.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio%20Cobreq.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Limpador de Parabrisa</h3>
+                    <p>Se livre daquele barulho insuportável de palheta velha e garanta a sua segurança no período de chuva.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bateria">
+                    <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Disco de Freio">
                 </div>
                 <div class="card-body">
-                    <span class="card-category">Elétrica</span>
-                    <h3>Bateria Moura 60Ah - M60AD</h3>
-                    <p>Tecnologia de ponta com liga anticorrosão, garantindo partidas rápidas e longa vida útil.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bateria%20Moura%2060Ah.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1580274455171-1c312cb6910d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bomba de Combustível">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Injeção</span>
-                    <h3>Refil Bomba de Combustível Bosch</h3>
-                    <p>Pressão constante de 3.0 Bar. Evita falhas de aceleração e aumenta a eficiência de consumo.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bomba%20de%20Combustível%20Bosch.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Óleo Sintético">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Lubrificantes</span>
-                    <h3>Óleo Sintético Motul 8100 5W40</h3>
-                    <p>Proteção térmica extrema e lubrificação rápida em partidas a frio. Especificação 100% sintética.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20no%20produto:%20Óleo%20Motul%208100.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1587317770857-41804f323e00?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia Dentada">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Motor</span>
-                    <h3>Kit Correia Dentada Gates</h3>
-                    <p>Acompanha tensionador. Fabricada em compostos HNBR de alta resistência contra desgaste.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Correia%20Dentada%20Gates.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Disco de Freio">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Freios</span>
-                    <h3>Disco de Freio Fremax Carbon+</h3>
-                    <p>Liga enriquecida com carbono, garantindo frenagens precisas e ausência total de vibrações.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Disco%20de%20Freio%20Fremax.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Disco de Freio</h3>
+                    <p>Os melhores preços de discos de freio para o seu carro; Segurança e economia garantidas.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <div class="banner-whatsapp">
+        <h2>Não encontrou sua peça? <span>Fale com a Lima Peças</span></h2>
+        <a href="https://wa.me/5500000000000" target="_blank" class="btn-whatsapp-large">
+            <i class="fab fa-whatsapp"></i> Consultar peça pelo WhatsApp
+        </a>
+    </div>
+
     <section id="qualidade">
         <div class="section-title">
-            <h2>Nossa <span>Garantia de Qualidade</span></h2>
-            <p>Trabalhamos duro para ser a distribuidora de auto peças que você confia para manter o seu carro rodando com segurança.</p>
+            <h2>Sua <span>Tranquilidade</span> Garantida</h2>
+            <p>O melhor padrão de atendimento e peças do mercado automotivo.</p>
         </div>
         <div class="trust-grid">
             <div class="trust-item">
                 <i class="fas fa-certificate trust-icon"></i>
                 <h3>Peças Originais</h3>
-                <p>Fornecemos peças com procedência garantida, diretamente de fabricantes homologados e de primeira linha.</p>
+                <p>Fornecemos peças com procedência garantida e de primeira linha.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-box-open trust-icon"></i>
                 <h3>Amplo Estoque</h3>
-                <p>Catálogo gigantesco a pronta entrega para veículos nacionais, importados e utilitários.</p>
+                <p>Catálogo gigantesco a pronta entrega para veículos nacionais e importados.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-shield-alt trust-icon"></i>
                 <h3>Garantia de Fábrica</h3>
-                <p>Todos os nossos itens possuem garantia estendida cobrindo defeitos de fabricação.</p>
+                <p>Todos os nossos itens possuem garantia estendida contra defeitos.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-headset trust-icon"></i>
                 <h3>Atendimento Técnico</h3>
-                <p>Nossos vendedores não apenas vendem, mas prestam consultoria para você não comprar a peça errada.</p>
+                <p>Nossos vendedores prestam consultoria para você não comprar a peça errada.</p>
             </div>
         </div>
     </section>
@@ -602,45 +524,32 @@
     <section id="localidade">
         <div class="section-title">
             <h2>Nossa <span>Localidade</span></h2>
-            <p>Visite nossa loja física para retirar suas peças de imediato com amplo estacionamento para o seu conforto.</p>
+            <p>Estrutura completa aguardando a sua visita.</p>
         </div>
-        <div class="location-container">
+        <div class="location-container" id="box-localidade">
             <div class="location-info">
-                <h3>Venha buscar sua peça</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Loja 05, Cidade - UF</p>
-                <p><i class="fas fa-clock"></i> Seg. a Sex: 08:00 às 18:00 | Sáb: 08:00 às 13:00</p>
+                <h3>Venha retirar sua peça</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Loja 05</p>
+                <p><i class="fas fa-clock"></i> Seg. a Sex: 08:00 às 18:00</p>
                 <p><i class="fas fa-phone-alt"></i> (00) 1234-5678</p>
                 <p><i class="fab fa-whatsapp"></i> (00) 90000-0000</p>
                 <br>
-                <a href="https://maps.google.com" target="_blank" class="btn btn-blue">
+                <a href="#" class="btn btn-blue">
                     <i class="fas fa-location-arrow"></i> Traçar Rota no Maps
                 </a>
             </div>
             <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.19758702902!2d-46.65600508447573!3d-23.56133746749326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%20-%20S%C3%A3o%20Paulo%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1680000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.356219020248!2d-43.36039568503454!3d-22.90022838501509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9961671f65759b%3A0x6b4fb6c174f880be!2sAv.%20das%20Am%C3%A9ricas%2C%20Rio%20de%20Janeiro%20-%20RJ!5e0!3m2!1spt-BR!2sbr!4v1650000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 </main>
 
-<div id="budget-bubble">
-    Procurando uma peça específica? 🔍 Fale conosco!
-</div>
-
-<div class="floating-container">
-    <a class="float-btn location-float" href="#localidade" title="Nossa Localização">
-        <i class="fas fa-map-marker-alt"></i>
-    </a>
-    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000?text=Olá,%20acessei%20o%20site%20e%20gostaria%20de%20fazer%20uma%20cotação." target="_blank" title="Faça sua cotação no WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</div>
-
 <footer id="contato">
     <div class="footer-grid">
         <div class="footer-col">
             <h4>Lima <span>Auto Peças</span></h4>
-            <p>O maior e mais confiável estoque de peças da região. Fornecemos soluções para que seu veículo não pare nunca. Tradição e preço justo.</p>
+            <p>O maior e mais confiável estoque de peças da região. Fornecemos soluções para que seu veículo não pare nunca.</p>
         </div>
         <div class="footer-col">
             <h4>Links Rápidos</h4>
@@ -656,42 +565,68 @@
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>Lima Auto Peças © 2026 | Precisão e Qualidade. Todos os direitos reservados.</p>
+        <p>Lima Auto Peças © 2026 | Sistema Premium. Todos os direitos reservados.</p>
     </div>
 </footer>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const bubble = document.getElementById('budget-bubble');
-        let hideTimeout;
-
-        setTimeout(function() {
-            bubble.classList.add('show');
-            
-            hideTimeout = setTimeout(function() {
-                bubble.classList.remove('show');
-            }, 6000); 
-
-        }, 3000);
-
-        document.addEventListener('click', function() {
-            if (bubble.classList.contains('show')) {
-                bubble.classList.remove('show');
-                clearTimeout(hideTimeout);
-            }
-        });
-
+        // --- Efeito Header Encolhido ao rolar ---
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
                 header.classList.add('header-encolhido');
             } else {
                 header.classList.remove('header-encolhido');
+            }
+        });
+
+        // --- Animação: Cubo Localidade Levantando ---
+        const navLocalidade = document.getElementById('nav-localidade');
+        const boxLocalidade = document.getElementById('box-localidade');
+        
+        navLocalidade.addEventListener('click', function(e) {
+            // Remove a classe se já existir para reiniciar o efeito
+            boxLocalidade.classList.remove('lifted');
+            
+            // Pequeno delay para a rolagem da página acontecer antes do efeito
+            setTimeout(() => {
+                boxLocalidade.classList.add('lifted');
+                
+                // O cubo volta ao normal após 2 segundos
+                setTimeout(() => {
+                    boxLocalidade.classList.remove('lifted');
+                }, 2000);
+            }, 500); 
+        });
+
+        // --- Animação: Qualidades piscando em Cascata (Apenas 1 vez) ---
+        const navQualidade = document.getElementById('nav-qualidade');
+        const trustItems = document.querySelectorAll('.trust-item');
+        let jaPiscou = false;
+
+        navQualidade.addEventListener('click', function(e) {
+            if (!jaPiscou) {
+                jaPiscou = true; // Garante que só ocorra uma vez
+                
+                setTimeout(() => {
+                    trustItems.forEach((item, index) => {
+                        // Efeito cascata: multiplica o tempo pelo index
+                        setTimeout(() => {
+                            item.classList.add('blink-active');
+                            
+                            // Remove a classe após a animação terminar
+                            setTimeout(() => {
+                                item.classList.remove('blink-active');
+                            }, 800);
+                            
+                        }, index * 400); // 400ms de diferença entre cada quadro
+                    });
+                }, 500); // Delay inicial para dar tempo da tela rolar
             }
         });
     });
