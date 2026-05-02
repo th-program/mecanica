@@ -5,18 +5,18 @@
     <title>Lima Auto Peças | Catálogo Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary-blue: #00b4d8; /* Azul mais moderno e elétrico */
-            --primary-dark: #0077b6;
+      :root {
+            --primary-blue: #004085; 
             --accent-gold: #f5c400;  
-            --dark-bg: #0b0c10;
-            --card-bg: #1f2833;
+            --cyan-accent: #00a8a8; /* Cor dos botões "Orçamento" da imagem */
+            --cyan-hover: #008f8f;
+            --dark-bg: #0d0d0e;
+            --card-bg: #16181b;
             --text-light: #f8f9fa;
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --neon-shadow: 0 0 15px rgba(0, 180, 216, 0.4);
         }
 
         html {
@@ -38,9 +38,8 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER --- */
         header {
-            background: rgba(11, 12, 16, 0.85);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px); 
             padding: 15px 8%; 
             display: flex;
@@ -50,23 +49,20 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
-            transition: padding 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: padding 0.4s ease, background 0.4s ease;
         }
 
         header.header-encolhido {
-            padding: 8px 8%; 
-            background: rgba(11, 12, 16, 0.95); 
+            padding: 5px 8%; 
+            background: rgba(0, 0, 0, 0.9); 
         }
 
-        .logo-container h1 {
-            font-size: 1.8rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 800;
+        .logo-container img { 
+            height: 60px; /* Reduzido para ficar mais profissional */
+            width: auto;
+            transition: height 0.4s ease; 
         }
-        .logo-container h1 span { color: var(--primary-blue); }
 
         .header-right {
             display: flex;
@@ -78,8 +74,8 @@
         nav a {
             color: #ccc;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            font-size: 13px;
             transition: var(--transition);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -90,41 +86,13 @@
             position: absolute;
             width: 0;
             height: 2px;
-            bottom: -5px;
+            bottom: -4px;
             left: 0;
-            background-color: var(--primary-blue);
+            background-color: var(--accent-gold);
             transition: width 0.3s ease;
-            box-shadow: var(--neon-shadow);
         }
-        nav a:hover { color: #fff; }
+        nav a:hover { color: var(--accent-gold); }
         nav a:hover::after { width: 100%; }
-
-        /* --- BOTOES GERAIS --- */
-        .btn {
-            padding: 15px 35px;
-            text-decoration: none;
-            font-weight: 800;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 1px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-blue { 
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark)); 
-            color: #fff; 
-            box-shadow: var(--neon-shadow);
-        }
-        .btn-blue:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.6);
-        }
 
         /* --- HERO SECTION --- */
         .hero {
@@ -134,240 +102,398 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(11, 12, 16, 0.8), rgba(11, 12, 16, 1)), 
-                        url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
+                        url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
             text-align: center;
             padding: 40px 5%;
         }
 
-        .hero h2 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4rem); 
             font-weight: 800;
+            letter-spacing: -1px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
-        .hero h2 span { color: var(--primary-blue); }
 
         .hero p {
-            max-width: 700px;
-            font-size: 1.2rem;
-            color: #d1d5db;
+            max-width: 650px;
+            font-size: 1.1rem;
+            color: #ccc;
             margin-bottom: 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .btn-blue { 
+            background: var(--primary-blue); 
+            color: #fff; 
+            box-shadow: 0 8px 20px rgba(0, 64, 133, 0.4);
+        }
+        .btn-blue:hover {
+            background: #003066;
+            transform: translateY(-3px);
+        }
+
+        .btn-ghost-white {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+        .btn-ghost-white:hover { 
+            background: rgba(255,255,255,0.15); 
+            border-color: #fff; 
+            transform: translateY(-3px);
+        }
+
+        /* --- DESTAQUES ANIMADOS (CASCATA) --- */
+        .marquee-section {
+            padding: 40px 0;
+            background: #0a0b0c;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .marquee-title {
+            color: var(--accent-gold);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        .marquee-wrapper {
+            display: flex;
+            width: 200%;
+            animation: scroll 25s linear infinite;
+        }
+        .marquee-wrapper:hover {
+            animation-play-state: paused;
+        }
+        .marquee-item {
+            flex: 0 0 auto;
+            width: 250px;
+            margin: 0 15px;
+            background: #1a1d21;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .marquee-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--cyan-accent);
+            box-shadow: 0 10px 20px rgba(0, 168, 168, 0.2);
+        }
+        .marquee-item i {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .marquee-item span {
+            font-weight: 600;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         /* --- SEÇÕES GERAIS --- */
         section { padding: 90px 8%; }
-        .section-title { text-align: center; margin-bottom: 60px; }
-        .section-title h2 { font-size: 2.5rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
-        .section-title span { color: var(--primary-blue); }
-        .section-title p { color: #9ca3af; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
-
-        /* --- EFEITO CUBO (DESTAQUES EM CASCATA/CUBO) --- */
-        #destaques { overflow: hidden; padding-top: 40px; }
-        .scene {
-            width: 300px;
-            height: 300px;
-            margin: 40px auto;
-            perspective: 1000px;
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.2rem; color: #fff; font-weight: 800; margin-bottom: 10px; }
+        .section-title span { color: var(--accent-gold); }
+        .section-title hr {
+            width: 60px;
+            height: 3px;
+            background: var(--primary-blue);
+            border: none;
+            margin: 0 auto 15px auto;
         }
-        .cube {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: girarCubo 20s infinite linear;
-        }
-        .cube__face {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--card-bg);
-            border: 2px solid var(--primary-blue);
-            box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-            overflow: hidden;
-        }
-        .cube__face img { width: 160px; height: 160px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
-        .cube__face h3 { font-size: 1.2rem; color: #fff; }
-        .cube__face span { color: var(--accent-gold); font-size: 0.9rem; font-weight: bold; }
 
-        .cube__face--front  { transform: rotateY(  0deg) translateZ(150px); }
-        .cube__face--right  { transform: rotateY( 90deg) translateZ(150px); }
-        .cube__face--back   { transform: rotateY(180deg) translateZ(150px); }
-        .cube__face--left   { transform: rotateY(-270deg) translateZ(150px); }
-
-        @keyframes girarCubo {
-            0% { transform: translateZ(-150px) rotateY(0deg); }
-            100% { transform: translateZ(-150px) rotateY(360deg); }
-        }
-        .scene:hover .cube { animation-play-state: paused; }
-
-        /* --- CATÁLOGO GERAL (ESTILO KAIZEN ADAPTADO PREMIUM) --- */
+        /* --- CATÁLOGO --- */
         .cards { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 30px; 
+            gap: 25px; 
         }
+
         .card { 
             background: var(--card-bg); 
-            border-radius: 15px; 
+            border-radius: 12px; 
             overflow: hidden; 
             transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .card:hover { 
-            transform: translateY(-10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(0, 180, 216, 0.1);
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
+
         .card-img-container {
             width: 100%; 
             height: 200px;
-            background: #fff;
-            padding: 20px;
+            background: #fff; /* Fundo branco como na imagem de referência */
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
             position: relative;
         }
-        .card-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s ease; }
+        /* Efeito de polígono de fundo da imagem (tipo o amarelo/verde da sua referência) */
+        .card-img-container::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 60%;
+            background: #d4e040; /* Cor esverdeada/amarelada da referência */
+            border-radius: 20px;
+            transform: rotate(-5deg);
+            z-index: 1;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        .card:hover .card-img-container::before {
+            transform: rotate(0deg) scale(1.1);
+        }
+        
+        .card-img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            z-index: 2;
+            transition: 0.5s ease;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+        }
         .card:hover .card-img { transform: scale(1.1); }
 
-        .card-body { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
-        .card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
-        .card-body p { color: #9ca3af; font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+        .card-body { 
+            padding: 25px; 
+            text-align: left; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .card-body h3 { margin-bottom: 12px; font-size: 1.2rem; color: #fff; font-weight: 600; }
+        .card-body p { color: #999; font-size: 0.85rem; margin-bottom: 25px; line-height: 1.5; flex-grow: 1; }
 
-        /* --- BANNER: NÃO ENCONTROU SUA PEÇA? --- */
-        .banner-whatsapp {
-            background: linear-gradient(135deg, var(--card-bg) 0%, var(--dark-bg) 100%);
-            border: 2px solid var(--primary-blue);
-            border-radius: 20px;
-            padding: 50px 30px;
-            text-align: center;
-            margin: 0 8% 90px 8%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(0, 180, 216, 0.05);
+        /* --- BANNER NÃO ENCONTROU A PEÇA --- */
+        .custom-search-banner {
+            margin-top: 60px;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
             gap: 20px;
-            position: relative;
-            overflow: hidden;
         }
-        .banner-whatsapp::before {
-            content: '\f232';
-            font-family: 'Font Awesome 5 Brands';
-            position: absolute;
-            font-size: 15rem;
-            color: rgba(37, 211, 102, 0.03);
-            right: -20px;
-            bottom: -40px;
-            transform: rotate(-15deg);
-        }
-        .banner-whatsapp h2 { font-size: 2.2rem; color: #fff; z-index: 1; }
-        .banner-whatsapp h2 span { color: var(--primary-blue); }
-        .btn-whatsapp-large {
-            background: #25d366;
+        .custom-search-banner h3 {
+            font-size: 1.5rem;
             color: #fff;
-            padding: 18px 40px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            border-radius: 50px;
+            font-weight: 600;
+        }
+        .custom-search-banner h3 span { color: var(--cyan-accent); }
+        .banner-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn-cyan {
+            background: var(--cyan-accent);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 6px;
             text-decoration: none;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            gap: 8px;
+            font-size: 14px;
             transition: var(--transition);
-            z-index: 1;
         }
-        .btn-whatsapp-large:hover { background: #1ebc5a; transform: scale(1.05); }
+        .btn-cyan:hover { background: var(--cyan-hover); transform: translateY(-3px); }
+        
+        .btn-cyan-outline {
+            background: transparent;
+            color: var(--cyan-accent);
+            border: 1px solid var(--cyan-accent);
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .btn-cyan-outline:hover {
+            background: var(--cyan-accent);
+            color: #fff;
+        }
 
-        /* --- QUALIDADE --- */
-        #qualidade { background: var(--card-bg); border-top: 1px solid rgba(255,255,255,0.02); }
-        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .trust-item {
-            padding: 40px 30px;
-            background: rgba(11, 12, 16, 0.5);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
+        /* --- QUALIDADE / CONFIANÇA --- */
+        #qualidade {
+            background: linear-gradient(135deg, #0a0a0a 0%, #16181b 100%);
+            border-top: 1px solid rgba(255,255,255,0.02);
+        }
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
             text-align: center;
+        }
+        .trust-item {
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
             transition: var(--transition);
         }
-        /* Classe ativada via JS para piscar */
-        .trust-item.blink-active {
-            animation: piscarNeon 0.8s ease-in-out;
+        
+        /* Animação de piscar gerada pelo JS */
+        .trust-item.piscar-destaque {
+            animation: highlightFlash 0.8s ease-in-out;
         }
-        @keyframes piscarNeon {
-            0%, 100% { border-color: rgba(255,255,255,0.05); box-shadow: none; background: rgba(11, 12, 16, 0.5); }
-            50% { border-color: var(--primary-blue); box-shadow: 0 0 30px var(--primary-blue); background: rgba(0, 180, 216, 0.1); }
+        @keyframes highlightFlash {
+            0%, 100% { transform: scale(1); box-shadow: none; border-color: rgba(255,255,255,0.03); background: rgba(0,0,0,0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 30px var(--accent-gold); border-color: var(--accent-gold); background: rgba(245, 196, 0, 0.1); }
         }
-        .trust-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 20px; transition: 0.3s; }
-        .trust-item h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; }
-        .trust-item p { color: #9ca3af; font-size: 0.95rem; }
+
+        .trust-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+        .trust-item h3 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+        .trust-item p { color: #888; font-size: 0.9rem; }
 
         /* --- LOCALIDADE --- */
         .location-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 40px;
             align-items: center;
             background: var(--card-bg);
-            padding: 50px;
-            border-radius: 20px;
+            padding: 40px;
+            border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transição suave para o efeito */
         }
-        /* Classe ativada via JS para levitar o container */
-        .location-container.lifted {
+
+        /* Classe ativada via JS para elevar o container */
+        .location-container.lift-effect {
             transform: translateY(-25px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 180, 216, 0.3);
-            border-color: var(--primary-blue);
+            box-shadow: 0 30px 60px rgba(0, 168, 168, 0.15), 0 0 0 2px var(--cyan-accent);
         }
-        .location-info h3 { font-size: 2rem; color: #fff; margin-bottom: 25px; }
-        .location-info p { color: #d1d5db; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-size: 1.1rem; }
-        .location-info i { color: var(--primary-blue); font-size: 1.3rem; width: 25px; text-align: center; }
-        .map-wrapper { width: 100%; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.05); }
+
+        .location-info h3 { font-size: 1.8rem; color: #fff; margin-bottom: 20px; }
+        .location-info p { color: #aaa; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; font-size: 1rem; }
+        .location-info i { color: var(--cyan-accent); font-size: 1.2rem; width: 20px; text-align: center; }
+        .map-wrapper {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
         .map-wrapper iframe { width: 100%; height: 100%; border: none; }
 
-        /* --- CONTATO / FOOTER --- */
-        #contato { background: #050608; padding: 80px 8% 30px; border-top: 2px solid var(--primary-blue); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
-        .footer-col h4 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-col h4 span { color: var(--primary-blue); }
-        .footer-col p, .footer-col a { color: #9ca3af; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; font-size: 0.95rem; }
-        .footer-col a:hover { color: var(--primary-blue); padding-left: 8px; }
-        .social-links { display: flex; gap: 15px; margin-top: 20px; }
-        .social-links a { width: 40px; height: 40px; background: #1f2833; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #fff; font-size: 1.2rem; }
-        .social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
-        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: #6b7280; font-size: 13px; }
+        /* --- FOOTER --- */
+        #contato {
+            background: #050505;
+            padding: 60px 8% 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 { color: #fff; font-size: 1.1rem; margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-col h4 span { color: var(--accent-gold); }
+        .footer-col p, .footer-col a { color: #777; text-decoration: none; display: block; margin-bottom: 12px; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col a:hover { color: var(--cyan-accent); padding-left: 5px; }
+        .social-links { display: flex; gap: 10px; margin-top: 15px; }
+        .social-links a { width: 35px; height: 35px; background: #1a1d21; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #fff; transition: var(--transition); }
+        .social-links a:hover { background: var(--cyan-accent); transform: translateY(-3px); }
+        
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #111; color: #444; font-size: 12px; }
+
+        /* --- FLOATING BUTTONS --- */
+        .floating-container { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            z-index: 1000; 
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .float-btn {
+            width: 55px; 
+            height: 55px; 
+            border-radius: 50%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: #fff; 
+            font-size: 24px; 
+            text-decoration: none; 
+            transition: var(--transition);
+        }
+        .whatsapp-float { 
+            background: #25d366; 
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-float:hover { background: #20b858; transform: scale(1.1); }
 
         /* --- RESPONSIVIDADE --- */
-        @media (max-width: 992px) { .location-container { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 20px; }
-            nav { flex-wrap: wrap; justify-content: center; }
-            .hero h2 { font-size: 2rem; }
-            .banner-whatsapp h2 { font-size: 1.5rem; }
-            .btn-whatsapp-large { font-size: 1rem; padding: 15px 25px; width: 100%; justify-content: center;}
-            .scene { width: 250px; height: 250px; }
-            .cube__face { width: 250px; height: 250px; }
-            .cube__face--front  { transform: rotateY(  0deg) translateZ(125px); }
-            .cube__face--right  { transform: rotateY( 90deg) translateZ(125px); }
-            .cube__face--back   { transform: rotateY(180deg) translateZ(125px); }
-            .cube__face--left   { transform: rotateY(-270deg) translateZ(125px); }
-            @keyframes girarCubo {
-                0% { transform: translateZ(-125px) rotateY(0deg); }
-                100% { transform: translateZ(-125px) rotateY(360deg); }
-            }
+            .header-right { flex-direction: column; width: 100%; gap: 15px; }
+            nav { justify-content: center; width: 100%; flex-wrap: wrap; }
+            .hero h1 { font-size: 2rem; }
+            .location-container { grid-template-columns: 1fr; }
+            .floating-container { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -376,66 +502,58 @@
 
 <header>
     <div class="logo-container">
-        <h1>Lima <span>Auto Peças</span></h1>
+        <h2 style="color: #fff; font-style: italic;">LIMA <span style="color: #f5c400;">PEÇAS</span></h2>
     </div>
     <div class="header-right">
         <nav>
             <a href="#topo">Início</a> 
-            <a href="#destaques">Destaques</a>
             <a href="#catalogo">Catálogo</a>
             <a href="#qualidade" id="nav-qualidade">Qualidade</a>
             <a href="#localidade" id="nav-localidade">Localidade</a>
+            <a href="#contato">Contato</a>
         </nav>
     </div>
 </header>
 
 <main>
     <section class="hero">
-        <h2>A Peça Certa, no <span>Momento Exato</span></h2>
-        <p>Sistema otimizado para você encontrar as peças mais procuradas do mercado. Desempenho, durabilidade e segurança para o seu veículo.</p>
-        <a class="btn btn-blue" href="#catalogo">Explorar Catálogo Completo</a>
+        <h1>Catálogo de Peças <span>Lima</span></h1>
+        <p>A maior precisão em auto peças para o seu veículo. Qualidade garantida, pronta entrega e o melhor atendimento técnico especializado.</p>
+        
+        <div class="hero-btns">
+            <a class="btn btn-blue" href="#catalogo">
+                <i class="fas fa-search"></i> Explorar Catálogo
+            </a>
+        </div>
     </section>
 
-    <section id="destaques">
-        <div class="section-title">
-            <h2>Ofertas <span>Especiais</span></h2>
-            <p>Os itens mais desejados rodando em tempo real para você.</p>
+    <div class="marquee-section">
+        <div class="marquee-title"><i class="fas fa-bolt"></i> Destaques em Tempo Real</div>
+        <div class="marquee-wrapper">
+            <div class="marquee-item"><i class="fas fa-car-battery"></i><span>Baterias Alta Performance</span></div>
+            <div class="marquee-item"><i class="fas fa-oil-can"></i><span>Óleos Lubrificantes</span></div>
+            <div class="marquee-item"><i class="fas fa-cogs"></i><span>Kit Embreagem Premium</span></div>
+            <div class="marquee-item"><i class="fas fa-tools"></i><span>Suspensão e Freios</span></div>
+            <div class="marquee-item"><i class="fas fa-lightbulb"></i><span>Iluminação Automotiva</span></div>
+            
+            <div class="marquee-item"><i class="fas fa-car-battery"></i><span>Baterias Alta Performance</span></div>
+            <div class="marquee-item"><i class="fas fa-oil-can"></i><span>Óleos Lubrificantes</span></div>
+            <div class="marquee-item"><i class="fas fa-cogs"></i><span>Kit Embreagem Premium</span></div>
+            <div class="marquee-item"><i class="fas fa-tools"></i><span>Suspensão e Freios</span></div>
+            <div class="marquee-item"><i class="fas fa-lightbulb"></i><span>Iluminação Automotiva</span></div>
         </div>
-        <div class="scene">
-          <div class="cube">
-            <div class="cube__face cube__face--front">
-                <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=300&auto=format&fit=crop" alt="Pastilha">
-                <h3>Pastilha de Cerâmica</h3>
-                <span>Promoção</span>
-            </div>
-            <div class="cube__face cube__face--right">
-                <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=300&auto=format&fit=crop" alt="Amortecedor">
-                <h3>Kit Amortecedor</h3>
-                <span>15% OFF</span>
-            </div>
-            <div class="cube__face cube__face--back">
-                <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=300&auto=format&fit=crop" alt="Oleo">
-                <h3>Óleo Sintético 5W40</h3>
-                <span>Mais Vendido</span>
-            </div>
-            <div class="cube__face cube__face--left">
-                <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=300&auto=format&fit=crop" alt="Disco">
-                <h3>Disco de Freio</h3>
-                <span>Alta Performance</span>
-            </div>
-          </div>
-        </div>
-    </section>
+    </div>
         
     <section id="catalogo">
         <div class="section-title">
-            <h2>Algumas das peças <span>mais procuradas</span></h2>
+            <h2>Algumas das peças mais procuradas</h2>
+            <hr>
         </div>
         
         <div class="cards">
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Óleo motor">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1944/1944883.png" class="card-img" alt="Óleo Motor" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));">
                 </div>
                 <div class="card-body">
                     <h3>Óleo motor</h3>
@@ -445,7 +563,7 @@
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Amortecedor">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png" class="card-img" alt="Amortecedor" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));">
                 </div>
                 <div class="card-body">
                     <h3>Amortecedor</h3>
@@ -455,17 +573,17 @@
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pastilha de freio">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3233/3233483.png" class="card-img" alt="Pastilha de freio" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));">
                 </div>
                 <div class="card-body">
                     <h3>Pastilha de freio</h3>
-                    <p>Garanta a segurança do seu carro com pastilha de freio comum ou de cerâmica. Temos para todos os carros.</p>
+                    <p>Garanta a segurança do seu carro com pastilha de freio comum, ou de cerâmica. Temos para todos os carros.</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1590756254933-2873d72a83b6?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Limpador de Parabrisa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830282.png" class="card-img" alt="Limpador" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));">
                 </div>
                 <div class="card-body">
                     <h3>Limpador de Parabrisa</h3>
@@ -475,7 +593,7 @@
 
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Disco de Freio">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1005/1005124.png" class="card-img" alt="Disco de Freio" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));">
                 </div>
                 <div class="card-body">
                     <h3>Disco de Freio</h3>
@@ -483,21 +601,26 @@
                 </div>
             </div>
         </div>
-    </section>
 
-    <div class="banner-whatsapp">
-        <h2>Não encontrou sua peça? <span>Fale com a Lima Peças</span></h2>
-        <a href="https://wa.me/5500000000000" target="_blank" class="btn-whatsapp-large">
-            <i class="fab fa-whatsapp"></i> Consultar peça pelo WhatsApp
-        </a>
-    </div>
+        <div class="custom-search-banner">
+            <h3>Não encontrou sua peça? Fale com a <span>Lima</span></h3>
+            <div class="banner-actions">
+                <a href="https://wa.me/5500000000000" target="_blank" class="btn-cyan">
+                    <i class="fab fa-whatsapp"></i> Consultar peça pelo WhatsApp
+                </a>
+                <a href="#" class="btn-cyan-outline">
+                    <i class="fas fa-file-invoice-dollar"></i> Orçamento Ninja
+                </a>
+            </div>
+        </div>
+    </section>
 
     <section id="qualidade">
         <div class="section-title">
-            <h2>Sua <span>Tranquilidade</span> Garantida</h2>
-            <p>O melhor padrão de atendimento e peças do mercado automotivo.</p>
+            <h2>Garantia de <span>Qualidade</span></h2>
+            <hr>
         </div>
-        <div class="trust-grid">
+        <div class="trust-grid" id="caixas-qualidade">
             <div class="trust-item">
                 <i class="fas fa-certificate trust-icon"></i>
                 <h3>Peças Originais</h3>
@@ -510,13 +633,13 @@
             </div>
             <div class="trust-item">
                 <i class="fas fa-shield-alt trust-icon"></i>
-                <h3>Garantia de Fábrica</h3>
+                <h3>Garantia</h3>
                 <p>Todos os nossos itens possuem garantia estendida contra defeitos.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-headset trust-icon"></i>
-                <h3>Atendimento Técnico</h3>
-                <p>Nossos vendedores prestam consultoria para você não comprar a peça errada.</p>
+                <h3>Atendimento</h3>
+                <p>Prestamos consultoria para você não comprar a peça errada.</p>
             </div>
         </div>
     </section>
@@ -524,44 +647,48 @@
     <section id="localidade">
         <div class="section-title">
             <h2>Nossa <span>Localidade</span></h2>
-            <p>Estrutura completa aguardando a sua visita.</p>
+            <hr>
         </div>
-        <div class="location-container" id="box-localidade">
+        <div class="location-container" id="caixa-localidade">
             <div class="location-info">
-                <h3>Venha retirar sua peça</h3>
+                <h3>Venha buscar sua peça</h3>
                 <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Loja 05</p>
                 <p><i class="fas fa-clock"></i> Seg. a Sex: 08:00 às 18:00</p>
                 <p><i class="fas fa-phone-alt"></i> (00) 1234-5678</p>
-                <p><i class="fab fa-whatsapp"></i> (00) 90000-0000</p>
                 <br>
-                <a href="#" class="btn btn-blue">
-                    <i class="fas fa-location-arrow"></i> Traçar Rota no Maps
+                <a href="#" class="btn btn-cyan">
+                    <i class="fas fa-location-arrow"></i> Traçar Rota
                 </a>
             </div>
             <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.356219020248!2d-43.36039568503454!3d-22.90022838501509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9961671f65759b%3A0x6b4fb6c174f880be!2sAv.%20das%20Am%C3%A9ricas%2C%20Rio%20de%20Janeiro%20-%20RJ!5e0!3m2!1spt-BR!2sbr!4v1650000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197361280962!2d-46.65641768502213!3d-23.561337484682415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMzJzQwLjgiUyA0NsKwMzknMTUuMiJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 </main>
 
+<div class="floating-container">
+    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank" title="Faça sua cotação">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
 <footer id="contato">
     <div class="footer-grid">
         <div class="footer-col">
             <h4>Lima <span>Auto Peças</span></h4>
-            <p>O maior e mais confiável estoque de peças da região. Fornecemos soluções para que seu veículo não pare nunca.</p>
+            <p>Fornecemos soluções para que seu veículo não pare nunca. Tradição e preço justo.</p>
         </div>
         <div class="footer-col">
-            <h4>Links Rápidos</h4>
-            <a href="#topo">Início</a>
+            <h4>Links</h4>
             <a href="#catalogo">Catálogo Online</a>
             <a href="#qualidade">Nossa Garantia</a>
             <a href="#localidade">Como Chegar</a>
         </div>
         <div class="footer-col">
             <h4>Televendas</h4>
-            <p><i class="fas fa-envelope"></i> vendas@limapecas.com.br</p>
-            <p><i class="fas fa-phone-alt"></i> (00) 1234-5678</p>
+            <p>vendas@limapecas.com.br</p>
+            <p>(00) 1234-5678</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -569,13 +696,14 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>Lima Auto Peças © 2026 | Sistema Premium. Todos os direitos reservados.</p>
+        <p>Lima Auto Peças © 2026 | Todos os direitos reservados.</p>
     </div>
 </footer>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // --- Efeito Header Encolhido ao rolar ---
+        
+        // Efeito do Header encolhendo no Scroll
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
@@ -585,50 +713,44 @@
             }
         });
 
-        // --- Animação: Cubo Localidade Levantando ---
-        const navLocalidade = document.getElementById('nav-localidade');
-        const boxLocalidade = document.getElementById('box-localidade');
+        // 1. ANIMAÇÃO DE ELEVAÇÃO NA LOCALIDADE
+        const btnLocalidade = document.getElementById('nav-localidade');
+        const caixaLocalidade = document.getElementById('caixa-localidade');
         
-        navLocalidade.addEventListener('click', function(e) {
-            // Remove a classe se já existir para reiniciar o efeito
-            boxLocalidade.classList.remove('lifted');
+        btnLocalidade.addEventListener('click', function(e) {
+            // Adiciona o efeito de levantar
+            caixaLocalidade.classList.add('lift-effect');
             
-            // Pequeno delay para a rolagem da página acontecer antes do efeito
+            // Remove o efeito depois de 3.5 segundos para voltar ao normal
             setTimeout(() => {
-                boxLocalidade.classList.add('lifted');
-                
-                // O cubo volta ao normal após 2 segundos
-                setTimeout(() => {
-                    boxLocalidade.classList.remove('lifted');
-                }, 2000);
-            }, 500); 
+                caixaLocalidade.classList.remove('lift-effect');
+            }, 3500);
         });
 
-        // --- Animação: Qualidades piscando em Cascata (Apenas 1 vez) ---
-        const navQualidade = document.getElementById('nav-qualidade');
-        const trustItems = document.querySelectorAll('.trust-item');
-        let jaPiscou = false;
+        // 2. ANIMAÇÃO DE PISCAR NAS CAIXAS DE QUALIDADE (UMA ÚNICA VEZ)
+        const btnQualidade = document.getElementById('nav-qualidade');
+        const caixasDeQualidade = document.querySelectorAll('.trust-item');
+        let qualidadeJaPiscou = false; // Trava para acontecer apenas 1 vez
 
-        navQualidade.addEventListener('click', function(e) {
-            if (!jaPiscou) {
-                jaPiscou = true; // Garante que só ocorra uma vez
+        btnQualidade.addEventListener('click', function() {
+            if (!qualidadeJaPiscou) {
+                qualidadeJaPiscou = true; // Impede que pisque novamente no futuro
                 
-                setTimeout(() => {
-                    trustItems.forEach((item, index) => {
-                        // Efeito cascata: multiplica o tempo pelo index
+                // Faz o loop em cada caixa criando um atraso (delay) sequencial
+                caixasDeQualidade.forEach((caixa, index) => {
+                    setTimeout(() => {
+                        caixa.classList.add('piscar-destaque');
+                        
+                        // Remove a classe logo após a animação acabar para limpar o código
                         setTimeout(() => {
-                            item.classList.add('blink-active');
-                            
-                            // Remove a classe após a animação terminar
-                            setTimeout(() => {
-                                item.classList.remove('blink-active');
-                            }, 800);
-                            
-                        }, index * 400); // 400ms de diferença entre cada quadro
-                    });
-                }, 500); // Delay inicial para dar tempo da tela rolar
+                            caixa.classList.remove('piscar-destaque');
+                        }, 800); 
+                        
+                    }, index * 400); // 400ms de diferença entre cada caixa piscando
+                });
             }
         });
+        
     });
 </script>
 
