@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Mecânica Lima Car | Excelência Automotiva</title>
+    <title>Lima Auto Peças | Catálogo Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -48,22 +48,20 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transition: padding 0.4s ease, background 0.4s ease; /* Animação suave */
+            transition: padding 0.4s ease, background 0.4s ease;
         }
 
-        /* Classe ativada via JavaScript quando rola a tela */
         header.header-encolhido {
-            padding: 5px 8%; /* Encolhe a barra diminuindo o espaçamento */
-            background: rgba(0, 0, 0, 0.85); /* Fica um pouco mais escuro para facilitar a leitura por cima das fotos */
+            padding: 5px 8%; 
+            background: rgba(0, 0, 0, 0.85); 
         }
 
         .logo-container img { 
-            height: 150px; /* AUMENTADO: Era 110px, agora 150px para mais destaque */
+            height: 150px; 
             width: auto;
-            transition: height 0.4s ease; /* Animação suave na logo */
+            transition: height 0.4s ease; 
         }
 
-        /* Encolhe a logo junto com a barra */
         header.header-encolhido .logo-container img {
             height: 70px; 
         }
@@ -98,28 +96,6 @@
         nav a:hover { color: var(--accent-gold); }
         nav a:hover::after { width: 100%; }
 
-        /* Botão Login Ghost */
-        .btn-header-login {
-            background: transparent;
-            color: var(--accent-gold);
-            padding: 10px 22px;
-            border: 1.5px solid var(--accent-gold);
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-        }
-        .btn-header-login:hover {
-            background: var(--accent-gold);
-            color: #000;
-            box-shadow: 0 0 15px rgba(245, 196, 0, 0.4);
-        }
-
         /* --- HERO SECTION --- */
         .hero {
             position: relative;
@@ -129,7 +105,7 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
-                        url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
+                        url('https://images.unsplash.com/photo-1554223090-7e482851df45?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             text-align: center;
             padding: 40px 5%;
         }
@@ -143,7 +119,7 @@
         }
 
         .hero p {
-            max-width: 600px;
+            max-width: 650px;
             font-size: 1.1rem;
             color: #ccc;
             margin-bottom: 40px;
@@ -200,7 +176,7 @@
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- SERVIÇOS --- */
+        /* --- CATÁLOGO DE PEÇAS --- */
         .cards { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -226,20 +202,36 @@
             overflow: hidden;
             width: 100%; 
             height: 220px;
+            background: #fff; /* Fundo branco para destacar imagens de peças */
         }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
         .card:hover .card-img { transform: scale(1.15); }
 
-        .card-body { padding: 30px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-body h3 { margin-bottom: 15px; font-size: 1.4rem; color: #fff; }
-        .card-body p { color: #aaa; font-size: 0.95rem; margin-bottom: 25px; }
+        .card-body { padding: 30px; text-align: left; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .card-category {
+            background: rgba(245, 196, 0, 0.15);
+            color: var(--accent-gold);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+        }
+
+        .card-body h3 { margin-bottom: 10px; font-size: 1.3rem; color: #fff; line-height: 1.3; }
+        .card-body p { color: #aaa; font-size: 0.9rem; margin-bottom: 25px; }
 
         .btn-agendar {
             display: block;
             background: transparent;
-            color: var(--accent-gold);
+            color: #25d366;
             padding: 12px;
-            border: 1px solid var(--accent-gold);
+            border: 1px solid #25d366;
             border-radius: 6px;
             text-decoration: none;
             font-weight: 700;
@@ -247,11 +239,12 @@
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 1px;
+            text-align: center;
         }
-        .btn-agendar:hover { background: var(--accent-gold); color: #000; }
+        .btn-agendar:hover { background: #25d366; color: #000; }
 
-        /* --- SEGURANÇA / CONFIANÇA --- */
-        #seguranca {
+        /* --- QUALIDADE / CONFIANÇA --- */
+        #qualidade {
             background: linear-gradient(135deg, #111 0%, #1a1d21 100%);
             border-top: 1px solid rgba(255,255,255,0.05);
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -395,7 +388,7 @@
         }
         .location-float:hover { background: #003066; transform: scale(1.1); }
 
-        /* --- RESPONSIVIDADE PC & MOBILE --- */
+        /* --- RESPONSIVIDADE --- */
         @media (max-width: 992px) {
             .location-container { grid-template-columns: 1fr; }
             .map-wrapper { height: 300px; }
@@ -403,13 +396,12 @@
 
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 20px; }
-            header.header-encolhido { padding: 10px; } /* Ajuste no mobile */
+            header.header-encolhido { padding: 10px; } 
             
             .header-right { flex-direction: column; width: 100%; gap: 15px; }
             nav { justify-content: center; width: 100%; flex-wrap: wrap; }
-            .btn-header-login { width: 100%; justify-content: center; }
             
-            .logo-container img { height: 100px; } /* Logo também maior no mobile */
+            .logo-container img { height: 100px; } 
             header.header-encolhido .logo-container img { height: 60px; }
 
             .hero h1 { font-size: 2rem; }
@@ -422,7 +414,6 @@
             .float-btn { width: 50px; height: 50px; font-size: 24px; }
         }
 
-        /* Ajuste para Mobile Horizontal */
         @media (max-height: 500px) and (orientation: landscape) {
             .hero { min-height: 120vh; padding: 100px 20px; }
             header { position: relative; }
@@ -434,132 +425,177 @@
 
 <header>
     <div class="logo-container">
-        <img src="logo.jpg" alt="Mecânica Lima Car">
+        <img src="logo.jpg" alt="Lima Auto Peças">
     </div>
     <div class="header-right">
         <nav>
             <a href="#topo">Início</a> 
-            <a href="#servicos">Serviços</a>
-            <a href="#seguranca">Segurança</a>
+            <a href="#catalogo">Catálogo</a>
+            <a href="#qualidade">Qualidade</a>
             <a href="#localidade">Localidade</a>
             <a href="#contato">Contato</a>
         </nav>
-        <a href="cadastro.html" class="btn-header-login">
-            <i class="fas fa-user-circle"></i> Login/Cadastre-se
-        </a>
     </div>
 </header>
 
 <main>
     <section class="hero">
-        <h1>Excelência Automotiva <span>Lima Car</span></h1>
-        <p>Tecnologia de ponta, transparência absoluta e cuidado artesanal para o seu veículo. Agende seu diagnóstico com especialistas hoje mesmo.</p>
+        <h1>Catálogo de Peças <span>Lima</span></h1>
+        <p>A maior precisão em auto peças para o seu veículo. Qualidade garantida, pronta entrega e o melhor atendimento técnico especializado da região.</p>
         
         <div class="hero-btns">
-            <a class="btn btn-blue" href="painel.html">
-                <i class="fas fa-car"></i> Painel do Cliente
+            <a class="btn btn-blue" href="#catalogo">
+                <i class="fas fa-search"></i> Explorar Catálogo
             </a>
 
-            <a class="btn btn-ghost-white" href="#servicos">
-                <i class="fas fa-wrench"></i> Conheça os serviços
+            <a class="btn btn-ghost-white" href="https://wa.me/5500000000000?text=Olá!%20Estou%20buscando%20uma%20peça%20específica%20que%20não%20achei%20no%20site." target="_blank">
+                <i class="fab fa-whatsapp"></i> Falar com Vendedor
             </a>
         </div>
     </section>
         
-    <section id="servicos">
+    <section id="catalogo">
         <div class="section-title">
-            <h2>Nossos <span>Serviços</span></h2>
-            <p>Oferecemos um portfólio completo de manutenções preventivas e corretivas com maquinário atualizado para atender veículos nacionais e importados.</p>
+            <h2>Nosso <span>Catálogo</span> em Destaque</h2>
+            <p>Trabalhamos com uma linha completa de peças genuínas e de 1ª linha. Confira nossos principais produtos à disposição.</p>
         </div>
+        
         <div class="cards">
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Alinhamento">
+                    <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição">
                 </div>
                 <div class="card-body">
-                    <h3>Alinhamento 3D</h3>
-                    <p>Precisão milimétrica para garantir a estabilidade, segurança e aumentar a vida útil dos seus pneus.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Motor</span>
+                    <h3>Vela de Ignição Iridium NGK</h3>
+                    <p>Referência BKR6EIX. Alta performance, ignição rápida e maior durabilidade para motores flex e gasolina.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium%20NGK.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Suspensão">
+                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor">
                 </div>
                 <div class="card-body">
-                    <h3>Sistema de Suspensão</h3>
-                    <p>Revisão completa de amortecedores, molas e pivôs para devolver o conforto original de fábrica.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Suspensão</span>
+                    <h3>Amortecedor Diant. Monroe OESpectrum</h3>
+                    <p>Tecnologia avançada para estabilidade superior e conforto. Código padrão de montadora.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Monroe%20OESpectrum.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-img-container">
-                    <img src="diagnostico.jpg" class="card-img" alt="Diagnóstico">
+                    <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem">
                 </div>
                 <div class="card-body">
-                    <h3>Diagnóstico de Motor</h3>
-                    <p>Análise computadorizada avançada para identificar, prevenir e corrigir falhas de performance no motor.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Transmissão</span>
+                    <h3>Kit Embreagem LUK RepSet</h3>
+                    <p>Platô, disco e rolamento. Troca de marchas suaves e eliminação de trepidações. Padrão original.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20LUK.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-img-container">
-                    <img src="revisao.jpg" class="card-img" alt="Freios">
+                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio">
                 </div>
                 <div class="card-body">
-                    <h3>Revisão de Freios</h3>
-                    <p>Substituição de pastilhas, discos e fluidos utilizando peças originais e certificadas para a sua segurança.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Freios</span>
+                    <h3>Pastilha de Freio Cerâmica Cobreq</h3>
+                    <p>Frenagem silenciosa e eficiente, gerando menos pó nas rodas. Alta dissipação térmica.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio%20Cobreq.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-img-container">
-                    <img src="lubrificacao.jpg" class="card-img" alt="Troca de Óleo">
+                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bateria">
                 </div>
                 <div class="card-body">
-                    <h3>Lubrificação e Filtros</h3>
-                    <p>Troca de óleo seguindo as especificações exatas da montadora, garantindo a longevidade do seu veículo.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Elétrica</span>
+                    <h3>Bateria Moura 60Ah - M60AD</h3>
+                    <p>Tecnologia de ponta com liga anticorrosão, garantindo partidas rápidas e longa vida útil.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bateria%20Moura%2060Ah.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-img-container">
-                    <img src="injecao.jpg" class="card-img" alt="Injeção Eletrônica">
+                    <img src="https://images.unsplash.com/photo-1580274455171-1c312cb6910d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bomba de Combustível">
                 </div>
                 <div class="card-body">
-                    <h3>Injeção Eletrônica</h3>
-                    <p>Limpeza de bicos e calibração de sistemas eletrônicos para economia de combustível e redução de emissões.</p>
-                    <a href="https://wa.me/5500000000000" class="btn-agendar"><i class="fab fa-whatsapp"></i> Agendar agora</a>
+                    <span class="card-category">Injeção</span>
+                    <h3>Refil Bomba de Combustível Bosch</h3>
+                    <p>Pressão constante de 3.0 Bar. Evita falhas de aceleração e aumenta a eficiência de consumo.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bomba%20de%20Combustível%20Bosch.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Óleo Sintético">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Lubrificantes</span>
+                    <h3>Óleo Sintético Motul 8100 5W40</h3>
+                    <p>Proteção térmica extrema e lubrificação rápida em partidas a frio. Especificação 100% sintética.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20no%20produto:%20Óleo%20Motul%208100.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1587317770857-41804f323e00?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Correia Dentada">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Motor</span>
+                    <h3>Kit Correia Dentada Gates</h3>
+                    <p>Acompanha tensionador. Fabricada em compostos HNBR de alta resistência contra desgaste.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Correia%20Dentada%20Gates.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Disco de Freio">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Freios</span>
+                    <h3>Disco de Freio Fremax Carbon+</h3>
+                    <p>Liga enriquecida com carbono, garantindo frenagens precisas e ausência total de vibrações.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Disco%20de%20Freio%20Fremax.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="seguranca">
+    <section id="qualidade">
         <div class="section-title">
-            <h2>Sua <span>Segurança</span> é Nossa Prioridade</h2>
-            <p>Trabalhamos duro para ser a oficina mecânica em que você pode confiar de olhos fechados. Sem surpresas no orçamento, apenas resultados.</p>
+            <h2>Nossa <span>Garantia de Qualidade</span></h2>
+            <p>Trabalhamos duro para ser a distribuidora de auto peças que você confia para manter o seu carro rodando com segurança.</p>
         </div>
         <div class="trust-grid">
             <div class="trust-item">
-                <i class="fas fa-shield-alt trust-icon"></i>
-                <h3>Garantia Estendida</h3>
-                <p>Oferecemos garantia de 90 dias a 1 ano em nossos serviços e peças. Se algo der errado, nós assumimos a responsabilidade.</p>
-            </div>
-            <div class="trust-item">
-                <i class="fas fa-cogs trust-icon"></i>
+                <i class="fas fa-certificate trust-icon"></i>
                 <h3>Peças Originais</h3>
-                <p>Trabalhamos exclusivamente com fornecedores homologados e peças originais ou de primeira linha das melhores marcas.</p>
+                <p>Fornecemos peças com procedência garantida, diretamente de fabricantes homologados e de primeira linha.</p>
             </div>
             <div class="trust-item">
-                <i class="fas fa-search-dollar trust-icon"></i>
-                <h3>Orçamento Transparente</h3>
-                <p>Explicamos cada detalhe do que precisa ser feito no seu carro, com autorização prévia para qualquer manutenção extra.</p>
+                <i class="fas fa-box-open trust-icon"></i>
+                <h3>Amplo Estoque</h3>
+                <p>Catálogo gigantesco a pronta entrega para veículos nacionais, importados e utilitários.</p>
             </div>
             <div class="trust-item">
-                <i class="fas fa-user-check trust-icon"></i>
-                <h3>Equipe Certificada</h3>
-                <p>Nossos mecânicos passam por treinamentos constantes e possuem certificações nas tecnologias automotivas mais recentes.</p>
+                <i class="fas fa-shield-alt trust-icon"></i>
+                <h3>Garantia de Fábrica</h3>
+                <p>Todos os nossos itens possuem garantia estendida cobrindo defeitos de fabricação.</p>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-headset trust-icon"></i>
+                <h3>Atendimento Técnico</h3>
+                <p>Nossos vendedores não apenas vendem, mas prestam consultoria para você não comprar a peça errada.</p>
             </div>
         </div>
     </section>
@@ -567,13 +603,13 @@
     <section id="localidade">
         <div class="section-title">
             <h2>Nossa <span>Localidade</span></h2>
-            <p>Fácil acesso, amplo estacionamento e infraestrutura completa para receber você e seu veículo.</p>
+            <p>Visite nossa loja física para retirar suas peças de imediato com amplo estacionamento para o seu conforto.</p>
         </div>
         <div class="location-container">
             <div class="location-info">
-                <h3>Venha tomar um café conosco</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Centro Empresarial, Cidade - UF</p>
-                <p><i class="fas fa-clock"></i> Seg. a Sex: 08:00 às 18:00 | Sáb: 08:00 às 12:00</p>
+                <h3>Venha buscar sua peça</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Loja 05, Cidade - UF</p>
+                <p><i class="fas fa-clock"></i> Seg. a Sex: 08:00 às 18:00 | Sáb: 08:00 às 13:00</p>
                 <p><i class="fas fa-phone-alt"></i> (00) 1234-5678</p>
                 <p><i class="fab fa-whatsapp"></i> (00) 90000-0000</p>
                 <br>
@@ -589,14 +625,14 @@
 </main>
 
 <div id="budget-bubble">
-    Olá! Precisa de um orçamento rápido? 🚗
+    Procurando uma peça específica? 🔍 Fale conosco!
 </div>
 
 <div class="floating-container">
     <a class="float-btn location-float" href="#localidade" title="Nossa Localização">
         <i class="fas fa-map-marker-alt"></i>
     </a>
-    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000" target="_blank" title="Fale conosco no WhatsApp">
+    <a class="float-btn whatsapp-float" href="https://wa.me/5500000000000?text=Olá,%20acessei%20o%20site%20e%20gostaria%20de%20fazer%20uma%20cotação." target="_blank" title="Faça sua cotação no WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 </div>
@@ -604,19 +640,19 @@
 <footer id="contato">
     <div class="footer-grid">
         <div class="footer-col">
-            <h4>Mecânica <span>Lima Car</span></h4>
-            <p>Tecnologia de ponta e cuidado artesanal. Cuidamos do seu veículo como se fosse nosso. Mais de 15 anos de tradição em serviços automotivos.</p>
+            <h4>Lima <span>Auto Peças</span></h4>
+            <p>O maior e mais confiável estoque de peças da região. Fornecemos soluções para que seu veículo não pare nunca. Tradição e preço justo.</p>
         </div>
         <div class="footer-col">
             <h4>Links Rápidos</h4>
             <a href="#topo">Início</a>
-            <a href="#servicos">Nossos Serviços</a>
-            <a href="#seguranca">Garantia e Confiança</a>
+            <a href="#catalogo">Catálogo Online</a>
+            <a href="#qualidade">Nossa Garantia</a>
             <a href="#localidade">Como Chegar</a>
         </div>
         <div class="footer-col">
-            <h4>Contato direto</h4>
-            <p><i class="fas fa-envelope"></i> contato@limacar.com.br</p>
+            <h4>Televendas</h4>
+            <p><i class="fas fa-envelope"></i> vendas@limapecas.com.br</p>
             <p><i class="fas fa-phone-alt"></i> (00) 1234-5678</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
@@ -626,7 +662,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>Mecânica Lima Car © 2026 | Excelência em cada detalhe. Todos os direitos reservados.</p>
+        <p>Lima Auto Peças © 2026 | Precisão e Qualidade. Todos os direitos reservados.</p>
     </div>
 </footer>
 
@@ -635,18 +671,15 @@
         const bubble = document.getElementById('budget-bubble');
         let hideTimeout;
 
-        // Mostrar balão após 3 segundos da página carregar
         setTimeout(function() {
             bubble.classList.add('show');
             
-            // Fazer o balão sumir sozinho após 6 segundos visível
             hideTimeout = setTimeout(function() {
                 bubble.classList.remove('show');
             }, 6000); 
 
         }, 3000);
 
-        // Se o usuário clicar em QUALQUER lugar do site, o balão some imediatamente
         document.addEventListener('click', function() {
             if (bubble.classList.contains('show')) {
                 bubble.classList.remove('show');
@@ -654,10 +687,8 @@
             }
         });
 
-        // NOVO CÓDIGO: Efeito de encolher o header no scroll
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            // Se rolar mais de 50 pixels, adiciona a classe que encolhe a barra
             if (window.scrollY > 50) {
                 header.classList.add('header-encolhido');
             } else {
