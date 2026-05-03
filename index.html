@@ -1,10 +1,3 @@
-bom boa noite gemini, nesse código abaixo eu fiz algumas alterações, alguns tópicos que solicitei foi atendido, mas outros não.
-1. o bloco de cascata não está aparecendo outros produtos, apenas um e está parado sem efeito nenhum. Ainda permanece em cubo, quero que o produto fique com efeito "flutuando"  e permanecer 4 produtos aparecendo lá como destaque de vendas.
-2. A lista não deve ser assim, ela deve obter as imagens das peças de acordo do que é cada uma, então se for freios deve obter a imagem deles, óleos e etc. A lista deve ser mais profissional!
-3. O botão de falar com vendedor deve ser retirado e apenas o botão do whatsapp flutuante deve ser mantido. Juntamente com um efeito brilhante para destacar o botão de whatsapp e localização flutuante de acordo com as cores deles.
-peço que por favor corrija esses pequenos serros
-tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -56,7 +49,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            /* Transição inclui transform para ocultar no final */
             transition: padding 0.4s ease, background 0.4s ease, transform 0.4s ease;
         }
 
@@ -66,7 +58,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
         }
 
-        /* Classe para sumir no final do site */
         header.header-hidden {
             transform: translateY(-100%);
         }
@@ -109,7 +100,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
                         url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
             text-align: center; 
-            /* Aumento do padding top para não cortar o título */
             padding: 130px 5% 40px;
         }
         .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
@@ -123,8 +113,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         }
         .btn-blue { background: var(--primary-blue); color: #fff; box-shadow: 0 10px 30px rgba(0, 64, 133, 0.4); }
         .btn-blue:hover { background: #003066; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 64, 133, 0.6); }
-        .btn-ghost-white { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
-        .btn-ghost-white:hover { background: rgba(255,255,255,0.15); border-color: #fff; transform: translateY(-3px); }
 
         /* --- SEÇÕES GERAIS --- */
         section { padding: 90px 8%; }
@@ -133,60 +121,49 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- CATÁLOGO CASCATA (AGORA COM ITENS INVISÍVEIS) --- */
-        .carousel-wrapper {
-            position: relative;
-            width: 100%;
-            height: 480px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1200px;
-            overflow: hidden;
+        /* --- CATÁLOGO DE PRODUTOS (EFEITO FLUTUANTE) --- */
+        .produtos-destaque {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
             padding: 20px 0;
         }
 
-        .cascade-card {
-            position: absolute;
-            width: 320px;
+        .produto-card {
             background: var(--card-bg);
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
-            opacity: 0;
-            pointer-events: none; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            animation: flutuar 6s ease-in-out infinite; /* Efeito flutuante ativado */
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        /* Classes de Posição da Cascata - Removido os Cubos Laterais */
-        .cascade-card.active {
-            transform: translateX(0) scale(1) translateZ(0);
-            opacity: 1;
-            z-index: 10;
-            pointer-events: auto;
+        /* Delays para cada card flutuar em momentos diferentes */
+        .produto-card:nth-child(1) { animation-delay: 0s; }
+        .produto-card:nth-child(2) { animation-delay: 1.5s; }
+        .produto-card:nth-child(3) { animation-delay: 3s; }
+        .produto-card:nth-child(4) { animation-delay: 4.5s; }
+
+        @keyframes flutuar {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); } /* Sobe 15px */
+            100% { transform: translateY(0px); }
+        }
+
+        .produto-card:hover {
             border-color: var(--primary-blue);
-            box-shadow: 0 20px 50px rgba(0, 64, 133, 0.4);
-        }
-        .cascade-card.next, .cascade-card.prev {
-            transform: translateX(0) scale(0.9) translateZ(-50px);
-            opacity: 0; /* Totalmente invisível */
-            z-index: 5;
-        }
-        .cascade-card.hidden {
-            transform: translateX(0) scale(0.8) translateZ(-100px);
-            opacity: 0;
-            z-index: 1;
+            animation-play-state: paused; /* Pausa a flutuação ao passar o mouse */
+            transform: scale(1.03); /* Dá um zoom leve */
         }
 
-        /* Estilo Interno do Card */
         .card-img-container { width: 100%; height: 200px; background: #fff; overflow: hidden; }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .cascade-card.active:hover .card-img { transform: scale(1.1); }
+        .produto-card:hover .card-img { transform: scale(1.1); }
         
-        .card-body { padding: 25px; text-align: left; display: flex; flex-direction: column; }
+        .card-body { padding: 25px; text-align: left; display: flex; flex-direction: column; height: 100%; }
         .card-category {
             background: rgba(245, 196, 0, 0.15); color: var(--accent-gold); font-size: 0.7rem; font-weight: 800;
             padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 15px;
@@ -202,41 +179,61 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         }
         .btn-agendar:hover { background: #25d366; color: #000; }
 
-        /* Lista Fixa Abaixo do Catálogo */
+        /* --- LISTA DE CATEGORIAS COM IMAGENS PROFISSIONAIS --- */
         .catalogo-lista {
-            margin-top: 40px;
-            background: rgba(255,255,255,0.02);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
-            max-width: 800px;
-            margin-inline: auto;
+            margin-top: 60px;
         }
         .catalogo-lista h3 {
             color: var(--accent-gold);
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
             text-transform: uppercase;
         }
-        .catalogo-lista ul {
+        .categorias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            list-style: none;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
-        .catalogo-lista li {
-            color: #ccc;
-            font-size: 0.95rem;
+        .categoria-item {
+            position: relative;
+            height: 160px;
+            border-radius: 15px;
+            overflow: hidden;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-end;
+            padding: 20px;
+            text-decoration: none;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .catalogo-lista li i {
-            color: var(--primary-blue);
+        .categoria-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%);
+            transition: background 0.3s ease;
+        }
+        .categoria-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+        }
+        .categoria-item:hover::before {
+            background: linear-gradient(to top, rgba(0, 64, 133, 0.9) 0%, rgba(0,0,0,0.2) 100%);
+        }
+        .categoria-item h4 {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* --- FAIXA NÃO ENCONTROU A PEÇA (MELHORADA) --- */
+        /* --- FAIXA NÃO ENCONTROU A PEÇA --- */
         .cta-search {
             background: linear-gradient(135deg, #111 0%, #1a1d21 100%);
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -274,7 +271,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         .trust-item h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; }
         .trust-item p { color: #999; font-size: 0.95rem; }
 
-        /* Animação Sequencial Qualidade (via JS) */
         @keyframes piscarQualidade {
             0%   { transform: translateY(0); box-shadow: none; border-color: rgba(255,255,255,0.02); background: rgba(0,0,0,0.3); }
             50%  { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(245, 196, 0, 0.2); border-color: var(--accent-gold); background: rgba(245, 196, 0, 0.05); }
@@ -290,7 +286,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             border: 1px solid rgba(255,255,255,0.05); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* Animação Localidade (via JS) */
         .localidade-elevada {
             transform: scale(1.03) translateY(-20px);
             box-shadow: 0 30px 60px rgba(0, 64, 133, 0.4);
@@ -315,7 +310,7 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         .footer-col .social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #222; color: #555; font-size: 13px; }
 
-        /* --- BALÃO & FLOATING --- */
+        /* --- BALÃO & FLOATING BUTTONS COM BRILHO --- */
         #budget-bubble {
             position: fixed; bottom: 170px; right: 35px; background: #fff; color: #333;
             padding: 15px 20px; border-radius: 15px 15px 0 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
@@ -327,10 +322,31 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
 
         .floating-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
         .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 28px; text-decoration: none; transition: var(--transition); }
-        .whatsapp-float { background: #25d366; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
-        .whatsapp-float:hover { background: #20b858; transform: scale(1.1); }
-        .location-float { background: var(--primary-blue); box-shadow: 0 5px 15px rgba(0, 64, 133, 0.4); }
-        .location-float:hover { background: #003066; transform: scale(1.1); }
+        
+        /* Animações de Brilho dos Botões */
+        @keyframes glow-whatsapp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        @keyframes glow-location {
+            0% { box-shadow: 0 0 0 0 rgba(0, 64, 133, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 64, 133, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 64, 133, 0); }
+        }
+
+        .whatsapp-float { 
+            background: #25d366; 
+            animation: glow-whatsapp 2s infinite; 
+        }
+        .whatsapp-float:hover { background: #20b858; transform: scale(1.1); animation-play-state: paused; }
+        
+        .location-float { 
+            background: var(--primary-blue); 
+            animation: glow-location 2s infinite;
+            animation-delay: 1s; /* Atrasa para piscar alternado com o whatsapp */
+        }
+        .location-float:hover { background: #003066; transform: scale(1.1); animation-play-state: paused; }
 
         /* --- RESPONSIVIDADE --- */
         @media (max-width: 992px) { .location-container { grid-template-columns: 1fr; } .map-wrapper { height: 300px; } }
@@ -342,9 +358,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             .hero h1 { font-size: 2.2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
-            .carousel-wrapper { height: 420px; }
-            .cascade-card { width: 280px; }
-            /* Não é mais necessário alterar transformações laterais pois estão opacidade 0 */
             section { padding: 60px 5%; }
             .cta-search { padding: 40px 5%; }
             .btn-whatsapp-cta { width: 100%; justify-content: center; font-size: 1rem; }
@@ -359,7 +372,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
 
 <header id="main-header">
     <div class="logo-container">
-        <!-- Mantenha sua logo real aqui -->
         <img src="logo.jpg" alt="Lima Auto Peças">
     </div>
     <div class="header-right">
@@ -382,90 +394,92 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             <a class="btn btn-blue" href="#catalogo">
                 <i class="fas fa-search"></i> Explorar Catálogo
             </a>
-            <a class="btn btn-ghost-white" href="https://wa.me/5500000000000?text=Olá!%20Estou%20buscando%20uma%20peça%20específica%20que%20não%20achei%20no%20site." target="_blank">
-                <i class="fab fa-whatsapp"></i> Falar com Vendedor
-            </a>
-        </div>
+            </div>
     </section>
         
     <section id="catalogo">
         <div class="section-title">
-            <h2>Peças mais <span>Buscadas</span></h2>
-            <p>Conheça os itens de maior saída do nosso estoque, garantindo o melhor funcionamento do seu veículo.</p>
+            <h2>Peças em <span>Destaque</span></h2>
+            <p>Conheça os itens de maior saída do nosso estoque com ofertas especiais para o seu veículo.</p>
         </div>
         
-        <!-- Efeito Cascata Fading -->
-        <div class="carousel-wrapper" id="cascade-slider">
+        <div class="produtos-destaque">
             
-            <!-- Peça 1 -->
-            <div class="cascade-card active">
+            <div class="produto-card">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Motor / Ignição</span>
                     <h3>Vela de Ignição Iridium</h3>
-                    <p>Alta performance, ignição rápida e maior durabilidade. Melhora o consumo e desempenho do motor.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                    <p>Alta performance, ignição rápida e maior durabilidade. Melhora o consumo.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <!-- Peça 2 -->
-            <div class="cascade-card next">
+            <div class="produto-card">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Suspensão</span>
                     <h3>Amortecedor Dianteiro</h3>
-                    <p>Tecnologia avançada a gás para estabilidade superior, absorção de impacto e extremo conforto na via.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Dianteiro.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                    <p>Tecnologia avançada a gás para estabilidade superior e conforto na via.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Dianteiro." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <!-- Peça 3 -->
-            <div class="cascade-card hidden">
+            <div class="produto-card">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Transmissão</span>
                     <h3>Kit Embreagem Completo</h3>
-                    <p>Conjunto com platô, disco e rolamento. Troca de marchas suaves e eliminação total de trepidações.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20Completo.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                    <p>Conjunto com platô, disco e rolamento. Eliminação total de trepidações.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20Completo." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <!-- Peça 4 -->
-            <div class="cascade-card prev">
+            <div class="produto-card">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Freios</span>
-                    <h3>Pastilha de Freio de Cerâmica</h3>
-                    <p>Frenagem silenciosa, altamente eficiente e que gera menos pó nas rodas. Alta dissipação térmica.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio%20de%20Cerâmica.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                    <h3>Pastilha de Cerâmica</h3>
+                    <p>Frenagem silenciosa e altamente eficiente. Alta dissipação térmica.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
         </div>
 
-        <!-- Lista de outras peças -->
         <div class="catalogo-lista">
-            <h3>Outras Categorias Disponíveis:</h3>
-            <ul>
-                <li><i class="fas fa-check-circle"></i> Correias e Tensores</li>
-                <li><i class="fas fa-check-circle"></i> Filtros de Óleo, Ar e Cabine</li>
-                <li><i class="fas fa-check-circle"></i> Baterias Automotivas</li>
-                <li><i class="fas fa-check-circle"></i> Bobinas e Cabos de Ignição</li>
-                <li><i class="fas fa-check-circle"></i> Discos e Tambores de Freio</li>
-                <li><i class="fas fa-check-circle"></i> Bombas D'água e Combustível</li>
-            </ul>
+            <h3>Explore por Categoria</h3>
+            <div class="categorias-grid">
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Correias e Tensores</h4>
+                </a>
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1510523274719-7d04e57e3f89?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Óleos e Fluidos</h4>
+                </a>
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1620300188688-66236b2b73ee?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Baterias Automotivas</h4>
+                </a>
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Bobinas e Cabos</h4>
+                </a>
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Discos e Tambores</h4>
+                </a>
+                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=400&auto=format&fit=crop');">
+                    <h4>Bombas D'água</h4>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- FAIXA NOVA: NÃO ENCONTROU A PEÇA -->
     <div class="cta-search">
         <h3>Não encontrou sua peça?</h3>
         <p>Temos milhares de itens em estoque que não estão no site. Fale com um de nossos especialistas agora mesmo e encontre exatamente o que precisa.</p>
@@ -590,13 +604,11 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
         });
 
         window.addEventListener('scroll', () => {
-            // Efeito de encolher ao rolar um pouco
             if (window.scrollY > 50) header.classList.add('header-encolhido');
             else header.classList.remove('header-encolhido');
 
-            // Lógica para esconder completamente no final da página
             const scrollTotal = window.innerHeight + window.scrollY;
-            const fimDaPagina = document.body.offsetHeight - 10; // margem de erro de 10px
+            const fimDaPagina = document.body.offsetHeight - 10; 
             if (scrollTotal >= fimDaPagina) {
                 header.classList.add('header-hidden');
             } else {
@@ -604,43 +616,6 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             }
         });
 
-        // --- Lógica do Carrossel Cascata Fading ---
-        const cards = document.querySelectorAll('.cascade-card');
-        let currentIndex = 0;
-        let carouselInterval;
-
-        function updateCarousel() {
-            cards.forEach(card => card.className = 'cascade-card hidden'); 
-            
-            let activeItem = cards[currentIndex];
-            let nextItem = cards[(currentIndex + 1) % cards.length];
-            let prevItem = cards[(currentIndex - 1 + cards.length) % cards.length];
-
-            activeItem.classList.add('active');
-            activeItem.classList.remove('hidden');
-            
-            nextItem.classList.add('next');
-            nextItem.classList.remove('hidden');
-            
-            prevItem.classList.add('prev');
-            prevItem.classList.remove('hidden');
-        }
-
-        function startCarousel() {
-            carouselInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                updateCarousel();
-            }, 3500); 
-        }
-
-        const carouselWrapper = document.getElementById('cascade-slider');
-        carouselWrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-        carouselWrapper.addEventListener('mouseleave', startCarousel);
-        
-        startCarousel();
-
-        // --- Efeitos de Interação ao Clicar no Menu ---
-        
         // Efeito Localidade (Levantar)
         document.getElementById('nav-localidade').addEventListener('click', function() {
             const boxLocalidade = document.getElementById('box-localidade');
@@ -655,27 +630,22 @@ tem mais alguma ideia para implementar nesse sistema? se tiver pode adicionar
             }, 600); 
         });
 
-        // Efeito Qualidade (Piscar sequencial + Rolagem Mobile)
+        // Efeito Qualidade (Piscar sequencial)
         document.getElementById('nav-qualidade').addEventListener('click', function() {
             const itensQualidade = document.querySelectorAll('.trust-item');
-            const isMobile = window.innerWidth <= 768; // Verifica se é tela de celular
+            const isMobile = window.innerWidth <= 768; 
             
             setTimeout(() => {
                 itensQualidade.forEach((item, index) => {
                     item.classList.remove('piscar-ativo');
-                    
-                    // Aumentei o tempo de delay entre cada um para dar tempo da rolagem acompanhar
                     setTimeout(() => {
                         item.classList.add('piscar-ativo');
-                        
-                        // Rola a tela para o item no celular
                         if (isMobile) {
                             item.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
-                        
                         setTimeout(() => {
                             item.classList.remove('piscar-ativo');
-                        }, 1200); // Sincronizado com o novo tempo da animação CSS
+                        }, 1200); 
                     }, index * 800); 
                 });
             }, 600);
