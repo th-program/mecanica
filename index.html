@@ -2,19 +2,19 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Lima Auto Peças | Catálogo Online Premium</title>
+    <title>Lima Auto Peças | Catálogo Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
+      :root {
             --primary-blue: #004085; 
             --accent-gold: #f5c400;  
             --dark-bg: #0d0d0e;
             --card-bg: #1a1d21;
             --text-light: #f8f9fa;
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         html {
@@ -36,7 +36,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER TRANPARENTE --- */
         header {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px); 
@@ -44,40 +44,37 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
             transition: padding 0.4s ease, background 0.4s ease;
         }
 
         header.header-encolhido {
             padding: 5px 8%; 
-            background: rgba(0, 0, 0, 0.85); 
+            background: rgba(0, 0, 0, 0.9); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
         }
 
         .logo-container img { 
-            height: 150px; 
+            height: 80px; /* Ajustado para ficar elegante */
             width: auto;
             transition: height 0.4s ease; 
         }
 
         header.header-encolhido .logo-container img {
-            height: 70px; 
+            height: 50px; 
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
+        .header-right { display: flex; align-items: center; gap: 30px; }
+        
         nav { display: flex; gap: 20px; }
         nav a {
             color: #ccc;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 13px;
             transition: var(--transition);
             text-transform: uppercase;
@@ -85,13 +82,8 @@
             position: relative;
         }
         nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: var(--accent-gold);
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -4px; left: 0; background-color: var(--accent-gold);
             transition: width 0.3s ease;
         }
         nav a:hover { color: var(--accent-gold); }
@@ -99,336 +91,171 @@
 
         /* --- HERO SECTION --- */
         .hero {
-            position: relative;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            position: relative; min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
-                        url('https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-            text-align: center;
-            padding: 40px 5%;
+                        url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
+            text-align: center; padding: 40px 5%;
         }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 6vw, 4rem); 
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .hero p {
-            max-width: 650px;
-            font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-        }
+        .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
+        .hero p { max-width: 650px; font-size: 1.1rem; color: #ccc; margin-bottom: 40px; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; }
 
         .btn {
-            padding: 15px 35px;
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 13px;
-            cursor: pointer;
+            padding: 15px 35px; text-decoration: none; font-weight: 700; border-radius: 8px;
+            display: inline-flex; align-items: center; gap: 10px; transition: var(--transition);
+            text-transform: uppercase; font-size: 13px; cursor: pointer;
         }
-
-        .btn-blue { 
-            background: var(--primary-blue); 
-            color: #fff; 
-            box-shadow: 0 10px 30px rgba(0, 64, 133, 0.4);
-            border: none;
-        }
-        .btn-blue:hover {
-            background: #003066;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 64, 133, 0.6);
-        }
-
-        .btn-ghost-white {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-        }
-        .btn-ghost-white:hover { 
-            background: rgba(255,255,255,0.15); 
-            border-color: #fff; 
-            transform: translateY(-3px);
-        }
+        .btn-blue { background: var(--primary-blue); color: #fff; box-shadow: 0 10px 30px rgba(0, 64, 133, 0.4); }
+        .btn-blue:hover { background: #003066; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 64, 133, 0.6); }
+        .btn-ghost-white { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+        .btn-ghost-white:hover { background: rgba(255,255,255,0.15); border-color: #fff; transform: translateY(-3px); }
 
         /* --- SEÇÕES GERAIS --- */
         section { padding: 90px 8%; }
-        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title { text-align: center; margin-bottom: 50px; }
         .section-title h2 { font-size: 2.5rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- EFEITO CASCATA (PRODUTOS ESPECIAIS) --- */
-        .cascata-container {
+        /* --- CATÁLOGO CASCATA (3D CAROUSEL) --- */
+        .carousel-wrapper {
             position: relative;
             width: 100%;
             height: 480px;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
+            perspective: 1200px;
             overflow: hidden;
-            margin-bottom: 50px;
+            padding: 20px 0;
         }
 
-        .cascata-item {
+        .cascade-card {
             position: absolute;
             width: 320px;
             background: var(--card-bg);
             border-radius: 20px;
+            overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
             opacity: 0;
-            z-index: 0;
-            transform: scale(0.6) translateX(0);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            pointer-events: none; /* Só interage quem tá na frente */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        .cascata-item.active {
+        /* Classes de Posição da Cascata */
+        .cascade-card.active {
+            transform: translateX(0) scale(1) translateZ(0);
             opacity: 1;
-            transform: scale(1) translateX(0);
-            z-index: 3;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
-            border-color: var(--accent-gold);
+            z-index: 10;
+            pointer-events: auto;
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 50px rgba(0, 64, 133, 0.4);
+        }
+        .cascade-card.next {
+            transform: translateX(45%) scale(0.85) translateZ(-100px);
+            opacity: 0.4;
+            z-index: 5;
+        }
+        .cascade-card.prev {
+            transform: translateX(-45%) scale(0.85) translateZ(-100px);
+            opacity: 0.4;
+            z-index: 5;
+        }
+        .cascade-card.hidden {
+            transform: translateX(0) scale(0.6) translateZ(-200px);
+            opacity: 0;
+            z-index: 1;
         }
 
-        .cascata-item.prev {
-            opacity: 0.5;
-            transform: scale(0.8) translateX(-70%);
-            z-index: 2;
-            filter: blur(1px) brightness(0.7);
+        /* Estilo Interno do Card */
+        .card-img-container { width: 100%; height: 200px; background: #fff; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+        .cascade-card.active:hover .card-img { transform: scale(1.1); }
+        
+        .card-body { padding: 25px; text-align: left; display: flex; flex-direction: column; }
+        .card-category {
+            background: rgba(245, 196, 0, 0.15); color: var(--accent-gold); font-size: 0.7rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 15px;
+            text-transform: uppercase; align-self: flex-start; letter-spacing: 1px;
         }
-
-        .cascata-item.next {
-            opacity: 0.5;
-            transform: scale(0.8) translateX(70%);
-            z-index: 2;
-            filter: blur(1px) brightness(0.7);
+        .card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+        .card-body p { color: #aaa; font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+        
+        .btn-agendar {
+            display: block; background: transparent; color: #25d366; padding: 12px;
+            border: 1px solid #25d366; border-radius: 6px; text-decoration: none; font-weight: 700;
+            transition: var(--transition); text-transform: uppercase; font-size: 12px; text-align: center;
         }
+        .btn-agendar:hover { background: #25d366; color: #000; }
 
-        /* --- CARDS CATÁLOGO --- */
-        .cards { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-        }
-
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            overflow: hidden; 
-            transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.05);
+        /* --- FAIXA NÃO ENCONTROU A PEÇA --- */
+        .cta-search {
+            background: linear-gradient(90deg, #001f40 0%, #004085 100%);
+            padding: 50px 8%;
+            text-align: center;
             display: flex;
             flex-direction: column;
-        }
-        
-        .card:hover { 
-            transform: translateY(-10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .card-img-container {
-            overflow: hidden;
-            width: 100%; 
-            height: 220px;
-            background: #fff;
-        }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .card:hover .card-img, .cascata-item:hover .card-img { transform: scale(1.15); }
-
-        .card-body { padding: 30px; text-align: left; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        
-        .card-category {
-            background: rgba(245, 196, 0, 0.15);
-            color: var(--accent-gold);
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
-        }
-
-        .card-body h3 { margin-bottom: 10px; font-size: 1.3rem; color: #fff; line-height: 1.3; }
-        .card-body p { color: #aaa; font-size: 0.9rem; margin-bottom: 25px; }
-
-        .btn-agendar {
-            display: block;
-            background: transparent;
-            color: #25d366;
-            padding: 12px;
-            border: 1px solid #25d366;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-        .btn-agendar:hover { background: #25d366; color: #000; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
-
-        /* --- BANNER NÃO ENCONTROU A PEÇA --- */
-        .banner-contato {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #001a33 100%);
-            padding: 60px 8%;
-            text-align: center;
-            border-top: 2px solid var(--accent-gold);
-            border-bottom: 2px solid var(--accent-gold);
-            margin: 40px 0;
+            align-items: center;
+            gap: 20px;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
         }
-
-        .banner-contato h2 {
-            font-size: 2.2rem;
-            color: #fff;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+        .cta-search h3 { color: #fff; font-size: 2rem; font-weight: 800; }
+        .cta-search p { color: #ccc; font-size: 1.1rem; max-width: 600px; }
+        .btn-whatsapp-cta {
+            background: #25d366; color: #fff; font-size: 1.1rem; padding: 18px 40px;
+            border-radius: 50px; font-weight: 800; display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; text-transform: uppercase; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
         }
-
-        .banner-contato p {
-            color: #ddd;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-inline: auto;
-        }
-
-        .btn-whatsapp-large {
-            background: #25d366;
-            color: #000;
-            font-size: 1rem;
-            padding: 18px 40px;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-        }
-        .btn-whatsapp-large:hover {
-            background: #20b858;
-            color: #fff;
-            transform: scale(1.05);
-        }
+        .btn-whatsapp-cta:hover { background: #1ebe57; transform: scale(1.05); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.6); }
 
         /* --- QUALIDADE / CONFIANÇA --- */
-        #qualidade {
-            background: linear-gradient(135deg, #111 0%, #1a1d21 100%);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-        }
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
+        #qualidade { background: linear-gradient(135deg, #111 0%, #1a1d21 100%); border-top: 1px solid rgba(255,255,255,0.05); }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: center; }
         .trust-item {
-            padding: 30px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.02);
-            transition: var(--transition);
-            position: relative;
+            padding: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.02);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
         }
-        
-        /* Classe ativada via JS para o efeito de piscar */
-        .blink-effect {
-            animation: pulseGold 0.8s ease-in-out;
-        }
-
-        @keyframes pulseGold {
-            0% { transform: scale(1); filter: brightness(1); box-shadow: none; border-color: rgba(255,255,255,0.02); }
-            50% { transform: scale(1.08); filter: brightness(1.3); box-shadow: 0 0 30px rgba(245, 196, 0, 0.8); border-color: var(--accent-gold); }
-            100% { transform: scale(1); filter: brightness(1); box-shadow: none; border-color: rgba(255,255,255,0.02); }
-        }
-
-        .trust-icon {
-            font-size: 3rem;
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-        }
+        .trust-icon { font-size: 3rem; color: var(--accent-gold); margin-bottom: 20px; transition: color 0.4s ease; }
         .trust-item h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; }
         .trust-item p { color: #999; font-size: 0.95rem; }
 
-        /* --- LOCALIDADE --- */
-        #localidade {
-            perspective: 1200px;
+        /* Animação Sequencial Qualidade (via JS) */
+        @keyframes piscarQualidade {
+            0%   { transform: translateY(0); box-shadow: none; border-color: rgba(255,255,255,0.02); background: rgba(0,0,0,0.3); }
+            50%  { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(245, 196, 0, 0.2); border-color: var(--accent-gold); background: rgba(245, 196, 0, 0.05); }
+            100% { transform: translateY(0); box-shadow: none; border-color: rgba(255,255,255,0.02); background: rgba(0,0,0,0.3); }
         }
-        .location-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.6s ease, border-color 0.6s ease;
-            cursor: pointer;
-            transform-style: preserve-3d;
-        }
+        .piscar-ativo { animation: piscarQualidade 1s ease-in-out; }
+        .piscar-ativo .trust-icon { color: #fff; text-shadow: 0 0 15px var(--accent-gold); }
 
-        /* Classe ativada via JS para elevação do cubo */
-        .location-container.lifted {
-            transform: translateZ(50px) translateY(-15px) rotateX(2deg);
-            box-shadow: 0 30px 60px rgba(0, 64, 133, 0.3);
+        /* --- LOCALIDADE --- */
+        .location-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+            background: var(--card-bg); padding: 40px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* Animação Localidade (via JS) */
+        .localidade-elevada {
+            transform: scale(1.03) translateY(-20px);
+            box-shadow: 0 30px 60px rgba(0, 64, 133, 0.4);
             border-color: var(--primary-blue);
         }
 
         .location-info h3 { font-size: 2rem; color: #fff; margin-bottom: 20px; }
         .location-info p { color: #aaa; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
-        .location-info i { color: var(--primary-blue); font-size: 1.3rem; }
-        .map-wrapper {
-            width: 100%;
-            height: 350px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            pointer-events: none; /* Previne clique no iframe para garantir a animação do card */
-        }
+        .location-info i { color: var(--primary-blue); font-size: 1.3rem; width: 25px; }
+        .map-wrapper { width: 100%; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .map-wrapper iframe { width: 100%; height: 100%; border: none; }
 
         /* --- CONTATO / FOOTER --- */
-        #contato {
-            background: #050505;
-            padding: 80px 8% 30px;
-            border-top: 2px solid var(--primary-blue);
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
-        }
+        #contato { background: #050505; padding: 80px 8% 30px; border-top: 2px solid var(--primary-blue); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
         .footer-col h4 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .footer-col h4 span { color: var(--accent-gold); }
         .footer-col p, .footer-col a { color: #888; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; }
@@ -436,101 +263,41 @@
         .footer-col .social-links { display: flex; gap: 15px; margin-top: 20px; }
         .footer-col .social-links a { width: 40px; height: 40px; background: #1a1d21; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #fff; font-size: 1.2rem; }
         .footer-col .social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
-        
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #222; color: #555; font-size: 13px; }
 
-        /* --- BALÃO DE ORÇAMENTO --- */
+        /* --- BALÃO & FLOATING --- */
         #budget-bubble {
-            position: fixed;
-            bottom: 170px; 
-            right: 35px;
-            background: #fff;
-            color: #333;
-            padding: 15px 20px;
-            border-radius: 15px 15px 0 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(20px) scale(0.8);
-            visibility: hidden;
-            transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+            position: fixed; bottom: 170px; right: 35px; background: #fff; color: #333;
+            padding: 15px 20px; border-radius: 15px 15px 0 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transform: translateY(20px) scale(0.8);
+            visibility: hidden; transition: all 0.4s ease;
         }
-        #budget-bubble.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            visibility: visible;
-        }
-        #budget-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: 0;
-            border-left: 10px solid transparent;
-            border-top: 10px solid #fff;
-        }
+        #budget-bubble.show { opacity: 1; transform: translateY(0) scale(1); visibility: visible; }
+        #budget-bubble::after { content: ''; position: absolute; bottom: -10px; right: 0; border-left: 10px solid transparent; border-top: 10px solid #fff; }
 
-        /* --- FLOATING BUTTONS --- */
-        .floating-container { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 30px; 
-            z-index: 1000; 
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .float-btn {
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            color: #fff; 
-            font-size: 28px; 
-            text-decoration: none; 
-            transition: var(--transition);
-        }
-        
-        .whatsapp-float { 
-            background: #25d366; 
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-        }
+        .floating-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
+        .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 28px; text-decoration: none; transition: var(--transition); }
+        .whatsapp-float { background: #25d366; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
         .whatsapp-float:hover { background: #20b858; transform: scale(1.1); }
-
-        .location-float {
-            background: var(--primary-blue);
-            box-shadow: 0 5px 15px rgba(0, 64, 133, 0.4);
-        }
+        .location-float { background: var(--primary-blue); box-shadow: 0 5px 15px rgba(0, 64, 133, 0.4); }
         .location-float:hover { background: #003066; transform: scale(1.1); }
 
         /* --- RESPONSIVIDADE --- */
-        @media (max-width: 992px) {
-            .location-container { grid-template-columns: 1fr; }
-            .map-wrapper { height: 300px; }
-            .cascata-item { width: 280px; }
-        }
-
+        @media (max-width: 992px) { .location-container { grid-template-columns: 1fr; } .map-wrapper { height: 300px; } }
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; padding: 20px; }
-            header.header-encolhido { padding: 10px; } 
-            
-            .header-right { flex-direction: column; width: 100%; gap: 15px; }
-            nav { justify-content: center; width: 100%; flex-wrap: wrap; }
-            
-            .logo-container img { height: 100px; } 
-            header.header-encolhido .logo-container img { height: 60px; }
-
-            .hero h1 { font-size: 2rem; }
+            header { flex-direction: column; gap: 15px; padding: 15px; position: absolute; }
+            .header-right { width: 100%; justify-content: center; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            .hero h1 { font-size: 2.2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
-            
+            .carousel-wrapper { height: 420px; }
+            .cascade-card { width: 280px; }
+            .cascade-card.next { transform: translateX(30%) scale(0.8) translateZ(-100px); }
+            .cascade-card.prev { transform: translateX(-30%) scale(0.8) translateZ(-100px); }
             section { padding: 60px 5%; }
-            .cascata-container { height: 400px; }
-            
+            .cta-search { padding: 40px 5%; }
+            .btn-whatsapp-cta { width: 100%; justify-content: center; font-size: 1rem; }
             #budget-bubble { right: 20px; bottom: 150px; }
             .floating-container { bottom: 20px; right: 20px; }
             .float-btn { width: 50px; height: 50px; font-size: 24px; }
@@ -540,17 +307,17 @@
 
 <body id="topo"> 
 
-<header>
+<header id="main-header">
     <div class="logo-container">
-        <!-- Substitua pelo caminho real da sua logo -->
+        <!-- Mantenha sua logo real aqui -->
         <img src="logo.jpg" alt="Lima Auto Peças">
     </div>
     <div class="header-right">
         <nav>
             <a href="#topo">Início</a> 
             <a href="#catalogo">Catálogo</a>
-            <a href="#qualidade">Qualidade</a>
-            <a href="#localidade">Localidade</a>
+            <a href="#qualidade" id="nav-qualidade">Qualidade</a>
+            <a href="#localidade" id="nav-localidade">Localidade</a>
             <a href="#contato">Contato</a>
         </nav>
     </div>
@@ -565,177 +332,95 @@
             <a class="btn btn-blue" href="#catalogo">
                 <i class="fas fa-search"></i> Explorar Catálogo
             </a>
-
             <a class="btn btn-ghost-white" href="https://wa.me/5500000000000?text=Olá!%20Estou%20buscando%20uma%20peça%20específica%20que%20não%20achei%20no%20site." target="_blank">
                 <i class="fab fa-whatsapp"></i> Falar com Vendedor
             </a>
         </div>
     </section>
-
-    <!-- PRODUTOS EM DESTAQUE (EFEITO CASCATA) -->
-    <section id="destaques">
+        
+    <section id="catalogo">
         <div class="section-title">
-            <h2>Ofertas <span>Especiais</span></h2>
-            <p>Os itens mais procurados da nossa loja, em evidência para você.</p>
+            <h2>Peças mais <span>Buscadas</span></h2>
+            <p>Conheça os itens de maior saída do nosso estoque, garantindo o melhor funcionamento do seu veículo.</p>
         </div>
-
-        <div class="cascata-container" id="cascata">
-            <!-- Item 1 -->
-            <div class="cascata-item active">
+        
+        <!-- Efeito Cascata 3D -->
+        <div class="carousel-wrapper" id="cascade-slider">
+            
+            <!-- Peça 1 -->
+            <div class="cascade-card active">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem Completo">
+                    <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Motor / Ignição</span>
+                    <h3>Vela de Ignição Iridium</h3>
+                    <p>Alta performance, ignição rápida e maior durabilidade. Melhora o consumo e desempenho do motor.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                </div>
+            </div>
+
+            <!-- Peça 2 -->
+            <div class="cascade-card next">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Suspensão</span>
+                    <h3>Amortecedor Dianteiro</h3>
+                    <p>Tecnologia avançada a gás para estabilidade superior, absorção de impacto e extremo conforto na via.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Dianteiro.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                </div>
+            </div>
+
+            <!-- Peça 3 -->
+            <div class="cascade-card hidden">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Transmissão</span>
                     <h3>Kit Embreagem Completo</h3>
-                    <p>Platô, disco e rolamento originais. Troca de marchas suaves e eliminação de trepidações.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20Completo.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <p>Conjunto com platô, disco e rolamento. Troca de marchas suaves e eliminação total de trepidações.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20Completo.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <!-- Item 2 -->
-            <div class="cascata-item next">
+            <!-- Peça 4 -->
+            <div class="cascade-card prev">
                 <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição Iridium">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Motor</span>
-                    <h3>Vela de Ignição Iridium</h3>
-                    <p>Alta performance, ignição rápida e maior durabilidade para motores flex e gasolina.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Vela%20de%20Ignição%20Iridium.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="cascata-item">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1626084043949-0d32c525381f?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Óleo Motor 100% Sintético">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Lubrificantes</span>
-                    <h3>Óleo Motor 100% Sintético</h3>
-                    <p>Proteção térmica extrema e lubrificação imediata em partidas a frio. Alta durabilidade.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20no%20produto:%20Óleo%20Motor%20Sintético.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="cascata-item prev">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio Cerâmica">
+                    <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Freios</span>
-                    <h3>Pastilha de Freio Cerâmica</h3>
-                    <p>Frenagem silenciosa e eficiente, gerando menos pó nas rodas. Alta dissipação térmica.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio%20de%20Cerâmica.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-        </div>
-    </section>
-        
-    <section id="catalogo">
-        <div class="section-title">
-            <h2>Catálogo <span>Completo</span></h2>
-            <p>Trabalhamos com uma linha vasta de peças de 1ª linha. Confira as categorias mais procuradas.</p>
-        </div>
-        
-        <div class="cards">
-            <!-- Sem Marcas, termos genéricos -->
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor Dianteiro">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Suspensão</span>
-                    <h3>Amortecedor Dianteiro a Gás</h3>
-                    <p>Tecnologia pressurizada avançada para estabilidade superior e conforto. Padrão de montadora.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Dianteiro%20a%20Gás.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
+                    <h3>Pastilha de Freio de Cerâmica</h3>
+                    <p>Frenagem silenciosa, altamente eficiente e que gera menos pó nas rodas. Alta dissipação térmica.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio%20de%20Cerâmica.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bateria Automotiva 60Ah">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Elétrica</span>
-                    <h3>Bateria Automotiva 60Ah Livre Manutenção</h3>
-                    <p>Tecnologia de ponta com liga anticorrosão, garantindo partidas rápidas e longa vida útil.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bateria%20Automotiva%2060Ah.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1580274455171-1c312cb6910d?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Refil Bomba de Combustível">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Injeção</span>
-                    <h3>Refil Bomba de Combustível Flex</h3>
-                    <p>Pressão constante de linha. Evita falhas de aceleração e aumenta a eficiência de consumo.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Refil%20Bomba%20de%20Combustível.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1587317770857-41804f323e00?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Correia Dentada">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Motor</span>
-                    <h3>Kit Correia Dentada + Tensor</h3>
-                    <p>Fabricada em compostos de alta resistência. Segurança máxima contra desgaste prematuro.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Correia%20Dentada.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1608674997095-2c8c45ab02ff?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Disco de Freio Ventilado">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Freios</span>
-                    <h3>Disco de Freio Ventilado Alto Carbono</h3>
-                    <p>Liga enriquecida, garantindo frenagens mais curtas, precisas e ausência total de trepidações.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Disco%20de%20Freio%20Ventilado.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
-            
-            <!-- Reutilizando um dos genéricos para fechar a grid harmoniosamente -->
-            <div class="card">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor Traseiro">
-                </div>
-                <div class="card-body">
-                    <span class="card-category">Suspensão</span>
-                    <h3>Amortecedor Traseiro Reforçado</h3>
-                    <p>Máxima durabilidade e conforto para passageiros, corrigindo balanços indesejados da traseira.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Amortecedor%20Traseiro.%20Poderia%20confirmar%20disponibilidade%20e%20valor?" target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Peça</a>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- BANNER NÃO ENCONTROU A PEÇA -->
-    <section class="banner-contato">
-        <h2>Não encontrou sua peça?</h2>
-        <p>Fale com a Lima Auto Peças. Temos um estoque físico gigante com milhares de aplicações e realizamos encomendas direto de fábrica.</p>
-        <a href="https://wa.me/5500000000000?text=Olá!%20Não%20encontrei%20minha%20peça%20no%20site.%20Poderiam%20me%20ajudar?" target="_blank" class="btn btn-whatsapp-large">
+    <!-- FAIXA NOVA: NÃO ENCONTROU A PEÇA -->
+    <div class="cta-search">
+        <h3>Não encontrou sua peça?</h3>
+        <p>Temos milhares de itens em estoque que não estão no site. Fale com um de nossos especialistas agora mesmo e encontre exatamente o que precisa.</p>
+        <a href="https://wa.me/5500000000000?text=Olá,%20acessei%20o%20site%20mas%20não%20encontrei%20a%20peça%20que%20procuro.%20Poderia%20me%20ajudar?" target="_blank" class="btn-whatsapp-cta">
             <i class="fab fa-whatsapp"></i> Consultar peça pelo WhatsApp
         </a>
-    </section>
+    </div>
 
     <section id="qualidade">
         <div class="section-title">
             <h2>Nossa <span>Garantia de Qualidade</span></h2>
             <p>Trabalhamos duro para ser a distribuidora de auto peças que você confia para manter o seu carro rodando com segurança.</p>
         </div>
-        <div class="trust-grid">
+        <div class="trust-grid" id="grid-qualidade">
             <div class="trust-item">
                 <i class="fas fa-certificate trust-icon"></i>
-                <h3>Peças de 1ª Linha</h3>
-                <p>Fornecemos peças com procedência garantida, seguindo rigorosamente os padrões das montadoras.</p>
+                <h3>Qualidade Original</h3>
+                <p>Fornecemos peças com procedência garantida, respeitando as exigências das montadoras.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-box-open trust-icon"></i>
@@ -744,13 +429,13 @@
             </div>
             <div class="trust-item">
                 <i class="fas fa-shield-alt trust-icon"></i>
-                <h3>Garantia de Fábrica</h3>
-                <p>Todos os nossos itens possuem garantia estendida cobrindo defeitos de fabricação.</p>
+                <h3>Garantia Segura</h3>
+                <p>Todos os nossos itens possuem garantia rigorosa cobrindo defeitos de fabricação.</p>
             </div>
             <div class="trust-item">
                 <i class="fas fa-headset trust-icon"></i>
                 <h3>Atendimento Técnico</h3>
-                <p>Nossos vendedores não apenas vendem, mas prestam consultoria para você não comprar a peça errada.</p>
+                <p>Nossos vendedores prestam consultoria exata para você nunca comprar a peça errada.</p>
             </div>
         </div>
     </section>
@@ -760,8 +445,7 @@
             <h2>Nossa <span>Localidade</span></h2>
             <p>Visite nossa loja física para retirar suas peças de imediato com amplo estacionamento para o seu conforto.</p>
         </div>
-        <!-- Clique para Elevar (JS) -->
-        <div class="location-container" id="locContainer">
+        <div class="location-container" id="box-localidade">
             <div class="location-info">
                 <h3>Venha buscar sua peça</h3>
                 <p><i class="fas fa-map-marker-alt"></i> Av. das Américas, 1000 - Loja 05, Cidade - UF</p>
@@ -818,96 +502,107 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>Lima Auto Peças © 2026 | Precisão e Qualidade Premium. Todos os direitos reservados.</p>
+        <p>Lima Auto Peças © 2026 | Precisão e Qualidade. Todos os direitos reservados.</p>
     </div>
 </footer>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        /* --- Animação Header / Balão --- */
+        // --- Header Scroll e Balão Flutuante ---
         const bubble = document.getElementById('budget-bubble');
+        const header = document.getElementById('main-header');
         let hideTimeout;
 
-        setTimeout(function() {
+        setTimeout(() => {
             bubble.classList.add('show');
-            hideTimeout = setTimeout(function() {
-                bubble.classList.remove('show');
-            }, 6000); 
+            hideTimeout = setTimeout(() => bubble.classList.remove('show'), 6000); 
         }, 3000);
 
-        document.addEventListener('click', function() {
+        document.addEventListener('click', () => {
             if (bubble.classList.contains('show')) {
                 bubble.classList.remove('show');
                 clearTimeout(hideTimeout);
             }
         });
 
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('header-encolhido');
-            } else {
-                header.classList.remove('header-encolhido');
-            }
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('header-encolhido');
+            else header.classList.remove('header-encolhido');
         });
 
-        /* --- JS: Efeito Cascata (Slider 3D Seamless) --- */
-        const cascadeItems = document.querySelectorAll('.cascata-item');
-        let cascadeIndex = 0;
+        // --- Lógica do Carrossel Cascata 3D ---
+        const cards = document.querySelectorAll('.cascade-card');
+        let currentIndex = 0;
+        let carouselInterval;
 
-        function updateCascade() {
-            cascadeItems.forEach((item, i) => {
-                item.classList.remove('active', 'next', 'prev');
-                
-                // Lógica circular para definir quem fica no centro, na direita e na esquerda
-                let diff = (i - cascadeIndex + cascadeItems.length) % cascadeItems.length;
-                
-                if (diff === 0) {
-                    item.classList.add('active'); // Centro / Frente
-                } else if (diff === 1 || diff === -(cascadeItems.length - 1)) {
-                    item.classList.add('next');   // Direita / Atrás
-                } else if (diff === cascadeItems.length - 1 || diff === -1) {
-                    item.classList.add('prev');   // Esquerda / Atrás
-                } else {
-                    item.style.opacity = '0';     // Esconde os excedentes
-                }
-            });
+        function updateCarousel() {
+            cards.forEach(card => card.className = 'cascade-card hidden'); // Limpa todas as classes
+            
+            let activeItem = cards[currentIndex];
+            let nextItem = cards[(currentIndex + 1) % cards.length];
+            let prevItem = cards[(currentIndex - 1 + cards.length) % cards.length];
+
+            activeItem.classList.add('active');
+            activeItem.classList.remove('hidden');
+            
+            nextItem.classList.add('next');
+            nextItem.classList.remove('hidden');
+            
+            prevItem.classList.add('prev');
+            prevItem.classList.remove('hidden');
         }
-        
-        // Inicializa e roda automático a cada 3,5 segundos
-        updateCascade();
-        setInterval(() => {
-            cascadeIndex = (cascadeIndex + 1) % cascadeItems.length;
-            updateCascade();
-        }, 3500);
 
-        /* --- JS: Efeito "Cubo" Elevar (Localidade) --- */
-        const locContainer = document.getElementById('locContainer');
-        locContainer.addEventListener('click', () => {
-            locContainer.classList.toggle('lifted');
+        function startCarousel() {
+            carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                updateCarousel();
+            }, 3500); // Roda a cada 3.5 segundos
+        }
+
+        // Pausar cascata quando passar o mouse
+        const carouselWrapper = document.getElementById('cascade-slider');
+        carouselWrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+        carouselWrapper.addEventListener('mouseleave', startCarousel);
+        
+        startCarousel();
+
+        // --- Efeitos de Interação ao Clicar no Menu ---
+        
+        // Efeito Localidade (Levantar)
+        document.getElementById('nav-localidade').addEventListener('click', function() {
+            const boxLocalidade = document.getElementById('box-localidade');
+            // Timeout para dar tempo do scroll descer até a sessão
+            setTimeout(() => {
+                boxLocalidade.classList.remove('localidade-elevada');
+                void boxLocalidade.offsetWidth; // Força o reflow
+                boxLocalidade.classList.add('localidade-elevada');
+                
+                // Remove o efeito após 3 segundos
+                setTimeout(() => {
+                    boxLocalidade.classList.remove('localidade-elevada');
+                }, 3000);
+            }, 600); 
         });
 
-        /* --- JS: Efeito Piscar 1 por 1 (Qualidade) - Ocorre apenas 1 vez --- */
-        const secQualidade = document.getElementById('qualidade');
-        const trustItems = document.querySelectorAll('.trust-item');
-        let qualidadePiscada = false;
-
-        secQualidade.addEventListener('click', () => {
-            if (!qualidadePiscada) {
-                qualidadePiscada = true; // Impede que pisque de novo
-                trustItems.forEach((item, index) => {
+        // Efeito Qualidade (Piscar sequencial)
+        document.getElementById('nav-qualidade').addEventListener('click', function() {
+            const itensQualidade = document.querySelectorAll('.trust-item');
+            
+            setTimeout(() => {
+                itensQualidade.forEach((item, index) => {
+                    item.classList.remove('piscar-ativo');
+                    // Cria o efeito sequencial
                     setTimeout(() => {
-                        item.classList.add('blink-effect');
+                        item.classList.add('piscar-ativo');
                         
-                        // Remove a classe após a animação (0.8s = 800ms)
+                        // Limpa a classe após terminar a animação
                         setTimeout(() => {
-                            item.classList.remove('blink-effect');
-                        }, 800);
-                        
-                    }, index * 400); // Delay progressivo (0ms, 400ms, 800ms...)
+                            item.classList.remove('piscar-ativo');
+                        }, 1000);
+                    }, index * 400); // Atraso de 400ms entre cada item
                 });
-            }
+            }, 600);
         });
 
     });
