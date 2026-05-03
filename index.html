@@ -49,7 +49,8 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: padding 0.4s ease, background 0.4s ease;
+            /* Transição inclui transform para ocultar no final */
+            transition: padding 0.4s ease, background 0.4s ease, transform 0.4s ease;
         }
 
         header.header-encolhido {
@@ -58,8 +59,13 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
         }
 
+        /* Classe para sumir no final do site */
+        header.header-hidden {
+            transform: translateY(-100%);
+        }
+
         .logo-container img { 
-            height: 80px; /* Ajustado para ficar elegante */
+            height: 80px; 
             width: auto;
             transition: height 0.4s ease; 
         }
@@ -95,7 +101,9 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(13, 13, 14, 0.7), rgba(13, 13, 14, 1)), 
                         url('https://i.imgur.com/QDD1HID.jpeg') center/cover no-repeat;
-            text-align: center; padding: 40px 5%;
+            text-align: center; 
+            /* Aumento do padding top para não cortar o título */
+            padding: 130px 5% 40px;
         }
         .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
         .hero p { max-width: 650px; font-size: 1.1rem; color: #ccc; margin-bottom: 40px; }
@@ -118,7 +126,7 @@
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- CATÁLOGO CASCATA (3D CAROUSEL) --- */
+        /* --- CATÁLOGO CASCATA (AGORA COM ITENS INVISÍVEIS) --- */
         .carousel-wrapper {
             position: relative;
             width: 100%;
@@ -142,11 +150,11 @@
             display: flex;
             flex-direction: column;
             opacity: 0;
-            pointer-events: none; /* Só interage quem tá na frente */
+            pointer-events: none; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        /* Classes de Posição da Cascata */
+        /* Classes de Posição da Cascata - Removido os Cubos Laterais */
         .cascade-card.active {
             transform: translateX(0) scale(1) translateZ(0);
             opacity: 1;
@@ -155,18 +163,13 @@
             border-color: var(--primary-blue);
             box-shadow: 0 20px 50px rgba(0, 64, 133, 0.4);
         }
-        .cascade-card.next {
-            transform: translateX(45%) scale(0.85) translateZ(-100px);
-            opacity: 0.4;
-            z-index: 5;
-        }
-        .cascade-card.prev {
-            transform: translateX(-45%) scale(0.85) translateZ(-100px);
-            opacity: 0.4;
+        .cascade-card.next, .cascade-card.prev {
+            transform: translateX(0) scale(0.9) translateZ(-50px);
+            opacity: 0; /* Totalmente invisível */
             z-index: 5;
         }
         .cascade-card.hidden {
-            transform: translateX(0) scale(0.6) translateZ(-200px);
+            transform: translateX(0) scale(0.8) translateZ(-100px);
             opacity: 0;
             z-index: 1;
         }
@@ -192,26 +195,66 @@
         }
         .btn-agendar:hover { background: #25d366; color: #000; }
 
-        /* --- FAIXA NÃO ENCONTROU A PEÇA --- */
+        /* Lista Fixa Abaixo do Catálogo */
+        .catalogo-lista {
+            margin-top: 40px;
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 800px;
+            margin-inline: auto;
+        }
+        .catalogo-lista h3 {
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+        .catalogo-lista ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            list-style: none;
+        }
+        .catalogo-lista li {
+            color: #ccc;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .catalogo-lista li i {
+            color: var(--primary-blue);
+        }
+
+        /* --- FAIXA NÃO ENCONTROU A PEÇA (MELHORADA) --- */
         .cta-search {
-            background: linear-gradient(90deg, #001f40 0%, #004085 100%);
+            background: linear-gradient(135deg, #111 0%, #1a1d21 100%);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             padding: 50px 8%;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .cta-search::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--accent-gold); opacity: 0.5;
         }
         .cta-search h3 { color: #fff; font-size: 2rem; font-weight: 800; }
         .cta-search p { color: #ccc; font-size: 1.1rem; max-width: 600px; }
         .btn-whatsapp-cta {
             background: #25d366; color: #fff; font-size: 1.1rem; padding: 18px 40px;
             border-radius: 50px; font-weight: 800; display: inline-flex; align-items: center; gap: 10px;
-            text-decoration: none; text-transform: uppercase; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            text-decoration: none; text-transform: uppercase; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
             transition: all 0.3s ease;
         }
-        .btn-whatsapp-cta:hover { background: #1ebe57; transform: scale(1.05); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.6); }
+        .btn-whatsapp-cta:hover { background: #1ebe57; transform: scale(1.05); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5); }
 
         /* --- QUALIDADE / CONFIANÇA --- */
         #qualidade { background: linear-gradient(135deg, #111 0%, #1a1d21 100%); border-top: 1px solid rgba(255,255,255,0.05); }
@@ -230,7 +273,7 @@
             50%  { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(245, 196, 0, 0.2); border-color: var(--accent-gold); background: rgba(245, 196, 0, 0.05); }
             100% { transform: translateY(0); box-shadow: none; border-color: rgba(255,255,255,0.02); background: rgba(0,0,0,0.3); }
         }
-        .piscar-ativo { animation: piscarQualidade 1s ease-in-out; }
+        .piscar-ativo { animation: piscarQualidade 1.2s ease-in-out; }
         .piscar-ativo .trust-icon { color: #fff; text-shadow: 0 0 15px var(--accent-gold); }
 
         /* --- LOCALIDADE --- */
@@ -288,13 +331,13 @@
             header { flex-direction: column; gap: 15px; padding: 15px; position: absolute; }
             .header-right { width: 100%; justify-content: center; }
             nav { flex-wrap: wrap; justify-content: center; }
+            .hero { padding-top: 160px; }
             .hero h1 { font-size: 2.2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
             .carousel-wrapper { height: 420px; }
             .cascade-card { width: 280px; }
-            .cascade-card.next { transform: translateX(30%) scale(0.8) translateZ(-100px); }
-            .cascade-card.prev { transform: translateX(-30%) scale(0.8) translateZ(-100px); }
+            /* Não é mais necessário alterar transformações laterais pois estão opacidade 0 */
             section { padding: 60px 5%; }
             .cta-search { padding: 40px 5%; }
             .btn-whatsapp-cta { width: 100%; justify-content: center; font-size: 1rem; }
@@ -344,7 +387,7 @@
             <p>Conheça os itens de maior saída do nosso estoque, garantindo o melhor funcionamento do seu veículo.</p>
         </div>
         
-        <!-- Efeito Cascata 3D -->
+        <!-- Efeito Cascata Fading -->
         <div class="carousel-wrapper" id="cascade-slider">
             
             <!-- Peça 1 -->
@@ -399,6 +442,19 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- Lista de outras peças -->
+        <div class="catalogo-lista">
+            <h3>Outras Categorias Disponíveis:</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Correias e Tensores</li>
+                <li><i class="fas fa-check-circle"></i> Filtros de Óleo, Ar e Cabine</li>
+                <li><i class="fas fa-check-circle"></i> Baterias Automotivas</li>
+                <li><i class="fas fa-check-circle"></i> Bobinas e Cabos de Ignição</li>
+                <li><i class="fas fa-check-circle"></i> Discos e Tambores de Freio</li>
+                <li><i class="fas fa-check-circle"></i> Bombas D'água e Combustível</li>
+            </ul>
         </div>
     </section>
 
@@ -527,17 +583,27 @@
         });
 
         window.addEventListener('scroll', () => {
+            // Efeito de encolher ao rolar um pouco
             if (window.scrollY > 50) header.classList.add('header-encolhido');
             else header.classList.remove('header-encolhido');
+
+            // Lógica para esconder completamente no final da página
+            const scrollTotal = window.innerHeight + window.scrollY;
+            const fimDaPagina = document.body.offsetHeight - 10; // margem de erro de 10px
+            if (scrollTotal >= fimDaPagina) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
         });
 
-        // --- Lógica do Carrossel Cascata 3D ---
+        // --- Lógica do Carrossel Cascata Fading ---
         const cards = document.querySelectorAll('.cascade-card');
         let currentIndex = 0;
         let carouselInterval;
 
         function updateCarousel() {
-            cards.forEach(card => card.className = 'cascade-card hidden'); // Limpa todas as classes
+            cards.forEach(card => card.className = 'cascade-card hidden'); 
             
             let activeItem = cards[currentIndex];
             let nextItem = cards[(currentIndex + 1) % cards.length];
@@ -557,10 +623,9 @@
             carouselInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % cards.length;
                 updateCarousel();
-            }, 3500); // Roda a cada 3.5 segundos
+            }, 3500); 
         }
 
-        // Pausar cascata quando passar o mouse
         const carouselWrapper = document.getElementById('cascade-slider');
         carouselWrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
         carouselWrapper.addEventListener('mouseleave', startCarousel);
@@ -572,35 +637,39 @@
         // Efeito Localidade (Levantar)
         document.getElementById('nav-localidade').addEventListener('click', function() {
             const boxLocalidade = document.getElementById('box-localidade');
-            // Timeout para dar tempo do scroll descer até a sessão
             setTimeout(() => {
                 boxLocalidade.classList.remove('localidade-elevada');
-                void boxLocalidade.offsetWidth; // Força o reflow
+                void boxLocalidade.offsetWidth; 
                 boxLocalidade.classList.add('localidade-elevada');
                 
-                // Remove o efeito após 3 segundos
                 setTimeout(() => {
                     boxLocalidade.classList.remove('localidade-elevada');
                 }, 3000);
             }, 600); 
         });
 
-        // Efeito Qualidade (Piscar sequencial)
+        // Efeito Qualidade (Piscar sequencial + Rolagem Mobile)
         document.getElementById('nav-qualidade').addEventListener('click', function() {
             const itensQualidade = document.querySelectorAll('.trust-item');
+            const isMobile = window.innerWidth <= 768; // Verifica se é tela de celular
             
             setTimeout(() => {
                 itensQualidade.forEach((item, index) => {
                     item.classList.remove('piscar-ativo');
-                    // Cria o efeito sequencial
+                    
+                    // Aumentei o tempo de delay entre cada um para dar tempo da rolagem acompanhar
                     setTimeout(() => {
                         item.classList.add('piscar-ativo');
                         
-                        // Limpa a classe após terminar a animação
+                        // Rola a tela para o item no celular
+                        if (isMobile) {
+                            item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        
                         setTimeout(() => {
                             item.classList.remove('piscar-ativo');
-                        }, 1000);
-                    }, index * 400); // Atraso de 400ms entre cada item
+                        }, 1200); // Sincronizado com o novo tempo da animação CSS
+                    }, index * 800); 
                 });
             }, 600);
         });
