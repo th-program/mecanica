@@ -121,49 +121,60 @@
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- CATÁLOGO DE PRODUTOS (EFEITO FLUTUANTE) --- */
-        .produtos-destaque {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 30px;
+        /* --- CATÁLOGO CASCATA (COM ITENS INVISÍVEIS) --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+            overflow: hidden;
             padding: 20px 0;
         }
 
-        .produto-card {
+        .cascade-card {
+            position: absolute;
+            width: 320px;
             background: var(--card-bg);
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            animation: flutuar 6s ease-in-out infinite; /* Efeito flutuante ativado */
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            opacity: 0;
+            pointer-events: none; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        /* Delays para cada card flutuar em momentos diferentes */
-        .produto-card:nth-child(1) { animation-delay: 0s; }
-        .produto-card:nth-child(2) { animation-delay: 1.5s; }
-        .produto-card:nth-child(3) { animation-delay: 3s; }
-        .produto-card:nth-child(4) { animation-delay: 4.5s; }
-
-        @keyframes flutuar {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); } /* Sobe 15px */
-            100% { transform: translateY(0px); }
-        }
-
-        .produto-card:hover {
+        /* Classes de Posição da Cascata (Ocultos nas laterais) */
+        .cascade-card.active {
+            transform: translateX(0) scale(1) translateZ(0);
+            opacity: 1;
+            z-index: 10;
+            pointer-events: auto;
             border-color: var(--primary-blue);
-            animation-play-state: paused; /* Pausa a flutuação ao passar o mouse */
-            transform: scale(1.03); /* Dá um zoom leve */
+            box-shadow: 0 20px 50px rgba(0, 64, 133, 0.4);
+        }
+        .cascade-card.next, .cascade-card.prev {
+            transform: translateX(0) scale(0.9) translateZ(-50px);
+            opacity: 0; /* Totalmente invisível como solicitado */
+            z-index: 5;
+        }
+        .cascade-card.hidden {
+            transform: translateX(0) scale(0.8) translateZ(-100px);
+            opacity: 0;
+            z-index: 1;
         }
 
+        /* Estilo Interno do Card */
         .card-img-container { width: 100%; height: 200px; background: #fff; overflow: hidden; }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .produto-card:hover .card-img { transform: scale(1.1); }
+        .cascade-card.active:hover .card-img { transform: scale(1.1); }
         
-        .card-body { padding: 25px; text-align: left; display: flex; flex-direction: column; height: 100%; }
+        .card-body { padding: 25px; text-align: left; display: flex; flex-direction: column; }
         .card-category {
             background: rgba(245, 196, 0, 0.15); color: var(--accent-gold); font-size: 0.7rem; font-weight: 800;
             padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 15px;
@@ -179,58 +190,38 @@
         }
         .btn-agendar:hover { background: #25d366; color: #000; }
 
-        /* --- LISTA DE CATEGORIAS COM IMAGENS PROFISSIONAIS --- */
+        /* --- LISTA SIMPLES E OBJETIVA --- */
         .catalogo-lista {
-            margin-top: 60px;
+            margin-top: 40px;
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 800px;
+            margin-inline: auto;
         }
         .catalogo-lista h3 {
             color: var(--accent-gold);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
             text-transform: uppercase;
         }
-        .categorias-grid {
+        .catalogo-lista ul {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            list-style: none;
         }
-        .categoria-item {
-            position: relative;
-            height: 160px;
-            border-radius: 15px;
-            overflow: hidden;
+        .catalogo-lista li {
+            color: #ccc;
+            font-size: 0.95rem;
             display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            text-decoration: none;
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            align-items: center;
+            gap: 10px;
         }
-        .categoria-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%);
-            transition: background 0.3s ease;
-        }
-        .categoria-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-        }
-        .categoria-item:hover::before {
-            background: linear-gradient(to top, rgba(0, 64, 133, 0.9) 0%, rgba(0,0,0,0.2) 100%);
-        }
-        .categoria-item h4 {
-            position: relative;
-            z-index: 2;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .catalogo-lista li i {
+            color: var(--primary-blue);
         }
 
         /* --- FAIXA NÃO ENCONTROU A PEÇA --- */
@@ -323,7 +314,6 @@
         .floating-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
         .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 28px; text-decoration: none; transition: var(--transition); }
         
-        /* Animações de Brilho dos Botões */
         @keyframes glow-whatsapp {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
@@ -335,17 +325,10 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 64, 133, 0); }
         }
 
-        .whatsapp-float { 
-            background: #25d366; 
-            animation: glow-whatsapp 2s infinite; 
-        }
+        .whatsapp-float { background: #25d366; animation: glow-whatsapp 2s infinite; }
         .whatsapp-float:hover { background: #20b858; transform: scale(1.1); animation-play-state: paused; }
         
-        .location-float { 
-            background: var(--primary-blue); 
-            animation: glow-location 2s infinite;
-            animation-delay: 1s; /* Atrasa para piscar alternado com o whatsapp */
-        }
+        .location-float { background: var(--primary-blue); animation: glow-location 2s infinite; animation-delay: 1s; }
         .location-float:hover { background: #003066; transform: scale(1.1); animation-play-state: paused; }
 
         /* --- RESPONSIVIDADE --- */
@@ -358,6 +341,8 @@
             .hero h1 { font-size: 2.2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
+            .carousel-wrapper { height: 420px; }
+            .cascade-card { width: 280px; }
             section { padding: 60px 5%; }
             .cta-search { padding: 40px 5%; }
             .btn-whatsapp-cta { width: 100%; justify-content: center; font-size: 1rem; }
@@ -394,18 +379,18 @@
             <a class="btn btn-blue" href="#catalogo">
                 <i class="fas fa-search"></i> Explorar Catálogo
             </a>
-            </div>
+        </div>
     </section>
         
     <section id="catalogo">
         <div class="section-title">
-            <h2>Peças em <span>Destaque</span></h2>
-            <p>Conheça os itens de maior saída do nosso estoque com ofertas especiais para o seu veículo.</p>
+            <h2>Peças mais <span>Buscadas</span></h2>
+            <p>Conheça os itens de maior saída do nosso estoque, garantindo o melhor funcionamento do seu veículo.</p>
         </div>
         
-        <div class="produtos-destaque">
+        <div class="carousel-wrapper" id="cascade-slider">
             
-            <div class="produto-card">
+            <div class="cascade-card active">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Vela de Ignição">
                 </div>
@@ -417,7 +402,7 @@
                 </div>
             </div>
 
-            <div class="produto-card">
+            <div class="cascade-card next">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1635787593685-61266b6cddba?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Amortecedor">
                 </div>
@@ -429,54 +414,66 @@
                 </div>
             </div>
 
-            <div class="produto-card">
+            <div class="cascade-card hidden">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Kit Embreagem">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Transmissão</span>
                     <h3>Kit Embreagem Completo</h3>
-                    <p>Conjunto com platô, disco e rolamento. Eliminação total de trepidações.</p>
+                    <p>Conjunto com platô, disco e rolamento. Troca de marchas suaves.</p>
                     <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Kit%20Embreagem%20Completo." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
-            <div class="produto-card">
+            <div class="cascade-card hidden">
                 <div class="card-img-container">
                     <img src="https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Pastilha de Freio">
                 </div>
                 <div class="card-body">
                     <span class="card-category">Freios</span>
                     <h3>Pastilha de Cerâmica</h3>
-                    <p>Frenagem silenciosa e altamente eficiente. Alta dissipação térmica.</p>
-                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Freio." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                    <p>Frenagem silenciosa e eficiente que gera menos pó nas rodas do veículo.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Pastilha%20de%20Cerâmica." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                </div>
+            </div>
+
+            <div class="cascade-card hidden">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1620300188688-66236b2b73ee?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Bateria">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Elétrica</span>
+                    <h3>Bateria Automotiva 60Ah</h3>
+                    <p>Força total para a partida do seu carro e alimentação dos sistemas elétricos.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Bateria%20Automotiva%2060Ah." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
+                </div>
+            </div>
+
+            <div class="cascade-card prev">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1510523274719-7d04e57e3f89?q=80&w=600&auto=format&fit=crop" class="card-img" alt="Óleo do Motor">
+                </div>
+                <div class="card-body">
+                    <span class="card-category">Fluidos</span>
+                    <h3>Óleo de Motor Sintético</h3>
+                    <p>Máxima proteção contra o desgaste e desempenho estendido em todas as vias.</p>
+                    <a href="https://wa.me/5500000000000?text=Olá!%20Tenho%20interesse%20na%20peça:%20Óleo%20de%20Motor%20Sintético." target="_blank" class="btn-agendar"><i class="fab fa-whatsapp"></i> Consultar Valor</a>
                 </div>
             </div>
 
         </div>
 
         <div class="catalogo-lista">
-            <h3>Explore por Categoria</h3>
-            <div class="categorias-grid">
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1600705662758-16fa1202e2c6?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Correias e Tensores</h4>
-                </a>
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1510523274719-7d04e57e3f89?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Óleos e Fluidos</h4>
-                </a>
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1620300188688-66236b2b73ee?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Baterias Automotivas</h4>
-                </a>
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1486262715619-679df11f1f51?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Bobinas e Cabos</h4>
-                </a>
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1595562725841-8f5bfcf47854?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Discos e Tambores</h4>
-                </a>
-                <a href="#" class="categoria-item" style="background-image: url('https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=400&auto=format&fit=crop');">
-                    <h4>Bombas D'água</h4>
-                </a>
-            </div>
+            <h3>Outras Categorias Disponíveis:</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Correias e Tensores</li>
+                <li><i class="fas fa-check-circle"></i> Filtros de Óleo, Ar e Cabine</li>
+                <li><i class="fas fa-check-circle"></i> Baterias Automotivas</li>
+                <li><i class="fas fa-check-circle"></i> Bobinas e Cabos de Ignição</li>
+                <li><i class="fas fa-check-circle"></i> Discos e Tambores de Freio</li>
+                <li><i class="fas fa-check-circle"></i> Bombas D'água e Combustível</li>
+            </ul>
         </div>
     </section>
 
@@ -616,21 +613,52 @@
             }
         });
 
-        // Efeito Localidade (Levantar)
+        // --- Lógica do Carrossel Cascata Fading ---
+        const cards = document.querySelectorAll('.cascade-card');
+        let currentIndex = 0;
+        let carouselInterval;
+
+        function updateCarousel() {
+            cards.forEach(card => card.className = 'cascade-card hidden'); 
+            
+            let activeItem = cards[currentIndex];
+            let nextItem = cards[(currentIndex + 1) % cards.length];
+            let prevItem = cards[(currentIndex - 1 + cards.length) % cards.length];
+
+            activeItem.classList.add('active');
+            activeItem.classList.remove('hidden');
+            
+            nextItem.classList.add('next');
+            nextItem.classList.remove('hidden');
+            
+            prevItem.classList.add('prev');
+            prevItem.classList.remove('hidden');
+        }
+
+        function startCarousel() {
+            carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                updateCarousel();
+            }, 3500); 
+        }
+
+        const carouselWrapper = document.getElementById('cascade-slider');
+        carouselWrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+        carouselWrapper.addEventListener('mouseleave', startCarousel);
+        
+        startCarousel();
+
+        // --- Efeitos de Interação ao Clicar no Menu ---
         document.getElementById('nav-localidade').addEventListener('click', function() {
             const boxLocalidade = document.getElementById('box-localidade');
             setTimeout(() => {
                 boxLocalidade.classList.remove('localidade-elevada');
                 void boxLocalidade.offsetWidth; 
                 boxLocalidade.classList.add('localidade-elevada');
-                
-                setTimeout(() => {
-                    boxLocalidade.classList.remove('localidade-elevada');
-                }, 3000);
+                setTimeout(() => boxLocalidade.classList.remove('localidade-elevada'), 3000);
             }, 600); 
         });
 
-        // Efeito Qualidade (Piscar sequencial)
         document.getElementById('nav-qualidade').addEventListener('click', function() {
             const itensQualidade = document.querySelectorAll('.trust-item');
             const isMobile = window.innerWidth <= 768; 
@@ -640,12 +668,8 @@
                     item.classList.remove('piscar-ativo');
                     setTimeout(() => {
                         item.classList.add('piscar-ativo');
-                        if (isMobile) {
-                            item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                        setTimeout(() => {
-                            item.classList.remove('piscar-ativo');
-                        }, 1200); 
+                        if (isMobile) item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => item.classList.remove('piscar-ativo'), 1200); 
                     }, index * 800); 
                 });
             }, 600);
