@@ -120,78 +120,136 @@
         .section-title span { color: var(--accent-gold); }
         .section-title p { color: #888; font-size: 1.1rem; margin-top: 10px; max-width: 700px; margin-inline: auto; }
 
-        /* --- CATÁLOGO CASCATA (FUNDO INVISÍVEL) --- */
+        /* --- NOVO CATÁLOGO CARROSSEL 3D PREMIUM --- */
         .carousel-wrapper {
             position: relative;
             width: 100%;
-            height: 480px;
+            height: 560px; /* Altura aumentada para melhor respiro */
             display: flex;
             justify-content: center;
             align-items: center;
             perspective: 1200px;
             overflow: hidden;
-            padding: 20px 0;
+            padding: 30px 0;
         }
 
         .cascade-card {
             position: absolute;
-            width: 320px;
-            background: transparent; /* Fundo invisível */
-            border-radius: 20px;
-            border: none; /* Sem borda para manter o foco na peça */
+            width: 340px;
+            background: #15171a; /* Fundo sólido e escuro */
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05); /* Borda sutil */
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             opacity: 0;
             pointer-events: none; 
-            box-shadow: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
-        /* Classes de Posição da Cascata */
+        /* Classes de Posição da Cascata Atualizadas */
         .cascade-card.active {
             transform: translateX(0) scale(1) translateZ(0);
             opacity: 1;
             z-index: 10;
             pointer-events: auto;
+            border: 1px solid var(--accent-gold); /* Destaque no card central */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 25px rgba(245, 196, 0, 0.15);
         }
-        .cascade-card.next, .cascade-card.prev {
-            transform: translateX(0) scale(0.9) translateZ(-50px);
-            opacity: 0; /* Itens laterais invisíveis */
+        /* Mostrar levemente os cards laterais para dar o efeito de vitrine */
+        .cascade-card.next {
+            transform: translateX(45%) scale(0.85) translateZ(-50px);
+            opacity: 0.4;
+            z-index: 5;
+        }
+        .cascade-card.prev {
+            transform: translateX(-45%) scale(0.85) translateZ(-50px);
+            opacity: 0.4;
             z-index: 5;
         }
         .cascade-card.hidden {
-            transform: translateX(0) scale(0.8) translateZ(-100px);
+            transform: translateX(0) scale(0.7) translateZ(-150px);
             opacity: 0;
             z-index: 1;
         }
 
-        /* Estilo Interno do Card */
+        /* Estilo Interno do Card Atualizado */
         .card-img-container { 
             width: 100%; 
-            height: 200px; 
-            background: transparent; 
+            height: 220px; 
+            background: #0d0d0e; 
             overflow: hidden; 
-            border-radius: 15px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5); /* Sombra apenas na imagem para destacar */
+            position: relative;
         }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .cascade-card.active:hover .card-img { transform: scale(1.1); }
+        .card-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            opacity: 0.9;
+            transition: 0.6s ease; 
+        }
+        .cascade-card.active:hover .card-img { 
+            transform: scale(1.08); 
+            opacity: 1;
+        }
         
-        .card-body { padding: 25px 10px; text-align: left; display: flex; flex-direction: column; }
-        .card-category {
-            background: rgba(245, 196, 0, 0.15); color: var(--accent-gold); font-size: 0.7rem; font-weight: 800;
-            padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 15px;
-            text-transform: uppercase; align-self: flex-start; letter-spacing: 1px;
+        .card-body { 
+            padding: 25px; 
+            text-align: left; 
+            display: flex; 
+            flex-direction: column; 
+            background: linear-gradient(to top, #15171a, transparent);
         }
-        .card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .card-body p { color: #ccc; font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+        .card-category {
+            background: rgba(245, 196, 0, 0.1); 
+            color: var(--accent-gold); 
+            font-size: 0.75rem; 
+            font-weight: 800;
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            display: inline-block; 
+            margin-bottom: 15px;
+            text-transform: uppercase; 
+            align-self: flex-start; 
+            letter-spacing: 1px;
+        }
+        .card-body h3 { 
+            font-size: 1.4rem; 
+            color: #fff; 
+            margin-bottom: 10px; 
+            line-height: 1.2; 
+            font-weight: 800;
+        }
+        .card-body p { 
+            color: #aaa; 
+            font-size: 0.95rem; 
+            margin-bottom: 25px; 
+            flex-grow: 1; 
+            line-height: 1.5;
+        }
         
         .btn-agendar {
-            display: block; background: transparent; color: #25d366; padding: 12px;
-            border: 1px solid #25d366; border-radius: 6px; text-decoration: none; font-weight: 700;
-            transition: var(--transition); text-transform: uppercase; font-size: 12px; text-align: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px;
+            background: #25d366; 
+            color: #fff; 
+            padding: 14px;
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700;
+            transition: var(--transition); 
+            text-transform: uppercase; 
+            font-size: 13px; 
+            letter-spacing: 0.5px;
         }
-        .btn-agendar:hover { background: #25d366; color: #000; }
+        .btn-agendar:hover { 
+            background: #1ebe57; 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
 
         /* --- FAIXA NÃO ENCONTROU A PEÇA --- */
         .cta-search {
@@ -310,8 +368,12 @@
             .hero h1 { font-size: 2.2rem; }
             .hero-btns { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
-            .carousel-wrapper { height: 420px; }
-            .cascade-card { width: 280px; }
+            
+            /* Ajustes Mobile Catálogo */
+            .carousel-wrapper { height: 500px; }
+            .cascade-card { width: 300px; }
+            .cascade-card.next, .cascade-card.prev { opacity: 0; } /* Oculta os laterais no mobile para evitar barra de rolagem */
+            
             section { padding: 60px 5%; }
             .cta-search { padding: 40px 5%; }
             .btn-whatsapp-cta { width: 100%; justify-content: center; font-size: 1rem; }
@@ -618,7 +680,7 @@
             }
         });
 
-        // --- Lógica do Carrossel Cascata Fading ---
+        // --- Lógica do Carrossel Cascata Premium ---
         const cards = document.querySelectorAll('.cascade-card');
         let currentIndex = 0;
         let carouselInterval;
